@@ -111,15 +111,17 @@
   <section>
     <ul class="actions stacked">
       <li>
-        <a href="javascript:void(0)" class="button primary icon solid" id="menuButton" onclick="toggleMenu()">Book An Appointment Now</a>
+        <a href="javascript:void(0)" class="button primary icon solid" id="menuButton">Book An Appointment Now</a>
       </li>
-      <div id="menuContent" class="menu">
-        <a href="mailto:iteledoc@gmail.com?subject=New%20Appointment&body=Appointment%20Reservation" class="button">Mail</a>
-        <a href="https://wa.me/+962789168922?text=Appointment%20Reservation" class="button">WhatsApp</a>
-        <a href="https://m.me/61566094825752?text=Appointment%20Reservation" class="button">Facebook</a>
-        <a href="https://ig.me/m/iteledoc?text=Appointment%20Reservation" class="button">Instagram</a>
-      </div>
     </ul>
+
+    <!-- SLIDE MENU MOVED OUTSIDE <ul> -->
+    <div id="menuContent" class="menu">
+      <a href="mailto:iteledoc@gmail.com?subject=New%20Appointment&body=Appointment%20Reservation" class="button">Mail</a>
+      <a href="https://wa.me/+962789168922?text=Appointment%20Reservation" class="button">WhatsApp</a>
+      <a href="https://m.me/61566094825752?text=Appointment%20Reservation" class="button">Facebook</a>
+      <a href="https://ig.me/m/iteledoc?text=Appointment%20Reservation" class="button">Instagram</a>
+    </div>
   </section>
 </article>
 
@@ -127,27 +129,31 @@
   .menu {
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.5s ease-out;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
   }
 
   .menu.show {
-    max-height: 500px; /* Adjust if more content is added */
+    max-height: 500px; /* Adjust based on content height */
+    opacity: 1;
   }
 </style>
 
 <script>
-  function toggleMenu() {
-    const menu = document.getElementById("menuContent");
-    menu.classList.toggle("show");
-  }
+  const menuButton = document.getElementById("menuButton");
+  const menuContent = document.getElementById("menuContent");
+
+  menuButton.addEventListener("click", function () {
+    menuContent.classList.toggle("show");
+  });
 
   // Collapse on outside click
   document.addEventListener("click", function (event) {
-    const menu = document.getElementById("menuContent");
-    const button = document.getElementById("menuButton");
+    const isClickInsideMenu = menuContent.contains(event.target);
+    const isClickOnButton = menuButton.contains(event.target);
 
-    if (!menu.contains(event.target) && !button.contains(event.target)) {
-      menu.classList.remove("show");
+    if (!isClickInsideMenu && !isClickOnButton) {
+      menuContent.classList.remove("show");
     }
   });
 </script>
