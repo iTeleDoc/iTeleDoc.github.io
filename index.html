@@ -101,25 +101,57 @@
 							<p>Streamline your prescription needs with electronic prescription services, providing you with convenient & secure access to essential medications.</p>
 						</article>
 
-						<!-- Booking -->
-							<article id="booking">
-								<h2 class="major">Appointment</h2>
-								<span class="image main"><img src="images/Booking.jpg" alt="" /></span>
-								<h2 class="align-center" style="font-size: 160%;">Sultan Sulaiman</h2>
-								<h5 class="align-center">Digital Health Doctor | iTeleDoc&nbsp;</h5><br>
-								<section>
-									<ul class="actions stacked">
-										<li>
-											<a href="javascript:void(0)" class="button primary icon solid" id="menuButton" onclick="toggleMenu()">Book An Appointment Now</a>
-										</li>
-										<div id="menuContent" class="menu hidden">
-											<a href="mailto:iteledoc@gmail.com?subject=New%20Appointment&body=Appointment%20Reservation" class="button">Mail</a>
-											<a href="https://wa.me/+962789168922?text=Appointment%20Reservation" class="button">WhatsApp</a>
-											<a href="https://m.me/61566094825752?text=Appointment%20Reservation" class="button">Facebook</a>
-											<a href="https://ig.me/m/iteledoc?text=Appointment%20Reservation" class="button">Instagram</a>
-										</div>
-									</ul>
-							</article>
+<!-- Booking -->
+<article id="booking">
+	<h2 class="major">Appointment</h2>
+	<span class="image main"><img src="images/Booking.jpg" alt="" /></span>
+	<h2 class="align-center" style="font-size: 160%;">Sultan Sulaiman</h2>
+	<h5 class="align-center">Digital Health Doctor | iTeleDoc&nbsp;</h5><br>
+	<section>
+		<ul class="actions stacked">
+			<li>
+				<a href="javascript:void(0)" class="button primary icon solid" id="menuButton" onclick="toggleMenu()">Book An Appointment Now</a>
+			</li>
+			<div id="menuContent" class="menu hidden">
+				<a href="mailto:iteledoc@gmail.com?subject=New%20Appointment&body=Appointment%20Reservation" class="button">Mail</a>
+				<a href="https://wa.me/+962789168922?text=Appointment%20Reservation" class="button">WhatsApp</a>
+				<a href="https://m.me/61566094825752?text=Appointment%20Reservation" class="button">Facebook</a>
+				<a href="https://ig.me/m/iteledoc?text=Appointment%20Reservation" class="button">Instagram</a>
+			</div>
+		</ul>
+	</section>
+</article>
+
+<style>
+	.menu.hidden {
+		display: none;
+	}
+</style>
+
+<script>
+	function toggleMenu() {
+		const menu = document.getElementById("menuContent");
+		menu.classList.toggle("hidden");
+	}
+
+	// Collapse on outside click (but NOT inside wrapper)
+	document.addEventListener("click", function (event) {
+		const menu = document.getElementById("menuContent");
+		const button = document.getElementById("menuButton");
+		const isClickInsideMenu = menu.contains(event.target);
+		const isClickOnButton = button.contains(event.target);
+
+		if (!isClickInsideMenu && !isClickOnButton) {
+			// Optional: exclude clicks inside the wrapper (e.g., entire page/card)
+			const wrapper = document.getElementById("booking");
+			const isClickInsideWrapper = wrapper.contains(event.target);
+
+			if (!isClickInsideWrapper && !menu.classList.contains("hidden")) {
+				menu.classList.add("hidden");
+			}
+		}
+	});
+</script>
 
 						<!-- Elements -->
 							<article id="elements">
