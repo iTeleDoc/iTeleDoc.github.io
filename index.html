@@ -8,41 +8,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="theme-color" content="#">
 		<link rel="stylesheet" href="assets/css/main.css" />
-		
-		
-<style>
-  .scroll-section {
-    position: relative;
-    padding-bottom: 60px; /* so the link has space */
-  }
-
-  .redirect-message {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 14px;
-    color: white;
-    text-decoration: underline;
-    opacity: 0;
-    display: none;
-    transition: opacity 0.5s ease;
-    pointer-events: auto;
-  }
-
-  .redirect-message.show {
-    display: block;
-    opacity: 1;
-  }
-
-  @media (hover: hover) {
-    .redirect-message:hover {
-      color: #a0d8ff;
-    }
-  }
-</style>
-
-
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		
 	</head>
@@ -79,14 +44,13 @@
 					<div id="main">
 
 						<!-- About -->
-							<article id="about" class="scroll-section">
+							<article id="about">
 								<h2 class="major">About Me</h2>
-					 		<span class="image main"><img src="images/About.jpg" alt="" /></span>
-						 	<p><strong>Welcome to iTeleDoc Solutions: Pioneering a Digital Healthcare Revolution, Check Out My <a href="#services">Services</strong></a>.</p>
-							 <p>Where iTeleDoc combines expertise, empathy & cutting-edge technology...</p>
-						 	<p>At iTeleDoc, I harness the power of innovation to bring healthcare to your fingertips...</p>
-						 	<p>I believe in a future where healthcare is accessible to all...</p>
-						 	<a href="https://example.com/about" target="_blank" class="redirect-message">Redirecting...</a>
+								<span class="image main"><img src="images/About.jpg" alt="" /></span>
+								<p><strong>Welcome to iTeleDoc Solutions: Pioneering a Digital Healthcare Revolution, Check Out My <a href="#services">Services</strong></a>.</p>
+								<p>Where iTeleDoc combines expertise, empathy & cutting-edge technology to redefine the landscape of healthcare. I am dedicated to provide a comprehensive array of professional & compassionate remote healthcare services tailored to meet the diverse needs of individuals seeking quality care from the comfort of their homes.</p>
+								<p>At iTeleDoc, i harness the power of innovation to bring healthcare to your fingertips. My comprehensive Telehealth solutions are designed to enhance patient care, streamline workflows & empower healthcare deliver.</p>
+								<p>I believe in a future where healthcare is accessible to all, irrespective of geographical constraints. With a vision to bridge the gap between patients & healthcare providers, leveraging the power of technology to create a seamless & efficient healthcare experience.</p>
 							</article>
 							
 						<!-- Journey -->
@@ -481,36 +445,6 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				<Centered Content>
 			</div>
 			-->
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const sections = document.querySelectorAll('.scroll-section');
-
-  sections.forEach(section => {
-    const msg = section.querySelector('.redirect-message');
-    let shown = false;
-
-    function isScrolledPast(el) {
-      const rect = el.getBoundingClientRect();
-      return rect.top < 0 && rect.bottom < window.innerHeight;
-    }
-
-    function onScroll() {
-      if (!shown && isScrolledPast(section)) {
-        msg.classList.add('show');
-        shown = true;
-      }
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    // For mobile touch as well
-    window.addEventListener('touchmove', onScroll, { passive: true });
-  });
-});
-</script>
-
 
 	</body>
 </html>
