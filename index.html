@@ -445,5 +445,44 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			</div>
 			-->
 
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll("#main > article");
+    const observerOptions = {
+      threshold: 0.9
+    };
+
+    let isAutoScrolling = false;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !isAutoScrolling) {
+          const currentIndex = Array.from(sections).indexOf(entry.target);
+          const nextSection = sections[currentIndex + 1];
+
+          if (nextSection) {
+            isAutoScrolling = true;
+
+            setTimeout(() => {
+              nextSection.scrollIntoView({ behavior: "smooth" });
+              // Allow new scrolls after animation
+              setTimeout(() => { isAutoScrolling = false; }, 1500);
+            }, 400);
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
+  });
+</script>
+
+<style>
+html {
+  scroll-behavior: smooth;
+}
+</style>
+
 	</body>
 </html>
