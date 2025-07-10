@@ -445,14 +445,17 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			</div>
 			-->
 
-
+	
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const sections = document.querySelectorAll("#main > article");
-    const observerOptions = {
+    const options = {
+      root: null,
+      rootMargin: "0px",
       threshold: 0.9
     };
 
+    let lastScrollTop = 0;
     let isAutoScrolling = false;
 
     const observer = new IntersectionObserver((entries) => {
@@ -462,27 +465,25 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
           const nextSection = sections[currentIndex + 1];
 
           if (nextSection) {
-            isAutoScrolling = true;
-
-            setTimeout(() => {
+            const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
+            if (currentScrollTop > lastScrollTop) {
+              isAutoScrolling = true;
               nextSection.scrollIntoView({ behavior: "smooth" });
-              // Allow new scrolls after animation
-              setTimeout(() => { isAutoScrolling = false; }, 1500);
-            }, 400);
+
+              // Wait before allowing another auto-scroll
+              setTimeout(() => {
+                isAutoScrolling = false;
+              }, 1500);
+            }
+            lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
           }
         }
       });
-    }, observerOptions);
+    }, options);
 
     sections.forEach(section => observer.observe(section));
   });
 </script>
 
-<style>
-html {
-  scroll-behavior: smooth;
-}
-</style>
-
-	</body>
+</body>
 </html>
