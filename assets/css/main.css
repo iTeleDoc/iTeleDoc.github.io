@@ -1780,37 +1780,3 @@ ul.actions .button {
 .menu a.button:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
-
-/* === Scroll-triggered redirect styling === */
-#about {
-  position: relative;
-}
-
-.redirect-message {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 14px;
-  color: white;
-  text-decoration: underline;
-  opacity: 0;
-  display: none;
-  animation: fadeInUp 1s ease-out forwards;
-  transition: color 0.3s;
-}
-
-.redirect-message:hover {
-  color: #a0d8ff;
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
