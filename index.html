@@ -9,6 +9,43 @@
 		<meta name="theme-color" content="#">
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		
+		<style>
+  .scroll-section {
+    position: relative;
+  }
+
+  .redirect-message {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: white;
+    text-decoration: underline;
+    opacity: 0;
+    display: none;
+    animation: fadeInUp 1s ease-out forwards;
+    transition: color 0.3s;
+  }
+
+  .redirect-message:hover {
+    color: #a0d8ff;
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+</style>
+
+
 	</head>
 	<body class="is-preload">
 
@@ -446,6 +483,62 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				<Centered Content>
 			</div>
 			-->
+
+
+<script>
+(function () {
+  const sections = document.querySelectorAll('.scroll-section');
+
+  sections.forEach(section => {
+    const msg = section.querySelector('.redirect-message');
+    const targetLink = section.getAttribute('data-link');
+    let shown = false;
+    let atBottom = false;
+
+    function isAtBottom(el) {
+      const rect = el.getBoundingClientRect();
+      return rect.bottom <= window.innerHeight;
+    }
+
+    function showMessage() {
+      if (!shown) {
+        shown = true;
+        msg.style.display = 'block';
+        msg.style.animation = 'fadeInUp 1s ease-out forwards';
+        msg.href = targetLink;
+        msg.setAttribute('href', targetLink);
+        msg.setAttribute('target', '_blank'); // optional: open in new tab
+      }
+    }
+
+    // Scroll tracking
+    window.addEventListener('scroll', () => {
+      atBottom = isAtBottom(section);
+    });
+
+    // Desktop scroll detection
+    window.addEventListener('wheel', (e) => {
+      if (atBottom && e.deltaY > 0 && !shown) {
+        showMessage();
+      }
+    }, { passive: true });
+
+    // Mobile swipe detection
+    let touchStartY = 0;
+    window.addEventListener('touchstart', e => {
+      touchStartY = e.touches[0].clientY;
+    });
+
+    window.addEventListener('touchmove', e => {
+      const touchEndY = e.touches[0].clientY;
+      if (atBottom && touchStartY > touchEndY && !shown) {
+        showMessage();
+      }
+    }, { passive: true });
+  });
+})();
+</script>
+
 
 	</body>
 </html>
