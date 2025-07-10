@@ -9,7 +9,22 @@
 		<meta name="theme-color" content="#">
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
+	
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+  }
+  #main > article {
+    scroll-snap-align: start;
+    min-height: 100vh;
+  }
+</style>
+
+</head>
 	<body class="is-preload">
 
 		<!-- Wrapper -->
@@ -445,45 +460,5 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			</div>
 			-->
 
-	
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const sections = document.querySelectorAll("#main > article");
-    const options = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.9
-    };
-
-    let lastScrollTop = 0;
-    let isAutoScrolling = false;
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !isAutoScrolling) {
-          const currentIndex = Array.from(sections).indexOf(entry.target);
-          const nextSection = sections[currentIndex + 1];
-
-          if (nextSection) {
-            const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
-            if (currentScrollTop > lastScrollTop) {
-              isAutoScrolling = true;
-              nextSection.scrollIntoView({ behavior: "smooth" });
-
-              // Wait before allowing another auto-scroll
-              setTimeout(() => {
-                isAutoScrolling = false;
-              }, 1500);
-            }
-            lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
-          }
-        }
-      });
-    }, options);
-
-    sections.forEach(section => observer.observe(section));
-  });
-</script>
-
-</body>
+	</body>
 </html>
