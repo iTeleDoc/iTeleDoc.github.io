@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		
-		<style>
+<style>
   .scroll-section {
     position: relative;
   }
@@ -88,7 +88,7 @@
 								<p>At iTeleDoc, i harness the power of innovation to bring healthcare to your fingertips. My comprehensive Telehealth solutions are designed to enhance patient care, streamline workflows & empower healthcare deliver.</p>
 								<p>I believe in a future where healthcare is accessible to all, irrespective of geographical constraints. With a vision to bridge the gap between patients & healthcare providers, leveraging the power of technology to create a seamless & efficient healthcare experience.</p>
 						<!-- Redirecting Message -->
-								<a href="https://example.com" class="redirect-message" id="aboutRedirectMsg">Redirecting...</a>
+								<a href="#journey" target="_blank" class="redirect-message">Redirecting...</a>
 							</article>
 							
 						<!-- Journey -->
@@ -491,7 +491,6 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
   sections.forEach(section => {
     const msg = section.querySelector('.redirect-message');
-    const targetLink = section.getAttribute('data-link');
     let shown = false;
     let atBottom = false;
 
@@ -505,25 +504,19 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
         shown = true;
         msg.style.display = 'block';
         msg.style.animation = 'fadeInUp 1s ease-out forwards';
-        msg.href = targetLink;
-        msg.setAttribute('href', targetLink);
-        msg.setAttribute('target', '_blank'); // optional: open in new tab
       }
     }
 
-    // Scroll tracking
     window.addEventListener('scroll', () => {
       atBottom = isAtBottom(section);
     });
 
-    // Desktop scroll detection
     window.addEventListener('wheel', (e) => {
       if (atBottom && e.deltaY > 0 && !shown) {
         showMessage();
       }
     }, { passive: true });
 
-    // Mobile swipe detection
     let touchStartY = 0;
     window.addEventListener('touchstart', e => {
       touchStartY = e.touches[0].clientY;
