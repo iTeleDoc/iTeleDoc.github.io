@@ -405,3 +405,51 @@ function toggleMenu() {
     const menu = document.getElementById("menuContent");
     menu.classList.toggle("hidden");
 }
+
+// Scrolling to next article.
+<script>
+(function () {
+  const about = document.getElementById('about');
+  const msg = document.getElementById('aboutRedirectMsg');
+  let redirected = false;
+  let atBottom = false;
+
+  function isAtBottom(el) {
+    const rect = el.getBoundingClientRect();
+    return rect.bottom <= window.innerHeight;
+  }
+
+  function showRedirectLink() {
+    if (!redirected) {
+      redirected = true;
+      msg.style.display = 'block';
+      msg.style.animation = 'fadeInUp 1s ease-out forwards';
+    }
+  }
+
+  // Track scrolling
+  window.addEventListener('scroll', () => {
+    atBottom = isAtBottom(about);
+  });
+
+  // Detect scroll overshoot (desktop)
+  window.addEventListener('wheel', (e) => {
+    if (atBottom && e.deltaY > 0 && !redirected) {
+      showRedirectLink();
+    }
+  }, { passive: true });
+
+  // Detect scroll overshoot (mobile)
+  let touchStartY = 0;
+  window.addEventListener('touchstart', e => {
+    touchStartY = e.touches[0].clientY;
+  });
+
+  window.addEventListener('touchmove', e => {
+    const touchEndY = e.touches[0].clientY;
+    if (atBottom && touchStartY > touchEndY && !redirected) {
+      showRedirectLink();
+    }
+  }, { passive: true });
+})();
+</script>
