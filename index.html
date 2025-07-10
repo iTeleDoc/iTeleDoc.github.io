@@ -10,9 +10,10 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		
 		
-		<style>
+<style>
   .scroll-section {
     position: relative;
+    padding-bottom: 60px; /* so the link has space */
   }
 
   .redirect-message {
@@ -25,22 +26,18 @@
     text-decoration: underline;
     opacity: 0;
     display: none;
-    animation: fadeInUp 1s ease-out forwards;
-    transition: color 0.3s;
+    transition: opacity 0.5s ease;
+    pointer-events: auto;
   }
 
-  .redirect-message:hover {
-    color: #a0d8ff;
+  .redirect-message.show {
+    display: block;
+    opacity: 1;
   }
 
-  @keyframes fadeInUp {
-    0% {
-      opacity: 0;
-      transform: translateX(-50%) translateY(10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+  @media (hover: hover) {
+    .redirect-message:hover {
+      color: #a0d8ff;
     }
   }
 </style>
@@ -82,15 +79,14 @@
 					<div id="main">
 
 						<!-- About -->
-							<article id="about">
+							<article id="about" class="scroll-section">
 								<h2 class="major">About Me</h2>
-								<span class="image main"><img src="images/About.jpg" alt="" /></span>
-								<p><strong>Welcome to iTeleDoc Solutions: Pioneering a Digital Healthcare Revolution, Check Out My <a href="#services">Services</strong></a>.</p>
-								<p>Where iTeleDoc combines expertise, empathy & cutting-edge technology to redefine the landscape of healthcare. I am dedicated to provide a comprehensive array of professional & compassionate remote healthcare services tailored to meet the diverse needs of individuals seeking quality care from the comfort of their homes.</p>
-								<p>At iTeleDoc, i harness the power of innovation to bring healthcare to your fingertips. My comprehensive Telehealth solutions are designed to enhance patient care, streamline workflows & empower healthcare deliver.</p>
-								<p>I believe in a future where healthcare is accessible to all, irrespective of geographical constraints. With a vision to bridge the gap between patients & healthcare providers, leveraging the power of technology to create a seamless & efficient healthcare experience.</p>
-						<!-- Redirecting Message -->
-								<a href="https://example.com/about" target="_blank" class="redirect-message">Redirecting...</a>
+					 		<span class="image main"><img src="images/About.jpg" alt="" /></span>
+						 	<p><strong>Welcome to iTeleDoc Solutions: Pioneering a Digital Healthcare Revolution, Check Out My <a href="#services">Services</strong></a>.</p>
+							 <p>Where iTeleDoc combines expertise, empathy & cutting-edge technology...</p>
+						 	<p>At iTeleDoc, I harness the power of innovation to bring healthcare to your fingertips...</p>
+						 	<p>I believe in a future where healthcare is accessible to all...</p>
+						 	<a href="https://example.com/about" target="_blank" class="redirect-message">Redirecting...</a>
 							</article>
 							
 						<!-- Journey -->
@@ -488,50 +484,31 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 
 <script>
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   const sections = document.querySelectorAll('.scroll-section');
 
   sections.forEach(section => {
     const msg = section.querySelector('.redirect-message');
     let shown = false;
-    let atBottom = false;
 
-    function isAtBottom(el) {
+    function isScrolledPast(el) {
       const rect = el.getBoundingClientRect();
-      return rect.bottom <= window.innerHeight;
+      return rect.top < 0 && rect.bottom < window.innerHeight;
     }
 
-    function showMessage() {
-      if (!shown) {
+    function onScroll() {
+      if (!shown && isScrolledPast(section)) {
+        msg.classList.add('show');
         shown = true;
-        msg.style.display = 'block';
-        msg.style.animation = 'fadeInUp 1s ease-out forwards';
       }
     }
 
-    window.addEventListener('scroll', () => {
-      atBottom = isAtBottom(section);
-    });
+    window.addEventListener('scroll', onScroll, { passive: true });
 
-    window.addEventListener('wheel', (e) => {
-      if (atBottom && e.deltaY > 0 && !shown) {
-        showMessage();
-      }
-    }, { passive: true });
-
-    let touchStartY = 0;
-    window.addEventListener('touchstart', e => {
-      touchStartY = e.touches[0].clientY;
-    });
-
-    window.addEventListener('touchmove', e => {
-      const touchEndY = e.touches[0].clientY;
-      if (atBottom && touchStartY > touchEndY && !shown) {
-        showMessage();
-      }
-    }, { passive: true });
+    // For mobile touch as well
+    window.addEventListener('touchmove', onScroll, { passive: true });
   });
-})();
+});
 </script>
 
 
