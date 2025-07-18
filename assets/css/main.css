@@ -1317,8 +1317,8 @@ ul.actions .button {
 			}
 
 		#header .logo {
-			width: 15.5rem;
-			height: 15.5rem;
+			width: 5.5rem;
+			height: 5.5rem;
 			line-height: 5.5rem;
 			border: solid 1px #ffffff;
 			border-radius: 10%;
@@ -1345,7 +1345,7 @@ ul.actions .button {
 				-webkit-transition-delay: 0.25s;
 				-ms-transition-delay: 0.25s;
 				transition-delay: 0.25s;
-				padding: 3rem 2rem;
+				padding: 10rem 20rem;
 				max-height: 40rem;
 				overflow: hidden;
 			}
