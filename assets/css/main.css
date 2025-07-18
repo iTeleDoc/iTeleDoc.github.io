@@ -1317,8 +1317,8 @@ ul.actions .button {
 			}
 
 		#header .logo {
-			width: 5.5rem;
-			height: 5.5rem;
+			width: 15.5rem;
+			height: 15.5rem;
 			line-height: 5.5rem;
 			border: solid 1px #ffffff;
 			border-radius: 10%;
@@ -1331,8 +1331,8 @@ ul.actions .button {
 		#header .content {
 			border-style: solid;
 			border-color: #ffffff;
-			border-top-width: 0.5px;
-			border-bottom-width: 0.5px;
+			border-top-width: 1px;
+			border-bottom-width: 1px;
 			max-width: 100%;
 		}
 
