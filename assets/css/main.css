@@ -1323,7 +1323,7 @@ ul.actions .button {
 			}
 
 	  :root {
-    --logo-size: 10rem; /* Change this number to adjust logo size */
+    --logo-size: 8rem; /* Change this number to adjust logo size */
    }
 
    #header .logo {
