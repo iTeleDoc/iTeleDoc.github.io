@@ -1320,12 +1320,12 @@ ul.actions .button {
 			width: 5.5rem;
 			height: 5.5rem;
 			line-height: 5.5rem;
-			border: solid 1px #000000;
+			border: solid 1px #ffffff;
 			border-radius: 10%;
 		}
 
 			#header .logo .icon:before {
-				font-size: 2rem;
+				font-size: 20rem;
 			}
 
 		#header .content {
