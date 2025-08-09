@@ -1317,15 +1317,15 @@ ul.actions .button {
 			}
 
 		#header .logo {
-			width: 5.5rem;
-			height: 5.5rem;
-			line-height: 5.5rem;
+			width: 11rem;
+			height: 11rem;
+			line-height: 11rem;
 			border: solid 1px #ffffff;
 			border-radius: 10%;
 		}
 
 			#header .logo .icon:before {
-				font-size: 2rem;
+				font-size: 4rem;
 			}
 
 		#header .content {
