@@ -1317,14 +1317,18 @@ ul.actions .button {
 			}
 
 	  #header .logo {
-    transform: scale(2) translateY(-25%);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) scale(2);
     transform-origin: center top;
-    display: inline-block;
     border: solid 1px #ffffff;
     border-radius: 10%;
+    z-index: 10;
    }
 
    #header .logo img {
+    display: block;
     width: auto;
     height: auto;
     max-width: 100%;
