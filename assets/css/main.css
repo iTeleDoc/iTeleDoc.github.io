@@ -1302,7 +1302,7 @@ ul.actions .button {
 				display: block;
 				position: absolute;
 				top: calc(-3.5rem - 1px);
-				left: calc(100% - 1px);
+				left: calc(50% - 1px);
 				width: 1px;
 				height: calc(3.5rem + 1px);
 				background: #ffffff;
@@ -1320,7 +1320,7 @@ ul.actions .button {
 			width: 5.5rem;
 			height: 5.5rem;
 			line-height: 5.5rem;
-			border: solid 1px #ffffff;
+			border: solid 1px #000000;
 			border-radius: 10%;
 		}
 
