@@ -1333,7 +1333,7 @@ ul.actions .button {
 			border-color: #ffffff;
 			border-top-width: 1px;
 			border-bottom-width: 1px;
-			max-width: 200%;
+			max-width: 100%;
 		}
 
 			#header .content .inner {
