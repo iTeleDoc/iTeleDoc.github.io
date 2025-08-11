@@ -1788,6 +1788,28 @@ ul.actions .button {
     cursor: pointer;
 }
 
+
+    /* Remove default spacing */
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    /* Full viewport height and width for your main container */
+    .fullscreen {
+        min-height: 100vh; /* full viewport height */
+        width: 100vw;      /* full viewport width */
+        background: #333;  /* example background */
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+    }
+</style>
+
 /* Hover effect for menu buttons */
 .menu a.button:hover {
     background-color: rgba(255, 255, 255, 0.2);
