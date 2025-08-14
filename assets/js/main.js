@@ -407,34 +407,45 @@ function toggleMenu() {
 }
 
 
-  // Toggle chatbot widget visibility
+
+  // Initialize chatbot state
+  let chatbotLoaded = false;
+  
+  // Toggle chatbot widget
   document.getElementById('chatbotIcon').addEventListener('click', function() {
-    const widget = document.querySelector('.elfsight-app-0b019237-9e28-49ad-b8a3-8c16c806cef1');
-    if(widget.style.display === 'none') {
-      widget.style.display = 'block';
+    const widget = document.getElementById('chatbotWidget');
+    
+    if (!chatbotLoaded) {
+      // Load the widget for the first time
+      widget.innerHTML = `
+        <div class="elfsight-app-0b019237-9e28-49ad-b8a3-8c16c806cef1"></div>
+      `;
+      
+      // Load Elfsight script
+      const script = document.createElement('script');
+      script.src = 'https://elfsightcdn.com/platform.js';
+      script.async = true;
+      document.body.appendChild(script);
+      
+      chatbotLoaded = true;
       this.classList.remove('pulse');
-    } else {
-      widget.style.display = 'none';
     }
+    
+    // Toggle widget visibility
+    widget.style.display = widget.style.display === 'block' ? 'none' : 'block';
   });
   
   // Close chatbot when clicking outside
   document.addEventListener('click', function(event) {
-    const widget = document.querySelector('.elfsight-app-0b019237-9e28-49ad-b8a3-8c16c806cef1');
+    const widget = document.getElementById('chatbotWidget');
     const icon = document.getElementById('chatbotIcon');
     
-    if(widget && widget.style.display !== 'none') {
-      const isWidgetClick = event.target.closest('.elfsight-app-0b019237-9e28-49ad-b8a3-8c16c806cef1');
+    if (widget.style.display === 'block') {
+      const isWidgetClick = event.target.closest('#chatbotWidget');
       const isIconClick = event.target.closest('#chatbotIcon');
       
-      if(!isWidgetClick && !isIconClick) {
+      if (!isWidgetClick && !isIconClick) {
         widget.style.display = 'none';
       }
     }
   });
-  
-  // Add Elfsight script dynamically
-  const elfScript = document.createElement('script');
-  elfScript.src = 'https://elfsightcdn.com/platform.js';
-  elfScript.async = true;
-  document.body.appendChild(elfScript);
