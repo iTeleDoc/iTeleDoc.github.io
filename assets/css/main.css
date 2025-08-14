@@ -1788,6 +1788,11 @@ ul.actions .button {
     cursor: pointer;
 }
 
+/* Hover effect for menu buttons */
+.menu a.button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
 
 
   /* Chatbot icon styling */
@@ -1829,9 +1834,28 @@ ul.actions .button {
   .chatbot-icon.pulse {
     animation: pulse 2s infinite;
   }
-
-
-/* Hover effect for menu buttons */
-.menu a.button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
+  
+  /* Widget container */
+  #chatbotWidget {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 350px;
+    height: 500px;
+    z-index: 9998;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    display: none;
+  }
+  
+  @media (max-width: 768px) {
+    #chatbotWidget {
+      bottom: 80px;
+      right: 10px;
+      left: 10px;
+      width: auto;
+      height: auto;
+      max-height: 70vh;
+    }
+  }
