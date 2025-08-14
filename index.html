@@ -20,71 +20,6 @@
   <link rel="apple-touch-icon" href="images/Icon.png">
 	
 	
-<style>
-/* Custom Chatbot Styling */
-#custom-chat-icon {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #141E2D 0%, #0d1421 100%);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    z-index: 9999;
-    transition: all 0.3s ease;
-}
-
-#custom-chat-icon:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
-}
-
-#custom-chat-icon svg {
-    width: 28px;
-    height: 28px;
-    fill: #fff;
-}
-
-.chat-container {
-    position: fixed;
-    bottom: 95px;
-    right: 25px;
-    width: 350px;
-    height: 500px;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    z-index: 9998;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.chat-container.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Hide Widget Text */
-.elfsight-app-0b019237-9e28-49ad-b8a3-8c16c806cef1,
-.elfsight-app-0b019237-9e28-49ad-b8a3-8c16c806cef1 * {
-    color: transparent !important;
-    font-size: 0 !important;
-    line-height: 0 !important;
-}
-
-/* Auto-hide keyboard */
-.elfsight-app-0b019237-9e28-49ad-b8a3-8c16c806cef1 input:focus {
-    transition: opacity 0.3s ease;
-}
-</style>
-
-
 	</head>
 	<body class="is-preload">
 
@@ -553,65 +488,6 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 </div>
 
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const chatIcon = document.getElementById('custom-chat-icon');
-    const chatContainer = document.querySelector('.chat-container');
-    
-    // Toggle chat visibility
-    chatIcon.addEventListener('click', function() {
-        chatContainer.classList.toggle('active');
-    });
-    
-    // Hide chat when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!chatIcon.contains(event.target) && 
-            !chatContainer.contains(event.target) &&
-            chatContainer.classList.contains('active')) {
-            chatContainer.classList.remove('active');
-        }
-    });
-    
-    // Auto-hide keyboard after sending message
-    const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'childList') {
-                const sendButtons = document.querySelectorAll('.elfsight-app-0b019237-9e28-49ad-b8a3-8c16c806cef1 [aria-label="Send"]');
-                sendButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        setTimeout(() => {
-                            const inputs = document.querySelectorAll('.elfsight-app-0b019237-9e28-49ad-b8a3-8c16c806cef1 input');
-                            inputs.forEach(input => {
-                                input.blur();
-                                input.style.opacity = '0';
-                                setTimeout(() => input.style.opacity = '1', 300);
-                            });
-                        }, 100);
-                    });
-                });
-            }
-        });
-    });
-    
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-    
-    // Remove Widget Text
-    const removeBranding = setInterval(() => {
-        const elements = document.querySelectorAll('.elfsight-app-0b019237-9e28-49ad-b8a3-8c16c806cef1');
-        elements.forEach(el => {
-            if (el.textContent.includes('free Ai chatbot widget')) {
-                el.textContent = '';
-                clearInterval(removeBranding);
-            }
-        });
-    }, 500);
-});
-</script>
-	
-					
 	</body>
 </html>
 
