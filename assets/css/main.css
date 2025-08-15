@@ -1959,3 +1959,18 @@ ul.actions .button {
         font-size: 1.2rem;
     }
 }
+
+.chatbot-logo {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.chatbot-logo i {
+    color: #4CAF50; /* Green to match icon */
+    font-size: 2rem;
+}
+
+.chatbot-logo img {
+    max-width: 100px; /* Adjust for your logo */
+    height: auto;
+}
