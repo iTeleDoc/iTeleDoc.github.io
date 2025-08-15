@@ -415,10 +415,28 @@ function toggleMenu() {
 // Chatbot Popup Toggle
 function toggleChatbot() {
     const popup = document.getElementById('chatbot-popup');
-    popup.classList.toggle('chatbot-visible');
-    popup.classList.toggle('chatbot-hidden');
+    if (popup) {
+        popup.classList.toggle('chatbot-visible');
+        popup.classList.toggle('chatbot-hidden');
+    } else {
+        console.error('Chatbot popup element not found');
+    }
 }
 
-// Attach toggle to chat icon
-document.getElementById('chatbot-icon').addEventListener('click', toggleChatbot);
-document.querySelector('.chatbot-close').addEventListener('click', toggleChatbot);
+// Attach toggle to chat icon and close button after DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    const chatIcon = document.getElementById('chatbot-icon');
+    const closeButton = document.querySelector('.chatbot-close');
+    
+    if (chatIcon) {
+        chatIcon.addEventListener('click', toggleChatbot);
+    } else {
+        console.error('Chatbot icon not found');
+    }
+    
+    if (closeButton) {
+        closeButton.addEventListener('click', toggleChatbot);
+    } else {
+        console.error('Chatbot close button not found');
+    }
+});
