@@ -418,6 +418,7 @@ function toggleChatbot() {
     if (popup) {
         popup.classList.toggle('chatbot-visible');
         popup.classList.toggle('chatbot-hidden');
+        console.log('Chatbot popup toggled:', popup.classList.contains('chatbot-visible') ? 'Visible' : 'Hidden');
     } else {
         console.error('Chatbot popup element not found');
     }
@@ -430,13 +431,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (chatIcon) {
         chatIcon.addEventListener('click', toggleChatbot);
+        console.log('Chat icon event listener attached');
     } else {
         console.error('Chatbot icon not found');
     }
     
     if (closeButton) {
         closeButton.addEventListener('click', toggleChatbot);
+        console.log('Close button event listener attached');
     } else {
         console.error('Chatbot close button not found');
+    }
+
+    // Verify BotUI initialization
+    if (typeof BotUI === 'undefined') {
+        console.error('BotUI not loaded. Check script src.');
+    } else {
+        console.log('BotUI is loaded');
     }
 });
