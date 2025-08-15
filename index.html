@@ -20,6 +20,16 @@
   <link rel="apple-touch-icon" href="images/Icon.png">
 	
 	
+	
+	
+	
+  <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+	
+	
+	
+	
+	
 	</head>
 	<body class="is-preload">
 
@@ -466,6 +476,31 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			</div>
 			-->
 			
+			
+			
+			
+			
+			<div id="chatbot-popup" class="chatbot-hidden">
+    <div id="medical-chatbot">
+        <div class="chatbot-header">
+            <h3>iTeleDoc Chatbot</h3>
+            <span class="chatbot-close"><i class="fas fa-times"></i></span>
+        </div>
+        <div id="botui-app"></div>
+        <div id="disclaimer">
+            <p><strong>Disclaimer:</strong> This chatbot provides general information based on iTeleDoc services and public medical data. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a licensed healthcare provider for personal medical concerns.</p>
+        </div>
+    </div>
+</div>
+<div id="chatbot-icon">
+    <i class="fas fa-comment-medical"></i>
+</div>
+<script src="https://unpkg.com/botui/build/botui.min.js"></script>
+<script src="js/app.js"></script>
+
+
+
+
 
 	</body>
 </html>
