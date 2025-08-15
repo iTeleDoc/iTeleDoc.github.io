@@ -1,0 +1,21 @@
+{
+  "about": "Welcome to iTeleDoc Solutions: Pioneering a Digital Healthcare Revolution. We combine expertise, empathy, and cutting-edge technology to redefine healthcare. Dedicated to providing comprehensive, compassionate remote services from the comfort of your home.",
+  "journey": {
+    "approach": "Experience: Solid background in telemedicine for efficient care. Customization: Personalized solutions. Timely Delivery: Punctual support. Centric Approach: Patient satisfaction priority.",
+    "commitment": "Improving lives by making healthcare accessible, convenient, and personalized.",
+    "mission": "Reshape the future of healthcare through technology, where innovation meets compassionate care.",
+    "vision": "Revolutionizing healthcare where screens bridge distances."
+  },
+  "services": [
+    {"name": "Virtual Consultations & Diagnosis", "desc": "Medical consultations via video calls to assess and diagnose conditions remotely."},
+    {"name": "Follow-up Appointments", "desc": "Virtual routine checkups for continuity of care."},
+    {"name": "Tele-Urgent Healthcare Services", "desc": "Timely advice for urgent concerns, including triage."},
+    {"name": "Chronic Disease Management", "desc": "Monitoring and adjusting treatment plans for chronic conditions."},
+    {"name": "Preventive Care Assessments", "desc": "Strategies and resources for proactive well-being."},
+    {"name": "Diet & Nutrition Counseling", "desc": "Tailored advice for healthier choices."},
+    {"name": "Health Education & Lifestyle Counseling", "desc": "Guidance on health topics and lifestyle changes."},
+    {"name": "Remote Patient Monitoring", "desc": "Tracking vital signs via connected devices."},
+    {"name": "Remote Imaging Consultations", "desc": "Reviews of diagnostic imaging results remotely."},
+    {"name": "Electronic Prescription Services", "desc": "Convenient and secure access to medications."}
+  ]
+}
