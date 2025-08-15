@@ -402,3 +402,23 @@ function toggleMenu() {
     const menu = document.getElementById("menuContent");
     menu.classList.toggle("hidden");
 }
+
+
+
+
+
+
+
+
+
+
+// Chatbot Popup Toggle
+function toggleChatbot() {
+    const popup = document.getElementById('chatbot-popup');
+    popup.classList.toggle('chatbot-visible');
+    popup.classList.toggle('chatbot-hidden');
+}
+
+// Attach toggle to chat icon
+document.getElementById('chatbot-icon').addEventListener('click', toggleChatbot);
+document.querySelector('.chatbot-close').addEventListener('click', toggleChatbot);
