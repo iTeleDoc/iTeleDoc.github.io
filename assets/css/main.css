@@ -1718,7 +1718,7 @@ ul.actions .button {
 
     /* Styling for each card */
     .card {
-      background-color: rgba(20, 30, 45, 0.80);
+      background-color: rgba(0, 0, 0, 1);
       width: 100%;
 	  align-items: center;
       justify-content: center;
