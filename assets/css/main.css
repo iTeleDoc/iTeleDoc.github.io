@@ -82,7 +82,7 @@ input, select, textarea {
    padding: 0;
    width: 100%;
    min-height: 100%;
-   background-color: #000000;
+   background-color: ##141E2D;
    overflow-x: hidden;
 			min-width: 320px;
 		}
@@ -1584,7 +1584,7 @@ ul.actions .button {
 			position: relative;
 			width: 40rem;
 			max-width: 100%;
-			background-color: rgba(255, 255, 255, 1);
+			background-color: rgba(20, 30, 45, 0.80);
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 			border-radius: 10px;
 			opacity: 0;
@@ -1718,7 +1718,7 @@ ul.actions .button {
 
     /* Styling for each card */
     .card {
-      background-color: rgba(255, 255, 255, 1);
+      background-color: rgba(20, 30, 45, 0.80);
       width: 100%;
 	  align-items: center;
       justify-content: center;
