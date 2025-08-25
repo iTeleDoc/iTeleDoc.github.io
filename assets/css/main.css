@@ -1692,52 +1692,70 @@ ul.actions .button {
 		body.is-preload #footer {
 			opacity: 0;
 		}
-		.flex-container {
+.flex-container {
     display: flex;
-    gap: 5vw; /* Default gap for larger screens (e.g., 1680px and above) */
+    gap: 5vw; /* Default gap for larger screens */
     justify-content: center; /* Centers items horizontally */
     align-items: center; /* Centers items vertically */
+    flex-wrap: wrap; /* Allow wrapping to prevent overflow */
+    -webkit-box-orient: horizontal; /* For older Safari compatibility */
+    -webkit-box-pack: center; /* For older Safari compatibility */
 }
 
 /* For screens up to 1680px */
 @media screen and (max-width: 1680px) {
     .flex-container {
-        gap: 4vw; /* Slightly smaller gap for large screens */
+        gap: 4vw;
     }
 }
 
 /* For screens up to 980px */
 @media screen and (max-width: 980px) {
     .flex-container {
-        gap: 3vw; /* Further reduce gap for medium screens */
+        gap: 3vw;
     }
 }
 
-/* For screens up to 736px */
+/* For screens up to 736px (covers most tablets and phones) */
 @media screen and (max-width: 736px) {
     .flex-container {
-        flex-direction: column; /* Switch to column layout for smaller screens */
-        gap: 25px; /* Fixed gap for better spacing */
-        align-items: center; /* Ensure items are centered */
+        flex-direction: column; /* Stack items vertically */
+        flex-wrap: nowrap; /* Prevent wrapping in column mode */
+        gap: 25px;
+        align-items: center;
+        -webkit-box-orient: vertical; /* For older Safari */
+        -webkit-box-direction: normal; /* For older Safari */
     }
 }
 
-/* For screens up to 480px */
+/* For screens up to 480px (covers most phones, including iPhones) */
 @media screen and (max-width: 480px) {
     .flex-container {
-        flex-direction: column; /* Maintain column layout */
-        gap: 20px; /* Slightly smaller gap for very small screens */
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 20px;
         align-items: center;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
     }
 }
 
-/* For screens up to 360px */
+/* For screens up to 360px (covers smaller phones) */
 @media screen and (max-width: 360px) {
     .flex-container {
-        flex-direction: column; /* Maintain column layout */
-        gap: 15px; /* Minimal gap for tiny screens */
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 15px;
         align-items: center;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
     }
+}
+
+/* Ensure flex items don't force a row layout */
+.flex-container > * {
+    max-width: 100%; /* Prevent items from overflowing container */
+    box-sizing: border-box; /* Ensure padding/margins don't break layout */
 }
 
 /* Card */
