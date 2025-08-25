@@ -1694,7 +1694,7 @@ ul.actions .button {
 		}
 		.flex-container {
 			display: flex;
-			gap: 10%; /* Scales with container width */
+			gap: 15%; /* Scales with container width */
 			justify-content: center; /* Centers items horizontally */
 			align-items: center;     /* Centers items vertically */
 		}
