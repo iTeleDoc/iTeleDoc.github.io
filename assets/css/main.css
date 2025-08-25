@@ -1693,11 +1693,52 @@ ul.actions .button {
 			opacity: 0;
 		}
 		.flex-container {
-			display: flex;
-			gap: 5vw; /* 50px space between items */
-			justify-content: center; /* Centers items horizontally */
-			align-items: center;     /* Centers items vertically */
-		}
+    display: flex;
+    gap: 5vw; /* Default gap for larger screens (e.g., 1680px and above) */
+    justify-content: center; /* Centers items horizontally */
+    align-items: center; /* Centers items vertically */
+}
+
+/* For screens up to 1680px */
+@media screen and (max-width: 1680px) {
+    .flex-container {
+        gap: 4vw; /* Slightly smaller gap for large screens */
+    }
+}
+
+/* For screens up to 980px */
+@media screen and (max-width: 980px) {
+    .flex-container {
+        gap: 3vw; /* Further reduce gap for medium screens */
+    }
+}
+
+/* For screens up to 736px */
+@media screen and (max-width: 736px) {
+    .flex-container {
+        flex-direction: column; /* Switch to column layout for smaller screens */
+        gap: 25px; /* Fixed gap for better spacing */
+        align-items: center; /* Ensure items are centered */
+    }
+}
+
+/* For screens up to 480px */
+@media screen and (max-width: 480px) {
+    .flex-container {
+        flex-direction: column; /* Maintain column layout */
+        gap: 20px; /* Slightly smaller gap for very small screens */
+        align-items: center;
+    }
+}
+
+/* For screens up to 360px */
+@media screen and (max-width: 360px) {
+    .flex-container {
+        flex-direction: column; /* Maintain column layout */
+        gap: 15px; /* Minimal gap for tiny screens */
+        align-items: center;
+    }
+}
 
 /* Card */
   
