@@ -1694,7 +1694,8 @@ ul.actions .button {
 		}
 		.flex-container {
     display: flex;
-    justify-content: space-between; /* Distributes items with equal gaps */
+    gap: 2rem; /* Default responsive gap */
+    justify-content: center;
     align-items: center;
 }
 
