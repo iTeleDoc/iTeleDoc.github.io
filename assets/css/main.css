@@ -1694,7 +1694,7 @@ ul.actions .button {
 		}
 		.flex-container {
     display: flex;
-    gap: 2rem; /* Default responsive gap */
+    gap: 3rem; /* Default responsive gap */
     justify-content: center;
     align-items: center;
 }
