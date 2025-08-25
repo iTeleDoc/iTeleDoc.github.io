@@ -1694,7 +1694,7 @@ ul.actions .button {
 		}
 		.flex-container {
 			display: flex;
-			gap: calc(10px + 2vw); /* Combines fixed and viewport-based gap */
+			gap: calc(10px + 3vw); /* Combines fixed and viewport-based gap */
 			justify-content: center; /* Centers items horizontally */
 			align-items: center;     /* Centers items vertically */
 		}
