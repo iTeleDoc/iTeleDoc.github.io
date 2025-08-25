@@ -1693,11 +1693,10 @@ ul.actions .button {
 			opacity: 0;
 		}
 		.flex-container {
-			display: flex;
-			gap: 17%; /* Scales with container width */
-			justify-content: center; /* Centers items horizontally */
-			align-items: center;     /* Centers items vertically */
-		}
+    display: flex;
+    justify-content: space-between; /* Distributes items with equal gaps */
+    align-items: center;
+}
 
 /* Card */
   
