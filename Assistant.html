@@ -13,29 +13,42 @@
     
     <style>
         body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    -webkit-text-size-adjust: 100%; /* Prevent font size adjustment */
-    touch-action: manipulation; /* Disable pinch-to-zoom gestures */
-    background: #ffffff; /* Dark background */
-}
-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    background: #ffffff; /* Ensure iframe background matches */
-}
-input, textarea {
-    font-size: 16px; /* Minimum font size to prevent iOS zoom */
-}
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            -webkit-text-size-adjust: 100%; /* Prevent font size adjustment */
+            touch-action: manipulation; /* Disable pinch-to-zoom gestures */
+            background: #ffffff; /* Background color */
+        }
+
+        /* Wrapper that applies only top safe area */
+        .safe-area-top {
+            height: 100%;
+            padding-top: env(safe-area-inset-top);      /* Modern iOS */
+            padding-top: constant(safe-area-inset-top); /* Legacy iOS < 11.2 */
+            box-sizing: border-box;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #ffffff; /* Ensure iframe background matches */
+            display: block;
+        }
+
+        input, textarea {
+            font-size: 16px; /* Prevent iOS zoom */
+        }
     </style>
 </head>
 <body>
-    <iframe
-    src="https://www.chatbase.co/chatbot-iframe/owATNCW0o8fC-Vp1tNjG1"
-    frameborder="0"
-></iframe>
+    <div class="safe-area-top">
+        <iframe
+            src="https://www.chatbase.co/chatbot-iframe/owATNCW0o8fC-Vp1tNjG1"
+            frameborder="0">
+        </iframe>
+    </div>
 </body>
 </html>
