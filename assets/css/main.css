@@ -1170,7 +1170,7 @@ ul.actions .button {
 			-webkit-transition-delay: 0.75s;
 			-ms-transition-delay: 0.75s;
 			transition-delay: 0.75s;
-			background-image: linear-gradient(to top, rgba(19, 21, 25, 0.6), rgba(19, 21, 25, 0.6)), url("../../images/overlay.png");
+			background-image: linear-gradient(to top, rgba(19, 21, 25, 0.8), rgba(19, 21, 25, 0.8)), url("../../images/overlay.png");
 			background-size: auto, 256px 256px;
 			background-position: center, center;
 			background-repeat: no-repeat, repeat;
@@ -1638,7 +1638,7 @@ ul.actions .button {
 			position: relative;
 			width: 40rem;
 			max-width: 100%;
-			background-color: rgba(27, 31, 34, 0.75);
+			background-color: rgba(27, 31, 34, 0.5);
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 			border-radius: 10px;
 			opacity: 0;
@@ -1772,7 +1772,7 @@ ul.actions .button {
 
     /* Styling for each card */
     .card {
-      background-color: rgba(27, 31, 34, 0.75);
+      background-color: rgba(27, 31, 34, 0.5);
       width: 100%;
 	  align-items: center;
       justify-content: center;
