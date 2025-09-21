@@ -19,14 +19,11 @@
             overflow: hidden;
             -webkit-text-size-adjust: 100%; /* Prevent font size adjustment */
             touch-action: manipulation; /* Disable pinch-to-zoom gestures */
-            background: #ffffff; /* Background color */
+            background: #ffffff;
         }
 
-        /* Wrapper that applies only top safe area */
         .safe-area-top {
             height: 100%;
-            padding-top: env(safe-area-inset-top);      /* Modern iOS */
-            padding-top: constant(safe-area-inset-top); /* Legacy iOS < 11.2 */
             box-sizing: border-box;
         }
 
@@ -34,12 +31,20 @@
             width: 100%;
             height: 100%;
             border: none;
-            background: #ffffff; /* Ensure iframe background matches */
+            background: #ffffff;
             display: block;
         }
 
         input, textarea {
             font-size: 16px; /* Prevent iOS zoom */
+        }
+
+        /* Only apply safe area padding in portrait */
+        @media screen and (orientation: portrait) {
+            .safe-area-top {
+                padding-top: env(safe-area-inset-top);      /* Modern iOS */
+                padding-top: constant(safe-area-inset-top); /* Legacy iOS < 11.2 */
+            }
         }
     </style>
 </head>
