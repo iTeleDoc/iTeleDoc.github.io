@@ -1162,38 +1162,37 @@ ul.actions .button {
    left: 0;
 		}
 
-		#bg:before {
-			-moz-transition: background-color 2.5s ease-in-out;
-			-webkit-transition: background-color 2.5s ease-in-out;
-			-ms-transition: background-color 2.5s ease-in-out;
-			transition: background-color 2.5s ease-in-out;
-			-moz-transition-delay: 0.75s;
-			-webkit-transition-delay: 0.75s;
-			-ms-transition-delay: 0.75s;
-			transition-delay: 0.75s;
-			background-image: linear-gradient(to top, rgba(19, 21, 25, 0.8), rgba(19, 21, 25, 0.8)), url("../../images/overlay.png");
-			background-size: auto, 256px 256px;
-			background-position: center, center;
-			background-repeat: no-repeat, repeat;
-			z-index: 2;
-		}
+		/* background image (viewport fixed) */
+#bg::after {
+  content: "";
+  position: fixed;   /* KEY: anchors to viewport */
+  inset: 0;          /* shorthand for top:0; right:0; bottom:0; left:0; */
+  background-image: url("../../images/Background.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  transform: scale(1.125);
+  transition: transform .325s ease-in-out, filter .325s ease-in-out;
+  z-index: -1; /* keep it behind page content — adjust if needed */
+}
 
-		#bg:after {
-			-moz-transform: scale(1.125);
-			-webkit-transform: scale(1.125);
-			-ms-transform: scale(1.125);
-			transform: scale(1.125);
-			-moz-transition: -moz-transform 0.325s ease-in-out, -moz-filter 0.325s ease-in-out;
-			-webkit-transition: -webkit-transform 0.325s ease-in-out, -webkit-filter 0.325s ease-in-out;
-			-ms-transition: -ms-transform 0.325s ease-in-out, -ms-filter 0.325s ease-in-out;
-			transition: transform 0.325s ease-in-out, filter 0.325s ease-in-out;
-			background-image: url("../../images/Background.jpg");
-			background-position: center;
-			background-size: cover;
-			background-repeat: no-repeat;
-			background-attachment: scroll;
-			z-index: 1;
-		}
+/* overlay / darkening layer */
+#bg::before {
+  content: "";
+  position: fixed;   /* KEY */
+  inset: 0;
+  background-image:
+    linear-gradient(to top, rgba(19,21,25,0.8), rgba(19,21,25,0.8)),
+    url("../../images/overlay.png");
+  background-size: auto, 256px 256px;
+  background-position: center, center;
+  background-repeat: no-repeat, repeat;
+  pointer-events: none;
+  opacity: .5;
+  transition: background-color 2.5s ease-in-out 0.75s;
+  z-index: 0; /* sits above background (-1) but behind content (auto) */
+}
 
 		/* Mobile-specific background adjustments */
 		@media screen and (max-width: 768px) {
