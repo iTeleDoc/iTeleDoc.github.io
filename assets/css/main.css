@@ -1859,3 +1859,28 @@ ul.actions .button {
     max-height: 500px; /* Adjust based on content height */
     opacity: 1;
   }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		#statusbar-shadow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top);
+  pointer-events: none;
+  z-index: 9999;
+
+  /* For the “shadow” effect: a gradient or box-shadow */
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25),
+    rgba(0, 0, 0, 0)
+  );
+}
