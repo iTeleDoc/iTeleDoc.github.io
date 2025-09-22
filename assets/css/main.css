@@ -1142,7 +1142,7 @@ ul.actions .button {
 		-ms-transform: scale(1.0);
 		transform: scale(1.0);
 		-webkit-backface-visibility: hidden;
-		position: relative;
+		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100%;
