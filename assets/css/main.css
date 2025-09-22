@@ -1883,13 +1883,3 @@ ul.actions .button {
   z-index: 9999;
   pointer-events: none;
 }
-
-@media (prefers-color-scheme: dark) {
-  #statusbar-shadow {
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.6),
-      rgba(0, 0, 0, 0)
-    );
-  }
-}
