@@ -1146,7 +1146,6 @@ ul.actions .button {
 		top: 0;
 		left: 0;
 		width: 100%;
-		min-height: 100vh;
 		height: 100vh;
 		height: 100dvh;
 		z-index: 1;
@@ -1157,9 +1156,9 @@ ul.actions .button {
 			display: block;
 			position: absolute;
 			top: 0;
-   right: 0;
-   bottom: 0;
    left: 0;
+			width: 100%;
+		 height: 100%;
 		}
 
 		#bg:before {
@@ -1885,4 +1884,53 @@ ul.actions .button {
       rgba(0, 0, 0, 0)
     );
   }
+}
+
+
+
+
+
+
+
+
+
+/* Reliable full-viewport background + overlay (append to end of file) */
+html, body { height: 100%; margin: 0; padding: 0; }
+
+/* site-bg sits behind the UI but above the page background */
+.site-bg {
+  position: fixed;
+  inset: 0;                 /* top:0; right:0; bottom:0; left:0 */
+  pointer-events: none;     /* don't block clicks */
+  z-index: 1;               /* keep behind your wrapper (wrapper already z-index:3) */
+  overflow: hidden;
+}
+
+/* background image layer */
+.site-bg__image {
+  position: absolute;
+  inset: 0;
+  background-image: url("../../images/Background.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: scale(1.125);
+  transition: transform .325s ease-in-out, filter .325s ease-in-out;
+  will-change: transform;
+  z-index: 1;
+}
+
+/* dark overlay / pattern layer */
+.site-bg__overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to top, rgba(19,21,25,0.8), rgba(19,21,25,0.8)),
+    url("../../images/overlay.png");
+  background-size: auto, 256px 256px;
+  background-position: center, center;
+  background-repeat: no-repeat, repeat;
+  opacity: 0.95; /* tweak as needed */
+  transition: background-color 2.5s ease-in-out 0.75s;
+  z-index: 2;
 }
