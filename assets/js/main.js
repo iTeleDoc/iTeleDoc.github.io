@@ -717,3 +717,60 @@ function filterDiseases() {
         if (iconWrapper) iconWrapper.className = "icon solid fa-times";
     }
 }
+
+
+
+/* ==========================================================================
+   CLEAN EXTERNAL API ENGINE
+   ========================================================================== */
+async function fetchClinicalProtocol(queryString) {
+    const baseUrl = "https://api.fda.gov/drug/label.json";
+    const query = queryString.replace(/\s+/g, '+');
+    const url = `${baseUrl}?search=indications_and_usage:${query}+OR+dosage_and_administration:${query}&limit=1`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (!data.results || data.results.length === 0) return null;
+
+        const record = data.results[0];
+        const toSentence = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+        return {
+            tag: "Clinical Protocol",
+            title: record.openfda.brand_name ? record.openfda.brand_name[0] : queryString.toUpperCase(),
+            desc: record.indications_and_usage ? record.indications_and_usage[0].split('.')[0] : "Management Guidelines",
+            steps: record.dosage_and_administration 
+                ? record.dosage_and_administration[0].split(/[.;]/).filter(s => s.trim().length > 20).map(s => toSentence(s.trim())) 
+                : []
+        };
+    } catch (error) {
+        return null;
+    }
+}
+
+async function runOnlineSearch(queryText) {
+    const data = await fetchClinicalProtocol(queryText);
+    
+    // Stop if no data found
+    if (!data || data.steps.length === 0) return;
+
+    const container = document.getElementById('protocols');
+    const wrapper = document.createElement('div');
+    wrapper.className = 'approach-grid v3-api-card';
+
+    wrapper.innerHTML = `
+        <div class="approach-card">
+            <span class="protocol-tag tag-resuscitation">${data.tag}</span>
+            <h4>${data.title}</h4>
+            <p><strong>${data.desc}.</strong></p>
+            <ul style="list-style-type: disc; list-style-position: outside; padding-left: 20px; color: #DBDBDB; font-size: 0.9rem;">
+                ${data.steps.map(step => `<li style="margin-bottom: 8px;">${step}.</li>`).join('')}
+            </ul>
+        </div>
+    `;
+
+    const target = container.querySelector('.more-container-services') || container.querySelector('ul.actions');
+    container.insertBefore(wrapper, target);
+}
