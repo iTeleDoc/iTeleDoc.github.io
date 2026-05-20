@@ -2412,23 +2412,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
     letter-spacing: 0.5px;
 }
 
-/* Base horizontal axis keeping elements tied seamlessly on one row */
-.v3-disease-action-line {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    width: 100% !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-    padding-bottom: 4px;
-    background: transparent !important;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-}
 
-.v3-disease-action-line:focus-within {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6) !important;
-}
 
 /* Force layout dominance over the template rules to stay wide open */
 .v3-disease-input-container {
@@ -2463,36 +2447,6 @@ html, body { height: 100%; margin: 0; padding: 0; }
     color: rgba(255, 255, 255, 0.25) !important;
 }
 
-/* Flat minimal text link style button rules */
-.v3-disease-action-line button {
-    width: auto !important;
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-    padding: 0 0 0 15px !important;
-    margin: 0 !important;
-    height: 2.5rem !important;
-    line-height: 2.5rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 6px;
-    cursor: pointer !important;
-    white-space: nowrap !important;
-    font-family: 'Source Sans Pro', Helvetica, sans-serif !important;
-    font-size: 0.85rem !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1.5px !important;
-    color: rgba(255, 255, 255, 0.6) !important;
-    transition: color 0.2s ease;
-}
-
-.v3-disease-action-line button:hover {
-    color: #ffffff !important;
-    background: transparent !important;
-}
 
 /* Absolute floating positioning clear action x overlay alignment */
 #v3DiseaseClearAction {
@@ -2542,12 +2496,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
 
 /* Adaptive mobile layout rule adjustments */
 @media screen and (max-width: 736px) {
-    .v3-disease-action-line {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 5px !important;
-        border-bottom: none !important;
-    }
+
     .v3-disease-input-container {
         width: 100% !important;
         border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
@@ -2559,15 +2508,4 @@ html, body { height: 100%; margin: 0; padding: 0; }
         height: 2.5rem !important;
         line-height: 2.5rem !important;
     }
-}
-
-
-
-/* Append this rule to the bottom of your stylesheet to augment card triage display elements */
-.v3-results-display-wrapper .approach-card div,
-.v3-disease-results-wrapper .approach-card div {
-    background: rgba(255, 85, 85, 0.04) !important;
-    padding: 12px 16px !important;
-    border-radius: 4px;
-    margin-top: 15px !important;
 }
