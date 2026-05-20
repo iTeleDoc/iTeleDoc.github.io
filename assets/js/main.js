@@ -887,53 +887,56 @@ document.addEventListener('click', function(event) {
 }
 
 /* ==========================================================================
-   FINAL INTEGRATED CLINICAL ENGINE
+   DIRECT FDA PARSER ENGINE
    ========================================================================== */
 async function fetchHighPrecisionData(queryString) {
     const baseUrl = "https://api.fda.gov/drug/label.json";
-    const url = `${baseUrl}?search=indications_and_usage:${queryString.replace(/\s+/g, '+')}&limit=1`;
+    const cleanQuery = queryString.replace(/\s+/g, '+');
+    const url = `${baseUrl}?search=indications_and_usage:${cleanQuery}+OR+dosage_and_administration:${cleanQuery}&limit=1`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
-        if (!data.results) return null;
+        
+        if (!data.results || data.results.length === 0) return null;
 
         const record = data.results[0];
         
-        // Helper: Sentence Case & Clean Up
-        const formatStep = (str) => {
-            if (!str) return "";
-            const clean = str.trim().toLowerCase();
-            return clean.charAt(0).toUpperCase() + clean.slice(1);
-        };
+        // Helper: Sentence Case capitalization
+        const toSentence = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
+        // Extracting data for your card structure
         return {
             tagClass: "tag-resuscitation",
             tagName: "Clinical Protocol",
-            title: queryString.toUpperCase(),
-            // Extract, clean, and convert to sentence case
-            steps: record.indications_and_usage 
-                ? record.indications_and_usage[0].split('.').filter(s => s.trim().length > 10).map(formatStep) 
+            title: record.openfda.brand_name ? record.openfda.brand_name[0] : queryString.toUpperCase(),
+            description: record.indications_and_usage ? record.indications_and_usage[0].split('.')[0] : "Management Guidelines",
+            // Parse instructions into an array for bullet list generation
+            steps: record.dosage_and_administration 
+                ? record.dosage_and_administration[0].split(/[.;]/).filter(s => s.trim().length > 20).map(s => toSentence(s.trim())) 
                 : []
         };
-    } catch (e) { return null; }
+    } catch (error) {
+        return null;
+    }
 }
 
 async function executeExternalV3ProtocolLookup(queryText) {
     const data = await fetchHighPrecisionData(queryText);
     
-    // EXIT IMMEDIATELY if no data found: Nothing is displayed, no triage rule added
+    // EXIT IMMEDIATELY if no data found: No triage rules or standard text injected
     if (!data || data.steps.length === 0) return;
 
     const protocolsArticle = document.getElementById('protocols');
     const wrapper = document.createElement('div');
     wrapper.className = 'approach-grid v3-dynamic-injected-card';
 
-    // Matches your exact requested structure with bullets
+    // Injection using the specific HTML structure you requested
     wrapper.innerHTML = `
         <div class="approach-card">
             <span class="protocol-tag ${data.tagClass}">${data.tagName}</span>
             <h4>${data.title}</h4>
+            <p><strong>${data.description}.</strong></p>
             <ul style="list-style-type: disc; list-style-position: outside; padding-left: 20px; color: #DBDBDB; font-size: 0.9rem;">
                 ${data.steps.map(step => `<li style="margin-bottom: 8px;">${step}.</li>`).join('')}
             </ul>
