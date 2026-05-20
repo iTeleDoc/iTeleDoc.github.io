@@ -774,3 +774,18 @@ async function runOnlineSearch(queryText) {
     const target = container.querySelector('.more-container-services') || container.querySelector('ul.actions');
     container.insertBefore(wrapper, target);
 }
+
+
+
+// Hide Keyboard After Search
+const searchInput = document.getElementById('searchInput');
+
+searchInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        // 1. Hide the keyboard immediately
+        this.blur(); 
+        
+        // 2. Trigger your search function
+        runOnlineSearch(this.value);
+    }
+});
