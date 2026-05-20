@@ -586,3 +586,134 @@ function filterProtocols() {
         if (iconWrapper) iconWrapper.className = "icon solid fa-times"; 
     }
 }
+
+
+
+/* ==========================================================================
+   Diseases Module: Layout, Toggles, & Filter Engine
+   ========================================================================== */
+
+// 1. Diseases Search Expand and Click Action Routing Handler
+function toggleDiseaseSearch(event) {
+    if (event) {
+        if (typeof event.preventDefault === 'function') event.preventDefault();
+        if (typeof event.stopPropagation === 'function') event.stopPropagation();
+    }
+    const searchBox = document.getElementById('diseaseSearchBox');
+    const searchInput = document.getElementById('diseaseSearchInput');
+    const iconWrapper = document.getElementById('diseaseSearchIconWrapper');
+    
+    if (!searchBox || !searchInput) return false;
+
+    if (!searchBox.classList.contains('active')) {
+        searchBox.classList.add('active');
+        searchInput.focus();
+        return false;
+    }
+
+    const query = searchInput.value.trim();
+
+    if (iconWrapper && iconWrapper.classList.contains('fa-globe')) {
+        executeExternalV3DiseaseLookup(query);
+        return false;
+    }
+
+    if (query !== "") {
+        searchInput.value = "";
+        if (iconWrapper) iconWrapper.className = "icon solid fa-search";
+        filterDiseases();
+        searchInput.focus();
+    } else {
+        searchBox.classList.remove('active');
+    }
+    return false;
+}
+
+function toggleDiseaseShowMore(forceState) {
+    const hiddenContent = document.getElementById('hiddenContentDiseases');
+    const toggleLink = document.getElementById('showMoreLinkDiseases');
+    
+    if (!hiddenContent) return;
+    
+    let isHidden = hiddenContent.style.display === 'none' || hiddenContent.style.display === '';
+    let targetState = isHidden ? 'block' : 'none';
+    
+    if (forceState) targetState = forceState;
+    
+    hiddenContent.style.display = targetState;
+    
+    if (toggleLink) {
+        toggleLink.textContent = targetState === 'none' ? 'Show More' : 'Show Less';
+    }
+}
+
+// 3. Diseases Local Search Filtration Engine with Local Gray Dot Visual Injector
+function filterDiseases() {
+    const searchInput = document.getElementById('diseaseSearchInput');
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const iconWrapper = document.getElementById('diseaseSearchIconWrapper');
+    const cards = document.querySelectorAll('#diseases .approach-card');
+    const hiddenSection = document.getElementById('hiddenContentDiseases');
+    const allHeadings = document.querySelectorAll('#diseases .search-target-heading');
+    const allGrids = document.querySelectorAll('#diseases .approach-grid');
+
+    const dynamicCards = document.querySelectorAll('.v3-dynamic-injected-disease-card');
+    dynamicCards.forEach(card => card.remove());
+    document.querySelectorAll('.local-disease-dot-indicator').forEach(dot => dot.remove());
+
+    if (query === '') {
+        if (iconWrapper) iconWrapper.className = "icon solid fa-search";
+        if (hiddenSection) hiddenSection.style.display = 'none';
+
+        const toggleLink = document.getElementById('showMoreLinkDiseases');
+        if (toggleLink) toggleLink.textContent = 'Show More';
+
+        allHeadings.forEach(heading => heading.style.display = 'block');
+        allGrids.forEach(grid => grid.style.display = 'grid');
+        cards.forEach(card => card.style.display = 'flex');
+        return;
+    }
+
+    if (hiddenSection && (hiddenSection.style.display === 'none' || hiddenSection.style.display === '')) {
+        hiddenSection.style.display = 'block';
+        const toggleLink = document.getElementById('showMoreLinkDiseases');
+        if (toggleLink) toggleLink.textContent = 'Show Less';
+    }
+
+    let totalLocalMatches = 0;
+
+    cards.forEach(card => {
+        const title = card.querySelector('h4') ? card.querySelector('h4').textContent.toLowerCase() : '';
+        const tag = card.querySelector('.protocol-tag') ? card.querySelector('.protocol-tag').textContent.toLowerCase() : '';
+        
+        if (title.includes(query) || tag.includes(query)) {
+            card.style.display = 'flex';
+            card.style.position = 'relative';
+            totalLocalMatches++;
+
+            if (!card.querySelector('.local-disease-dot-indicator')) {
+                const grayDot = document.createElement('span');
+                grayDot.className = 'local-disease-dot-indicator';
+                grayDot.style.cssText = "position: absolute; top: 25px; right: 25px; width: 8px; height: 8px; background-color: #7f8c8d; border-radius: 50%; box-shadow: 0 0 8px #7f8c8d;";
+                card.appendChild(grayDot);
+            }
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    allHeadings.forEach(heading => {
+        let nextEl = heading.nextElementSibling;
+        if (nextEl && nextEl.classList.contains('approach-grid')) {
+            const hasVisibleCards = nextEl.querySelectorAll('.approach-card:not([style*="display: none"])').length > 0;
+            heading.style.display = hasVisibleCards ? 'block' : 'none';
+            nextEl.style.display = hasVisibleCards ? 'grid' : 'none';
+        }
+    });
+
+    if (totalLocalMatches === 0) {
+        if (iconWrapper) iconWrapper.className = "icon solid fa-globe";
+    } else {
+        if (iconWrapper) iconWrapper.className = "icon solid fa-times";
+    }
+}
