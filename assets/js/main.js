@@ -273,9 +273,9 @@
 										.triggerHandler('resize.flexbox-fix');
 
 								// Unlock.
-									setTimeout(function() {
+									setTimeout(setTimeout(function() {
 										locked = false;
-									}, delay);
+									}, delay), 25);
 
 							}, 25);
 
@@ -592,16 +592,43 @@ async function executeExternalV3ProtocolLookup(queryText) {
     const iconWrapper = document.getElementById('searchIconWrapper');
     if (iconWrapper) iconWrapper.className = "icon solid fa-spinner fa-spin";
 
-    const clinicalRecord = await fetchHighPrecisionData(queryText);
+    const cleanTerm = queryText.replace(/[^-a-zA-Z0-9 ]/g, '').trim();
+    const clinicalRecord = await fetchHighPrecisionData(cleanTerm);
 
-    // FIX: If no data, stop here. No error messages, no dummy text.
     if (!clinicalRecord) {
         if (iconWrapper) iconWrapper.className = "icon solid fa-times";
         return; 
     }
 
-    // Existing code to build the approach-card...
-    // Only runs if clinicalRecord is valid.
+    if (iconWrapper) iconWrapper.className = "icon solid fa-times";
+
+    const protocolsArticle = document.getElementById('protocols');
+    const dynamicCardDeck = document.createElement('div');
+    dynamicCardDeck.className = 'approach-grid v3-dynamic-injected-card';
+    dynamicCardDeck.style.cssText = "margin-top: 20px; width: 100%; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 20px; display: grid;";
+
+    dynamicCardDeck.innerHTML = `
+        <div class="approach-card" style="width: 100%; grid-column: 1 / -1; display: flex; flex-direction: column; align-items: start; position: relative;">
+            <span style="position: absolute; top: 25px; right: 25px; width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; box-shadow: 0 0 8px #2ecc71;"></span>
+            
+            <div style="display: flex; align-items: center; width: 100%; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 8px;">
+                <span class="protocol-tag" style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-weight: 600 !important; font-size: 0.65rem !important; letter-spacing: 1px !important; text-transform: uppercase !important; background: rgba(51, 153, 255, 0.15); color: #3399ff; border: 1px solid rgba(51, 153, 255, 0.3); padding: 0.2rem 0.6rem; border-radius: 4px; display: inline-block; line-height: 1.2;">${clinicalRecord.tag}</span>
+            </div>
+            <h4 style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-weight: 700 !important; font-size: 1.2rem !important; letter-spacing: 1px !important; text-transform: uppercase !important; margin: 0 0 0.5rem 0; color: #ffffff !important; padding-right: 20px;">${cleanTerm.toUpperCase()} CLINICAL PROTOCOL</h4>
+            
+            <h5 style="color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0 0.5rem 0; font-weight: 600;">Regulated Directive Directives:</h5>
+            <ol style="margin: 0 0 1.5rem 1.25rem; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.6; width: 100%;">
+                ${clinicalRecord.steps.map(step => `<li>${step}</li>`).join('')}
+            </ol>
+        </div>
+    `;
+
+    const insertionMarker = protocolsArticle.querySelector('.more-container-services') || protocolsArticle.querySelector('ul.actions');
+    if (insertionMarker) {
+        protocolsArticle.insertBefore(dynamicCardDeck, insertionMarker);
+    } else {
+        protocolsArticle.appendChild(dynamicCardDeck);
+    }
 }
 
 
