@@ -1929,11 +1929,21 @@ html, body { height: 100%; margin: 0; padding: 0; }
 
 
 /* Styling for your local and API-injected cards */
+/* Layout Parity Engine */
+.approach-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%;
+}
+
 .approach-card {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 25px;
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
 }
 
 .protocol-tag {
@@ -1944,16 +1954,15 @@ html, body { height: 100%; margin: 0; padding: 0; }
     background: #444;
     color: #fff;
     margin-bottom: 10px;
+    width: fit-content;
 }
 
 .tag-resuscitation { background: #e74c3c; }
 
-.clinical-tip {
-    margin-top: 15px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 3px solid #f1c40f;
-    font-size: 0.85rem;
+.approach-card h4 {
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
 }
 
 /* Chat UI Protocol Tags */
