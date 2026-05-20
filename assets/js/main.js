@@ -471,6 +471,7 @@ function toggleSearch(event) {
     const query = searchInput.value.trim();
 
     if (iconWrapper && (iconWrapper.classList.contains('fa-globe') || iconWrapper.classList.contains('fa-cloud-download-alt'))) {
+        searchInput.blur(); // Hide virtual dynamic keybards immediately on execution
         executeExternalV3ProtocolLookup(query);
         return false;
     }
@@ -610,7 +611,7 @@ async function executeExternalV3ProtocolLookup(queryText) {
 
     dynamicCardDeck.innerHTML = `
         <div class="approach-card" style="width: 100%; grid-column: 1 / -1; display: flex; flex-direction: column; align-items: start; position: relative;">
-            <span style="position: absolute; top: 25px; right: 25px; width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; box-shadow: 0 0 8px #2ecc71;"></span>
+            <span style="position: absolute; top: 25px; right: 25px; width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; box-shadow: 0 0 8px #2ecc7 green;"></span>
             
             <div style="display: flex; align-items: center; width: 100%; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 8px;">
                 <span class="protocol-tag" style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-weight: 600 !important; font-size: 0.65rem !important; letter-spacing: 1px !important; text-transform: uppercase !important; background: rgba(51, 153, 255, 0.15); color: #3399ff; border: 1px solid rgba(51, 153, 255, 0.3); padding: 0.2rem 0.6rem; border-radius: 4px; display: inline-block; line-height: 1.2;">${clinicalRecord.tag}</span>
@@ -618,8 +619,8 @@ async function executeExternalV3ProtocolLookup(queryText) {
             <h4 style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-weight: 700 !important; font-size: 1.2rem !important; letter-spacing: 1px !important; text-transform: uppercase !important; margin: 0 0 0.5rem 0; color: #ffffff !important; padding-right: 20px;">${cleanTerm.toUpperCase()} CLINICAL PROTOCOL</h4>
             
             <h5 style="color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0 0.5rem 0; font-weight: 600;">Regulated Directive Actions:</h5>
-            <ul style="margin: 0 0 1.5rem 1.25rem; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.6; width: 100%; list-style-type: disc !important;">
-                ${clinicalRecord.steps.map(step => `<li style="margin-bottom: 0.25rem;">${step}</li>`).join('')}
+            <ul style="margin: 0 0 1.5rem 1.25rem; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.6; list-style-type: disc !important; width: 100%;">
+                ${clinicalRecord.steps.map(step => `<li style="margin-bottom: 0.25rem; list-style: disc !important;">${step}</li>`).join('')}
             </ul>
 
             <div style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-size: 0.85rem !important; line-height: 1.5 !important; background: rgba(255, 51, 51, 0.05) !important; color: #ffffff !important; border-left: 3px solid #ff3333; padding: 12px 16px !important; border-radius: 4px; margin-top: auto; width: 100%; box-sizing: border-box;">
@@ -662,6 +663,7 @@ function toggleDiseaseSearch(event) {
     const query = searchInput.value.trim();
 
     if (iconWrapper && (iconWrapper.classList.contains('fa-globe') || iconWrapper.classList.contains('fa-cloud-download-alt'))) {
+        searchInput.blur(); // Dismiss keybards immediately upon calling API execution
         executeExternalV3DiseaseLookup(query);
         return false;
     }
@@ -797,8 +799,8 @@ async function executeExternalV3DiseaseLookup(queryText) {
             <h4 style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-weight: 700 !important; font-size: 1.2rem !important; letter-spacing: 1px !important; text-transform: uppercase !important; margin: 0 0 0.5rem 0; color: #ffffff !important; padding-right: 20px;">${cleanTerm.toUpperCase()} ANALYSIS</h4>
             
             <h5 style="color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0 0.5rem 0; font-weight: 600;">Pathology Diagnostic Parameters:</h5>
-            <ul style="margin: 0 0 1.5rem 1.25rem; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.6; width: 100%; list-style-type: disc !important;">
-                ${clinicalRecord.steps.map(step => `<li style="margin-bottom: 0.25rem;">${step}</li>`).join('')}
+            <ul style="margin: 0 0 1.5rem 1.25rem; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.6; list-style-type: disc !important; width: 100%;">
+                ${clinicalRecord.steps.map(step => `<li style="margin-bottom: 0.25rem; list-style: disc !important;">${step}</li>`).join('')}
             </ul>
 
             <div style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-size: 0.85rem !important; line-height: 1.5 !important; background: rgba(255, 51, 51, 0.05) !important; color: #ffffff !important; border-left: 3px solid #ff3333; padding: 12px 16px !important; border-radius: 4px; margin-top: auto; width: 100%; box-sizing: border-box;">
@@ -830,8 +832,9 @@ document.addEventListener('keydown', function(event) {
         const query = target.value.trim();
         const iconWrapper = document.getElementById('searchIconWrapper');
         
-        if (iconWrapper && iconWrapper.classList.contains('fa-globe') && query !== "") {
+        if (iconWrapper && (iconWrapper.classList.contains('fa-globe') || iconWrapper.classList.contains('fa-cloud-download-alt')) && query !== "") {
             event.preventDefault();
+            target.blur(); // Drop the keyboard immediately
             executeExternalV3ProtocolLookup(query);
         }
     }
@@ -841,8 +844,9 @@ document.addEventListener('keydown', function(event) {
         const query = target.value.trim();
         const iconWrapper = document.getElementById('diseaseSearchIconWrapper');
         
-        if (iconWrapper && iconWrapper.classList.contains('fa-globe') && query !== "") {
+        if (iconWrapper && (iconWrapper.classList.contains('fa-globe') || iconWrapper.classList.contains('fa-cloud-download-alt')) && query !== "") {
             event.preventDefault();
+            target.blur(); // Drop the keyboard immediately
             executeExternalV3DiseaseLookup(query);
         }
     }
@@ -914,14 +918,16 @@ function getUrgentClinicalTip(condition) {
 }
 
 /* ==========================================================================
-   groq.ai CLINICAL LOOKUP
+   GROQ AI HIGH-PRECISION CLINICAL LOOKUP REENGINEERING
    ========================================================================== */
 async function fetchHighPrecisionData(queryString) {
     const url = "https://api.groq.com/v1/chat/completions";
-    // Place your Groq API key here
+    
+    // Provide your valid Groq API key here
     const apiKey = "YOUR_GROQ_API_KEY"; 
 
-    const systemPrompt = `You are an expert clinical medicine assistant. Provide structured, evidence-based data for the requested pathology or treatment protocol. Return your answer precisely as a JSON object with two keys: "tag" (a short string category, e.g., "Cardiology Guidance") and "steps" (an array of exactly 4 concise, clear clinical actions, parameters, or guidelines). Do not return any text outside of the valid JSON structure.`;
+    // Precise schema system framing instructions to ensure predictable JSON outputs
+    const systemPrompt = "You are an elite clinical medicine information engine. Provide accurate, clean data for the requested disease/protocol. You MUST respond exclusively with a valid JSON object containing exactly two keys: \"tag\" (e.g., \"Cardiovascular Directives\") and \"steps\" (an array of exactly 4 concise strings outlining clear clinical action items or pathological characteristics). Do not include any introductory markdown commentary or text outside the JSON block.";
 
     try {
         const response = await fetch(url, {
@@ -931,30 +937,34 @@ async function fetchHighPrecisionData(queryString) {
                 "Authorization": `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: "mixtral-8x7b-32768",
+                model: "llama3-8b-8192", // High performance low latency chat completion pipeline 
                 messages: [
                     { role: "system", content: systemPrompt },
-                    { role: "user", content: `Provide clinical data for: ${queryString}` }
+                    { role: "user", content: `Generate precise clinical parameters for: ${queryString}` }
                 ],
-                temperature: 0.2,
+                temperature: 0.1,
                 response_format: { type: "json_object" }
             })
         });
 
-        if (!response.ok) throw new Error("Groq API Request Failed");
+        if (!response.ok) throw new Error(`Groq API Request failure context: ${response.status}`);
 
-        const data = await response.json();
-        if (!data.choices || data.choices.length === 0) return null;
+        const resultJson = await response.json();
+        
+        if (!resultJson.choices || resultJson.choices.length === 0) return null;
 
-        const content = JSON.parse(data.choices[0].message.content);
+        // Extract and clean raw message text content before running validation parsing
+        let rawContent = resultJson.choices[0].message.content.trim();
+        const parsedPayload = JSON.parse(rawContent);
         
         return {
-            tag: content.tag || "Groq AI Clinical Registry",
+            tag: parsedPayload.tag || "Groq AI Clinical Registry",
             title: queryString.toUpperCase(),
-            steps: Array.isArray(content.steps) ? content.steps.slice(0, 4) : ["No specific step data generated."]
+            steps: Array.isArray(parsedPayload.steps) ? parsedPayload.steps.slice(0, 4) : ["Awaiting clinical data parsing."]
         };
+
     } catch (error) {
-        console.error("Lookup Error:", error);
+        console.error("Critical Diagnostic Lookup Fault:", error);
         return null;
     }
 }
