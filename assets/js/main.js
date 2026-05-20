@@ -879,3 +879,141 @@ document.addEventListener('click', function(event) {
     return "Stabilize immediate life threats first: Assess Airway patency, Breathing work/adequacy, and Circulatory perfusion parameters (ABC). Establish dual large-bore IV access, apply continuous cardiac monitoring, note trends in serial vital signs, and prepare immediate diagnostic verification lines.";
 }
 
+
+
+// 3. Universal Local Search Engine (Offline / Local Only)
+function filterProtocols(event) {
+    const searchInput = document.getElementById('searchInput');
+    if (!searchInput) return;
+
+    const query = searchInput.value.toLowerCase().trim();
+
+    // Hide mobile keyboard on Enter
+    if (event && event.key === 'Enter') {
+        event.preventDefault();
+        searchInput.blur();
+    }
+
+    const searchBox = document.getElementById('searchBox');
+    const iconWrapper = document.getElementById('searchIconWrapper');
+
+    if (searchBox && query !== '') {
+        searchBox.classList.add('active');
+    }
+
+    if (iconWrapper) {
+        iconWrapper.className = "icon solid fa-search";
+    }
+
+    const article = document.querySelector('#protocols');
+    const majorTitle = article ? article.querySelector('.major') : null;
+    const headings = article ? article.querySelectorAll('.search-target-heading') : [];
+    const grids = article ? article.querySelectorAll('.approach-grid') : [];
+    const toggleBtn = document.getElementById('showMoreLinkServices');
+    const hiddenDrawer = document.getElementById('hiddenContentServices');
+
+    const cards = document.querySelectorAll('#protocols .approach-card');
+
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+
+        if (query === '' || text.includes(query)) {
+            card.style.display = 'flex';
+            card.classList.remove('universal-search-hidden');
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+            card.classList.add('universal-search-hidden');
+        }
+    });
+
+    // SEARCH MODE
+    if (query !== '') {
+
+        // Hide everything except result cards
+        if (majorTitle) majorTitle.style.display = 'none';
+
+        headings.forEach(h => {
+            h.style.display = 'none';
+        });
+
+        grids.forEach(g => {
+            const visibleCards = g.querySelectorAll('.approach-card:not(.universal-search-hidden)');
+
+            if (visibleCards.length > 0) {
+                g.style.display = 'grid';
+            } else {
+                g.style.display = 'none';
+            }
+        });
+
+        if (toggleBtn) toggleBtn.style.display = 'none';
+
+        if (hiddenDrawer) {
+            hiddenDrawer.style.display = 'block';
+        }
+
+        // Hide keyboard after search commit
+        searchInput.blur();
+
+    } else {
+
+        // Restore normal article
+        if (majorTitle) majorTitle.style.display = '';
+
+        headings.forEach(h => {
+            h.style.display = '';
+        });
+
+        grids.forEach(g => {
+            g.style.display = '';
+        });
+
+        if (toggleBtn) toggleBtn.style.display = '';
+
+        if (hiddenDrawer) {
+            hiddenDrawer.style.display = 'none';
+        }
+    }
+
+    // No results renderer
+    let noResults = document.getElementById('universalNoResults');
+
+    if (visibleCount === 0 && query !== '') {
+
+        if (!noResults) {
+            noResults = document.createElement('div');
+            noResults.id = 'universalNoResults';
+            noResults.className = 'universal-no-results';
+
+            noResults.innerHTML = `
+                <h3>No Local Results Found</h3>
+                <p>The offline search scanned all local protocols, diseases, procedures, and articles.</p>
+            `;
+
+            if (article) {
+                article.appendChild(noResults);
+            }
+        }
+
+        noResults.style.display = 'block';
+
+    } else if (noResults) {
+        noResults.style.display = 'none';
+    }
+}
+
+// Keyboard enter support
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+
+    if (searchInput) {
+        searchInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                filterProtocols(event);
+            }
+        });
+    }
+});
