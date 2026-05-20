@@ -720,72 +720,50 @@ function filterDiseases() {
 
 
 
+
 /* ==========================================================================
-   CLEAN EXTERNAL API ENGINE
+   UNIFIED SEARCH ENGINE (Local + Online)
    ========================================================================== */
-async function fetchClinicalProtocol(queryString) {
-    const baseUrl = "https://api.fda.gov/drug/label.json";
-    const query = queryString.replace(/\s+/g, '+');
-    const url = `${baseUrl}?search=indications_and_usage:${query}+OR+dosage_and_administration:${query}&limit=1`;
+async function unifiedSearch(queryText) {
+    const dot = document.getElementById('searchStatusDot');
+    const container = document.getElementById('searchResultsContainer');
+    
+    // Clear previous results
+    container.innerHTML = '';
+    dot.style.background = '#808080'; // Gray (Offline)
 
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        
-        if (!data.results || data.results.length === 0) return null;
+    // 1. Search Local Content
+    const localMatch = findLocalArticle(queryText); // Replace with your existing local search function
+    if (localMatch) {
+        renderCard(localMatch);
+        return;
+    }
 
-        const record = data.results[0];
-        const toSentence = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    // 2. No local match? Try API
+    dot.style.background = '#2ecc71'; // Turn Green (Searching Online)
+    const apiData = await fetchExternalClinicalData(queryText);
 
-        return {
-            tag: "Clinical Protocol",
-            title: record.openfda.brand_name ? record.openfda.brand_name[0] : queryString.toUpperCase(),
-            desc: record.indications_and_usage ? record.indications_and_usage[0].split('.')[0] : "Management Guidelines",
-            steps: record.dosage_and_administration 
-                ? record.dosage_and_administration[0].split(/[.;]/).filter(s => s.trim().length > 20).map(s => toSentence(s.trim())) 
-                : []
-        };
-    } catch (error) {
-        return null;
+    if (apiData) {
+        renderCard(apiData);
+    } else {
+        container.innerHTML = '<p style="padding:20px;">No results found.</p>';
     }
 }
 
-async function runOnlineSearch(queryText) {
-    const data = await fetchClinicalProtocol(queryText);
-    
-    // Stop if no data found
-    if (!data || data.steps.length === 0) return;
-
-    const container = document.getElementById('protocols');
+// Logic to render any data object into your required design
+function renderCard(data) {
+    const container = document.getElementById('searchResultsContainer');
     const wrapper = document.createElement('div');
-    wrapper.className = 'approach-grid v3-api-card';
-
     wrapper.innerHTML = `
         <div class="approach-card">
-            <span class="protocol-tag tag-resuscitation">${data.tag}</span>
+            <span class="protocol-tag ${data.tagClass}">${data.tagName}</span>
             <h4>${data.title}</h4>
-            <p><strong>${data.desc}.</strong></p>
-            <ul style="list-style-type: disc; list-style-position: outside; padding-left: 20px; color: #DBDBDB; font-size: 0.9rem;">
-                ${data.steps.map(step => `<li style="margin-bottom: 8px;">${step}.</li>`).join('')}
+            <p><strong>${data.description}</strong></p>
+            <ul style="list-style-type: disc; padding-left: 20px; color: #DBDBDB; font-size: 0.9rem;">
+                ${data.steps.map(s => `<li style="margin-bottom: 8px;">${s}</li>`).join('')}
             </ul>
+            ${data.tip ? `<div class="clinical-tip"><strong>Clinical Tip:</strong> ${data.tip}</div>` : ''}
         </div>
     `;
-
-    const target = container.querySelector('.more-container-services') || container.querySelector('ul.actions');
-    container.insertBefore(wrapper, target);
+    container.appendChild(wrapper);
 }
-
-
-
-// Hide Keyboard After Search
-const searchInput = document.getElementById('searchInput');
-
-searchInput.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        // 1. Hide the keyboard immediately
-        this.blur(); 
-        
-        // 2. Trigger your search function
-        runOnlineSearch(this.value);
-    }
-});
