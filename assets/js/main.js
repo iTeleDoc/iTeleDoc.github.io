@@ -721,49 +721,95 @@ function filterDiseases() {
 
 
 
-/* ==========================================================================
-   UNIFIED SEARCH ENGINE (Local + Online)
-   ========================================================================== */
-async function unifiedSearch(queryText) {
-    const dot = document.getElementById('searchStatusDot');
-    const container = document.getElementById('searchResultsContainer');
-    
-    // Clear previous results
-    container.innerHTML = '';
-    dot.style.background = '#808080'; // Gray (Offline)
+/*
+    Unified Clinical Search Engine: Local-First with API Fallback
+*/
 
-    // 1. Search Local Content
-    const localMatch = findLocalArticle(queryText); // Replace with your existing local search function
-    if (localMatch) {
-        renderCard(localMatch);
-        return;
+(function($) {
+    // Standard initialization
+    var $window = $(window), $body = $('body'), $wrapper = $('#wrapper'), $header = $('#header'), $footer = $('#footer'), $main = $('#main'), $main_articles = $main.children('article');
+
+    breakpoints({ xlarge: ['1281px', '1680px'], large: ['981px', '1280px'], medium: ['737px', '980px'], small: ['481px', '736px'], xsmall: ['361px', '480px'], xxsmall: [null, '360px'] });
+
+    $window.on('load', function() { window.setTimeout(function() { $body.removeClass('is-preload'); }, 100); });
+
+    /* ==========================================================================
+       UNIFIED SEARCH DISPATCHER (Handles both modules)
+       ========================================================================== */
+    window.unifiedSearch = async function(query, moduleType) {
+        const isDisease = (moduleType === 'disease');
+        const input = isDisease ? document.getElementById('diseaseSearchInput') : document.getElementById('searchInput');
+        const icon = document.getElementById(isDisease ? 'diseaseSearchIconWrapper' : 'searchIconWrapper');
+        const dot = document.getElementById(isDisease ? 'diseaseSearchStatusDot' : 'searchStatusDot');
+        
+        input.blur();
+        if (dot) dot.style.background = '#808080'; // Reset dot to Gray
+
+        // 1. Search All Local Cards
+        let foundLocally = false;
+        document.querySelectorAll('.approach-card').forEach(card => {
+            const text = card.textContent.toLowerCase();
+            if (text.includes(query.toLowerCase())) {
+                card.style.display = 'flex';
+                foundLocally = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // 2. If no local matches, trigger FDA API (Green Dot)
+        if (!foundLocally) {
+            if (dot) dot.style.background = '#2ecc71'; // Turn Green
+            const apiData = await fetchExternalClinicalData(query);
+            if (apiData) {
+                renderApiResult(apiData, isDisease);
+            }
+        }
+    };
+
+    /* ==========================================================================
+       EXTERNAL FDA API ENGINE
+       ========================================================================== */
+    async function fetchExternalClinicalData(query) {
+        try {
+            const url = `https://api.fda.gov/drug/label.json?search=indications_and_usage:${query.replace(/\s+/g, '+')}&limit=1`;
+            const response = await fetch(url);
+            const data = await response.json();
+            if (!data.results) return null;
+
+            return {
+                tag: "Clinical Protocol",
+                title: data.results[0].openfda.brand_name ? data.results[0].openfda.brand_name[0] : query.toUpperCase(),
+                steps: data.results[0].indications_and_usage[0].split('.').slice(0, 4)
+            };
+        } catch (e) { return null; }
     }
 
-    // 2. No local match? Try API
-    dot.style.background = '#2ecc71'; // Turn Green (Searching Online)
-    const apiData = await fetchExternalClinicalData(queryText);
-
-    if (apiData) {
-        renderCard(apiData);
-    } else {
-        container.innerHTML = '<p style="padding:20px;">No results found.</p>';
+    function renderApiResult(data, isDisease) {
+        const target = isDisease ? document.getElementById('diseases') : document.getElementById('protocols');
+        const wrapper = document.createElement('div');
+        wrapper.className = 'approach-grid v3-dynamic-injected-card';
+        wrapper.innerHTML = `
+            <div class="approach-card">
+                <span class="protocol-tag">${data.tag}</span>
+                <h4>${data.title}</h4>
+                <ul style="list-style-type: disc; padding-left: 20px;">
+                    ${data.steps.map(s => `<li>${s.trim()}.</li>`).join('')}
+                </ul>
+            </div>`;
+        target.prepend(wrapper);
     }
-}
 
-// Logic to render any data object into your required design
-function renderCard(data) {
-    const container = document.getElementById('searchResultsContainer');
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = `
-        <div class="approach-card">
-            <span class="protocol-tag ${data.tagClass}">${data.tagName}</span>
-            <h4>${data.title}</h4>
-            <p><strong>${data.description}</strong></p>
-            <ul style="list-style-type: disc; padding-left: 20px; color: #DBDBDB; font-size: 0.9rem;">
-                ${data.steps.map(s => `<li style="margin-bottom: 8px;">${s}</li>`).join('')}
-            </ul>
-            ${data.tip ? `<div class="clinical-tip"><strong>Clinical Tip:</strong> ${data.tip}</div>` : ''}
-        </div>
-    `;
-    container.appendChild(wrapper);
-}
+    // Initialize listeners for existing inputs
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputs = ['searchInput', 'diseaseSearchInput'];
+        inputs.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') unifiedSearch(el.value, id.includes('disease') ? 'disease' : 'protocol');
+            });
+        });
+    });
+
+    // ... (Keep your original Nav and Menu toggle logic here)
+})(jQuery);
