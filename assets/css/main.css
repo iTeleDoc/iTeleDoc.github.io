@@ -2616,3 +2616,33 @@ html, body { height: 100%; margin: 0; padding: 0; }
 .card:hover {
     transform: translateY(-2px);
 }
+
+
+/* Expanded search behavior */
+.search-box {
+    width: 52px;
+    overflow: hidden;
+    transition: width 0.3s ease;
+}
+
+.search-box.active {
+    width: 100%;
+    max-width: 460px;
+}
+
+.search-box input {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.search-box.active input {
+    opacity: 1;
+}
+
+#protocols .approach-grid {
+    margin-top: 1rem;
+}
+
+#protocols .approach-card {
+    width: 100%;
+}
