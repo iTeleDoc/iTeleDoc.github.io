@@ -64,43 +64,15 @@
 <article id="protocols">
 
     <!-- SEARCH INTERFACE: PINNED EXACTLY OPPOSITE TO NATIVE [X] -->
-<article id="diseases">
     <div class="protocol-search-corner-container">
-        <div id="searchBoxDiseases" class="search-box">
-            <input type="text" id="searchInputDiseases" placeholder="Search diseases..." onkeyup="filterDiseases()">
-            <button type="button" id="searchBtnDiseases" class="search-btn" onclick="toggleSearchDiseases()">
-                <span id="searchIconWrapperDiseases" class="icon solid fa-search"></span>
+        <div id="searchBox" class="search-box">
+            <input type="text" id="searchInput" placeholder="Search protocols..." onkeyup="filterProtocols()">
+            <button type="button" id="searchBtn" class="search-btn" onclick="toggleSearch()">
+                <!-- Wrapper for handling icon switching cleanly -->
+                <span id="searchIconWrapper" class="icon solid fa-search"></span>
             </button>
         </div>
     </div>
-    
-    <div class="close">Close</div>
-    <h2 class="major">Diseases</h2>
-    </article>
-
-
-<div id="searchBox" class="search-box">
-    <input type="text" id="searchInput" placeholder="Search local protocols or look up globally..." oninput="filterProtocols()">
-    <a href="#" class="search-btn" onclick="toggleSearch(event)">
-        <i id="searchIconWrapper" class="icon solid fa-search"></i>
-    </a>
-</div>
-
-<div id="diseaseSearchBox" class="search-box">
-    <input type="text" id="diseaseSearchInput" placeholder="Search local conditions or look up globally..." oninput="filterDiseases()">
-    <a href="#" class="search-btn" onclick="toggleDiseaseSearch(event)">
-        <i id="diseaseSearchIconWrapper" class="icon solid fa-search"></i>
-    </a>
-</div>
-
-
-
-<div id="diseaseSearchBox" class="search-box">
-    <input type="text" id="diseaseSearchInput" placeholder="Search local conditions or look up globally..." oninput="filterDiseases()">
-    <a href="#" class="search-btn" onclick="toggleDiseaseSearch(event)">
-        <i id="diseaseSearchIconWrapper" class="icon solid fa-search"></i>
-    </a>
-</div>
 
     <!-- YOUR NATIVE CLOSE BUTTON LINK -->
     <div class="close">Close</div>
@@ -1635,22 +1607,18 @@
 </article>
 							
 <!-- Diseases -->
-<article id="protocols">
+<article id="diseases">
 
     <!-- SEARCH INTERFACE: PINNED EXACTLY OPPOSITE TO NATIVE [X] -->
-<article id="diseases">
     <div class="protocol-search-corner-container">
-        <div id="searchBoxDiseases" class="search-box">
-            <input type="text" id="searchInputDiseases" placeholder="Search diseases..." onkeyup="filterDiseases()">
-            <button type="button" id="searchBtnDiseases" class="search-btn" onclick="toggleSearchDiseases()">
-                <span id="searchIconWrapperDiseases" class="icon solid fa-search"></span>
+        <div id="searchBox" class="search-box">
+            <input type="text" id="searchInput" placeholder="Search protocols..." onkeyup="filterProtocols()">
+            <button type="button" id="searchBtn" class="search-btn" onclick="toggleSearch()">
+                <!-- Wrapper for handling icon switching cleanly -->
+                <span id="searchIconWrapper" class="icon solid fa-search"></span>
             </button>
         </div>
     </div>
-    
-    <div class="close">Close</div>
-    <h2 class="major">Diseases</h2>
-    </article>
 
     <!-- YOUR NATIVE CLOSE BUTTON LINK -->
     <div class="close">Close</div>
