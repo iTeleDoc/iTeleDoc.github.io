@@ -587,6 +587,22 @@ function filterProtocols() {
     }
 }
 
+// 4. External Clinical Registry Dispatch Controller Interface
+async function executeExternalV3ProtocolLookup(queryText) {
+    const iconWrapper = document.getElementById('searchIconWrapper');
+    if (iconWrapper) iconWrapper.className = "icon solid fa-spinner fa-spin";
+
+    const clinicalRecord = await fetchHighPrecisionData(queryText);
+
+    // FIX: If no data, stop here. No error messages, no dummy text.
+    if (!clinicalRecord) {
+        if (iconWrapper) iconWrapper.className = "icon solid fa-times";
+        return; 
+    }
+
+    // Existing code to build the approach-card...
+    // Only runs if clinicalRecord is valid.
+}
 
 
 /* ==========================================================================
@@ -718,98 +734,185 @@ function filterDiseases() {
     }
 }
 
+// Diseases External Online Lookup Injection Engine
+async function executeExternalV3DiseaseLookup(queryText) {
+    const iconWrapper = document.getElementById('diseaseSearchIconWrapper');
+    if (iconWrapper) iconWrapper.className = "icon solid fa-spinner fa-spin";
+
+    const cleanTerm = queryText.replace(/[^-a-zA-Z0-9 ]/g, '').trim();
+    const clinicalRecord = await fetchHighPrecisionData(cleanTerm);
+    const urgentTriageTip = getUrgentClinicalTip(cleanTerm);
+
+    if (iconWrapper) iconWrapper.className = "icon solid fa-times";
+
+    const diseasesArticle = document.getElementById('diseases');
+    const dynamicCardDeck = document.createElement('div');
+    dynamicCardDeck.className = 'approach-grid v3-dynamic-injected-disease-card';
+    dynamicCardDeck.style.cssText = "margin-top: 20px; width: 100%; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 20px; display: grid;";
+
+    dynamicCardDeck.innerHTML = `
+        <div class="approach-card" style="width: 100%; grid-column: 1 / -1; display: flex; flex-direction: column; align-items: start; position: relative;">
+            <span style="position: absolute; top: 25px; right: 25px; width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; box-shadow: 0 0 8px #2ecc71;"></span>
+            
+            <div style="display: flex; align-items: center; width: 100%; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 8px;">
+                <span class="protocol-tag" style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-weight: 600 !important; font-size: 0.65rem !important; letter-spacing: 1px !important; text-transform: uppercase !important; background: rgba(51, 153, 255, 0.15); color: #3399ff; border: 1px solid rgba(51, 153, 255, 0.3); padding: 0.2rem 0.6rem; border-radius: 4px; display: inline-block; line-height: 1.2;">${clinicalRecord.tag}</span>
+            </div>
+            <h4 style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-weight: 700 !important; font-size: 1.2rem !important; letter-spacing: 1px !important; text-transform: uppercase !important; margin: 0 0 0.5rem 0; color: #ffffff !important; padding-right: 20px;">${cleanTerm.toUpperCase()} ANALYSIS</h4>
+            
+            <h5 style="color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0 0.5rem 0; font-weight: 600;">Pathology Diagnostic Parameters:</h5>
+            <ol style="margin: 0 0 1.5rem 1.25rem; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.6; width: 100%;">
+                ${clinicalRecord.steps.map(step => `<li>${step}</li>`).join('')}
+            </ol>
+
+            <div style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-size: 0.85rem !important; line-height: 1.5 !important; background: rgba(255, 51, 51, 0.05) !important; color: #ffffff !important; border-left: 3px solid #ff3333; padding: 12px 16px !important; border-radius: 4px; margin-top: auto; width: 100%; box-sizing: border-box;">
+                <strong style="color: #ff5555 !important; font-weight: 600 !important; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">Urgent Triage Rule:</strong> ${urgentTriageTip}
+            </div>
+        </div>
+    `;
+
+    const insertionMarker = diseasesArticle.querySelector('.more-container-services') || diseasesArticle.querySelector('ul.actions');
+    if (insertionMarker) {
+        diseasesArticle.insertBefore(dynamicCardDeck, insertionMarker);
+    } else {
+        diseasesArticle.appendChild(dynamicCardDeck);
+    }
+}
 
 
+/* ==========================================================================
+   GLOBAL INTERACTIVE EVENT ROUTER CONTROLLERS
+   ========================================================================== */
 
-/*
-    Unified Clinical Search Engine: Local-First with API Fallback
-*/
+// Unified Document Level Keydown Handler for Input Form Fields (Fixes late dynamic binding bugs)
+document.addEventListener('keydown', function(event) {
+    const target = event.target;
+    if (!target) return;
 
-(function($) {
-    // Standard initialization
-    var $window = $(window), $body = $('body'), $wrapper = $('#wrapper'), $header = $('#header'), $footer = $('#footer'), $main = $('#main'), $main_articles = $main.children('article');
-
-    breakpoints({ xlarge: ['1281px', '1680px'], large: ['981px', '1280px'], medium: ['737px', '980px'], small: ['481px', '736px'], xsmall: ['361px', '480px'], xxsmall: [null, '360px'] });
-
-    $window.on('load', function() { window.setTimeout(function() { $body.removeClass('is-preload'); }, 100); });
-
-    /* ==========================================================================
-       UNIFIED SEARCH DISPATCHER (Handles both modules)
-       ========================================================================== */
-    window.unifiedSearch = async function(query, moduleType) {
-        const isDisease = (moduleType === 'disease');
-        const input = isDisease ? document.getElementById('diseaseSearchInput') : document.getElementById('searchInput');
-        const icon = document.getElementById(isDisease ? 'diseaseSearchIconWrapper' : 'searchIconWrapper');
-        const dot = document.getElementById(isDisease ? 'diseaseSearchStatusDot' : 'searchStatusDot');
+    // 1. Handle Protocols Key Enter Routing
+    if (target.id === 'searchInput' && (event.key === 'Enter' || event.keyCode === 13)) {
+        const query = target.value.trim();
+        const iconWrapper = document.getElementById('searchIconWrapper');
         
-        input.blur();
-        if (dot) dot.style.background = '#808080'; // Reset dot to Gray
-
-        // 1. Search All Local Cards
-        let foundLocally = false;
-        document.querySelectorAll('.approach-card').forEach(card => {
-            const text = card.textContent.toLowerCase();
-            if (text.includes(query.toLowerCase())) {
-                card.style.display = 'flex';
-                foundLocally = true;
-            } else {
-                card.style.display = 'none';
-            }
-        });
-
-        // 2. If no local matches, trigger FDA API (Green Dot)
-        if (!foundLocally) {
-            if (dot) dot.style.background = '#2ecc71'; // Turn Green
-            const apiData = await fetchExternalClinicalData(query);
-            if (apiData) {
-                renderApiResult(apiData, isDisease);
-            }
+        if (iconWrapper && iconWrapper.classList.contains('fa-globe') && query !== "") {
+            event.preventDefault();
+            executeExternalV3ProtocolLookup(query);
         }
-    };
-
-    /* ==========================================================================
-       EXTERNAL FDA API ENGINE
-       ========================================================================== */
-    async function fetchExternalClinicalData(query) {
-        try {
-            const url = `https://api.fda.gov/drug/label.json?search=indications_and_usage:${query.replace(/\s+/g, '+')}&limit=1`;
-            const response = await fetch(url);
-            const data = await response.json();
-            if (!data.results) return null;
-
-            return {
-                tag: "Clinical Protocol",
-                title: data.results[0].openfda.brand_name ? data.results[0].openfda.brand_name[0] : query.toUpperCase(),
-                steps: data.results[0].indications_and_usage[0].split('.').slice(0, 4)
-            };
-        } catch (e) { return null; }
     }
 
-    function renderApiResult(data, isDisease) {
-        const target = isDisease ? document.getElementById('diseases') : document.getElementById('protocols');
-        const wrapper = document.createElement('div');
-        wrapper.className = 'approach-grid v3-dynamic-injected-card';
-        wrapper.innerHTML = `
-            <div class="approach-card">
-                <span class="protocol-tag">${data.tag}</span>
-                <h4>${data.title}</h4>
-                <ul style="list-style-type: disc; padding-left: 20px;">
-                    ${data.steps.map(s => `<li>${s.trim()}.</li>`).join('')}
-                </ul>
-            </div>`;
-        target.prepend(wrapper);
+    // 2. Handle Diseases Key Enter Routing
+    if (target.id === 'diseaseSearchInput' && (event.key === 'Enter' || event.keyCode === 13)) {
+        const query = target.value.trim();
+        const iconWrapper = document.getElementById('diseaseSearchIconWrapper');
+        
+        if (iconWrapper && iconWrapper.classList.contains('fa-globe') && query !== "") {
+            event.preventDefault();
+            executeExternalV3DiseaseLookup(query);
+        }
+    }
+});
+
+// Blur catching context layout resetting logic
+document.addEventListener('click', function(event) {
+    const searchBox = document.getElementById('searchBox');
+    const searchInput = document.getElementById('searchInput');
+    const iconWrapper = document.getElementById('searchIconWrapper');
+    
+    if (searchBox && searchInput && !searchBox.contains(event.target) && searchInput.value.trim() === "") {
+        searchBox.classList.remove('active');
+        if (iconWrapper) iconWrapper.className = "icon solid fa-search";
     }
 
-    // Initialize listeners for existing inputs
-    document.addEventListener('DOMContentLoaded', () => {
-        const inputs = ['searchInput', 'diseaseSearchInput'];
-        inputs.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.addEventListener('keypress', (e) => {
-                if(e.key === 'Enter') unifiedSearch(el.value, id.includes('disease') ? 'disease' : 'protocol');
-            });
-        });
-    });
+    const dSearchBox = document.getElementById('diseaseSearchBox');
+    const dSearchInput = document.getElementById('diseaseSearchInput');
+    const dIconWrapper = document.getElementById('diseaseSearchIconWrapper');
+    
+    if (dSearchBox && dSearchInput && !dSearchBox.contains(event.target) && dSearchInput.value.trim() === "") {
+        dSearchBox.classList.remove('active');
+        if (dIconWrapper) dIconWrapper.className = "icon solid fa-search";
+    }
+});
 
-    // ... (Keep your original Nav and Menu toggle logic here)
-})(jQuery);
+
+/* ==========================================================================
+   DYNAMIC CLINICAL TRIAGE ENGINE (COMPREHENSIVE URGENT PROTOCOLS)
+   ========================================================================== */
+   function getUrgentClinicalTip(condition) {
+    const term = condition.toLowerCase();
+    
+    if (term.includes('myocarditis') || term.includes('pericarditis')) {
+        return "Continuous 12-lead ECG monitoring is mandatory. Rule out acute coronary syndrome (ACS). Restrict intense physical activity immediately; initiate supportive cardiac care and evaluate for signs of progressive cardiogenic shock or high-grade AV blocks.";
+    }
+    if (term.includes('infarction') || term.includes('mi ') || term.includes('heart attack') || term.includes('coronary')) {
+        return "EMERGENCY: Initiate immediate high-flow oxygen if SpO2 < 90%, administer chewed Aspirin 162-325 mg, and establish dual IV access. Obtain a stat 12-lead ECG within 10 minutes and activate the Cardiac Catheterization Lab for immediate reperfusion therapy.";
+    }
+    if (term.includes('arrhythmia') || term.includes('fibrillation') || term.includes('tachycardia')) {
+        return "Assess hemodynamic stability immediately. If unstable (hypotension, altered mental status, chest pain), prepare for immediate synchronized cardioversion or transcutaneous pacing. If stable, obtain a 12-lead ECG and consider vagal maneuvers or targeted antiarrhythmic infusions.";
+    }
+    if (term.includes('sepsis') || term.includes('septic') || term.includes('shock')) {
+        return "CRITICAL TIME-DEPENDENT PROTOCOL: Draw tracking blood cultures immediately before initiating broad-spectrum IV antibiotics. Administer a stat 30 mL/kg crystalloid fluid bolus for hypotension or lactate >= 4.0 mmol/L. Prepare immediate central venous access and start Norepinephrine if fluid-refractory.";
+    }
+    if (term.includes('anaphylaxis') || term.includes('allergic')) {
+        return "IMMEDIATE ACTION REQUIRED: Administer Epinephrine 0.3 mg IM (1:1000) in the anterolateral thigh immediately. Secure the airway, place the patient recumbent with legs elevated, provide high-flow oxygen, and prepare rapid crystal fluid volumes via large-bore IV lines.";
+    }
+    if (term.includes('asthma') || term.includes('copd') || term.includes('bronchospasm')) {
+        return "Administer immediate continuous inline nebulized Albuterol mixed with Ipatropium Bromide. Provide supplemental oxygen titrated to an SpO2 of 88-92% for COPD or 94-98% for acute asthma. Initiate early IV or PO systemic corticosteroids and prepare for non-invasive positive pressure ventilation (BiPAP) if respiratory distress increases.";
+    }
+    if (term.includes('embolism') || term.includes('pe ')) {
+        return "Maintain strict bed rest to prevent clot dislodgement. Provide immediate high-flow oxygen therapy. Evaluate hemodynamics rapidly; prepare for therapeutic anticoagulation with Unfractionated Heparin (UFH) bolus/infusion, or immediate thrombolysis if signs of obstructive shock or right ventricular failure occur.";
+    }
+    if (term.includes('stroke') || term.includes('cva') || term.includes('ischemic')) {
+        return "TIME IS BRAIN: Perform an immediate stroke scale assessment (NIHSS) and note exact Last Known Well (LKW) time. Obtain an urgent non-contrast head CT within 20 minutes to rule out intracranial hemorrhage. Maintain blood pressure below 185/110 mmHg if a candidate for IV thrombolysis.";
+    }
+    if (term.includes('seizure') || term.includes('epilepticus')) {
+        return "Protect the airway and prevent physical trauma; do not insert items into the mouth. If seizure activity exceeds 5 minutes, initiate Status Epilepticus Protocol: administer Lorazepam 4 mg IV push over 2 minutes. Establish secondary IV lines and prepare a loading infusion of Levetiracetam or Fosphenytoin.";
+    }
+    if (term.includes('diabetic') || term.includes('dka') || term.includes('hhs')) {
+        return "Initiate aggressive fluid resuscitation immediately with 0.9% Normal Saline (typically 1-1.5L in the first hour). Check serum potassium levels before administering IV insulin; if potassium < 3.3 mEq/L, hold insulin and correct potassium immediately to prevent fatal cardiac arrhythmias.";
+    }
+    // High-Precision Matching Additions for Acid-Base, Metabolic, and Electrolyte Crises
+    if (term.includes('acid') || term.includes('alkalosis') || term.includes('base') || term.includes('electrolyte') || term.includes('metabolic')) {
+        return "CRITICAL FLUID/ELECTROLYTE MAP: Draw a stat arterial or venous blood gas (ABG/VBG) along with a comprehensive metabolic panel (CMP) and ionized calcium. Assess respiratory compensation efficiency immediately. Isolate underlying etiology (e.g., toxic ingestion, severe sepsis, renal failures, profound fluid depletion) before administering correction infusions.";
+    }
+
+    return "Stabilize immediate life threats first: Assess Airway patency, Breathing work/adequacy, and Circulatory perfusion parameters (ABC). Establish dual large-bore IV access, apply continuous cardiac monitoring, note trends in serial vital signs, and prepare immediate diagnostic verification lines.";
+}
+
+/* ==========================================================================
+   OpenFDA CLINICAL LOOKUP
+   ========================================================================== */
+   async function fetchHighPrecisionData(queryString) {
+    // OpenFDA Drug Labeling API: No key required for basic use
+    const baseUrl = "https://api.fda.gov/drug/label.json";
+    
+    // Construct the query: We search the 'indications_and_usage' field
+    // We replace spaces with '+' for the URL
+    const cleanQuery = queryString.replace(/\s+/g, '+');
+    const url = `${baseUrl}?search=indications_and_usage:${cleanQuery}&limit=1`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("API Connection Failed");
+
+        const data = await response.json();
+        
+        // Safety check: Does the result exist?
+        if (!data.results || data.results.length === 0) {
+            return null; // Signals the UI to stop and not show anything
+        }
+
+        const record = data.results[0];
+        
+        // Extracting data exactly to match your card design
+        return {
+            tag: "FDA Clinical Protocol",
+            title: queryString.toUpperCase(),
+            // We take the first 4 sentences of the 'indications_and_usage' field
+            steps: record.indications_and_usage 
+                ? record.indications_and_usage[0].split('.').slice(0, 4) 
+                : ["No specific protocol data found."]
+        };
+    } catch (error) {
+        console.error("Lookup Error:", error);
+        return null; // Return null so the UI doesn't crash or show errors
+    }
+}
