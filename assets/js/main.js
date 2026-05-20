@@ -887,7 +887,7 @@ document.addEventListener('click', function(event) {
 }
 
 /* ==========================================================================
-   STRICT TEMPLATE-MATCHING ENGINE
+   FINAL INTEGRATED CLINICAL ENGINE
    ========================================================================== */
 async function fetchHighPrecisionData(queryString) {
     const baseUrl = "https://api.fda.gov/drug/label.json";
@@ -900,14 +900,46 @@ async function fetchHighPrecisionData(queryString) {
 
         const record = data.results[0];
         
-        // Return object mapped to match the EXACT elements of your design
+        // Helper: Sentence Case & Clean Up
+        const formatStep = (str) => {
+            if (!str) return "";
+            const clean = str.trim().toLowerCase();
+            return clean.charAt(0).toUpperCase() + clean.slice(1);
+        };
+
         return {
             tagClass: "tag-resuscitation",
             tagName: "Clinical Protocol",
             title: queryString.toUpperCase(),
-            description: "FDA-sourced clinical administration guidelines.",
-            steps: record.indications_and_usage ? record.indications_and_usage[0].split('. ').slice(0, 4) : [],
-            tip: "Review patient contraindications before initiating treatment."
+            // Extract, clean, and convert to sentence case
+            steps: record.indications_and_usage 
+                ? record.indications_and_usage[0].split('.').filter(s => s.trim().length > 10).map(formatStep) 
+                : []
         };
     } catch (e) { return null; }
+}
+
+async function executeExternalV3ProtocolLookup(queryText) {
+    const data = await fetchHighPrecisionData(queryText);
+    
+    // EXIT IMMEDIATELY if no data found: Nothing is displayed, no triage rule added
+    if (!data || data.steps.length === 0) return;
+
+    const protocolsArticle = document.getElementById('protocols');
+    const wrapper = document.createElement('div');
+    wrapper.className = 'approach-grid v3-dynamic-injected-card';
+
+    // Matches your exact requested structure with bullets
+    wrapper.innerHTML = `
+        <div class="approach-card">
+            <span class="protocol-tag ${data.tagClass}">${data.tagName}</span>
+            <h4>${data.title}</h4>
+            <ul style="list-style-type: disc; list-style-position: outside; padding-left: 20px; color: #DBDBDB; font-size: 0.9rem;">
+                ${data.steps.map(step => `<li style="margin-bottom: 8px;">${step}.</li>`).join('')}
+            </ul>
+        </div>
+    `;
+
+    const target = protocolsArticle.querySelector('.more-container-services') || protocolsArticle.querySelector('ul.actions');
+    protocolsArticle.insertBefore(wrapper, target);
 }
