@@ -1937,13 +1937,18 @@ html, body { height: 100%; margin: 0; padding: 0; }
     width: 100%;
 }
 
+/* Container for injected results */
+.v3-dynamic-injected-card {
+    margin-top: 20px;
+    width: 100%;
+}
+
 .approach-card {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 25px;
     border-radius: 8px;
-    display: flex;
-    flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .protocol-tag {
@@ -1954,14 +1959,13 @@ html, body { height: 100%; margin: 0; padding: 0; }
     background: #444;
     color: #fff;
     margin-bottom: 10px;
-    width: fit-content;
 }
 
 .tag-resuscitation { background: #e74c3c; }
 
 .approach-card h4 {
     color: #ffffff;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-size: 1.1rem;
 }
 
