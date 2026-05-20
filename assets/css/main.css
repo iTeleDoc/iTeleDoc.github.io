@@ -2571,3 +2571,48 @@ html, body { height: 100%; margin: 0; padding: 0; }
     border-radius: 4px;
     margin-top: 15px !important;
 }
+
+/* ==========================================================================
+   Universal Local Search Engine
+   ========================================================================== */
+
+.search-box.active {
+    width: 100%;
+    max-width: 420px;
+}
+
+#searchInput {
+    transition: all 0.25s ease;
+}
+
+.universal-search-hidden {
+    display: none !important;
+}
+
+.universal-no-results {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(12px);
+    text-align: center;
+}
+
+.universal-no-results p {
+    margin: 0;
+    opacity: 0.85;
+}
+
+.approach-card,
+.service-card,
+.card {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.approach-card:hover,
+.service-card:hover,
+.card:hover {
+    transform: translateY(-2px);
+}
