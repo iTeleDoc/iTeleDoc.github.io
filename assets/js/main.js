@@ -273,9 +273,9 @@
 										.triggerHandler('resize.flexbox-fix');
 
 								// Unlock.
-									setTimeout(setTimeout(function() {
+									setTimeout(function() {
 										locked = false;
-									}, delay), 25);
+									}, delay);
 
 							}, 25);
 
@@ -594,6 +594,7 @@ async function executeExternalV3ProtocolLookup(queryText) {
 
     const cleanTerm = queryText.replace(/[^-a-zA-Z0-9 ]/g, '').trim();
     const clinicalRecord = await fetchHighPrecisionData(cleanTerm);
+    const urgentTriageTip = getUrgentClinicalTip(cleanTerm);
 
     if (!clinicalRecord) {
         if (iconWrapper) iconWrapper.className = "icon solid fa-times";
@@ -616,10 +617,14 @@ async function executeExternalV3ProtocolLookup(queryText) {
             </div>
             <h4 style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-weight: 700 !important; font-size: 1.2rem !important; letter-spacing: 1px !important; text-transform: uppercase !important; margin: 0 0 0.5rem 0; color: #ffffff !important; padding-right: 20px;">${cleanTerm.toUpperCase()} CLINICAL PROTOCOL</h4>
             
-            <h5 style="color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0 0.5rem 0; font-weight: 600;">Regulated Directive Directives:</h5>
-            <ol style="margin: 0 0 1.5rem 1.25rem; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.6; width: 100%;">
-                ${clinicalRecord.steps.map(step => `<li>${step}</li>`).join('')}
-            </ol>
+            <h5 style="color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0 0.5rem 0; font-weight: 600;">Regulated Directive Actions:</h5>
+            <ul style="margin: 0 0 1.5rem 1.25rem; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.6; width: 100%; list-style-type: disc !important;">
+                ${clinicalRecord.steps.map(step => `<li style="margin-bottom: 0.25rem;">${step}</li>`).join('')}
+            </ul>
+
+            <div style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-size: 0.85rem !important; line-height: 1.5 !important; background: rgba(255, 51, 51, 0.05) !important; color: #ffffff !important; border-left: 3px solid #ff3333; padding: 12px 16px !important; border-radius: 4px; margin-top: auto; width: 100%; box-sizing: border-box;">
+                <strong style="color: #ff5555 !important; font-weight: 600 !important; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">Urgent Triage Rule:</strong> ${urgentTriageTip}
+            </div>
         </div>
     `;
 
@@ -656,7 +661,7 @@ function toggleDiseaseSearch(event) {
 
     const query = searchInput.value.trim();
 
-    if (iconWrapper && iconWrapper.classList.contains('fa-globe')) {
+    if (iconWrapper && (iconWrapper.classList.contains('fa-globe') || iconWrapper.classList.contains('fa-cloud-download-alt'))) {
         executeExternalV3DiseaseLookup(query);
         return false;
     }
@@ -770,6 +775,11 @@ async function executeExternalV3DiseaseLookup(queryText) {
     const clinicalRecord = await fetchHighPrecisionData(cleanTerm);
     const urgentTriageTip = getUrgentClinicalTip(cleanTerm);
 
+    if (!clinicalRecord) {
+        if (iconWrapper) iconWrapper.className = "icon solid fa-times";
+        return;
+    }
+
     if (iconWrapper) iconWrapper.className = "icon solid fa-times";
 
     const diseasesArticle = document.getElementById('diseases');
@@ -787,9 +797,9 @@ async function executeExternalV3DiseaseLookup(queryText) {
             <h4 style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-weight: 700 !important; font-size: 1.2rem !important; letter-spacing: 1px !important; text-transform: uppercase !important; margin: 0 0 0.5rem 0; color: #ffffff !important; padding-right: 20px;">${cleanTerm.toUpperCase()} ANALYSIS</h4>
             
             <h5 style="color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0 0.5rem 0; font-weight: 600;">Pathology Diagnostic Parameters:</h5>
-            <ol style="margin: 0 0 1.5rem 1.25rem; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.6; width: 100%;">
-                ${clinicalRecord.steps.map(step => `<li>${step}</li>`).join('')}
-            </ol>
+            <ul style="margin: 0 0 1.5rem 1.25rem; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.6; width: 100%; list-style-type: disc !important;">
+                ${clinicalRecord.steps.map(step => `<li style="margin-bottom: 0.25rem;">${step}</li>`).join('')}
+            </ul>
 
             <div style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-size: 0.85rem !important; line-height: 1.5 !important; background: rgba(255, 51, 51, 0.05) !important; color: #ffffff !important; border-left: 3px solid #ff3333; padding: 12px 16px !important; border-radius: 4px; margin-top: auto; width: 100%; box-sizing: border-box;">
                 <strong style="color: #ff5555 !important; font-weight: 600 !important; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">Urgent Triage Rule:</strong> ${urgentTriageTip}
@@ -863,7 +873,7 @@ document.addEventListener('click', function(event) {
 /* ==========================================================================
    DYNAMIC CLINICAL TRIAGE ENGINE (COMPREHENSIVE URGENT PROTOCOLS)
    ========================================================================== */
-   function getUrgentClinicalTip(condition) {
+function getUrgentClinicalTip(condition) {
     const term = condition.toLowerCase();
     
     if (term.includes('myocarditis') || term.includes('pericarditis')) {
@@ -896,7 +906,6 @@ document.addEventListener('click', function(event) {
     if (term.includes('diabetic') || term.includes('dka') || term.includes('hhs')) {
         return "Initiate aggressive fluid resuscitation immediately with 0.9% Normal Saline (typically 1-1.5L in the first hour). Check serum potassium levels before administering IV insulin; if potassium < 3.3 mEq/L, hold insulin and correct potassium immediately to prevent fatal cardiac arrhythmias.";
     }
-    // High-Precision Matching Additions for Acid-Base, Metabolic, and Electrolyte Crises
     if (term.includes('acid') || term.includes('alkalosis') || term.includes('base') || term.includes('electrolyte') || term.includes('metabolic')) {
         return "CRITICAL FLUID/ELECTROLYTE MAP: Draw a stat arterial or venous blood gas (ABG/VBG) along with a comprehensive metabolic panel (CMP) and ionized calcium. Assess respiratory compensation efficiency immediately. Isolate underlying etiology (e.g., toxic ingestion, severe sepsis, renal failures, profound fluid depletion) before administering correction infusions.";
     }
@@ -905,41 +914,47 @@ document.addEventListener('click', function(event) {
 }
 
 /* ==========================================================================
-   OpenFDA CLINICAL LOOKUP
+   groq.ai CLINICAL LOOKUP
    ========================================================================== */
-   async function fetchHighPrecisionData(queryString) {
-    // OpenFDA Drug Labeling API: No key required for basic use
-    const baseUrl = "https://api.fda.gov/drug/label.json";
-    
-    // Construct the query: We search the 'indications_and_usage' field
-    // We replace spaces with '+' for the URL
-    const cleanQuery = queryString.replace(/\s+/g, '+');
-    const url = `${baseUrl}?search=indications_and_usage:${cleanQuery}&limit=1`;
+async function fetchHighPrecisionData(queryString) {
+    const url = "https://api.groq.com/v1/chat/completions";
+    // Place your Groq API key here
+    const apiKey = "YOUR_GROQ_API_KEY"; 
+
+    const systemPrompt = `You are an expert clinical medicine assistant. Provide structured, evidence-based data for the requested pathology or treatment protocol. Return your answer precisely as a JSON object with two keys: "tag" (a short string category, e.g., "Cardiology Guidance") and "steps" (an array of exactly 4 concise, clear clinical actions, parameters, or guidelines). Do not return any text outside of the valid JSON structure.`;
 
     try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("API Connection Failed");
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: "mixtral-8x7b-32768",
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: `Provide clinical data for: ${queryString}` }
+                ],
+                temperature: 0.2,
+                response_format: { type: "json_object" }
+            })
+        });
+
+        if (!response.ok) throw new Error("Groq API Request Failed");
 
         const data = await response.json();
-        
-        // Safety check: Does the result exist?
-        if (!data.results || data.results.length === 0) {
-            return null; // Signals the UI to stop and not show anything
-        }
+        if (!data.choices || data.choices.length === 0) return null;
 
-        const record = data.results[0];
+        const content = JSON.parse(data.choices[0].message.content);
         
-        // Extracting data exactly to match your card design
         return {
-            tag: "FDA Clinical Protocol",
+            tag: content.tag || "Groq AI Clinical Registry",
             title: queryString.toUpperCase(),
-            // We take the first 4 sentences of the 'indications_and_usage' field
-            steps: record.indications_and_usage 
-                ? record.indications_and_usage[0].split('.').slice(0, 4) 
-                : ["No specific protocol data found."]
+            steps: Array.isArray(content.steps) ? content.steps.slice(0, 4) : ["No specific step data generated."]
         };
     } catch (error) {
         console.error("Lookup Error:", error);
-        return null; // Return null so the UI doesn't crash or show errors
+        return null;
     }
 }
