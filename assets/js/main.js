@@ -589,19 +589,28 @@ function filterProtocols() {
 
 // 4. External Clinical Registry Dispatch Controller Interface
 async function executeExternalV3ProtocolLookup(queryText) {
-    const iconWrapper = document.getElementById('searchIconWrapper');
-    if (iconWrapper) iconWrapper.className = "icon solid fa-spinner fa-spin";
+    const data = await fetchHighPrecisionData(queryText);
+    if (!data) return;
 
-    const clinicalRecord = await fetchHighPrecisionData(queryText);
+    const protocolsArticle = document.getElementById('protocols');
+    const wrapper = document.createElement('div');
+    wrapper.className = 'approach-grid v3-dynamic-injected-card';
 
-    // FIX: If no data, stop here. No error messages, no dummy text.
-    if (!clinicalRecord) {
-        if (iconWrapper) iconWrapper.className = "icon solid fa-times";
-        return; 
-    }
+    // This template matches your design perfectly
+    wrapper.innerHTML = `
+        <div class="approach-card">
+            <span class="protocol-tag ${data.tagClass}">${data.tagName}</span>
+            <h4>${data.title}</h4>
+            <p><strong>${data.description}</strong></p>
+            <ul style="list-style-type: disc; list-style-position: outside; padding-left: 20px; color: #DBDBDB; font-size: 0.9rem;">
+                ${data.steps.map(step => `<li>${step}.</li>`).join('')}
+            </ul>
+            <div class="clinical-tip"><strong>Clinical Tip:</strong> ${data.tip}</div>
+        </div>
+    `;
 
-    // Existing code to build the approach-card...
-    // Only runs if clinicalRecord is valid.
+    const target = protocolsArticle.querySelector('.more-container-services') || protocolsArticle.querySelector('ul.actions');
+    protocolsArticle.insertBefore(wrapper, target);
 }
 
 
