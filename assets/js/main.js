@@ -878,41 +878,27 @@ document.addEventListener('click', function(event) {
 }
 
 /* ==========================================================================
-   OpenFDA CLINICAL LOOKUP
+   STRICT TEMPLATE-MATCHING ENGINE
    ========================================================================== */
-   async function fetchHighPrecisionData(queryString) {
-    // OpenFDA Drug Labeling API: No key required for basic use
+async function fetchHighPrecisionData(queryString) {
     const baseUrl = "https://api.fda.gov/drug/label.json";
-    
-    // Construct the query: We search the 'indications_and_usage' field
-    // We replace spaces with '+' for the URL
-    const cleanQuery = queryString.replace(/\s+/g, '+');
-    const url = `${baseUrl}?search=indications_and_usage:${cleanQuery}&limit=1`;
+    const url = `${baseUrl}?search=indications_and_usage:${queryString.replace(/\s+/g, '+')}&limit=1`;
 
     try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error("API Connection Failed");
-
         const data = await response.json();
-        
-        // Safety check: Does the result exist?
-        if (!data.results || data.results.length === 0) {
-            return null; // Signals the UI to stop and not show anything
-        }
+        if (!data.results) return null;
 
         const record = data.results[0];
         
-        // Extracting data exactly to match your card design
+        // Return object mapped to match the EXACT elements of your design
         return {
-            tag: "FDA Clinical Protocol",
+            tagClass: "tag-resuscitation",
+            tagName: "Clinical Protocol",
             title: queryString.toUpperCase(),
-            // We take the first 4 sentences of the 'indications_and_usage' field
-            steps: record.indications_and_usage 
-                ? record.indications_and_usage[0].split('.').slice(0, 4) 
-                : ["No specific protocol data found."]
+            description: "FDA-sourced clinical administration guidelines.",
+            steps: record.indications_and_usage ? record.indications_and_usage[0].split('. ').slice(0, 4) : [],
+            tip: "Review patient contraindications before initiating treatment."
         };
-    } catch (error) {
-        console.error("Lookup Error:", error);
-        return null; // Return null so the UI doesn't crash or show errors
-    }
+    } catch (e) { return null; }
 }
