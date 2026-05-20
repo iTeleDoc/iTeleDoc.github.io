@@ -2492,7 +2492,22 @@ html, body { height: 100%; margin: 0; padding: 0; }
 
 
 
-.v3-api-card { margin-top: 20px; width: 100%; }
-.approach-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 25px; border-radius: 8px; margin-bottom: 20px; }
-.protocol-tag { display: inline-block; padding: 2px 8px; font-size: 0.7rem; text-transform: uppercase; background: #444; color: #fff; margin-bottom: 10px; }
-.tag-resuscitation { background: #e74c3c; }
+
+
+/* Container for search results placed under the search bar */
+#searchResultsContainer {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Green Dot Positioning */
+.search-wrapper { position: relative; display: inline-block; }
+#searchStatusDot {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #808080;
+}
