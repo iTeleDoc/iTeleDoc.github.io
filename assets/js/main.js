@@ -401,3 +401,15 @@ function renderGeminiCard(data, $article) {
         $article.find('.close').after(dynamicCardHtml);
     }
 }
+
+
+
+// Add this to your main.js
+$(document).on('click', '.search-box', function(event) {
+    event.stopPropagation(); // Prevents click inside search from closing the article
+});
+
+$(document).on('click', '#searchBtn', function(event) {
+    event.stopPropagation(); // Prevents button click from closing the article
+    toggleSearch(); // Your existing function
+});
