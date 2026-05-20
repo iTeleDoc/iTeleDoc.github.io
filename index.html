@@ -64,10 +64,19 @@
 <article id="protocols">
 
     <!-- SEARCH INTERFACE: PINNED EXACTLY OPPOSITE TO NATIVE [X] -->
-    <div id="searchBox" class="search-box-container">
-    <input type="text" id="searchInput" placeholder="Search local or tap globe for global registry..." oninput="filterProtocols()">
-    <span id="searchIconWrapper" class="icon solid fa-search" onclick="toggleSearch(event)"></span>
-				</div>
+<div id="searchBox" class="search-box">
+    <input type="text" id="searchInput" placeholder="Search local protocols or look up globally..." oninput="filterProtocols()">
+    <a href="#" class="search-btn" onclick="toggleSearch(event)">
+        <i id="searchIconWrapper" class="icon solid fa-search"></i>
+    </a>
+</div>
+
+<div id="diseaseSearchBox" class="search-box">
+    <input type="text" id="diseaseSearchInput" placeholder="Search local conditions or look up globally..." oninput="filterDiseases()">
+    <a href="#" class="search-btn" onclick="toggleDiseaseSearch(event)">
+        <i id="diseaseSearchIconWrapper" class="icon solid fa-search"></i>
+    </a>
+</div>
 
     <!-- YOUR NATIVE CLOSE BUTTON LINK -->
     <div class="close">Close</div>
@@ -1605,10 +1614,14 @@
 <article id="diseases">
 
     <!-- SEARCH INTERFACE: PINNED EXACTLY OPPOSITE TO NATIVE [X] -->
-    <div id="diseaseSearchBox" class="search-box-container">
-    <input type="text" id="diseaseSearchInput" placeholder="Search local or tap globe for global registry..." oninput="filterDiseases()">
-    <span id="diseaseSearchIconWrapper" class="icon solid fa-search" onclick="toggleDiseaseSearch(event)"></span>
-				</div>
+    <div class="protocol-search-corner-container">
+        <div id="diseaseSearchBox" class="search-box">
+            <input type="text" id="diseaseSearchInput" placeholder="Search diseases..." onkeyup="filterDiseases()">
+            <button type="button" id="diseaseSearchBtn" class="search-btn" onclick="toggleDiseaseSearch()">
+                <span id="diseaseSearchIconWrapper" class="icon solid fa-search"></span>
+            </button>
+        </div>
+    </div>
 
     <!-- YOUR NATIVE CLOSE BUTTON LINK -->
     <div class="close">Close</div>
