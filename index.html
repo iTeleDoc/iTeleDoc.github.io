@@ -64,15 +64,10 @@
 <article id="protocols">
 
     <!-- SEARCH INTERFACE: PINNED EXACTLY OPPOSITE TO NATIVE [X] -->
-    <div class="protocol-search-corner-container">
-        <div id="searchBox" class="search-box">
-            <input type="text" id="searchInput" placeholder="Search protocols..." onkeyup="filterProtocols()">
-            <button type="button" id="searchBtn" class="search-btn" onclick="toggleSearch()">
-                <!-- Wrapper for handling icon switching cleanly -->
-                <span id="searchIconWrapper" class="icon solid fa-search"></span>
-            </button>
-        </div>
-    </div>
+    <div id="searchBox" class="search-box-container">
+    <input type="text" id="searchInput" placeholder="Search local or tap globe for global registry..." oninput="filterProtocols()">
+    <span id="searchIconWrapper" class="icon solid fa-search" onclick="toggleSearch(event)"></span>
+				</div>
 
     <!-- YOUR NATIVE CLOSE BUTTON LINK -->
     <div class="close">Close</div>
@@ -1610,14 +1605,10 @@
 <article id="diseases">
 
     <!-- SEARCH INTERFACE: PINNED EXACTLY OPPOSITE TO NATIVE [X] -->
-    <div class="protocol-search-corner-container">
-        <div id="diseaseSearchBox" class="search-box">
-            <input type="text" id="diseaseSearchInput" placeholder="Search diseases..." onkeyup="filterDiseases()">
-            <button type="button" id="diseaseSearchBtn" class="search-btn" onclick="toggleDiseaseSearch()">
-                <span id="diseaseSearchIconWrapper" class="icon solid fa-search"></span>
-            </button>
-        </div>
-    </div>
+    <div id="diseaseSearchBox" class="search-box-container">
+    <input type="text" id="diseaseSearchInput" placeholder="Search local or tap globe for global registry..." oninput="filterDiseases()">
+    <span id="diseaseSearchIconWrapper" class="icon solid fa-search" onclick="toggleDiseaseSearch(event)"></span>
+				</div>
 
     <!-- YOUR NATIVE CLOSE BUTTON LINK -->
     <div class="close">Close</div>
