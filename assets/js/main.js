@@ -1,5 +1,4 @@
 /*
-	Main Script with High-Precision Multi-Registry Fallback Layer
 */
 
 (function($) {
@@ -404,7 +403,7 @@
     if (menu) menu.classList.toggle("show");
   }
 
-  // Toggle Appointment Menu
+  // Toggle Menu
   const menuButton = document.getElementById("menuButton");
   const menuContent = document.getElementById("menuContent");
 
@@ -446,7 +445,7 @@
 
 
 /* ==========================================================================
-   Clinical Protocols Module: Layout, Toggles, & Filter Engine
+   Article Module: Layout, Toggles, & Filter Engine
    ========================================================================== */
 
 // 1. Integrated Search Expand, Collapse, and Click Action Routing Handler
@@ -471,7 +470,7 @@ function toggleSearch(event) {
     const query = searchInput.value.trim();
 
     if (iconWrapper && (iconWrapper.classList.contains('fa-globe') || iconWrapper.classList.contains('fa-cloud-download-alt'))) {
-        // External lookup removed. Local-only search active.
+        executeExternalV3ProtocolLookup(query);
         return false;
     }
 
@@ -488,7 +487,7 @@ function toggleSearch(event) {
 
 // 2. Local Manual Drawer Show More/Less Button Engine
 function toggleShowMore(forceState) {
-    const hiddenContent = document.getElementById('hiddenContentServices');
+    const hiddenContent = document.getElementById('hiddenContent');
     const toggleLink = document.getElementById('showMoreLinkServices');
     
     if (!hiddenContent) return;
@@ -506,88 +505,86 @@ function toggleShowMore(forceState) {
 }
 
 // 3. High-Precision Local Search Filtration Engine with Accurate API Routing
-
-// 3. Universal Local Search Engine (Offline / Local Only)
 function filterProtocols() {
     const searchInput = document.getElementById('searchInput');
-    if (!searchInput) return;
-
-    const query = searchInput.value.toLowerCase().trim();
-
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
     const iconWrapper = document.getElementById('searchIconWrapper');
-    if (iconWrapper) {
-        iconWrapper.className = "icon solid fa-search";
+    
+    const cards = document.querySelectorAll('#protocols .article-card');
+    const sections = document.querySelectorAll('#protocols .approach-grid');
+    const headings = document.querySelectorAll('#protocols .search-target-heading');
+
+    const dynamicCards = document.querySelectorAll('.v3-dynamic-injected-card');
+    dynamicCards.forEach(card => card.remove());
+    document.querySelectorAll('.local-dot-indicator').forEach(dot => dot.remove());
+
+    if (query === '') {
+        if (iconWrapper) iconWrapper.className = "icon solid fa-search";
+        
+        const hiddenDrawer = document.getElementById('hiddenContent');
+        if (hiddenDrawer) hiddenDrawer.style.display = 'none';
+        
+        const toggleLink = document.getElementById('showMoreLinkServices');
+        if (toggleLink) toggleLink.textContent = 'Show More';
+
+        cards.forEach(card => card.style.display = 'flex');
+        sections.forEach(sec => sec.style.display = 'grid');
+        headings.forEach(hd => hd.style.display = 'block');
+        return;
     }
 
-    const searchableCards = document.querySelectorAll(
-        '#main article .approach-card, #main article .service-card, #main article .card, #main article section, #main article .box'
-    );
+    const hiddenDrawer = document.getElementById('hiddenContent');
+    if (hiddenDrawer && (hiddenDrawer.style.display === 'none' || hiddenDrawer.style.display === '')) {
+        hiddenDrawer.style.display = 'block';
+        const toggleLink = document.getElementById('showMoreLinkServices');
+        if (toggleLink) toggleLink.textContent = 'Show Less';
+    }
 
-    const searchableHeadings = document.querySelectorAll(
-        '#main article .search-target-heading'
-    );
+    let totalLocalMatches = 0;
 
-    let totalMatches = 0;
+    cards.forEach(card => {
+        const title = card.querySelector('h4') ? card.querySelector('h4').textContent.toLowerCase() : '';
+        const tags = card.querySelector('.protocol-tag') ? card.querySelector('.protocol-tag').textContent.toLowerCase() : '';
 
-    searchableCards.forEach(card => {
-        const text = card.innerText.toLowerCase();
+        if (title.includes(query) || tags.includes(query)) {
+            card.style.display = 'flex'; 
+            card.style.position = 'relative';
+            totalLocalMatches++;
 
-        if (query === '' || text.includes(query)) {
-            card.style.display = '';
-            card.classList.remove('universal-search-hidden');
-            totalMatches++;
+            if (!card.querySelector('.local-dot-indicator')) {
+                const grayDot = document.createElement('span');
+                grayDot.className = 'local-dot-indicator';
+                grayDot.style.cssText = "position: absolute; top: 25px; right: 25px; width: 8px; height: 8px; background-color: #7f8c8d; border-radius: 50%; box-shadow: 0 0 8px #7f8c8d;";
+                card.appendChild(grayDot);
+            }
         } else {
             card.style.display = 'none';
-            card.classList.add('universal-search-hidden');
         }
     });
 
-    searchableHeadings.forEach(heading => {
-        const nextGrid = heading.nextElementSibling;
+    sections.forEach(grid => {
+        const visibleCards = grid.querySelectorAll('.article-card:not([style*="display: none"])');
+        
+        let heading = grid.previousElementSibling;
+        while (heading && !heading.classList.contains('search-target-heading')) {
+            heading = heading.previousElementSibling;
+        }
 
-        if (!nextGrid) return;
-
-        const visibleCards = nextGrid.querySelectorAll(
-            '.approach-card:not(.universal-search-hidden), .service-card:not(.universal-search-hidden), .card:not(.universal-search-hidden)'
-        );
-
-        if (query === '' || visibleCards.length > 0) {
-            heading.style.display = '';
-            nextGrid.style.display = '';
+        if (visibleCards.length === 0) {
+            grid.style.display = 'none';
+            if (heading) heading.style.display = 'none';
         } else {
-            heading.style.display = 'none';
-            nextGrid.style.display = 'none';
+            grid.style.display = 'grid'; 
+            if (heading) heading.style.display = 'block';
         }
     });
 
-    const hiddenDrawer = document.getElementById('hiddenContentServices');
-    if (hiddenDrawer) {
-        hiddenDrawer.style.display = query ? 'block' : 'none';
-    }
-
-    let noResults = document.getElementById('universalNoResults');
-
-    if (totalMatches === 0 && query !== '') {
-        if (!noResults) {
-            noResults = document.createElement('div');
-            noResults.id = 'universalNoResults';
-            noResults.className = 'universal-no-results';
-
-            noResults.innerHTML = `
-                <h3>No Local Results Found</h3>
-                <p>Universal offline search scanned all local articles and protocols.</p>
-            `;
-
-            const protocols = document.getElementById('protocols');
-            if (protocols) protocols.appendChild(noResults);
-        }
-
-        noResults.style.display = 'block';
-    } else if (noResults) {
-        noResults.style.display = 'none';
+    if (totalLocalMatches === 0) {
+        if (iconWrapper) iconWrapper.className = "icon solid fa-globe";
+    } else {
+        if (iconWrapper) iconWrapper.className = "icon solid fa-times"; 
     }
 }
-
 
 // 4. External Clinical Registry Dispatch Controller Interface
 async function executeExternalV3ProtocolLookup(queryText) {
@@ -602,184 +599,9 @@ async function executeExternalV3ProtocolLookup(queryText) {
         return; 
     }
 
-    // Existing code to build the approach-card...
+    // Existing code to build the article-card...
     // Only runs if clinicalRecord is valid.
 }
-
-
-/* ==========================================================================
-   Diseases Module: Layout, Toggles, & Filter Engine
-   ========================================================================== */
-
-// 1. Diseases Search Expand and Click Action Routing Handler
-function toggleDiseaseSearch(event) {
-    if (event) {
-        if (typeof event.preventDefault === 'function') event.preventDefault();
-        if (typeof event.stopPropagation === 'function') event.stopPropagation();
-    }
-    const searchBox = document.getElementById('diseaseSearchBox');
-    const searchInput = document.getElementById('diseaseSearchInput');
-    const iconWrapper = document.getElementById('diseaseSearchIconWrapper');
-    
-    if (!searchBox || !searchInput) return false;
-
-    if (!searchBox.classList.contains('active')) {
-        searchBox.classList.add('active');
-        searchInput.focus();
-        return false;
-    }
-
-    const query = searchInput.value.trim();
-
-    if (iconWrapper && iconWrapper.classList.contains('fa-globe')) {
-        executeExternalV3DiseaseLookup(query);
-        return false;
-    }
-
-    if (query !== "") {
-        searchInput.value = "";
-        if (iconWrapper) iconWrapper.className = "icon solid fa-search";
-        filterDiseases();
-        searchInput.focus();
-    } else {
-        searchBox.classList.remove('active');
-    }
-    return false;
-}
-
-function toggleDiseaseShowMore(forceState) {
-    const hiddenContent = document.getElementById('hiddenContentDiseases');
-    const toggleLink = document.getElementById('showMoreLinkDiseases');
-    
-    if (!hiddenContent) return;
-    
-    let isHidden = hiddenContent.style.display === 'none' || hiddenContent.style.display === '';
-    let targetState = isHidden ? 'block' : 'none';
-    
-    if (forceState) targetState = forceState;
-    
-    hiddenContent.style.display = targetState;
-    
-    if (toggleLink) {
-        toggleLink.textContent = targetState === 'none' ? 'Show More' : 'Show Less';
-    }
-}
-
-// 3. Diseases Local Search Filtration Engine with Local Gray Dot Visual Injector
-function filterDiseases() {
-    const searchInput = document.getElementById('diseaseSearchInput');
-    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
-    const iconWrapper = document.getElementById('diseaseSearchIconWrapper');
-    const cards = document.querySelectorAll('#diseases .approach-card');
-    const hiddenSection = document.getElementById('hiddenContentDiseases');
-    const allHeadings = document.querySelectorAll('#diseases .search-target-heading');
-    const allGrids = document.querySelectorAll('#diseases .approach-grid');
-
-    const dynamicCards = document.querySelectorAll('.v3-dynamic-injected-disease-card');
-    dynamicCards.forEach(card => card.remove());
-    document.querySelectorAll('.local-disease-dot-indicator').forEach(dot => dot.remove());
-
-    if (query === '') {
-        if (iconWrapper) iconWrapper.className = "icon solid fa-search";
-        if (hiddenSection) hiddenSection.style.display = 'none';
-
-        const toggleLink = document.getElementById('showMoreLinkDiseases');
-        if (toggleLink) toggleLink.textContent = 'Show More';
-
-        allHeadings.forEach(heading => heading.style.display = 'block');
-        allGrids.forEach(grid => grid.style.display = 'grid');
-        cards.forEach(card => card.style.display = 'flex');
-        return;
-    }
-
-    if (hiddenSection && (hiddenSection.style.display === 'none' || hiddenSection.style.display === '')) {
-        hiddenSection.style.display = 'block';
-        const toggleLink = document.getElementById('showMoreLinkDiseases');
-        if (toggleLink) toggleLink.textContent = 'Show Less';
-    }
-
-    let totalLocalMatches = 0;
-
-    cards.forEach(card => {
-        const title = card.querySelector('h4') ? card.querySelector('h4').textContent.toLowerCase() : '';
-        const tag = card.querySelector('.protocol-tag') ? card.querySelector('.protocol-tag').textContent.toLowerCase() : '';
-        
-        if (title.includes(query) || tag.includes(query)) {
-            card.style.display = 'flex';
-            card.style.position = 'relative';
-            totalLocalMatches++;
-
-            if (!card.querySelector('.local-disease-dot-indicator')) {
-                const grayDot = document.createElement('span');
-                grayDot.className = 'local-disease-dot-indicator';
-                grayDot.style.cssText = "position: absolute; top: 25px; right: 25px; width: 8px; height: 8px; background-color: #7f8c8d; border-radius: 50%; box-shadow: 0 0 8px #7f8c8d;";
-                card.appendChild(grayDot);
-            }
-        } else {
-            card.style.display = 'none';
-        }
-    });
-
-    allHeadings.forEach(heading => {
-        let nextEl = heading.nextElementSibling;
-        if (nextEl && nextEl.classList.contains('approach-grid')) {
-            const hasVisibleCards = nextEl.querySelectorAll('.approach-card:not([style*="display: none"])').length > 0;
-            heading.style.display = hasVisibleCards ? 'block' : 'none';
-            nextEl.style.display = hasVisibleCards ? 'grid' : 'none';
-        }
-    });
-
-    if (totalLocalMatches === 0) {
-        if (iconWrapper) iconWrapper.className = "icon solid fa-globe";
-    } else {
-        if (iconWrapper) iconWrapper.className = "icon solid fa-times";
-    }
-}
-
-// Diseases External Online Lookup Injection Engine
-async function executeExternalV3DiseaseLookup(queryText) {
-    const iconWrapper = document.getElementById('diseaseSearchIconWrapper');
-    if (iconWrapper) iconWrapper.className = "icon solid fa-spinner fa-spin";
-
-    const cleanTerm = queryText.replace(/[^-a-zA-Z0-9 ]/g, '').trim();
-    const clinicalRecord = await fetchHighPrecisionData(cleanTerm);
-    const urgentTriageTip = getUrgentClinicalTip(cleanTerm);
-
-    if (iconWrapper) iconWrapper.className = "icon solid fa-times";
-
-    const diseasesArticle = document.getElementById('diseases');
-    const dynamicCardDeck = document.createElement('div');
-    dynamicCardDeck.className = 'approach-grid v3-dynamic-injected-disease-card';
-    dynamicCardDeck.style.cssText = "margin-top: 20px; width: 100%; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 20px; display: grid;";
-
-    dynamicCardDeck.innerHTML = `
-        <div class="approach-card" style="width: 100%; grid-column: 1 / -1; display: flex; flex-direction: column; align-items: start; position: relative;">
-            <span style="position: absolute; top: 25px; right: 25px; width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; box-shadow: 0 0 8px #2ecc71;"></span>
-            
-            <div style="display: flex; align-items: center; width: 100%; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 8px;">
-                <span class="protocol-tag" style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-weight: 600 !important; font-size: 0.65rem !important; letter-spacing: 1px !important; text-transform: uppercase !important; background: rgba(51, 153, 255, 0.15); color: #3399ff; border: 1px solid rgba(51, 153, 255, 0.3); padding: 0.2rem 0.6rem; border-radius: 4px; display: inline-block; line-height: 1.2;">${clinicalRecord.tag}</span>
-            </div>
-            <h4 style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-weight: 700 !important; font-size: 1.2rem !important; letter-spacing: 1px !important; text-transform: uppercase !important; margin: 0 0 0.5rem 0; color: #ffffff !important; padding-right: 20px;">${cleanTerm.toUpperCase()} ANALYSIS</h4>
-            
-            <h5 style="color: #ffffff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0 0.5rem 0; font-weight: 600;">Pathology Diagnostic Parameters:</h5>
-            <ol style="margin: 0 0 1.5rem 1.25rem; padding: 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; line-height: 1.6; width: 100%;">
-                ${clinicalRecord.steps.map(step => `<li>${step}</li>`).join('')}
-            </ol>
-
-            <div style="font-family: 'Source Sans Pro', Helvetica, sans-serif !important; font-size: 0.85rem !important; line-height: 1.5 !important; background: rgba(255, 51, 51, 0.05) !important; color: #ffffff !important; border-left: 3px solid #ff3333; padding: 12px 16px !important; border-radius: 4px; margin-top: auto; width: 100%; box-sizing: border-box;">
-                <strong style="color: #ff5555 !important; font-weight: 600 !important; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">Urgent Triage Rule:</strong> ${urgentTriageTip}
-            </div>
-        </div>
-    `;
-
-    const insertionMarker = diseasesArticle.querySelector('.more-container-services') || diseasesArticle.querySelector('ul.actions');
-    if (insertionMarker) {
-        diseasesArticle.insertBefore(dynamicCardDeck, insertionMarker);
-    } else {
-        diseasesArticle.appendChild(dynamicCardDeck);
-    }
-}
-
 
 /* ==========================================================================
    GLOBAL INTERACTIVE EVENT ROUTER CONTROLLERS
@@ -790,28 +612,16 @@ document.addEventListener('keydown', function(event) {
     const target = event.target;
     if (!target) return;
 
-    // 1. Handle Protocols Key Enter Routing
+//Handle Article Key Enter Routing
     if (target.id === 'searchInput' && (event.key === 'Enter' || event.keyCode === 13)) {
         const query = target.value.trim();
         const iconWrapper = document.getElementById('searchIconWrapper');
         
         if (iconWrapper && iconWrapper.classList.contains('fa-globe') && query !== "") {
             event.preventDefault();
-            // External lookup removed. Local-only search active.
+            executeExternalV3ProtocolLookup(query);
         }
     }
-
-    // 2. Handle Diseases Key Enter Routing
-    if (target.id === 'diseaseSearchInput' && (event.key === 'Enter' || event.keyCode === 13)) {
-        const query = target.value.trim();
-        const iconWrapper = document.getElementById('diseaseSearchIconWrapper');
-        
-        if (iconWrapper && iconWrapper.classList.contains('fa-globe') && query !== "") {
-            event.preventDefault();
-            executeExternalV3DiseaseLookup(query);
-        }
-    }
-});
 
 // Blur catching context layout resetting logic
 document.addEventListener('click', function(event) {
@@ -822,198 +632,5 @@ document.addEventListener('click', function(event) {
     if (searchBox && searchInput && !searchBox.contains(event.target) && searchInput.value.trim() === "") {
         searchBox.classList.remove('active');
         if (iconWrapper) iconWrapper.className = "icon solid fa-search";
-    }
-
-    const dSearchBox = document.getElementById('diseaseSearchBox');
-    const dSearchInput = document.getElementById('diseaseSearchInput');
-    const dIconWrapper = document.getElementById('diseaseSearchIconWrapper');
-    
-    if (dSearchBox && dSearchInput && !dSearchBox.contains(event.target) && dSearchInput.value.trim() === "") {
-        dSearchBox.classList.remove('active');
-        if (dIconWrapper) dIconWrapper.className = "icon solid fa-search";
-    }
-});
-
-
-/* ==========================================================================
-   DYNAMIC CLINICAL TRIAGE ENGINE (COMPREHENSIVE URGENT PROTOCOLS)
-   ========================================================================== */
-   function getUrgentClinicalTip(condition) {
-    const term = condition.toLowerCase();
-    
-    if (term.includes('myocarditis') || term.includes('pericarditis')) {
-        return "Continuous 12-lead ECG monitoring is mandatory. Rule out acute coronary syndrome (ACS). Restrict intense physical activity immediately; initiate supportive cardiac care and evaluate for signs of progressive cardiogenic shock or high-grade AV blocks.";
-    }
-    if (term.includes('infarction') || term.includes('mi ') || term.includes('heart attack') || term.includes('coronary')) {
-        return "EMERGENCY: Initiate immediate high-flow oxygen if SpO2 < 90%, administer chewed Aspirin 162-325 mg, and establish dual IV access. Obtain a stat 12-lead ECG within 10 minutes and activate the Cardiac Catheterization Lab for immediate reperfusion therapy.";
-    }
-    if (term.includes('arrhythmia') || term.includes('fibrillation') || term.includes('tachycardia')) {
-        return "Assess hemodynamic stability immediately. If unstable (hypotension, altered mental status, chest pain), prepare for immediate synchronized cardioversion or transcutaneous pacing. If stable, obtain a 12-lead ECG and consider vagal maneuvers or targeted antiarrhythmic infusions.";
-    }
-    if (term.includes('sepsis') || term.includes('septic') || term.includes('shock')) {
-        return "CRITICAL TIME-DEPENDENT PROTOCOL: Draw tracking blood cultures immediately before initiating broad-spectrum IV antibiotics. Administer a stat 30 mL/kg crystalloid fluid bolus for hypotension or lactate >= 4.0 mmol/L. Prepare immediate central venous access and start Norepinephrine if fluid-refractory.";
-    }
-    if (term.includes('anaphylaxis') || term.includes('allergic')) {
-        return "IMMEDIATE ACTION REQUIRED: Administer Epinephrine 0.3 mg IM (1:1000) in the anterolateral thigh immediately. Secure the airway, place the patient recumbent with legs elevated, provide high-flow oxygen, and prepare rapid crystal fluid volumes via large-bore IV lines.";
-    }
-    if (term.includes('asthma') || term.includes('copd') || term.includes('bronchospasm')) {
-        return "Administer immediate continuous inline nebulized Albuterol mixed with Ipatropium Bromide. Provide supplemental oxygen titrated to an SpO2 of 88-92% for COPD or 94-98% for acute asthma. Initiate early IV or PO systemic corticosteroids and prepare for non-invasive positive pressure ventilation (BiPAP) if respiratory distress increases.";
-    }
-    if (term.includes('embolism') || term.includes('pe ')) {
-        return "Maintain strict bed rest to prevent clot dislodgement. Provide immediate high-flow oxygen therapy. Evaluate hemodynamics rapidly; prepare for therapeutic anticoagulation with Unfractionated Heparin (UFH) bolus/infusion, or immediate thrombolysis if signs of obstructive shock or right ventricular failure occur.";
-    }
-    if (term.includes('stroke') || term.includes('cva') || term.includes('ischemic')) {
-        return "TIME IS BRAIN: Perform an immediate stroke scale assessment (NIHSS) and note exact Last Known Well (LKW) time. Obtain an urgent non-contrast head CT within 20 minutes to rule out intracranial hemorrhage. Maintain blood pressure below 185/110 mmHg if a candidate for IV thrombolysis.";
-    }
-    if (term.includes('seizure') || term.includes('epilepticus')) {
-        return "Protect the airway and prevent physical trauma; do not insert items into the mouth. If seizure activity exceeds 5 minutes, initiate Status Epilepticus Protocol: administer Lorazepam 4 mg IV push over 2 minutes. Establish secondary IV lines and prepare a loading infusion of Levetiracetam or Fosphenytoin.";
-    }
-    if (term.includes('diabetic') || term.includes('dka') || term.includes('hhs')) {
-        return "Initiate aggressive fluid resuscitation immediately with 0.9% Normal Saline (typically 1-1.5L in the first hour). Check serum potassium levels before administering IV insulin; if potassium < 3.3 mEq/L, hold insulin and correct potassium immediately to prevent fatal cardiac arrhythmias.";
-    }
-    // High-Precision Matching Additions for Acid-Base, Metabolic, and Electrolyte Crises
-    if (term.includes('acid') || term.includes('alkalosis') || term.includes('base') || term.includes('electrolyte') || term.includes('metabolic')) {
-        return "CRITICAL FLUID/ELECTROLYTE MAP: Draw a stat arterial or venous blood gas (ABG/VBG) along with a comprehensive metabolic panel (CMP) and ionized calcium. Assess respiratory compensation efficiency immediately. Isolate underlying etiology (e.g., toxic ingestion, severe sepsis, renal failures, profound fluid depletion) before administering correction infusions.";
-    }
-
-    return "Stabilize immediate life threats first: Assess Airway patency, Breathing work/adequacy, and Circulatory perfusion parameters (ABC). Establish dual large-bore IV access, apply continuous cardiac monitoring, note trends in serial vital signs, and prepare immediate diagnostic verification lines.";
-}
-
-
-
-// 3. Universal Local Search Engine (Offline / Local Only)
-function filterProtocols(event) {
-    const searchInput = document.getElementById('searchInput');
-    if (!searchInput) return;
-
-    const query = searchInput.value.toLowerCase().trim();
-
-    // Hide mobile keyboard on Enter
-    if (event && event.key === 'Enter') {
-        event.preventDefault();
-        searchInput.blur();
-    }
-
-    const searchBox = document.getElementById('searchBox');
-    const iconWrapper = document.getElementById('searchIconWrapper');
-
-    if (searchBox && query !== '') {
-        searchBox.classList.add('active');
-    }
-
-    if (iconWrapper) {
-        iconWrapper.className = "icon solid fa-search";
-    }
-
-    const article = document.querySelector('#protocols');
-    const majorTitle = article ? article.querySelector('.major') : null;
-    const headings = article ? article.querySelectorAll('.search-target-heading') : [];
-    const grids = article ? article.querySelectorAll('.approach-grid') : [];
-    const toggleBtn = document.getElementById('showMoreLinkServices');
-    const hiddenDrawer = document.getElementById('hiddenContentServices');
-
-    const cards = document.querySelectorAll('#protocols .approach-card');
-
-    let visibleCount = 0;
-
-    cards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-
-        if (query === '' || text.includes(query)) {
-            card.style.display = 'flex';
-            card.classList.remove('universal-search-hidden');
-            visibleCount++;
-        } else {
-            card.style.display = 'none';
-            card.classList.add('universal-search-hidden');
-        }
-    });
-
-    // SEARCH MODE
-    if (query !== '') {
-
-        // Hide everything except result cards
-        if (majorTitle) majorTitle.style.display = 'none';
-
-        headings.forEach(h => {
-            h.style.display = 'none';
-        });
-
-        grids.forEach(g => {
-            const visibleCards = g.querySelectorAll('.approach-card:not(.universal-search-hidden)');
-
-            if (visibleCards.length > 0) {
-                g.style.display = 'grid';
-            } else {
-                g.style.display = 'none';
-            }
-        });
-
-        if (toggleBtn) toggleBtn.style.display = 'none';
-
-        if (hiddenDrawer) {
-            hiddenDrawer.style.display = 'block';
-        }
-
-        // Hide keyboard after search commit
-        searchInput.blur();
-
-    } else {
-
-        // Restore normal article
-        if (majorTitle) majorTitle.style.display = '';
-
-        headings.forEach(h => {
-            h.style.display = '';
-        });
-
-        grids.forEach(g => {
-            g.style.display = '';
-        });
-
-        if (toggleBtn) toggleBtn.style.display = '';
-
-        if (hiddenDrawer) {
-            hiddenDrawer.style.display = 'none';
-        }
-    }
-
-    // No results renderer
-    let noResults = document.getElementById('universalNoResults');
-
-    if (visibleCount === 0 && query !== '') {
-
-        if (!noResults) {
-            noResults = document.createElement('div');
-            noResults.id = 'universalNoResults';
-            noResults.className = 'universal-no-results';
-
-            noResults.innerHTML = `
-                <h3>No Local Results Found</h3>
-                <p>The offline search scanned all local protocols, diseases, procedures, and articles.</p>
-            `;
-
-            if (article) {
-                article.appendChild(noResults);
-            }
-        }
-
-        noResults.style.display = 'block';
-
-    } else if (noResults) {
-        noResults.style.display = 'none';
-    }
-}
-
-// Keyboard enter support
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('searchInput');
-
-    if (searchInput) {
-        searchInput.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                filterProtocols(event);
-            }
-        });
     }
 });
