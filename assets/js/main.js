@@ -622,6 +622,7 @@ document.addEventListener('keydown', function(event) {
             executeExternalV3ProtocolLookup(query);
         }
     }
+});
 
 // Blur catching context layout resetting logic
 document.addEventListener('click', function(event) {
