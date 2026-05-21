@@ -634,3 +634,33 @@ document.addEventListener('click', function(event) {
         if (iconWrapper) iconWrapper.className = "icon solid fa-search";
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+// Search function
+function filterProtocols() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.article-card');
+    
+    cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(query) ? '' : 'none';
+    });
+}
+
+function toggleSearch() {
+    const searchBox = document.getElementById('searchBox');
+    searchBox.classList.toggle('active');
+    if(searchBox.classList.contains('active')) {
+        document.getElementById('searchInput').focus();
+    }
+}
