@@ -445,193 +445,162 @@
 
 
 /* ==========================================================================
-   Article Module: Layout, Toggles, & Filter Engine
+   AI CHAT ENGINE: JSON ROUTING, API INTEGRATION & RENDERING
    ========================================================================== */
 
-// 1. Integrated Search Expand, Collapse, and Click Action Routing Handler
+// Global Unified Data Store
+window.protocolData = [];
+
+// 1. Initialize Local JSON Database
+async function loadProtocols() {
+    try {
+        const response = await fetch('data.json');
+        window.protocolData = await response.json();
+    } catch (error) {
+        console.error("Critical Failure: Unable to load local protocol database.", error);
+    }
+}
+
+// Boot the database on load
+document.addEventListener('DOMContentLoaded', loadProtocols);
+
+// 2. Chat Interface Renderer
+function renderProtocol(protocol, isOnline = false) {
+    const container = document.getElementById('ai-chat-display');
+    if (!container) return;
+
+    // Clear previous results to enforce a clean 1-to-1 chat interface
+    container.innerHTML = "";
+
+    const onlineDot = isOnline ? '<span class="online-indicator">●</span>' : '';
+    const sourceLabel = isOnline ? 'External Intelligence Search' : protocol.category;
+
+    // Map list items safely
+    let pointsHTML = "";
+    if (protocol.points && Array.isArray(protocol.points)) {
+        pointsHTML = `<ul>${protocol.points.map(p => `<li>${p}</li>`).join('')}</ul>`;
+    } else if (protocol.content) {
+        pointsHTML = `<p>${protocol.content}</p>`;
+    }
+
+    const html = `
+        <h3 class="category-heading">${onlineDot} ${sourceLabel}</h3>
+        <div class="article-card" style="display: flex; position: relative;">
+            <h4>${protocol.title || "Query Result"}</h4>
+            ${protocol.description ? `<p><strong>${protocol.description}</strong></p>` : ''}
+            ${pointsHTML}
+            ${protocol.tip ? `<div class="clinical-tip"><strong>Urgent Clinical Management Tip:</strong> ${protocol.tip}</div>` : ''}
+        </div>
+    `;
+    
+    container.innerHTML = html;
+    
+    // Auto-scroll to the top of the new result
+    window.scrollTo({ top: container.offsetTop - 20, behavior: 'smooth' });
+}
+
+// 3. OpenRouter API Integration (External Fallback)
+async function executeExternalV3ProtocolLookup(queryText) {
+    const iconWrapper = document.getElementById('searchIconWrapper');
+    if (iconWrapper) iconWrapper.className = "icon solid fa-spinner fa-spin";
+
+    try {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer YOUR_OPENROUTER_API_KEY`, // INSERT YOUR API KEY HERE
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "model": "google/gemini-2.5-pro", // You can swap models here
+                "messages": [
+                    { "role": "system", "content": "You are a clinical AI assistant. Provide highly structured, concise, bulleted medical protocols for the queried condition." },
+                    { "role": "user", "content": queryText }
+                ]
+            })
+        });
+
+        const data = await response.json();
+        const aiResponse = data.choices[0].message.content;
+
+        // Render the online data
+        renderProtocol({
+            title: queryText.toUpperCase(),
+            content: aiResponse.replace(/\n/g, '<br>'), // Simple line-break formatting
+            category: "External Database",
+            tip: "Verify all external AI intelligence with local clinical guidelines prior to execution."
+        }, true);
+
+    } catch (error) {
+        console.error("External API Gateway Error:", error);
+    } finally {
+        if (iconWrapper) iconWrapper.className = "icon solid fa-search";
+    }
+}
+
+// 4. Universal Search & Routing Controller
 function toggleSearch(event) {
     if (event) {
         if (typeof event.preventDefault === 'function') event.preventDefault();
         if (typeof event.stopPropagation === 'function') event.stopPropagation();
     }
 
-    const searchBox = document.getElementById('searchBox');
     const searchInput = document.getElementById('searchInput');
     const iconWrapper = document.getElementById('searchIconWrapper');
     
-    if (!searchBox || !searchInput) return false;
+    if (!searchInput) return false;
 
-    if (!searchBox.classList.contains('active')) {
-        searchBox.classList.add('active');
-        searchInput.focus();
-        return false;
-    }
+    const query = searchInput.value.trim().toLowerCase();
 
-    const query = searchInput.value.trim();
+    if (query === "") return false;
 
-    if (iconWrapper && (iconWrapper.classList.contains('fa-globe') || iconWrapper.classList.contains('fa-cloud-download-alt'))) {
+    // Universal Search: Check titles, categories, and descriptions
+    const localResults = window.protocolData.filter(item => 
+        (item.title && item.title.toLowerCase().includes(query)) ||
+        (item.category && item.category.toLowerCase().includes(query)) ||
+        (item.description && item.description.toLowerCase().includes(query))
+    );
+
+    if (localResults.length > 0) {
+        // Local Match Found
+        renderProtocol(localResults[0], false);
+    } else {
+        // No Local Match -> Route to External API
         executeExternalV3ProtocolLookup(query);
-        return false;
     }
+    
+    // Commit Search Actions: Clear input and force keyboard to hide
+    searchInput.value = "";
+    searchInput.blur(); 
+    if (iconWrapper) iconWrapper.className = "icon solid fa-search";
 
-    if (query !== "") {
-        searchInput.value = "";
-        if (iconWrapper) iconWrapper.className = "icon solid fa-search";
-        filterProtocols(); 
-        searchInput.focus();
-    } else {
-        searchBox.classList.remove('active');
-    }
     return false;
-}
-
-// 2. Local Manual Drawer Show More/Less Button Engine
-function toggleShowMore(forceState) {
-    const hiddenContent = document.getElementById('hiddenContent');
-    const toggleLink = document.getElementById('showMoreLinkServices');
-    
-    if (!hiddenContent) return;
-    
-    let isHidden = hiddenContent.style.display === 'none' || hiddenContent.style.display === '';
-    let targetState = isHidden ? 'block' : 'none';
-    
-    if (forceState) targetState = forceState; 
-    
-    hiddenContent.style.display = targetState;
-    
-    if (toggleLink) {
-        toggleLink.textContent = targetState === 'none' ? 'Show More' : 'Show Less';
-    }
-}
-
-// 3. High-Precision Local Search Filtration Engine with Accurate API Routing
-function filterProtocols() {
-    const searchInput = document.getElementById('searchInput');
-    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
-    const iconWrapper = document.getElementById('searchIconWrapper');
-    
-    const cards = document.querySelectorAll('#protocols .article-card');
-    const sections = document.querySelectorAll('#protocols .approach-grid');
-    const headings = document.querySelectorAll('#protocols .search-target-heading');
-
-    const dynamicCards = document.querySelectorAll('.v3-dynamic-injected-card');
-    dynamicCards.forEach(card => card.remove());
-    document.querySelectorAll('.local-dot-indicator').forEach(dot => dot.remove());
-
-    if (query === '') {
-        if (iconWrapper) iconWrapper.className = "icon solid fa-search";
-        
-        const hiddenDrawer = document.getElementById('hiddenContent');
-        if (hiddenDrawer) hiddenDrawer.style.display = 'none';
-        
-        const toggleLink = document.getElementById('showMoreLinkServices');
-        if (toggleLink) toggleLink.textContent = 'Show More';
-
-        cards.forEach(card => card.style.display = 'flex');
-        sections.forEach(sec => sec.style.display = 'grid');
-        headings.forEach(hd => hd.style.display = 'block');
-        return;
-    }
-
-    const hiddenDrawer = document.getElementById('hiddenContent');
-    if (hiddenDrawer && (hiddenDrawer.style.display === 'none' || hiddenDrawer.style.display === '')) {
-        hiddenDrawer.style.display = 'block';
-        const toggleLink = document.getElementById('showMoreLinkServices');
-        if (toggleLink) toggleLink.textContent = 'Show Less';
-    }
-
-    let totalLocalMatches = 0;
-
-    cards.forEach(card => {
-        const title = card.querySelector('h4') ? card.querySelector('h4').textContent.toLowerCase() : '';
-        const tags = card.querySelector('.protocol-tag') ? card.querySelector('.protocol-tag').textContent.toLowerCase() : '';
-
-        if (title.includes(query) || tags.includes(query)) {
-            card.style.display = 'flex'; 
-            card.style.position = 'relative';
-            totalLocalMatches++;
-
-            if (!card.querySelector('.local-dot-indicator')) {
-                const grayDot = document.createElement('span');
-                grayDot.className = 'local-dot-indicator';
-                grayDot.style.cssText = "position: absolute; top: 25px; right: 25px; width: 8px; height: 8px; background-color: #7f8c8d; border-radius: 50%; box-shadow: 0 0 8px #7f8c8d;";
-                card.appendChild(grayDot);
-            }
-        } else {
-            card.style.display = 'none';
-        }
-    });
-
-    sections.forEach(grid => {
-        const visibleCards = grid.querySelectorAll('.article-card:not([style*="display: none"])');
-        
-        let heading = grid.previousElementSibling;
-        while (heading && !heading.classList.contains('search-target-heading')) {
-            heading = heading.previousElementSibling;
-        }
-
-        if (visibleCards.length === 0) {
-            grid.style.display = 'none';
-            if (heading) heading.style.display = 'none';
-        } else {
-            grid.style.display = 'grid'; 
-            if (heading) heading.style.display = 'block';
-        }
-    });
-
-    if (totalLocalMatches === 0) {
-        if (iconWrapper) iconWrapper.className = "icon solid fa-globe";
-    } else {
-        if (iconWrapper) iconWrapper.className = "icon solid fa-times"; 
-    }
-}
-
-// 4. External Clinical Registry Dispatch Controller Interface
-async function executeExternalV3ProtocolLookup(queryText) {
-    const iconWrapper = document.getElementById('searchIconWrapper');
-    if (iconWrapper) iconWrapper.className = "icon solid fa-spinner fa-spin";
-
-    const clinicalRecord = await fetchHighPrecisionData(queryText);
-
-    // FIX: If no data, stop here. No error messages, no dummy text.
-    if (!clinicalRecord) {
-        if (iconWrapper) iconWrapper.className = "icon solid fa-times";
-        return; 
-    }
-
-    // Existing code to build the article-card...
-    // Only runs if clinicalRecord is valid.
 }
 
 /* ==========================================================================
    GLOBAL INTERACTIVE EVENT ROUTER CONTROLLERS
    ========================================================================== */
 
-// Unified Document Level Keydown Handler for Input Form Fields (Fixes late dynamic binding bugs)
+// 1. Keyboard Handling (Enter to Submit)
 document.addEventListener('keydown', function(event) {
     const target = event.target;
     if (!target) return;
 
-//Handle Article Key Enter Routing
     if (target.id === 'searchInput' && (event.key === 'Enter' || event.keyCode === 13)) {
-        const query = target.value.trim();
-        const iconWrapper = document.getElementById('searchIconWrapper');
-        
-        if (iconWrapper && iconWrapper.classList.contains('fa-globe') && query !== "") {
-            event.preventDefault();
-            executeExternalV3ProtocolLookup(query);
-        }
+        event.preventDefault();
+        toggleSearch(event);
     }
 });
 
-// Blur catching context layout resetting logic
+// 2. Clear & Close Logic (Exiting the Article)
 document.addEventListener('click', function(event) {
-    const searchBox = document.getElementById('searchBox');
-    const searchInput = document.getElementById('searchInput');
-    const iconWrapper = document.getElementById('searchIconWrapper');
-    
-    if (searchBox && searchInput && !searchBox.contains(event.target) && searchInput.value.trim() === "") {
-        searchBox.classList.remove('active');
-        if (iconWrapper) iconWrapper.className = "icon solid fa-search";
+    // If the native [X] close button is clicked
+    if (event.target.classList.contains('close')) {
+        const container = document.getElementById('ai-chat-display');
+        const searchInput = document.getElementById('searchInput');
+        
+        // Wipe the display and clear the input memory
+        if (container) container.innerHTML = ""; 
+        if (searchInput) searchInput.value = ""; 
     }
 });
