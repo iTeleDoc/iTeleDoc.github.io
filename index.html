@@ -12,28 +12,24 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 		<link rel="apple-touch-icon" href="images/Icon.png">
-
 	</head>
 	<body class="is-preload">
+  		<div id="statusbar-shadow"></div>
+		<div class="site-bg" aria-hidden="true">
+			<div class="site-bg__image" role="presentation"></div>
+			<div class="site-bg__overlay" role="presentation"></div>
+		</div>
 
-  <!-- Status bar shadow -->
-  <div id="statusbar-shadow"></div>
+<!-- Wrapper -->
+		<div id="wrapper">
 
-  <div class="site-bg" aria-hidden="true">
-    <div class="site-bg__image" role="presentation"></div>
-    <div class="site-bg__overlay" role="presentation"></div>
-  </div>
-
-		<!-- Wrapper -->
-			<div id="wrapper">
-
-				<!-- Header -->
-					<header id="header">
-    <div class="logo">
-        <span>
-            <img src="images/Logo.png" alt="iTeleDoc">
-        </span>
-    </div>
+<!-- Header -->
+		<header id="header">
+			<div class="logo">
+				<span>
+					<img src="images/Logo.png" alt="iTeleDoc">
+				</span>
+			</div>
 						<div class="content">
 							<div class="inner">
 								<h1>iTeleDoc</h1>
@@ -49,7 +45,7 @@
 								<li><a href="#procedures">Procedures</a></li>
 								<li><a href="#drugs">Drugs</a></li>
 								<li><a href="#calculators">Calculators</a></li>
-								<li><a href="#labs">  Labs  </a></li>
+								<li><a href="#labs">Labs</a></li>
 								<li><a href="#assistant">Assistant</a></li>
 
 								<!--<li><a href="#elements">Elements</a></li>-->
@@ -77,12 +73,14 @@
     <!-- YOUR NATIVE CLOSE BUTTON LINK -->
     <div class="close">Close</div>
 
-    <h2 class="major">Clinical Protocols</h2>
+    <!-- HIDDEN CONTENT SECTION (Organized by Categories) -->
+    <div id="hiddenContent" style="display: none;">
+            <h2 class="major">Clinical Protocols</h2>
     
-    <!-- === CATEGORY: RESUSCITATION / LIFE SUPPORT === -->
+    <!-- === CATEGORY 1: RESUSCITATION / LIFE SUPPORT === -->
     <h3 class="category-heading search-target-heading">Resuscitation / Life Support</h3>
-    <div class="approach-grid">
-		<div class="approach-card">
+    <div class="article-grid">
+		<div class="article-card">
 			<span class="protocol-tag tag-resuscitation">Resuscitation / Life Support</span>
 			<h4>Basic Life Support (BLS)</h4>
 			<p><strong>Sudden Cardiac Arrest Management Mapping.</strong></p>
@@ -97,7 +95,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Ensure a compression depth of 2–2.4 inches at a rate of 100–120 cpm with full chest recoil.</div>
 		</div>
         
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-resuscitation">Resuscitation / Life Support</span>
 			<h4>Advanced Cardiac Life Support (ACLS)</h4>
 			<p><strong>Pulseless Arrest Management Mapping.</strong></p>
@@ -119,7 +117,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Actively search for and reverse the <strong>H's and T's</strong> (Hypovolemia, Hypoxia, Hydrogen ion/acidosis, Hypo/hyperkalemia, Hypothermia; Tension pneumothorax, Tamponade, Toxins, Thrombosis) during active cardiac arrest management.</div>
 		</div>
         
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-resuscitation">Resuscitation / Life Support</span>
 			<h4>Pediatric Advanced Life Support (PALS)</h4>
 			<p><strong>Pediatric Resuscitation & Cardiorespiratory Arrest Mapping.</strong></p>
@@ -134,7 +132,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Use a Broselow tape or weight-based calculator for exact pediatric dose and equipment sizing.</div>
 		</div>
         
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-resuscitation">Resuscitation / Life Support</span>
 			<h4>Advanced Trauma Life Support (ATLS)</h4>
 			<p><strong>Polytrauma Assessment & Primary Survey Mapping.</strong></p>
@@ -149,7 +147,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Address life-threatening thoracic pathology found in the primary survey immediately before moving to the secondary survey.</div>
 		</div>
         
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-resuscitation">Resuscitation / Life Support</span>
 			<h4>Post–Cardiac Arrest Care Protocol</h4>
 			<p><strong>ROSC Stabilization & Neuroprotection Pathway Mapping.</strong></p>
@@ -164,10 +162,10 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Avoid hyperoxia and hypotension; target an SpO<sub>2</sub> of 92–98% and a Mean Arterial Pressure (MAP) &ge; 65 mmHg.</div>
 		</div>
         
-    <!-- === CATEGORY: SHOCK & CRITICAL CARE RESUSCITATION === -->
+    <!-- === CATEGORY 2: SHOCK & CRITICAL CARE RESUSCITATION === -->
     <h3 class="category-heading search-target-heading">Shock & Critical Care Resuscitation</h3>
-    <div class="approach-grid">
-		<div class="approach-card">
+    <div class="article-grid">
+		<div class="article-card">
 			<span class="protocol-tag tag-shock">Shock & Critical Care</span>
 			<h4>Undifferentiated Shock Management Protocol</h4>
 			<p><strong>Hemodynamic Collapse Differential Diagnostics Mapping.</strong></p>
@@ -182,7 +180,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Initiate empirical fluid challenges cautiously while closely monitoring lung fields for signs of fluid overload.</div>
 		</div>
         
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-shock">Shock & Critical Care</span>
 			<h4>Septic Shock Protocol</h4>
 			<p><strong>Systemic Sepsis Resuscitation Bundle Mapping.</strong></p>
@@ -197,7 +195,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer a minimum of 30 mL/kg of crystalloid fluid within the first 3 hours for persistent hypotension or lactate ≥ 4 mmol/L.</div>
 		</div>
         
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-shock">Shock & Critical Care</span>
 			<h4>Massive Transfusion Protocol (MTP)</h4>
 			<p><strong>Exsanguinating Hemorrhage Hemostatic Control Mapping.</strong></p>
@@ -212,7 +210,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Target a balanced 1:1:1 ratio and closely monitor for hypocalcemia due to citrate toxicity from rapid blood product infusion.</div>
 		</div>
         
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-shock">Shock & Critical Care</span>
 			<h4>Hemorrhagic Shock / Trauma Resuscitation Protocol</h4>
 			<p><strong>Traumatic Exsanguination Permissive Hypotension Mapping.</strong></p>
@@ -227,7 +225,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer Tranexamic Acid (TXA) within 3 hours of injury to significantly improve overall survival rates.</div>
 		</div>
         
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-shock">Shock & Critical Care</span>
 			<h4>Anaphylactic Shock Protocol</h4>
 			<p><strong>IgE-Mediated Systemic Hypersensitivity Intervention Mapping.</strong></p>
@@ -242,14 +240,11 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Intramuscular Epinephrine (1:1000) into the anterolateral thigh is the undisputed first-line treatment; do not delay administration.</div>
 		</div>
     </div>
-
-    <!-- HIDDEN CONTENT SECTION (Organized by Categories) -->
-    <div id="hiddenContentServices" style="display: none;">
-        
-        <!-- === CATEGORY: AIRWAY & VENTILATION === -->
+	
+        <!-- === CATEGORY 3: AIRWAY & VENTILATION === -->
 		<h3 class="category-heading search-target-heading">Airway & Ventilation</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-airway">Airway & Ventilation</span>
 				<h4>Airway Management Algorithm</h4>
 				<p><strong>Sequential Respiratory Optimization & Intubation Mapping.</strong></p>
@@ -264,7 +259,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Maintain rigorous pre-oxygenation to lengthen apnea times before instrumentation.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-airway">Airway & Ventilation</span>
 				<h4>Rapid Sequence Intubation (RSI) Protocol</h4>
 				<p><strong>Emergency Paralytic Induction & Airway Protection Mapping.</strong></p>
@@ -279,7 +274,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Perform a thorough airway assessment (LEMON criteria) prior to induction drug administration.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-airway">Airway & Ventilation</span>
 				<h4>Difficult Airway Algorithm</h4>
 				<p><strong>Anticipated & Unanticipated Complex Airway Strategy Mapping.</strong></p>
@@ -294,7 +289,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Explicitly announce the transition to secondary plans if a single laryngoscopy view attempt fails; do not keep "trying the same thing" repeatedly.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-airway">Airway & Ventilation</span>
 				<h4>Failed Airway / Cannot Intubate–Cannot Ventilate Protocol</h4>
 				<p><strong>Emergency Subglottic Airway Access Mapping.</strong></p>
@@ -309,7 +304,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Transition rapidly to scalpel-bougie-tube cricothyroidotomy when upper glottic rescue methods collapse.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-airway">Airway & Ventilation</span>
 				<h4>Mechanical Ventilation Initial Settings Protocol</h4>
 				<p><strong>Initial Circuit Configuration & Lung Protection Mapping.</strong></p>
@@ -324,7 +319,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Program tidal volume based on calculated ideal body weight, not actual body weight, to protect alveoli and prevent ventilator-induced lung injury (VILI).</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-airway">Airway & Ventilation</span>
 				<h4>ARDS Lung-Protective Ventilation Protocol</h4>
 				<p><strong>Refractory Hypoxemic Lung-Protective Circuit Mapping.</strong></p>
@@ -339,7 +334,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Keep plateau pressure measurements strictly under 30 cmH<sub>2</sub>O to mitigate severe barotrauma risks.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-airway">Airway & Ventilation</span>
 				<h4>Weaning from Mechanical Ventilation Protocol</h4>
 				<p><strong>Ventilator Discontinuation Readiness Screening Mapping.</strong></p>
@@ -354,7 +349,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Ensure basic indicators (cough reflex, hemodynamic stability, oxygenation) match minimum criteria before testing.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-airway">Airway & Ventilation</span>
 				<h4>Spontaneous Breathing Trial (SBT) Protocol</h4>
 				<p><strong>Extubation Readiness Diagnostic Challenge Mapping.</strong></p>
@@ -369,7 +364,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Calculate the Rapid Shallow Breathing Index (RSBI); values < 105 indicate a higher likelihood of weaning success.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-airway">Airway & Ventilation</span>
 				<h4>Non-Invasive Ventilation (NIV) Protocol</h4>
 				<p><strong>Positive-Pressure Mask Interventions Mapping.</strong></p>
@@ -384,7 +379,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Assess interface seal, compliance, and skin integrity over bony facial structures every two hours.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-airway">Airway & Ventilation</span>
 				<h4>High-Flow Nasal Cannula (HFNC) Escalation Protocol</h4>
 				<p><strong>Humidified High-Flow Oxygen Titration & Monitoring Mapping.</strong></p>
@@ -400,10 +395,10 @@
 			</div>
         </div>
 
-        <!-- === CATEGORY: CARDIOVASCULAR EMERGENCIES === -->
+        <!-- === CATEGORY 4: CARDIOVASCULAR EMERGENCIES === -->
 		<h3 class="category-heading search-target-heading">Cardiovascular Emergencies</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-cardio">Cardiovascular</span>
 				<h4>Acute Coronary Syndrome (ACS) Protocol</h4>
 				<p><strong>Ischemic Chest Pain Clinical Triage Mapping.</strong></p>
@@ -418,7 +413,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer Aspirin 162–325 mg immediately, instructing the patient to chew it for faster systemic absorption.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-cardio">Cardiovascular</span>
 				<h4>STEMI Reperfusion Protocol</h4>
 				<p><strong>Hyper-acute Myocardial Infarction Reperfusion Track Mapping.</strong></p>
@@ -433,7 +428,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Activate the cath lab team immediately upon confirming ST-elevation on any initial 12-lead ECG trace.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-cardio">Cardiovascular</span>
 				<h4>Tachyarrhythmia Management Protocol</h4>
 				<p><strong>Symptomatic Narrow & Wide Complex Tachycardia Mapping.</strong></p>
@@ -448,7 +443,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> If the patient is hemodynamically unstable with a pulse, bypass medications and proceed directly to synchronized cardioversion.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-cardio">Cardiovascular</span>
 				<h4>Bradycardia Management Protocol</h4>
 				<p><strong>Symptomatic Severe Bradycardic Stabilization Mapping.</strong></p>
@@ -463,7 +458,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Do not rely on Atropine for high-degree AV blocks (Mobitz Type II or 3rd-degree); prepare pacing immediately.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-cardio">Cardiovascular</span>
 				<h4>Hypertensive Emergency Protocol</h4>
 				<p><strong>Acute End-Organ Damage Blood Pressure Titration Mapping.</strong></p>
@@ -478,7 +473,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Reduce Mean Arterial Pressure (MAP) by no more than 20–25% within the first hour to safeguard cerebral autoregulation and prevent watershed infarcts.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-cardio">Cardiovascular</span>
 				<h4>Acute Heart Failure / Pulmonary Edema Protocol</h4>
 				<p><strong>Decompensated Ventricular Congestion Fluid Management Mapping.</strong></p>
@@ -493,7 +488,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> High-dose IV nitroglycerin acts as a potent venodilator to rapidly relieve severe pulmonary congestion; monitor closely for hypotension.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-cardio">Cardiovascular</span>
 				<h4>Pulmonary Embolism Management Protocol</h4>
 				<p><strong>Thromboembolic Risk Stratification & Occlusion Mapping.</strong></p>
@@ -509,10 +504,10 @@
 			</div>
         </div>
 
-        <!-- === CATEGORY: NEUROLOGIC EMERGENCIES === -->
+        <!-- === CATEGORY 5: NEUROLOGIC EMERGENCIES === -->
 		<h3 class="category-heading search-target-heading">Neurologic Emergencies</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-neuro">Neurologic</span>
 				<h4>Stroke Code Protocol</h4>
 				<p><strong>Hyper-acute Ischemic Stroke Interventional Mapping.</strong></p>
@@ -527,7 +522,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Maintain a strict "last known normal" timeline target, keeping door-to-needle time under 45 minutes if eligible.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-neuro">Neurologic</span>
 				<h4>Intracerebral Hemorrhage (ICH) Protocol</h4>
 				<p><strong>Hemorrhagic Stroke Expansion Mitigation Mapping.</strong></p>
@@ -542,7 +537,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Target a rapid reduction of systolic blood pressure to < 140 mmHg to prevent hematoma expansion; ensure titration is managed with continuous arterial monitoring.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-neuro">Neurologic</span>
 				<h4>Subarachnoid Hemorrhage (SAH) Protocol</h4>
 				<p><strong>Aneurysmal Rupture Stabilization & Vasospasm Prophylaxis Mapping.</strong></p>
@@ -557,7 +552,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Maintain strict bed rest, aggressively manage pain to avoid blood pressure spikes, and prevent Valsalva straining to protect the unsecured aneurysm from rebleeding.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-neuro">Neurologic</span>
 				<h4>Status Epilepticus Protocol</h4>
 				<p><strong>Refractory Convulsive Seizure Termination Mapping.</strong></p>
@@ -572,7 +567,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> If status persists after 5 minutes of active seizures, administer IV Lorazepam or Midazolam without delay; do not wait for secondary medications before providing benzodiazepines.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-neuro">Neurologic</span>
 				<h4>Traumatic Brain Injury (TBI) Protocol</h4>
 				<p><strong>Intracranial Traumatic Insult Secondary Mitigation Mapping.</strong></p>
@@ -587,7 +582,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Maintain Systolic Blood Pressure strictly ≥ 100 mmHg or ≥ 110 mmHg depending on age ranges to ensure adequate Cerebral Perfusion Pressure (CPP).</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-neuro">Neurologic</span>
 				<h4>Intracranial Hypertension Management Protocol</h4>
 				<p><strong>Elevated Intracranial Pressure Tiered Rescue Mapping.</strong></p>
@@ -604,10 +599,10 @@
 			</div>
         </div>
 
-        <!-- === CATEGORY: METABOLIC / ENDOCRINE EMERGENCIES === -->
+        <!-- === CATEGORY 6: METABOLIC / ENDOCRINE EMERGENCIES === -->
         <h3 class="category-heading search-target-heading">Metabolic / Endocrine Emergencies</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Diabetic Ketoacidosis (DKA) Protocol</h4>
 				<p><strong>Hyperglycemic Metabolic Acidosis Correction Mapping.</strong></p>
@@ -622,7 +617,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Do not initiate insulin if baseline serum potassium is < 3.3 mEq/L; prioritize aggressive potassium repletion first to avoid cardiac arrest.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Hyperosmolar Hyperglycemic State (HHS) Protocol</h4>
 				<p><strong>Profound Hyperosmolar Resuscitation & Hydration Mapping.</strong></p>
@@ -637,7 +632,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> The fluid deficit in HHS is significantly larger than in DKA, often reaching 8–10 liters; aggressive, early volume resuscitation must take precedence over insulin initiation.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Hypoglycemia Emergency Protocol</h4>
 				<p><strong>Acute Neuro-Glycopenic Resuscitation Mapping.</strong></p>
@@ -652,7 +647,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer 1 ampule of D<sub>50</sub>W intravenously or 1 mg IM Glucagon if intravenous access cannot be established. Monitor for "rebound" hypoglycemia, especially in patients on oral hypoglycemic agents.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Hyperkalemia Emergency Protocol</h4>
 				<p><strong>Severe Hyperkalemic Cardioprotection & Elimination Mapping.</strong></p>
@@ -667,7 +662,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Intravenous Calcium Gluconate stabilizes the cardiac membrane to prevent arrhythmias but does not lower serum potassium levels. Always pair it with shifting or elimination therapies.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Hyponatremia Correction Protocol</h4>
 				<p><strong>Dysnatremic Osmotic Demyelination Prevention Mapping.</strong></p>
@@ -682,7 +677,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Limit hypertonic saline correction rates to < 8 mEq/L within any 24-hour window for chronic hyponatremia to avoid Osmotic Demyelination Syndrome (ODS), a devastating neurological complication.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Hypernatremia Correction Protocol</h4>
 				<p><strong>Free Water Deficit Resuscitation Mapping.</strong></p>
@@ -697,7 +692,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Lower serum sodium levels slowly. Rapid correction of hypernatremia causes water to move quickly into the brain cells, potentially resulting in life-threatening cerebral edema.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Thyroid Storm Protocol</h4>
 				<p><strong>Hyperthyroid Metabolic Crisis Multiphase Inhibition Mapping.</strong></p>
@@ -712,7 +707,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer PTU or Methimazole <strong>before</strong> giving iodine. Giving iodine first provides substrate for further hormone synthesis, potentially worsening the storm.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Myxedema Coma Protocol</h4>
 				<p><strong>Severe Decompensated Hypothyroid Critical Resuscitation Mapping.</strong></p>
@@ -727,7 +722,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Always administer Hydrocortisone <strong>prior</strong> to Levothyroxine. Initiating thyroid hormone replacement in a patient with undiagnosed concomitant adrenal insufficiency can precipitate an acute, life-threatening adrenal crisis.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Adrenal Crisis Protocol</h4>
 				<p><strong>Acute Adrenal Insufficiency Glucocorticoid Replacement Mapping.</strong></p>
@@ -743,10 +738,10 @@
 			</div>
         </div>
 
-        <!-- === CATEGORY: INFECTIOUS DISEASE / SEPSIS === -->
+        <!-- === CATEGORY 7: INFECTIOUS DISEASE / SEPSIS === -->
         <h3 class="category-heading search-target-heading">Infectious Disease / Sepsis</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Disease</span>
 				<h4>Sepsis Screening and Early Recognition Protocol</h4>
 				<p><strong>Bedside Clinical Hypoperfusion Identification Mapping.</strong></p>
@@ -761,7 +756,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Do not wait for hypotension to screen for sepsis. A respiratory rate &ge; 22/min or any decline in mental status should be treated as a warning sign requiring immediate bedside evaluation.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Disease</span>
 				<h4>Sepsis 1-Hour Bundle</h4>
 				<p><strong>Hyper-acute Severe Sepsis Intervention Checklist Mapping.</strong></p>
@@ -776,7 +771,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Always draw blood cultures prior to antibiotic administration, but do not delay therapy if cultures are difficult to obtain; clinical urgency takes precedence. Antibiotic administration within the first hour is a key survival metric.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Disease</span>
 				<h4>ICU Sepsis Source Control Protocol</h4>
 				<p><strong>Anatomical Infectious Nexus Eradication Mapping.</strong></p>
@@ -791,7 +786,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Remove suspected infected central lines or indwelling catheters immediately upon diagnosing line-associated sepsis; these represent foreign-body reservoirs that can perpetuate systemic inflammation despite adequate antibiotic coverage.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Disease</span>
 				<h4>Antibiotic Stewardship / De-escalation Protocol</h4>
 				<p><strong>Antimicrobial Rationalization & Culture Monotherapy Mapping.</strong></p>
@@ -806,7 +801,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Broad-spectrum over-treatment is a primary driver of resistance. Discontinue unnecessary coverage as soon as culture results permit to improve patient outcomes and preserve antibiotic efficacy.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Disease</span>
 				<h4>Severe Community-Acquired Pneumonia Protocol</h4>
 				<p><strong>Pneumonic Respiratory Failure Guideline Mapping.</strong></p>
@@ -821,7 +816,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Initiate combination therapy (beta-lactam plus a macrolide or respiratory fluoroquinolone) for severe presentations to provide comprehensive coverage for typical and atypical pathogens (e.g., *Mycoplasma*, *Legionella*).</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Disease</span>
 				<h4>Ventilator-Associated Pneumonia (VAP) Bundle</h4>
 				<p><strong>Nosocomial Intubation Pneumonia Preventative Care Mapping.</strong></p>
@@ -836,7 +831,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Maintain consistent subglottic secretion clearance. Change ventilator circuits only when physically soiled or malfunctioning; routine scheduled circuit changes do not reduce pneumonia risk and may inadvertently increase circuit contamination.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Disease</span>
 				<h4>CLABSI Prevention Bundle</h4>
 				<p><strong>Central Line Vascular Insertion & Maintenance Mapping.</strong></p>
@@ -851,7 +846,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Perform a daily line audit and remove central catheters as soon as they are no longer clinically essential; the total duration of catheterization is the strongest independent predictor of CLABSI risk.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Disease</span>
 				<h4>CAUTI Prevention Bundle</h4>
 				<p><strong>Urinary Catheter Device Restrictive Maintenance Mapping.</strong></p>
@@ -867,10 +862,10 @@
 			</div>
         </div>
 
-        <!-- === CATEGORY: RENAL / ICU SYSTEM PROTOCOLS === -->
+        <!-- === CATEGORY 8: RENAL / ICU SYSTEM PROTOCOLS === -->
         <h3 class="category-heading search-target-heading">Renal / ICU System Protocols</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal / ICU Systems</span>
 				<h4>Acute Kidney Injury (AKI) KDIGO Protocol</h4>
 				<p><strong>Renal Insult Classification & Injury Mitigation Mapping.</strong></p>
@@ -885,7 +880,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Adjust or discontinue all potentially nephrotoxic maintenance medications immediately upon Stage 1 AKI detection. Early intervention is critical to prevent further structural tubular injury and secondary nephron loss.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal / ICU Systems</span>
 				<h4>Continuous Renal Replacement Therapy (CRRT) Initiation Protocol</h4>
 				<p><strong>Extracorporeal Hemofiltration Indication & Setup Mapping.</strong></p>
@@ -900,7 +895,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Anticipate CRRT requirements early. If progressive fluid overload complicates refractory hypoxemia (e.g., severe pulmonary edema), early initiation is preferred, as delaying therapy significantly increases the risk of irreversible multi-organ failure.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal / ICU Systems</span>
 				<h4>Electrolyte Replacement Protocol</h4>
 				<p><strong>Critical Electrolyte Sliding Scale Correction Mapping.</strong></p>
@@ -915,7 +910,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Always correct hypomagnesemia concurrently with hypokalemia. Magnesium acts as a crucial cofactor for the Na<sup>+</sup>/K<sup>+</sup>-ATPase pump; intracellular potassium will not recover if magnesium levels remain low, frequently resulting in refractory hypokalemia.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal / ICU Systems</span>
 				<h4>Fluid Resuscitation and Balance Protocol</h4>
 				<p><strong>Dynamic Volume Responsiveness Assessment Mapping.</strong></p>
@@ -930,7 +925,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Utilize dynamic markers (e.g., SVV, PLR) rather than static values (like CVP) to gauge volume responsiveness. Dynamic tests evaluate the heart's position on the Frank-Starling curve, whereas static values are unreliable for predicting fluid needs and often lead to harmful over-resuscitation.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal / ICU Systems</span>
 				<h4>ICU Glycemic Control Protocol</h4>
 				<p><strong>Critical Care Continuous Insulin Titration Mapping.</strong></p>
@@ -945,7 +940,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Target a stable blood glucose range of 140–180 mg/dL for most critically ill patients. Avoiding "strict" glycemic control (targeting &lt; 110 mg/dL) is critical, as intensive control is associated with higher rates of iatrogenic hypoglycemia and increased mortality in ICU populations.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal / ICU Systems</span>
 				<h4>Stress Ulcer Prophylaxis Protocol</h4>
 				<p><strong>Gastrointestinal Mucosal Injury Prevention Mapping.</strong></p>
@@ -960,7 +955,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Limit prophylaxis strictly to high-risk patients. The widespread, unnecessary use of acid-suppressive therapy is associated with a significantly increased risk of <em>C. difficile</em> infections and nosocomial pneumonia due to altered gastric pH and bacterial overgrowth.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal / ICU Systems</span>
 				<h4>VTE Prophylaxis Protocol</h4>
 				<p><strong>Venous Thromboembolism Prophylactic Optimization Mapping.</strong></p>
@@ -975,7 +970,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer pharmacological prophylaxis within 24 hours of admission unless absolute contraindications exist; delayed initiation is a primary modifiable risk factor for preventable hospital-acquired venous thromboembolism.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal / ICU Systems</span>
 				<h4>ICU Nutrition Support Protocol</h4>
 				<p><strong>Critical Care Nutritional Optimization Mapping.</strong></p>
@@ -991,10 +986,10 @@
 			</div>
         </div>
 
-        <!-- === CATEGORY: ANESTHESIA CORE PROTOCOLS === -->
+        <!-- === CATEGORY 9: ANESTHESIA CORE PROTOCOLS === -->
         <h3 class="category-heading search-target-heading">Anesthesia Core Protocols</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Preoperative Assessment Protocol</h4>
 				<p><strong>Surgical Risk Stratification & Pre-Anesthetic Optimization Mapping.</strong></p>
@@ -1009,7 +1004,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Prioritize a thorough airway evaluation alongside cardiac functional capacity checks (e.g., METs assessment) for all major procedures. These remain the two primary clinical pillars for predicting and preventing anesthetic morbidity.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Standard Intraoperative Monitoring Protocol</h4>
 				<p><strong>ASA Physiological Guardrail Parameter Mapping.</strong></p>
@@ -1024,7 +1019,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Continuous capnography is required for all general anesthesia cases involving advanced airway instrumentation. It remains the gold standard for immediate confirmation of proper endotracheal tube placement and real-time monitoring of ventilation adequacy and circulatory perfusion.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Rapid Sequence Induction (Anesthesia Version)</h4>
 				<p><strong>Surgical Aspiration Risk Induction Mapping.</strong></p>
@@ -1039,7 +1034,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Avoid manual positive-pressure mask ventilation prior to endotracheal tube cuff inflation to protect the airway; gastric insufflation significantly elevates the risk of passive regurgitation and life-threatening aspiration.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>General Anesthesia Induction & Maintenance Protocol</h4>
 				<p><strong>Balanced Surgical Anesthetic State Management Mapping.</strong></p>
@@ -1054,7 +1049,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Monitor MAC fractions alongside hemodynamics to prevent intraoperative awareness. MAC values serve as a surrogate for anesthetic depth, but must be interpreted in the context of concurrent opioid use, patient age, and comorbid physiological factors.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Total Intravenous Anesthesia (TIVA) Protocol</h4>
 				<p><strong>Volatile-Free Target-Controlled Infusion Mapping.</strong></p>
@@ -1069,7 +1064,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> TIVA is the preferred choice for patients at high risk for severe postoperative nausea and vomiting (PONV) or those with a genetic susceptibility to malignant hyperthermia. Unlike inhalational agents, TIVA drugs do not trigger the calcium-release mechanism in skeletal muscle that initiates malignant hyperthermia.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Regional Anesthesia Safety Protocol</h4>
 				<p><strong>Regional Neural Blockade Complication Mitigation Mapping.</strong></p>
@@ -1084,7 +1079,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Perform a standard surgical time-out immediately prior to introducing regional needles or local anesthetics. This is critical to avoid "wrong-side" or "wrong-level" blocks, which carry high morbidity risks and are strictly preventable via standardized protocols.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Spinal Anesthesia Protocol</h4>
 				<p><strong>Subarachnoid Dense Dermatomal Blockade Mapping.</strong></p>
@@ -1099,7 +1094,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Anticipate a rapid drop in systemic vascular resistance secondary to the high spinal sympathetic block. Manage hypotension aggressively with early fluid loading and titrated vasopressors like Phenylephrine or Ephedrine to maintain adequate cardiac output and organ perfusion throughout the procedure.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Epidural Anesthesia Protocol</h4>
 				<p><strong>Space Localization & Titratable Catheter Mapping.</strong></p>
@@ -1114,7 +1109,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Always administer a small epinephrine test dose to rule out unintended intrathecal or intravascular placement. A heart rate increase of > 20 beats per minute within 30–60 seconds after the test dose is a highly sensitive indicator of accidental intravascular injection.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Peripheral Nerve Block Protocol</h4>
 				<p><strong>Ultrasound-Guided Extremity Nerve Blockade Mapping.</strong></p>
@@ -1129,7 +1124,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Direct visualization of local anesthetic spread around the target nerve bundle is mandatory to minimize the risk of needle-to-nerve contact. If high resistance or patient-reported pain occurs during injection, immediately cease the maneuver to prevent intraneural injection and subsequent permanent nerve injury.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Neuromuscular Blockade Management Protocol</h4>
 				<p><strong>Intraoperative Paralytic Depth Objective Tracking Mapping.</strong></p>
@@ -1144,7 +1139,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Avoid deep neuromuscular blocks unless explicitly required by surgical exposure needs. Objective, quantitative monitoring is the only reliable way to prevent residual neuromuscular blockade (RNMB), which is strongly associated with postoperative pulmonary complications, hypoxia, and upper airway obstruction.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Neuromuscular Reversal Protocol</h4>
 				<p><strong>Paralytic Clear Recovery Parameters Mapping.</strong></p>
@@ -1159,7 +1154,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Verify a quantitative train-of-four (TOF) ratio > 0.9 prior to extubation. Relying on clinical signs alone (like head lift) is often insufficient, as patients may appear strong while still harboring significant diaphragm weakness and impaired airway reflexes, increasing the risk of aspiration.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Malignant Hyperthermia Emergency Protocol</h4>
 				<p><strong>Hypermetabolic Anesthetic Crisis Resuscitation Mapping.</strong></p>
@@ -1174,7 +1169,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Early recognition is life-saving. Unexplained hypercarbia (rising EtCO<sub>2</sub>) is often the earliest physiological indicator of MH—do not wait for the onset of pyrexia or muscle rigidity to initiate the full protocol, including Dantrolene administration.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Local Anesthetic Systemic Toxicity (LAST) Protocol</h4>
 				<p><strong>Intravascular Local Anesthetic Toxicity Rescue Mapping.</strong></p>
@@ -1189,7 +1184,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer the 20% lipid emulsion bolus immediately upon encountering sudden cardiovascular collapse or CNS toxicity (seizures) during a regional block. The emulsion acts as a "lipid sink," sequestering the highly lipophilic local anesthetic from the plasma and myocardial tissue, effectively reversing its inhibitory effect on sodium channels.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Postoperative Pain Management Protocol</h4>
 				<p><strong>Multimodal Post-Surgical Analgesia Optimization Mapping.</strong></p>
@@ -1204,7 +1199,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> The core of multimodal analgesia is the scheduled combination of non-opioids like Acetaminophen and NSAIDs. This strategy effectively reduces total opioid consumption, significantly decreasing the incidence of opioid-related side effects such as postoperative ileus, excessive sedation, and respiratory depression, while facilitating early mobilization.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>Postoperative Nausea and Vomiting (PONV) Protocol</h4>
 				<p><strong>Prophylactic Emetic Mitigation Risk Track Mapping.</strong></p>
@@ -1219,7 +1214,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer Dexamethasone at induction and Ondansetron near the end of surgery for optimal synergistic coverage. Using agents that act on different receptors (e.g., serotonergic, dopaminergic, and corticosteroid pathways) provides significantly better protection than simply increasing the dose of a single class of antiemetic.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-anesthesia">Anesthesia Core</span>
 				<h4>PACU Recovery and Discharge Protocol</h4>
 				<p><strong>Post-Anesthetic Recovery Room Discharge Mapping.</strong></p>
@@ -1235,10 +1230,10 @@
 			</div>
         </div>
 
-        <!-- === CATEGORY: ICU CARE BUNDLES / SYSTEM PROTOCOLS === -->
+        <!-- === CATEGORY 10: ICU CARE BUNDLES / SYSTEM PROTOCOLS === -->
         <h3 class="category-heading search-target-heading">ICU Care Bundles / System Protocols</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu-bundle">ICU Care Bundles</span>
 				<h4>Sedation and Analgesia Protocol</h4>
 				<p><strong>Analgesia-First Intensive Care Sedation Mapping.</strong></p>
@@ -1253,7 +1248,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Targeting a RASS score of 0 to -1 maintains an alert, comfortable patient who can follow simple commands. This "light sedation" approach is the gold standard for evidence-based ICU care, as it is proven to shorten the duration of mechanical ventilation and significantly reduce the incidence of ICU-acquired delirium.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu-bundle">ICU Care Bundles</span>
 				<h4>ICU Delirium Prevention (ABCDEF Bundle)</h4>
 				<p><strong>Multicomponent Cognitive Preservation Bundle Mapping.</strong></p>
@@ -1268,7 +1263,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Perform a formal CAM-ICU screening every shift. Hypoactive delirium is notoriously difficult to detect but is associated with significantly higher mortality rates. Early identification allows for focused non-pharmacological interventions, which are generally safer and more effective than antipsychotic medication.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu-bundle">ICU Care Bundles</span>
 				<h4>Early Mobilization Protocol</h4>
 				<p><strong>Critical Care Progressive Physical Therapy Mapping.</strong></p>
@@ -1283,7 +1278,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Passive ROM and even active-assisted exercises can often be safely performed even while the patient is on low-dose vasopressor support. Early mobilization is the most potent intervention for preventing and reversing ICU-acquired weakness (ICUAW), which is a key driver for prolonged mechanical ventilation and delayed physical recovery.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu-bundle">ICU Care Bundles</span>
 				<h4>Ventilator Bundle (VAP Prevention)</h4>
 				<p><strong>Intubated Ventilatory Complication Prevention Mapping.</strong></p>
@@ -1298,7 +1293,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Utilize an endotracheal tube (ETT) with a subglottic suction port to actively intercept silent micro-aspiration. Subglottic secretion drainage is highly effective for reducing VAP, as it prevents the pooling of contaminated secretions above the endotracheal cuff, which are the primary reservoir for bacterial migration into the lungs.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu-bundle">ICU Care Bundles</span>
 				<h4>Central Line Bundle (CLABSI Prevention)</h4>
 				<p><strong>Central Venous Catheter Infection Risk Mitigation Mapping.</strong></p>
@@ -1313,7 +1308,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Avoid femoral vein insertion sites whenever possible due to the higher risk of catheter-related bloodstream infections (CRBSI). If emergent femoral access is required for resuscitation, prioritize replacement to a subclavian or internal jugular site under strict sterile conditions as soon as the patient is hemodynamically stabilized.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu-bundle">ICU Care Bundles</span>
 				<h4>Urinary Catheter Bundle (CAUTI Prevention)</h4>
 				<p><strong>Indwelling Catheter Device Optimization Mapping.</strong></p>
@@ -1328,7 +1323,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> The duration of catheterization is the single most significant risk factor for Catheter-Associated Urinary Tract Infection (CAUTI). Re-evaluate the necessity of the catheter during daily multidisciplinary rounds and prioritize early removal; transitioning to alternative methods, such as external collection devices or intermittent catheterization, drastically lowers the infectious risk profile.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu-bundle">ICU Care Bundles</span>
 				<h4>ICU Liberation Bundle</h4>
 				<p><strong>Critical Care Sedation & Ventilator Weaning Integration Mapping.</strong></p>
@@ -1343,7 +1338,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> The coordination of SATs and SBTs is the primary driver of successful ventilator liberation. Synchronizing these two interventions avoids unnecessary prolonged sedation and mechanical ventilation, which are the most significant risk factors for the development of ICU-acquired weakness and delirium.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu-bundle">ICU Care Bundles</span>
 				<h4>End-of-Life Care / Withdrawal of Support Protocol</h4>
 				<p><strong>Compassionate Comfort Care & Palliation Mapping.</strong></p>
@@ -1359,10 +1354,10 @@
 			</div>
         </div>
 
-        <!-- === CATEGORY: TRAUMA / SURGICAL EMERGENCIES === -->
+        <!-- === CATEGORY 11: TRAUMA / SURGICAL EMERGENCIES === -->
         <h3 class="category-heading search-target-heading">Trauma / Surgical Emergencies</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma / Surgical</span>
 				<h4>Trauma Primary Survey</h4>
 				<p><strong>Life-Threatening Injury Rapid Identification Mapping.</strong></p>
@@ -1377,7 +1372,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Maintain manual cervical spine stabilization throughout all airway interventions in any blunt trauma patient until spinal injury is ruled out. Remember that the "ABCDE" mnemonic is iterative; if the patient demonstrates any physiological deterioration, return immediately to the beginning of the survey to re-verify the airway and circulatory status.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma / Surgical</span>
 				<h4>Trauma Secondary Survey</h4>
 				<p><strong>Comprehensive Head-to-Toe Injury Mapping.</strong></p>
@@ -1392,7 +1387,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> During the log-roll, inspect the entire posterior aspect and perform a directed perineal/rectal exam if clinical suspicion of spinal cord or penetrative pelvic trauma exists. Assessing for blood at the urethral meatus, a high-riding prostate, or altered rectal sphincter tone provides critical, time-sensitive diagnostic data for urologic and neurologic injury.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma / Surgical</span>
 				<h4>Chest Tube Insertion Protocol</h4>
 				<p><strong>Surgical Tube Thoracostomy Maneuver Mapping.</strong></p>
@@ -1407,7 +1402,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Always insert the tube over the <strong>superior border</strong> of the rib. The intercostal neurovascular bundle—comprising the intercostal vein, artery, and nerve—runs along the inferior costal groove of each rib; failure to stay superiorly can result in significant iatrogenic hemorrhage or nerve injury.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma / Surgical</span>
 				<h4>Tension Pneumothorax Decompression Protocol</h4>
 				<p><strong>Emergent Obstructive Shock Alleviation Mapping.</strong></p>
@@ -1422,7 +1417,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Tension pneumothorax is a <strong>clinical diagnosis</strong>. Never delay life-saving decompression for imaging; if the patient exhibits obstructive shock, act immediately. Current Advanced Trauma Life Support (ATLS) guidelines increasingly prefer the 4th/5th intercostal space at the anterior axillary line, as this site is more reliably successful across varying patient body habitus.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma / Surgical</span>
 				<h4>Burn Resuscitation Protocol</h4>
 				<p><strong>Thermal Injury Fluid Calculations Mapping.</strong></p>
@@ -1437,7 +1432,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> The Parkland formula is a clinical guideline, not a rigid mandate. The 8-hour clock begins at the <strong>time of injury</strong>, not hospital arrival. In cases of delayed presentation, clinicians must rapidly adjust infusion rates to account for the deficit and ensure the volume goals are met relative to the original injury time.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma / Surgical</span>
 				<h4>Acute Abdomen / Surgical Emergency Protocol</h4>
 				<p><strong>Peritonitis & Visceral Perforation Evaluation Mapping.</strong></p>
@@ -1452,7 +1447,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> If signs of peritonitis are present, prioritize immediate surgical consultation. Do not delay this consultation to wait for non-essential diagnostic tests if the patient is already demonstrating signs of hemodynamic instability or overt peritoneal irritation, as time-to-source-control is the primary determinant of mortality.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma / Surgical</span>
 				<h4>GI Bleeding Emergency Protocol</h4>
 				<p><strong>Massive Gastrointestinal Hemorrhage Stabilization Mapping.</strong></p>
@@ -1467,7 +1462,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Prioritize airway safety if massive hematemesis occurs. In active variceal hemorrhage, ensure hemodynamic stabilization with blood products prior to endoscopy. Sedation for the procedure carries a high risk of decompensation in patients with severe hypovolemic shock; always stabilize the patient's physiology to the extent possible before proceeding.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma / Surgical</span>
 				<h4>Polytrauma Resuscitation Protocol</h4>
 				<p><strong>Severe Multi-System Injury Resuscitation Mapping.</strong></p>
@@ -1483,10 +1478,10 @@
 			</div>
         </div>
 
-        <!-- === CATEGORY: TOXICOLOGY / ENVIRONMENTAL EMERGENCIES === -->
+        <!-- === CATEGORY 12: TOXICOLOGY / ENVIRONMENTAL EMERGENCIES === -->
         <h3 class="category-heading search-target-heading">Toxicology / Environmental Emergencies</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-toxicology">Toxicology / Env</span>
 				<h4>Opioid Overdose Protocol</h4>
 				<p><strong>Narcotic-Induced Respiratory Depression Rescue Mapping.</strong></p>
@@ -1501,7 +1496,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> The goal of Naloxone administration is to "titrate to ventilation," not to full patient consciousness. By prioritizing the restoration of adequate breathing drive rather than rapid awakening, you effectively prevent the severe autonomic surge and catecholamine crisis associated with acute opioid withdrawal.</div>
 			</div>
             
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-toxicology">Toxicology / Env</span>
 				<h4>Benzodiazepine Overdose Protocol</h4>
 				<p><strong>Sedative-Hypnotic Ingestion Management Mapping.</strong></p>
@@ -1516,7 +1511,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Supportive airway and circulatory care is the absolute gold standard for management. Flumazenil is frequently contraindicated in toxicology, especially when co-ingestion is suspected. Because it lowers the seizure threshold, its use in chronic benzodiazepine users or patients who have ingested pro-convulsant drugs can lead to intractable, life-threatening seizures. Always prioritize supportive care over pharmacological reversal.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-toxicology">Toxicology / Env</span>
 				<h4>Organophosphate Poisoning Protocol</h4>
 				<p><strong>Cholinergic Toxidrome & Acetylcholinesterase Reactivation Mapping.</strong></p>
@@ -1530,7 +1525,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> The primary titration endpoint for Atropine is the <strong>clearance of bronchial secretions (bronchorrhea)</strong> and the resolution of wheezing. Do not target tachycardia or pupil size, as these are unreliable markers of therapeutic success. Bronchial secretions represent the most immediate life-threatening feature of the cholinergic toxidrome and must remain the focal point of resuscitation.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-toxicology">Toxicology / Env</span>
 				<h4>Toxic Alcohol Protocol</h4>
 				<p><strong>Methanol / Ethylene Glycol Competitive Blockade Mapping.</strong></p>
@@ -1545,7 +1540,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Do not delay treatment for laboratory confirmation. If a patient presents with a severe, unexplained AGMA and a history suggestive of ingestion, initiate empirical ADH blockade immediately. Because morbidity and mortality are driven by toxic metabolites (formic acid or glycolic acid) rather than the parent alcohol, the timing of ADH inhibition is the single most important factor for survival.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-toxicology">Toxicology / Env</span>
 				<h4>Carbon Monoxide Poisoning Protocol</h4>
 				<p><strong>Tissue Hypoxia Carboxyhemoglobin Displacement Mapping.</strong></p>
@@ -1560,7 +1555,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Never rely on standard pulse oximetry, which remains notoriously unreliable as it cannot distinguish between oxyhemoglobin and carboxyhemoglobin, often yielding a falsely normal SpO2 of 98–100%. Always utilize an arterial or venous co-oximetry panel to determine the true COHb percentage and guide therapy.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-toxicology">Toxicology / Env</span>
 				<h4>Heat Stroke Protocol</h4>
 				<p><strong>Hyperthermic Neuro-Axial Crisis Resuscitation Mapping.</strong></p>
@@ -1575,7 +1570,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> The rate of thermal extraction is the primary predictor of survival. Prioritize rapid physical cooling techniques over secondary diagnostic workups during the first 30 minutes of resuscitation. Always aim to stop aggressive cooling at 39°C to avoid overshoot into hypothermia, which can complicate the recovery phase.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-toxicology">Toxicology / Env</span>
 				<h4>Hypothermia Management Protocol</h4>
 				<p><strong>Accidental Core Thermal Recovery & Stabilization Mapping.</strong></p>
@@ -1592,46 +1587,30 @@
         </div>
     </div>
     
-    <!-- FOOTER TOGGLE NAVIGATION CONTROLS -->
+    <!-- PROTOCOLS TOGGLE NAVIGATION CONTROLS -->
     <h5 style="text-align: left; margin: 20px 0 0 0;">
-        <a href="#" id="showMoreLinkServices" style="color: #808080; text-transform: uppercase; font-weight: bold; text-decoration: none; transition: color 0.3s;" onclick="event.preventDefault(); toggleShowMore();">Show More</a>
+        <a href="#" id="showMoreLinkServices" style="color: #808080; text-transform: uppercase; font-weight: bold; text-decoration: none; transition: color 0.3s;" onclick="event.preventDefault(); toggleShowMore();">Show All Protocols</a>
     </h5>
-	<!--<div style="margin-top: 3rem; padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 8px;">
-        <h5 style="margin-bottom: 0.5rem; color: #fff;">N.B. Protocol Operational Directives</h5>
-        <p style="font-size: 0.85rem; line-height: 1.4; margin: 0;">
-            All step-by-step maps detailed within this interface are configured for immediate bedside clinical reference. Cross-verify weight-adjusted drug dosing schemas against current institutional parameters before administration. Ensure multi-tiered alternative pathways are reviewed prior to invasive airway orchestration loops.
-        </p>
-    </div>-->
-    <!--<h5 style="text-align: center; margin: 10px 0;"><a href="#menu">Text</a></h5>-->
+	    <!--<h5 style="text-align: center; margin: 10px 0;"><a href="#menu">Text</a></h5>-->
     <br>
-</article>
-							
-<!-- Diseases -->
-<article id="diseases">
-
-    <!-- SEARCH INTERFACE: PINNED EXACTLY OPPOSITE TO NATIVE [X] -->
-    <div class="protocol-search-corner-container">
-        <div id="diseaseSearchBox" class="search-box">
-            <input type="text" id="diseaseSearchInput" placeholder="Search diseases..." onkeyup="filterDiseases()">
-            <button type="button" id="diseaseSearchBtn" class="search-btn" onclick="toggleDiseaseSearch()">
-                <span id="diseaseSearchIconWrapper" class="icon solid fa-search"></span>
-            </button>
-        </div>
-    </div>
-
-    <!-- YOUR NATIVE CLOSE BUTTON LINK -->
-    <div class="close">Close</div>
-
-    <h2 class="major">Emergency Conditions</h2>
-    
-    <!-- ==========================================================================
-         VISIBLE SECTIONS (CATEGORIES 1 - 4)
-         ========================================================================== -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	    <div id="hiddenContentDiseases" style="display: none;">
+            <h2 class="major">Emergency Cases</h2>
 
     <!-- === CATEGORY 1: CARDIAC EMERGENCIES === -->
 	<h3 class="category-heading search-target-heading">Cardiac Emergencies</h3>
-    <div class="approach-grid">
-		<div class="approach-card">
+    <div class="article-grid">
+		<div class="article-card">
 			<span class="protocol-tag tag-cardiac">Cardiac Emergencies</span>
 			<h4>Acute Coronary Syndrome (ACS)</h4>
 			<p><strong>Ischemic Myocardial Insult & Early Antithrombotic Mapping.</strong></p>
@@ -1646,7 +1625,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Obtain and interpret a 12-lead ECG within 10 minutes of presentation; initiate antiplatelet therapy promptly.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-cardiac">Cardiac Emergencies</span>
 			<h4>ST-Elevation Myocardial Infarction (STEMI)</h4>
 			<p><strong>Hyper-acute Transmural Infarction Emergency Reperfusion Mapping.</strong></p>
@@ -1661,7 +1640,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Time is muscle. Target a door-to-balloon time of under 90 minutes for primary percutaneous coronary intervention (PCI).</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-cardiac">Cardiac Emergencies</span>
 			<h4>Non-ST Elevation Myocardial Infarction (NSTEMI)</h4>
 			<p><strong>Non-Transmural Ischemic Evaluation & Stratification Mapping.</strong></p>
@@ -1676,7 +1655,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Risk-stratify using TIMI or GRACE scores to guide early invasive strategies versus medical stabilization.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-cardiac">Cardiac Emergencies</span>
 			<h4>Cardiac Arrest</h4>
 			<p><strong>Sudden Mechanistic Collapse & Global Resuscitation Mapping.</strong></p>
@@ -1691,7 +1670,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Minimize interruptions in high-quality chest compressions and prioritize rapid rhythm assessment and defibrillation.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-cardiac">Cardiac Emergencies</span>
 			<h4>Ventricular Tachycardia (VT)</h4>
 			<p><strong>Monomorphic / Polymorphic Ventricular Tachyarrhythmia Mapping.</strong></p>
@@ -1706,7 +1685,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> If pulses are absent, treat immediately as ventricular fibrillation with unsynchronized defibrillation.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-cardiac">Cardiac Emergencies</span>
 			<h4>Ventricular Fibrillation (VF)</h4>
 			<p><strong>Chaotic Ventricular Disorganization & Defibrillation Mapping.</strong></p>
@@ -1721,7 +1700,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Deliver immediate unsynchronized high-energy shock; shock early before fine VF deteriorates to asystole.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-cardiac">Cardiac Emergencies</span>
 			<h4>Supraventricular Tachycardia (SVT)</h4>
 			<p><strong>Paroxysmal Narrow-Complex Tachyarrhythmia Elimination Mapping.</strong></p>
@@ -1736,7 +1715,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Attempt vagal maneuvers first; if ineffective, administer rapid IV push adenosine through a large-bore proximal line.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-cardiac">Cardiac Emergencies</span>
 			<h4>Atrial Fibrillation with RVR</h4>
 			<p><strong>Irregular Tachydysrhythmia Rate & Rhythm Optimization Mapping.</strong></p>
@@ -1751,7 +1730,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Assess hemodynamic stability. If unstable, consider urgent synchronized cardioversion; if stable, opt for rate control with beta-blockers or diltiazem.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-cardiac">Cardiac Emergencies</span>
 			<h4>Complete Heart Block / Bradyarrhythmias</h4>
 			<p><strong>High-Degree Atrioventricular Dissociation Stabilization Mapping.</strong></p>
@@ -1766,7 +1745,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Prepare immediate transcutaneous pacing if atropine fails or if the patient exhibits signs of cardiogenic shock.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-cardiac">Cardiac Emergencies</span>
 			<h4>Cardiogenic Shock (Cardiac)</h4>
 			<p><strong>Primary Mechanical Pump Failure & Hypoperfusion Rescue Mapping.</strong></p>
@@ -1781,7 +1760,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Carefully balance inotropes and vasopressors; aim to optimize perfusion pressure without excessively increasing myocardial oxygen demand.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-cardiac">Cardiac Emergencies</span>
 			<h4>Acute Heart Failure / Pulmonary Edema</h4>
 			<p><strong>Decompensated Ventricular Congestion & Unload Mapping.</strong></p>
@@ -1799,8 +1778,8 @@
 
     <!-- === CATEGORY 2: RESPIRATORY EMERGENCIES === -->
 	<h3 class="category-heading search-target-heading">Respiratory Emergencies</h3>
-    <div class="approach-grid">
-		<div class="approach-card">
+    <div class="article-grid">
+		<div class="article-card">
 			<span class="protocol-tag tag-respiratory">Respiratory Emergencies</span>
 			<h4>Acute Respiratory Distress Syndrome (ARDS)</h4>
 			<p><strong>Permeability Hyper-Inflammation & Protective Ventilation Mapping.</strong></p>
@@ -1815,7 +1794,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Adhere to low tidal volume ventilation (6 mL/kg PBW) and consider early prone positioning for severe cases.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-respiratory">Respiratory Emergencies</span>
 			<h4>Acute Respiratory Failure (Type I & II)</h4>
 			<p><strong>Hypoxemic Shunt versus Hypercapnic Ventilation Deficit Mapping.</strong></p>
@@ -1830,7 +1809,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Differentiate early via arterial blood gas analysis to determine the need for oxygenation support vs. ventilatory assistance.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-respiratory">Respiratory Emergencies</span>
 			<h4>Severe Asthma Exacerbation</h4>
 			<p><strong>Hyper-reactive Bronchial Inflammation & Airflow Obstruction Rescue Mapping.</strong></p>
@@ -1845,7 +1824,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer continuous nebulized bronchodilators, systemic corticosteroids, and consider IV magnesium sulfate early.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-respiratory">Respiratory Emergencies</span>
 			<h4>COPD Exacerbation</h4>
 			<p><strong>Alveolar Air-Trapping & Tracheobronchial Infection Response Mapping.</strong></p>
@@ -1860,7 +1839,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Target oxygen saturations of 88 to 92 percent to prevent the loss of the hypoxic respiratory drive.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-respiratory">Respiratory Emergencies</span>
 			<h4>Pulmonary Embolism (PE)</h4>
 			<p><strong>V/Q Mismatch & Acute Right Ventricular Afterload Shock Mapping.</strong></p>
@@ -1875,7 +1854,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Evaluate for systemic hypotension; massive PE with shock requires immediate systemic thrombolysis or embolectomy.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-respiratory">Respiratory Emergencies</span>
 			<h4>Pneumothorax (including Tension)</h4>
 			<p><strong>Pleural Air Accumulation & Mediastinal Displacement Relief Mapping.</strong></p>
@@ -1890,7 +1869,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Do not delay for an X-ray if tension is suspected; perform urgent needle decompression followed by tube thoracostomy.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-respiratory">Respiratory Emergencies</span>
 			<h4>Pneumonia (Severe / Sepsis-related)</h4>
 			<p><strong>Parenchymal Consolidation & Systemic Inflammatory Cascade Mapping.</strong></p>
@@ -1905,7 +1884,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer broad-spectrum empiric antibiotics within one hour of identifying severe sepsis metrics.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-respiratory">Respiratory Emergencies</span>
 			<h4>Aspiration Pneumonitis</h4>
 			<p><strong>Corrosive Gastric Acid Chemical Burn & Secondary Hypoxemia Mapping.</strong></p>
@@ -1920,7 +1899,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Routine prophylactic antibiotics are not indicated immediately following a sterile aspiration event unless signs of infection develop.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-respiratory">Respiratory Emergencies</span>
 			<h4>Upper Airway Obstruction</h4>
 			<p><strong>Mechanical Laryngeal/Tracheal Occlusion & Critical Airway Rescue Mapping.</strong></p>
@@ -1938,8 +1917,8 @@
 
     <!-- === CATEGORY 3: NEUROLOGICAL EMERGENCIES === -->
 	<h3 class="category-heading search-target-heading">Neurological Emergencies</h3>
-    <div class="approach-grid">
-		<div class="approach-card">
+    <div class="article-grid">
+		<div class="article-card">
 			<span class="protocol-tag tag-neuro">Neurological Emergencies</span>
 			<h4>Ischemic Stroke</h4>
 			<p><strong>Focal Cerebral Thromboembolism & Thrombolytic Window Mapping.</strong></p>
@@ -1954,7 +1933,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Establish the exact "Last Known Well" time and obtain an emergency non-contrast head CT to rule out hemorrhage.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-neuro">Neurological Emergencies</span>
 			<h4>Intracerebral Hemorrhage (ICH)</h4>
 			<p><strong>Parenchymal Hematoma Containment & Target Hemodynamic Mapping.</strong></p>
@@ -1969,7 +1948,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Manage systolic blood pressure aggressively to a target of 140 mmHg to minimize hematoma expansion.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-neuro">Neurological Emergencies</span>
 			<h4>Subarachnoid Hemorrhage (SAH)</h4>
 			<p><strong>Aneurysmal Rupture Crisis & Rebleeding Prevention Mapping.</strong></p>
@@ -1984,7 +1963,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Prevent rebleeding by controlling blood pressure and consulting neurosurgery early for coiling or clipping.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-neuro">Neurological Emergencies</span>
 			<h4>Status Epilepticus</h4>
 			<p><strong>Continuous Epileptiform Escalation & Neuro-Metabolic Protection Mapping.</strong></p>
@@ -1999,7 +1978,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> First-line therapy is IV benzodiazepines; escalate promptly to non-sedating antiepileptic drugs if seizures persist.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-neuro">Neurological Emergencies</span>
 			<h4>Traumatic Brain Injury (TBI)</h4>
 			<p><strong>Primary Structural Neuro-Trauma & Secondary Insult Prevention Mapping.</strong></p>
@@ -2014,7 +1993,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Avoid hypotension (SBP less than 100 to 110 mmHg) and hypoxemia (PaO2 less than 60 mmHg) to minimize secondary brain injury.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-neuro">Neurological Emergencies</span>
 			<h4>Increased Intracranial Pressure (ICP)</h4>
 			<p><strong>Intracranial Volumetric Crisis & Osmotic Decompression Mapping.</strong></p>
@@ -2029,7 +2008,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Elevate the head of the bed to 30 degrees, maintain neutral neck alignment, and consider hyperosmolar therapy with mannitol or hypertonic saline.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-neuro">Neurological Emergencies</span>
 			<h4>Meningitis / Encephalitis</h4>
 			<p><strong>Meningeal Pathogen Encroachment & Empiric Antimicrobial Mapping.</strong></p>
@@ -2044,7 +2023,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer empiric broad-spectrum antibiotics and antivirals immediately after blood cultures; do not delay for a lumbar puncture if a CT is required.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-neuro">Neurological Emergencies</span>
 			<h4>Delirium (ICU/ED)</h4>
 			<p><strong>Acute Cognitive Fluctuation & Neuro-Environmental Harmonization Mapping.</strong></p>
@@ -2059,7 +2038,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Maximize non-pharmacological interventions such as early mobilization, orientation re-engagement, and restoring normal sleep-wake cycles.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-neuro">Neurological Emergencies</span>
 			<h4>Coma / Altered Mental Status</h4>
 			<p><strong>Undifferentiated Sensorium Depression & Systematic Etiology Diagnostics Mapping.</strong></p>
@@ -2077,8 +2056,8 @@
 
     <!-- === CATEGORY 4: SHOCK & CRITICAL ILLNESS SYNDROMES === -->
 <h3 class="category-heading search-target-heading">Shock & Critical Illness Syndromes</h3>
-    <div class="approach-grid">
-		<div class="approach-card">
+    <div class="article-grid">
+		<div class="article-card">
 			<span class="protocol-tag tag-shock">Shock & Critical Illness</span>
 			<h4>Septic Shock</h4>
 			<p><strong>Dysregulated Systemic Perfusion & Vasoactive Resource Mapping.</strong></p>
@@ -2093,7 +2072,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Initiate norepinephrine as the first-line vasopressor and obtain blood cultures before administering broad-spectrum antibiotics.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-shock">Shock & Critical Illness</span>
 			<h4>Sepsis</h4>
 			<p><strong>Host-Response Inflammation & Acute Organ Dysfunction Protection Mapping.</strong></p>
@@ -2108,7 +2087,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Utilize the SOFA score or qSOFA criteria to evaluate for suspected organ failure early.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-shock">Shock & Critical Illness</span>
 			<h4>Hypovolemic Shock</h4>
 			<p><strong>Intravascular Volume Deficit & Hemorrhagic Source Control Mapping.</strong></p>
@@ -2123,7 +2102,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Prioritize volume replacement and direct control of the source of fluid or blood loss over vasopressor administration.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-shock">Shock & Critical Illness</span>
 			<h4>Obstructive Shock</h4>
 			<p><strong>Mechanical Outflow Impairment & Immediate Thoracic Decompression Mapping.</strong></p>
@@ -2138,7 +2117,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Treatment requires direct relief of the mechanical obstruction; fluid boluses provide only temporary stabilization.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-shock">Shock & Critical Illness</span>
 			<h4>Anaphylactic Shock</h4>
 			<p><strong>IgE-Mediated Vasodilatory Collapse & Mast-Cell Degranulation Rescue Mapping.</strong></p>
@@ -2153,7 +2132,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Give intramuscular Epinephrine (1:1000, 0.3–0.5 mg) in the anterolateral thigh immediately; do not wait for airway compromise to develop.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-shock">Shock & Critical Illness</span>
 			<h4>Multiorgan Dysfunction Syndrome (MODS)</h4>
 			<p><strong>Progressive Sequential Homeostatic Deficit & Organ Support Mapping.</strong></p>
@@ -2168,17 +2147,11 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Focus on aggressive management of the underlying driver alongside meticulous organ-specific supportive care.</div>
 		</div>
     </div>
-
-
-    <!-- ==========================================================================
-         HIDDEN CONTENT SECTION (CATEGORIES 5 - 12)
-         ========================================================================== -->
-    <div id="hiddenContentDiseases" style="display: none;">
-        
-        <!-- === CATEGORY 5: METABOLIC / ENDOCRINE EMERGENCIES === -->
-<h3 class="category-heading search-target-heading">Metabolic / Endocrine Emergencies</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+	
+	        <!-- === CATEGORY 5: METABOLIC / ENDOCRINE EMERGENCIES === -->
+	<h3 class="category-heading search-target-heading">Metabolic / Endocrine Emergencies</h3>
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Diabetic Ketoacidosis (DKA)</h4>
 				<p><strong>Hyperglycemic Ketotic Acidosis & Intravenous Insulin Mapping.</strong></p>
@@ -2193,7 +2166,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Prioritize aggressive volume resuscitation and check serum potassium levels before starting an insulin infusion.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Hyperosmolar Hyperglycemic State (HHS)</h4>
 				<p><strong>Profound Hyperosmolality & Cellular Dehydration Correction Mapping.</strong></p>
@@ -2208,7 +2181,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Fluid deficits can exceed 8 to 10 liters; replace intravascular volume carefully to avoid rapid shifts in serum osmolality.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Hypoglycemia</h4>
 				<p><strong>Neuroglycopenic Crisis Emergency Counter-Regulation Mapping.</strong></p>
@@ -2223,7 +2196,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer 25–50 mL of 50 percent Dextrose (D50W) intravenously for immediate rescue in unresponsive patients.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Hyperkalemia</h4>
 				<p><strong>Myocardial Membrane Stabilization & Potassium Elimination Mapping.</strong></p>
@@ -2238,7 +2211,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer IV Calcium Gluconate or Chloride immediately if ECG changes are present to stabilize the myocardial membrane.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Hyponatremia (Severe Symptomatic)</h4>
 				<p><strong>Acute Hypo-Osmolar Cerebral Edema Decompression Mapping.</strong></p>
@@ -2253,7 +2226,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Correct with 3 percent hypertonic saline boluses to treat active seizures; avoid correcting faster than 8 mEq/L per 24 hours to prevent osmotic demyelination.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Hypernatremia</h4>
 				<p><strong>Free Water Intracellular Deficit & Volume Equalizing Mapping.</strong></p>
@@ -2268,7 +2241,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Calculate the Free Water Deficit and replace it slowly over 48 hours to prevent cerebral edema.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Hypocalcemia</h4>
 				<p><strong>Neuromuscular Hyper-Excitability & Ionized Fraction Rescue Mapping.</strong></p>
@@ -2283,7 +2256,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Check for Chvostek's or Trousseau's signs; treat severe or symptomatic presentations with IV Calcium Gluconate.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Thyroid Storm</h4>
 				<p><strong>Decompensated Hypermetabolic Hyperthyroid De-escalation Mapping.</strong></p>
@@ -2298,7 +2271,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Treat sequentially with beta-blockers, antithyroid drugs (PTU/methimazole), iodine solution, and hydrocortisone.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Myxedema Coma</h4>
 				<p><strong>Profound Hypothyroid Neuro-Metabolic Resuscitation Mapping.</strong></p>
@@ -2313,7 +2286,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Intubate early if respiratory failure is present; administer IV Levothyroxine ($T_4$) alongside stress-dose hydrocortisone.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-metabolic">Metabolic / Endocrine</span>
 				<h4>Adrenal Crisis</h4>
 				<p><strong>Acute Corticoid Insufficiency & Refractory Vasomotor Rescue Mapping.</strong></p>
@@ -2331,8 +2304,8 @@
 
         <!-- === CATEGORY 6: RENAL & ELECTROLYTE EMERGENCIES === -->
 		<h3 class="category-heading search-target-heading">Renal & Electrolyte Emergencies</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal & Electrolyte</span>
 				<h4>Acute Kidney Injury (AKI)</h4>
 				<p><strong>Abrupt GFR Deterioration & Nephrotoxic Elimination Mapping.</strong></p>
@@ -2347,7 +2320,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Categorize as prerenal, intrinsic, or postrenal; monitor for urgent indications for dialysis (AEIOU).</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal & Electrolyte</span>
 				<h4>Uremic Encephalopathy</h4>
 				<p><strong>Nitrogenous Toxin Accumulation & Neuro-Metabolic Resuscitation Mapping.</strong></p>
@@ -2362,7 +2335,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Presents with confusion, asterixis, and seizures; requires urgent renal replacement therapy (dialysis).</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal & Electrolyte</span>
 				<h4>Severe Fluid Overload / Pulmonary Edema (Renal)</h4>
 				<p><strong>Decompensated Hypervolemia & Ultrafiltration Optimization Mapping.</strong></p>
@@ -2377,7 +2350,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Implement high-dose IV loop diuretics; if refractory or anuric, initiate emergent ultrafiltration/hemodialysis.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-renal">Renal & Electrolyte</span>
 				<h4>Severe Acid-Base Disorders</h4>
 				<p><strong>Critical H+ Ion Dysregulation & Physiological Buffer Balancing Mapping.</strong></p>
@@ -2395,8 +2368,8 @@
 
         <!-- === CATEGORY 7: INFECTIOUS DISEASES === -->
 		<h3 class="category-heading search-target-heading">Infectious Diseases (Critical Care)</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Diseases</span>
 				<h4>Severe Sepsis</h4>
 				<p><strong>Infection-Induced Hypoperfusion & Organ Failure Protection Mapping.</strong></p>
@@ -2411,7 +2384,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Maintain a broad diagnostic index; administer dynamic fluid resuscitation (30 mL/kg) early in the care pathway.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Diseases</span>
 				<h4>Septic Shock (ID Context)</h4>
 				<p><strong>Refractory Circulatory Failure & Operative Source Control Mapping.</strong></p>
@@ -2426,7 +2399,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Source control is paramount; immediately identify and surgically drain or debride any amenable focus of infection.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Diseases</span>
 				<h4>COVID-19 Severe Pneumonia / ARDS</h4>
 				<p><strong>SARS-CoV-2 Hyper-Inflammatory Pneumonitis & Oxygenation Mapping.</strong></p>
@@ -2441,7 +2414,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Use systemic dexamethasone and consider early non-invasive positive pressure support or high-flow nasal cannula strategies.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Diseases</span>
 				<h4>Bacterial Meningitis</h4>
 				<p><strong>Subarachnoid Space Suppuration & Meningeal Decompression Mapping.</strong></p>
@@ -2456,7 +2429,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer dexamethasone concurrently with or just prior to the first dose of broad-spectrum empiric antibiotics.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Diseases</span>
 				<h4>Necrotizing Soft Tissue Infection (NSTI)</h4>
 				<p><strong>Fascial Plane Destruction & Emergent Operative Debridement Mapping.</strong></p>
@@ -2471,7 +2444,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> NSTI is a surgical emergency; immediate, aggressive operative debridement saves lives, not antibiotics alone.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Diseases</span>
 				<h4>Septic Arthritis (Critical Cases)</h4>
 				<p><strong>Synovial Space Suppurative Invasion & Articular Preservation Mapping.</strong></p>
@@ -2486,7 +2459,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Obtain synovial fluid analysis via arthrocentesis and schedule prompt orthopedic irrigation and drainage.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-infectious">Infectious Diseases</span>
 				<h4>Tuberculosis (Miliary / Severe)</h4>
 				<p><strong>Hematogenous Dissemination & Airborne Containment Rescue Mapping.</strong></p>
@@ -2504,8 +2477,8 @@
 
         <!-- === CATEGORY 8: GASTROINTESTINAL / HEPATIC EMERGENCIES === -->
 		<h3 class="category-heading search-target-heading">Gastrointestinal / Hepatic Emergencies</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-gi">Gastrointestinal / Hepatic</span>
 				<h4>Upper GI Bleeding</h4>
 				<p><strong>Proximal Luminal Hemorrhage & Endoscopic Localization Mapping.</strong></p>
@@ -2520,7 +2493,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Initiate high-dose IV proton pump inhibitors and arrange for early diagnostic and therapeutic endoscopy.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-gi">Gastrointestinal / Hepatic</span>
 				<h4>Lower GI Bleeding</h4>
 				<p><strong>Distal Colonic Extravasation & Hemodynamic Source Mapping.</strong></p>
@@ -2535,7 +2508,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Exclude a brisk upper GI source via nasogastric lavage or endoscopy if the patient is hemodynamically unstable.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-gi">Gastrointestinal / Hepatic</span>
 				<h4>Acute Pancreatitis (Severe)</h4>
 				<p><strong>Capillary Leak Inflammatory Cascade & Goal-Directed Volume Mapping.</strong></p>
@@ -2550,7 +2523,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Use aggressive goal-directed fluid resuscitation with Lactated Ringer's and track volume response via urine output.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-gi">Gastrointestinal / Hepatic</span>
 				<h4>Acute Liver Failure</h4>
 				<p><strong>Hyper-Acute Hepatic Necrosis & Neuro-Metabolic Safeguard Mapping.</strong></p>
@@ -2565,7 +2538,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Screen closely for hypoglycemia and manage rising intracranial pressure from cerebral edema proactively.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-gi">Gastrointestinal / Hepatic</span>
 				<h4>Decompensated Liver Cirrhosis</h4>
 				<p><strong>Portal Hypertension Decompensation & Peritoneal Infection Screening Mapping.</strong></p>
@@ -2580,7 +2553,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Perform a diagnostic paracentesis to rule out SBP if the patient presents with new-onset fever, abdominal pain, or clinical deterioration.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-gi">Gastrointestinal / Hepatic</span>
 				<h4>Variceal Bleeding</h4>
 				<p><strong>Splanchnic Hemodynamic Crisis & Endoscopic Banding Rescue Mapping.</strong></p>
@@ -2595,7 +2568,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer prophylactic antibiotics (ceftriaxone) and octreotide infusions immediately; arrange urgent endoscopic band ligation.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-gi">Gastrointestinal / Hepatic</span>
 				<h4>Bowel Obstruction</h4>
 				<p><strong>Luminal Occlusion Decompression & Strangulation Surveillance Mapping.</strong></p>
@@ -2610,7 +2583,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Place a nasogastric tube for decompression and obtain serial abdominal imaging to screen for signs of strangulation.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-gi">Gastrointestinal / Hepatic</span>
 				<h4>Perforated Viscus / Peritonitis</h4>
 				<p><strong>Pneumoperitoneum Contamination & Emergent Operative Laparotomy Mapping.</strong></p>
@@ -2628,8 +2601,8 @@
 
         <!-- === CATEGORY 9: TRAUMA & SURGICAL EMERGENCIES === -->
 		<h3 class="category-heading search-target-heading">Trauma & Surgical Emergencies</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma & Surgical</span>
 				<h4>Polytrauma</h4>
 				<p><strong>Systemic Multi-System Impact & Priority-Based ATLS Mapping.</strong></p>
@@ -2644,7 +2617,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Adhere to ATLS guidelines: manage the airway with C-spine stabilization, and address breathing and circulation systematically.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma & Surgical</span>
 				<h4>Hemorrhagic Shock (Trauma)</h4>
 				<p><strong>Exsanguinating Intravascular Depletion & Massive Transfusion Ratio Mapping.</strong></p>
@@ -2659,7 +2632,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Implement a Massive Transfusion Protocol targeting a 1:1:1 ratio of packed red blood cells, plasma, and platelets.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma & Surgical</span>
 				<h4>Traumatic Hemothorax</h4>
 				<p><strong>Pleural Blood Accumulation & Surgical Thoracotomy Threshold Mapping.</strong></p>
@@ -2674,7 +2647,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Place a large-bore chest tube; monitor outputs closely as an initial drain > 1500 mL requires an urgent thoracotomy.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma & Surgical</span>
 				<h4>Traumatic Pneumothorax</h4>
 				<p><strong>Parenchymal Laceration Air Leak & Mechanical Ventilation Safeguard Mapping.</strong></p>
@@ -2689,7 +2662,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Monitor simple pneumothoraces closely; prepare to upgrade to tube thoracostomy if positive-pressure ventilation is started.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma & Surgical</span>
 				<h4>Abdominal Trauma (Solid Organ)</h4>
 				<p><strong>Intra-Peritoneal Solid Organ Injury & Non-Operative Surveillance Mapping.</strong></p>
@@ -2704,7 +2677,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Utilize FAST exams for rapid screening; stable patients may be managed with non-operative, serial evaluation strategies.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma & Surgical</span>
 				<h4>Pelvic Fracture with Bleeding</h4>
 				<p><strong>High-Energy Pelvic Ring Disruption & Retroperitoneal Volumetric Binder Mapping.</strong></p>
@@ -2719,7 +2692,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Apply a pelvic binder early over the greater trochanters to reduce pelvic volume and stabilize bleeding sites.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma & Surgical</span>
 				<h4>Pelvic Fracture with Bleeding</h4>
 				<p><strong>High-Energy Pelvic Ring Disruption & Retroperitoneal Volumetric Binder Mapping.</strong></p>
@@ -2734,7 +2707,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Apply a pelvic binder early over the greater trochanters to reduce pelvic volume and stabilize bleeding sites.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-trauma">Trauma & Surgical</span>
 				<h4>Compartment Syndrome</h4>
 				<p><strong>Closed Osteofascial Hypertension & Emergent Surgical Fasciotomy Mapping.</strong></p>
@@ -2752,8 +2725,8 @@
 
         <!-- === CATEGORY 10: TOXICOLOGY / ENVIRONMENTAL === -->
 		<h3 class="category-heading search-target-heading">Toxicology / Environmental</h3>
-		<div class="approach-grid">
-		<div class="approach-card">
+		<div class="article-grid">
+		<div class="article-card">
 			<span class="protocol-tag tag-toxicology">Toxicology & Env</span>
 			<h4>Opioid Overdose</h4>
 			<p><strong>Mu-Receptor Agonist Overactivation & Respiratory Ventilation Mapping.</strong></p>
@@ -2768,7 +2741,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer titrated doses of naloxone to restore adequate spontaneous ventilation without precipitating acute withdrawal.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-toxicology">Toxicology & Env</span>
 			<h4>Benzodiazepine Overdose</h4>
 			<p><strong>GABA-A Receptor Hyper-Sedation & Airway Preservation Mapping.</strong></p>
@@ -2783,7 +2756,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Flumazenil should be avoided in chronic users or mixed overdoses due to the risk of precipitating refractory seizures.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-toxicology">Toxicology & Env</span>
 			<h4>Organophosphate Poisoning</h4>
 			<p><strong>Acetylcholinesterase Inhibition Crisis & Cholinergic Toxidrome Mapping.</strong></p>
@@ -2798,7 +2771,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Decontaminate the patient thoroughly and administer aggressive, escalating doses of Atropine alongside Pralidoxime (2-PAM).</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-toxicology">Toxicology & Env</span>
 			<h4>Carbon Monoxide Poisoning</h4>
 			<p><strong>Carboxyhemoglobin Disregard & Tissue Hypoxia Normobaric Oxymetry Mapping.</strong></p>
@@ -2813,7 +2786,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Apply 100% high-flow normobaric oxygen immediately; consider hyperbaric oxygen therapy for severe neurological symptoms.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-toxicology">Toxicology & Env</span>
 			<h4>Methanol / Ethylene Glycol Toxicity</h4>
 			<p><strong>Toxic Alcohol Biotransformation & Osmolar Gap Mitigation Mapping.</strong></p>
@@ -2828,7 +2801,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer Fomepizole or Ethanol early to block toxic metabolite formation, and prepare for hemodialysis if severe acidosis persists.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-toxicology">Toxicology & Env</span>
 			<h4>Drug-Induced Cardiotoxicity (TCA Overdose)</h4>
 			<p><strong>Myocardial Fast Sodium Channel Blockade & QRS Narrowing Mapping.</strong></p>
@@ -2843,7 +2816,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer IV Sodium Bicarbonate boluses to narrow the QRS complex once widths cross 100 ms.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-toxicology">Toxicology & Env</span>
 			<h4>Heat Stroke</h4>
 			<p><strong>Severe Hyperthermic Multi-System Organ Failure & Core Cooling Mapping.</strong></p>
@@ -2858,7 +2831,7 @@
 			<div class="clinical-tip"><strong>Clinical Tip:</strong> Initiate rapid, aggressive evaporative or conductive cooling immediately to bring temperatures below 39°C.</div>
 		</div>
 
-		<div class="approach-card">
+		<div class="article-card">
 			<span class="protocol-tag tag-toxicology">Toxicology & Env</span>
 			<h4>Hypothermia</h4>
 			<p><strong>Core Thermal Depletion & Myocardial Arcs Rewarming Mapping.</strong></p>
@@ -2876,8 +2849,8 @@
 
         <!-- === CATEGORY 11: OBSTETRIC & PERIOPERATIVE EMERGENCIES === -->
 		<h3 class="category-heading search-target-heading">Obstetric & Perioperative Emergencies</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-obstetric">Obstetric & Periop</span>
 				<h4>Eclampsia / Severe Preeclampsia</h4>
 				<p><strong>Gestational Vasospastic Hypertension & Myocardial Membrane Shielding Mapping.</strong></p>
@@ -2892,7 +2865,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Administer Magnesium Sulfate for seizure prophylaxis and management; definitive treatment requires delivery of the placenta.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-obstetric">Obstetric & Periop</span>
 				<h4>Postpartum Hemorrhage</h4>
 				<p><strong>Uterine Atony Hypovolemia & Systematic Mechanical-Pharmacological Rescue Mapping.</strong></p>
@@ -2907,7 +2880,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Perform bimanual uterine massage, administer oxytocin, and evaluate for retained placental fragments.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-obstetric">Obstetric & Periop</span>
 				<h4>Amniotic Fluid Embolism</h4>
 				<p><strong>Anaphylactoid Circulatory Collapse & Advanced Consumptive Coagulopathy Mapping.</strong></p>
@@ -2922,7 +2895,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Treatment is entirely supportive; optimize mechanical ventilation and manage severe consumptive coagulopathies aggressively.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-obstetric">Obstetric & Periop</span>
 				<h4>Obstetric Sepsis</h4>
 				<p><strong>Gestational Genitourinary Translocation & Maternal-Fetal Resuscitation Mapping.</strong></p>
@@ -2937,7 +2910,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Account for maternal altered baselines; optimize broad-spectrum maternal regimens while balancing fetal monitoring paradigms.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-obstetric">Obstetric & Periop</span>
 				<h4>Difficult Airway</h4>
 				<p><strong>Anticipated Airway Anatomy Distortion & Visual Algorithmic Sequence Mapping.</strong></p>
@@ -2952,7 +2925,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Always have a cognitive aid or algorithmic check-list visually accessible along with an unpacked backup rescue cart.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-obstetric">Obstetric & Periop</span>
 				<h4>Failed Intubation</h4>
 				<p><strong>Multiple Laryngoscopy Attempt Termination & Supraglottic Oxygenation Rescue Mapping.</strong></p>
@@ -2967,7 +2940,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Declare a failure early to stop airway trauma; prioritize oxygenation via an LMA or transition to a surgical cricothyroidotomy.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-obstetric">Obstetric & Periop</span>
 				<h4>Malignant Hyperthermia</h4>
 				<p><strong>Uncontrolled Intracellular Calcium Leak & Ryanodine Receptor Antagonism Mapping.</strong></p>
@@ -2982,7 +2955,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Stop the triggering agent immediately, hyperventilate with 100% oxygen, and administer IV Dantrolene.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-obstetric">Obstetric & Periop</span>
 				<h4>Local Anesthetic Systemic Toxicity (LAST)</h4>
 				<p><strong>Voltage-Gated Sodium Channel Deactivation & Lipid Sink Scavenging Mapping.</strong></p>
@@ -3000,8 +2973,8 @@
 
         <!-- === CATEGORY 12: ICU SYNDROMES / SYSTEM FAILURE STATES === -->
 		<h3 class="category-heading search-target-heading">ICU Syndromes / System Failure States</h3>
-        <div class="approach-grid">
-			<div class="approach-card">
+        <div class="article-grid">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu">ICU Syndromes</span>
 				<h4>Acute Respiratory Failure (Ventilated Patient)</h4>
 				<p><strong>Mechanical Ventilatory Decompensation & Algorithmic DOPES Rescue Mapping.</strong></p>
@@ -3020,7 +2993,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Utilize the DOPES mnemonic (Displacement, Obstruction, Pneumothorax, Equipment, Stacking) to evaluate abrupt ventilator distress.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu">ICU Syndromes</span>
 				<h4>Ventilator-Associated Pneumonia (VAP)</h4>
 				<p><strong>Nosocomial Parenchymal Invasion & Subglottic Secretion Mitigation Mapping.</strong></p>
@@ -3035,7 +3008,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Maintain the head of the bed between 30–45 degrees and perform regular subglottic secretion suctioning to prevent VAP.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu">ICU Syndromes</span>
 				<h4>Central Line-Associated Bloodstream Infection (CLABSI)</h4>
 				<p><strong>Indwelling Catheter Endovascular Colonization & Sterile Insertion Bundle Mapping.</strong></p>
@@ -3050,7 +3023,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Adhere strictly to sterile insertion bundles and remove unnecessary central lines daily.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu">ICU Syndromes</span>
 				<h4>Central Line-Associated Bloodstream Infection (CLABSI)</h4>
 				<p><strong>Indwelling Catheter Endovascular Colonization & Sterile Insertion Bundle Mapping.</strong></p>
@@ -3065,7 +3038,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Adhere strictly to sterile insertion bundles and remove unnecessary central lines daily.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu">ICU Syndromes</span>
 				<h4>ICU Delirium</h4>
 				<p><strong>Acute Neuro-Metabolic Fluctuating Encephalopathy & Cognitive ABCDEF Bundle Mapping.</strong></p>
@@ -3089,7 +3062,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Implement the ABCDEF bundle daily to minimize sedation and promote early cognitive and physical recovery.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu">ICU Syndromes</span>
 				<h4>ICU-Acquired Weakness</h4>
 				<p><strong>Diffuse Symmetrical Neuromuscular Sarcopenia & Early Kinesiology Mobilization Mapping.</strong></p>
@@ -3104,7 +3077,7 @@
 				<div class="clinical-tip"><strong>Clinical Tip:</strong> Avoid prolonged immobilization and minimize the concurrent use of paralytics and high-dose corticosteroids.</div>
 			</div>
 
-			<div class="approach-card">
+			<div class="article-card">
 				<span class="protocol-tag tag-icu">ICU Syndromes</span>
 				<h4>Prolonged Mechanical Ventilation Syndrome</h4>
 				<p><strong>Diaphragmatic Myopathy Deconditioning & Standardized Spontaneous Weaning Mapping.</strong></p>
@@ -3121,12 +3094,48 @@
         </div>
     </div>
 
-    <!-- FOOTER TOGGLE NAVIGATION CONTROLS -->
+    <!-- CASES TOGGLE NAVIGATION CONTROLS -->
     <h5 style="text-align: left; margin: 20px 0 0 0;">
-        <a href="#" id="showMoreLinkDiseases" style="color: #808080; text-transform: uppercase; font-weight: bold; text-decoration: none; transition: color 0.3s;" onclick="event.preventDefault(); toggleDiseaseShowMore();">Show More</a>
+        <a href="#" id="showMoreLinkDiseases" style="color: #808080; text-transform: uppercase; font-weight: bold; text-decoration: none; transition: color 0.3s;" onclick="event.preventDefault(); toggleDiseaseShowMore();">Show All Cases</a>
     </h5>
     <!--<h5 style="text-align: center; margin: 10px 0;"><a href="#menu">Text</a></h5>-->
     <br>
+	
+	
+	
+	
+	
+	
+	
+
+
+</article>
+							
+<!-- Diseases -->
+<article id="diseases">
+
+    <!-- SEARCH INTERFACE: PINNED EXACTLY OPPOSITE TO NATIVE [X] -->
+    <div class="protocol-search-corner-container">
+        <div id="diseaseSearchBox" class="search-box">
+            <input type="text" id="diseaseSearchInput" placeholder="Search diseases..." onkeyup="filterDiseases()">
+            <button type="button" id="diseaseSearchBtn" class="search-btn" onclick="toggleDiseaseSearch()">
+                <span id="diseaseSearchIconWrapper" class="icon solid fa-search"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- YOUR NATIVE CLOSE BUTTON LINK -->
+    <div class="close">Close</div>
+
+
+
+
+    <!-- ==========================================================================
+         HIDDEN CONTENT SECTION (CATEGORIES 5 - 12)
+         ========================================================================== -->
+
+	
+
 </article>
 
 
