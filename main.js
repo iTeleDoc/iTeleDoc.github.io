@@ -1230,5 +1230,24 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         }
     };
 
+    if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+        const keyboardHeight = window.innerHeight - window.visualViewport.height;
+        const appContainer = document.querySelector('.app-container');
+        
+        if (appContainer) {
+            if (keyboardHeight > 0) {
+                // Keyboard is open: shrink the container explicitly to match the visible space
+                appContainer.style.height = `${window.visualViewport.height}px`;
+            } else {
+                // Keyboard is closed: revert back to dynamic viewport height
+                appContainer.style.height = '100dvh';
+            }
+        }
+        // Force scroll to the bottom of the page to keep input visible
+        window.scrollTo(0, 0);
+    });
+}
+    
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
