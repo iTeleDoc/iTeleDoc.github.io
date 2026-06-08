@@ -713,4 +713,17 @@ body {
     user-select: none;
 }
 
+/* TOUCHSCREEN SPECIFIC CONTROLS */
+   @media (pointer: coarse) {
+    /* 1. Force the three dots button to be permanently visible */
+    .item-action-trigger-btn {
+        display: flex !important;
+    }
+    
+    /* 2. Prevent thread text from sliding underneath the now-permanent button */
+    .history-item {
+        padding-right: 44px !important;
+    }
+}
+
 .hidden { display: none !important; }
