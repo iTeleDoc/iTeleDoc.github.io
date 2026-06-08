@@ -159,7 +159,9 @@ function compileMasterKnowledgeBase() {
 
         // Helper tool function to cleanly hide the mobile drawer
         function closeMobileSidebarIfOpen() {
-            if (window.innerWidth <= 768) {
+            // Native capability evaluation instead of hardcoded bypass numbers
+            const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+            if (isTouchTarget) {
                 const sidebar = document.getElementById('sidebar');
                 if (sidebar && sidebar.classList.contains('mobile-open')) {
                     sidebar.classList.remove('mobile-open');
@@ -196,10 +198,14 @@ function compileMasterKnowledgeBase() {
 
         document.getElementById('collapseSidebarBtn').addEventListener('click', () => {
             const sidebar = document.getElementById('sidebar');
-            if (sidebar.classList.contains('mobile-open')) {
+            const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+
+            if (isTouchTarget) {
+                // Completely collapses the off-canvas drawer structure out of the layout view
                 sidebar.classList.remove('mobile-open');
                 document.getElementById('sidebarOverlay').classList.remove('active');
             } else {
+                // Fallback standard compression routine for desktop mouse input environments
                 sidebar.classList.toggle('collapsed');
             }
         });
