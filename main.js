@@ -494,47 +494,6 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         }
 
         if (node.data) {
-            // Accommodate structure patterns from drugs.js
-            if(node.data.indication) coreContent += `<p style="margin-bottom:8px;"><b>Indication Profile:</b> ${node.data.indication}</p>`;
-            if(node.data.dose) coreContent += `<p style="margin-bottom:8px;"><b>Dosing Guidelines Matrix:</b> ${node.data.dose}</p>`;
-            if(node.data.mechanism) coreContent += `<p style="margin-bottom:8px;"><b>Mechanism Of Action:</b> ${node.data.mechanism}</p>`;
-            if(node.data.clinicalTip) coreContent += `<p style="margin-top:10px; padding:10px; background:rgba(242,139,130,0.08); border-radius:6px;"><b>High-Alert Warning Rule:</b> ${node.data.clinicalTip}</p>`;
-        }
-
-        if (!coreContent && node.content) coreContent = node.content;
-
-        return `
-            <div class="clinical-card-container">
-                <div class="clinical-card-header">
-                    <div class="clinical-card-title"><span class="material-symbols-rounded" style="color:var(--accent-blue)">verified_user</span> <span>${escapeHTMLString(title)}</span></div>
-                    <div class="clinical-badge normal">${escapeHTMLString(category)}</div>
-                </div>
-                <div class="clinical-text-block">${coreContent}</div>
-            </div>
-        `;
-    }
-
-    function renderFormattedStaticCard(node) {
-        let title = node.title || "Clinical Protocol Module";
-        let category = node.category || "Database Log";
-        let coreContent = '';
-
-        if (node.desc) coreContent += `<p style="font-weight:500; margin-bottom:12px;">${node.desc}</p>`;
-        
-        if (node.steps && Array.isArray(node.steps)) {
-            coreContent += `<div style="margin-bottom:10px; font-weight:600; font-size:0.8rem; text-transform:uppercase; color:var(--text-secondary);">Procedural Sequence Steps</div>`;
-            coreContent += `<ol style="padding-left:20px; margin-bottom:14px; display:flex; flex-direction:column; gap:6px;">`;
-            node.steps.forEach(st => { coreContent += `<li>${st}</li>`; });
-            coreContent += `</ol>`;
-        }
-
-        if (node.pearls) {
-            coreContent += `<div style="background:rgba(66,133,244,0.08); border-left:3px solid var(--accent-blue); padding:12px; border-radius:0 8px 8px 0; font-size:0.9rem;">
-                <b>Clinical Pearl Tracking Vector:</b> ${node.pearls}
-            </div>`;
-        }
-
-        if (node.data) {
             if(node.data.indication) coreContent += `<p style="margin-bottom:8px;"><b>Indication Profile:</b> ${node.data.indication}</p>`;
             if(node.data.dose) coreContent += `<p style="margin-bottom:8px;"><b>Dosing Guidelines Matrix:</b> ${node.data.dose}</p>`;
             if(node.data.mechanism) coreContent += `<p style="margin-bottom:8px;"><b>Mechanism Of Action:</b> ${node.data.mechanism}</p>`;
@@ -546,379 +505,7 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         const isDrug = node.id?.startsWith('drug_') || node.origin === 'drugs.js';
         const uniquePrefixId = `static_${node.id || 'gen'}_${Date.now()}`;
 
-        // Global monitoring binding rule to recalculate drug dosage parameters on input
-        window[`recalc_drug_${uniquePrefixId}`] = function() {
-            const w = parseFloat(document.getElementById(`${uniquePrefixId}_metric_weight`)?.value) || 0;
-            const liveResultBox = document.getElementById(`${uniquePrefixId}_live_calculation_target`);
-            if (!liveResultBox) return;
-
-            if (w <= 0) {
-                liveResultBox.innerHTML = '';
-                liveResultBox.classList.add('hidden');
-                return;
-            }
-
-            let computedText = "";
-            if (node.id === 'drug_hrig') {
-                computedText = `• <b>Live HRIG Absolute Dose:</b> ${(20 * w).toLocaleString()} IU total volume to inject.`;
-            } else if (node.id === 'drug_epinephrine') {
-                computedText = `• <b>Live Epinephrine Continuous Infusion:</b> ${(0.05 * w).toFixed(2)} to ${(2.0 * w).toFixed(2)} mcg/min absolute titration bounds matching current target weight parameter.`;
-            } else {
-                computedText = `• <b>Live Parameter Tracking:</b> System mapped weight profile at ${w} kg. Check standard formulas downstream.`;
-            }
-
-            liveResultBox.innerHTML = `
-                <div style="background: rgba(52, 168, 83, 0.08); border-left: 3px solid var(--clinical-success); padding: 10px; border-radius: 4px; font-size: 0.88rem; color: var(--text-primary);">
-                    <div style="font-weight:700; color:var(--clinical-success); margin-bottom:4px; text-transform:uppercase; font-size:0.75rem;">Dynamic Real-Time Weight Dosage Calculation</div>
-                    ${computedText}
-                </div>
-            `;
-            liveResultBox.classList.remove('hidden');
-        };
-
-        return `
-            <div class="clinical-card-container">
-                <div class="clinical-card-header">
-                    <div class="clinical-card-title"><span class="material-symbols-rounded" style="color:var(--accent-blue)">verified_user</span> <span>${escapeHTMLString(title)}</span></div>
-                    <div class="clinical-badge normal">${escapeHTMLString(category)}</div>
-                </div>
-                ${isDrug ? `
-                <div class="patient-metrics-engine-block" style="margin-bottom:12px;">
-                    <div class="inline-form-row">
-                        <label>Patient Gender</label>
-                        <select id="${uniquePrefixId}_metric_gender">
-                            <option value="unspecified">Unspecified</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-                    <div class="inline-form-row">
-                        <label>Patient Age (yrs)</label>
-                        <input type="number" id="${uniquePrefixId}_metric_age" placeholder="e.g., 45">
-                    </div>
-                    <div class="inline-form-row">
-                        <label>Patient Weight (kg)</label>
-                        <input type="number" id="${uniquePrefixId}_metric_weight" placeholder="e.g., 70" oninput="window['recalc_drug_${uniquePrefixId}']()">
-                    </div>
-                </div>
-                <div id="${uniquePrefixId}_live_calculation_target" class="hidden" style="margin-bottom:12px;"></div>
-                ` : ''}
-                <div class="clinical-text-block">${coreContent}</div>
-            </div>
-        `;
-    }
-
-    function renderFormattedStaticCard(node) {
-        let title = node.title || "Clinical Protocol Module";
-        let category = node.category || "Database Log";
-        let coreContent = '';
-
-        if (node.desc) coreContent += `<p style="font-weight:500; margin-bottom:12px;">${node.desc}</p>`;
-        
-        if (node.steps && Array.isArray(node.steps)) {
-            coreContent += `<div style="margin-bottom:10px; font-weight:600; font-size:0.8rem; text-transform:uppercase; color:var(--text-secondary);">Procedural Sequence Steps</div>`;
-            coreContent += `<ol style="padding-left:20px; margin-bottom:14px; display:flex; flex-direction:column; gap:6px;">`;
-            node.steps.forEach(st => { coreContent += `<li>${st}</li>`; });
-            coreContent += `</ol>`;
-        }
-
-        if (node.pearls) {
-            coreContent += `<div style="background:rgba(66,133,244,0.08); border-left:3px solid var(--accent-blue); padding:12px; border-radius:0 8px 8px 0; font-size:0.9rem;">
-                <b>Clinical Pearl Tracking Vector:</b> ${node.pearls}
-            </div>`;
-        }
-
-        if (node.data) {
-            if(node.data.indication) coreContent += `<p style="margin-bottom:8px;"><b>Indication Profile:</b> ${node.data.indication}</p>`;
-            if(node.data.dose) coreContent += `<p style="margin-bottom:8px;"><b>Dosing Guidelines Matrix:</b> ${node.data.dose}</p>`;
-            if(node.data.mechanism) coreContent += `<p style="margin-bottom:8px;"><b>Mechanism Of Action:</b> ${node.data.mechanism}</p>`;
-            if(node.data.clinicalTip) coreContent += `<p style="margin-top:10px; padding:10px; background:rgba(242,139,130,0.08); border-radius:6px;"><b>High-Alert Warning Rule:</b> ${node.data.clinicalTip}</p>`;
-        }
-
-        if (!coreContent && node.content) coreContent = node.content;
-
-        const isDrug = node.id?.startsWith('drug_') || node.origin === 'drugs.js';
-        const uniquePrefixId = `static_${node.id || 'gen'}_${Date.now()}`;
-
-        // Global monitoring binding rule to recalculate drug dosage parameters on input changes
-        window[`recalc_drug_${uniquePrefixId}`] = function() {
-            const w = parseFloat(document.getElementById(`${uniquePrefixId}_metric_weight`)?.value) || 0;
-            const riskFactor = document.getElementById(`${uniquePrefixId}_metric_risk`)?.value || 'none';
-            const liveResultBox = document.getElementById(`${uniquePrefixId}_live_calculation_target`);
-            if (!liveResultBox) return;
-
-            if (w <= 0) {
-                liveResultBox.innerHTML = '';
-                liveResultBox.classList.add('hidden');
-                return;
-            }
-
-            let computedText = "";
-            let riskModifierText = "";
-
-            // Evaluate chosen Risk Factors adjustments
-            if (riskFactor === 'renal') {
-                riskModifierText = `<br><span style="color:#ea4335; font-weight:600;">⚠ CRITICAL ADVISEMENT: Severe Renal Impairment profile detected. Consider extending dosing intervals or running a target dose reduction of 25-50% to mitigate accumulation risks.</span>`;
-            } else if (riskFactor === 'hepatic') {
-                riskModifierText = `<br><span style="color:#ea4335; font-weight:600;">⚠ CRITICAL ADVISEMENT: Hepatic Insufficiency monitored. Liver metabolic clearance loops are compromised; track therapeutic drug monitoring assays closely.</span>`;
-            } else if (riskFactor === 'shock') {
-                riskModifierText = `<br><span style="color:#ea4335; font-weight:600;">⚠ CRITICAL ADVISEMENT: Distributive/Cardiogenic Shock State. Peripheral perfusion channels are restricted. Vasopressor titration metrics take explicit clinical priority.</span>`;
-            } else if (riskFactor === 'geriatric') {
-                riskModifierText = `<br><span style="color:#fbbc04; font-weight:600;">⚠ CLINICAL NOTE: Geriatric/Fragility Profile. Apply "start low and go slow" pharmacology strategy parameters. Advanced vulnerability to adverse neuropsychiatric events.</span>`;
-            }
-
-            if (node.id === 'drug_hrig') {
-                let absoluteDose = 20 * w;
-                computedText = `• <b>Live HRIG Absolute Dose:</b> ${absoluteDose.toLocaleString()} IU total volume to inject distributed carefully into and around the margins of the wound framework. ${riskModifierText}`;
-            } else if (node.id === 'drug_epinephrine') {
-                let lowBound = 0.05 * w;
-                let highBound = 2.0 * w;
-                if (riskFactor === 'shock') { lowBound = 0.1 * w; } // Aggressive initial titration target when in shock
-                computedText = `• <b>Live Epinephrine Continuous Infusion:</b> ${lowBound.toFixed(2)} to ${highBound.toFixed(2)} mcg/min absolute titration boundaries configured for current baseline mass matrix. ${riskModifierText}`;
-            } else {
-                computedText = `• <b>Live Parameter Tracking:</b> System evaluated weight profile at ${w} kg. Operational profile indicator: ${riskFactor.toUpperCase()}. Check standard guidelines downfield. ${riskModifierText}`;
-            }
-
-            liveResultBox.innerHTML = `
-                <div style="background: rgba(52, 168, 83, 0.08); border-left: 3px solid var(--clinical-success); padding: 12px; border-radius: 6px; font-size: 0.88rem; color: var(--text-primary); line-height: 1.4;">
-                    <div style="font-weight:700; color:var(--clinical-success); margin-bottom:4px; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.5px;">Dynamic Weight & Risk Factor Adjustment Panel</div>
-                    ${computedText}
-                </div>
-            `;
-            liveResultBox.classList.remove('hidden');
-
-            // Force dynamic accordion parent stretching during live dosing calculation prints
-            const parentAccordionLayer = liveResultBox.closest('.accordion-body-expansion-layer');
-            if (parentAccordionLayer) {
-                parentAccordionLayer.style.maxHeight = (parentAccordionLayer.scrollHeight + 100) + 'px';
-            }
-        };
-
-        return `
-            <div class="clinical-card-container">
-                <div class="clinical-card-header">
-                    <div class="clinical-card-title"><span class="material-symbols-rounded" style="color:var(--accent-blue)">verified_user</span> <span>${escapeHTMLString(title)}</span></div>
-                    <div class="clinical-badge normal">${escapeHTMLString(category)}</div>
-                </div>
-                ${isDrug ? `
-                <div class="patient-metrics-engine-block" style="margin-bottom:10px;">
-                    <div class="inline-form-row">
-                        <label>Patient Gender</label>
-                        <select id="${uniquePrefixId}_metric_gender">
-                            <option value="unspecified">Unspecified</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-                    <div class="inline-form-row">
-                        <label>Patient Age (yrs)</label>
-                        <input type="number" id="${uniquePrefixId}_metric_age" placeholder="e.g., 45">
-                    </div>
-                    <div class="inline-form-row">
-                        <label>Patient Weight (kg)</label>
-                        <input type="number" id="${uniquePrefixId}_metric_weight" placeholder="e.g., 70" oninput="window['recalc_drug_${uniquePrefixId}']()">
-                    </div>
-                </div>
-                <div class="risk-factors-engine-block">
-                    <div class="inline-form-row">
-                        <label>Risk Factors</label>
-                        <select id="${uniquePrefixId}_metric_risk" onchange="window['recalc_drug_${uniquePrefixId}']()">
-                            <option value="none">No Documented Metabolic Risk Factors</option>
-                            <option value="renal">Severe Renal Impairment / CrCl < 30mL/min</option>
-                            <option value="hepatic">Hepatic Insufficiency / Child-Pugh Class C</option>
-                            <option value="shock">Decompensated Shock / Hypoperfusion State</option>
-                            <option value="geriatric">Geriatric Fragility Multi-Organ Decline</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="${uniquePrefixId}_live_calculation_target" class="hidden" style="margin-bottom:12px;"></div>
-                ` : ''}
-                <div class="clinical-text-block">${coreContent}</div>
-            </div>
-        `;
-    }
-
-    function renderFormattedStaticCard(node) {
-        let title = node.title || "Clinical Protocol Module";
-        let category = node.category || "Database Log";
-        let coreContent = '';
-
-        if (node.desc) coreContent += `<p style="font-weight:500; margin-bottom:12px;">${node.desc}</p>`;
-        
-        if (node.steps && Array.isArray(node.steps)) {
-            coreContent += `<div style="margin-bottom:10px; font-weight:600; font-size:0.8rem; text-transform:uppercase; color:var(--text-secondary);">Procedural Sequence Steps</div>`;
-            coreContent += `<ol style="padding-left:20px; margin-bottom:14px; display:flex; flex-direction:column; gap:6px;">`;
-            node.steps.forEach(st => { coreContent += `<li>${st}</li>`; });
-            coreContent += `</ol>`;
-        }
-
-        if (node.pearls) {
-            coreContent += `<div style="background:rgba(66,133,244,0.08); border-left:3px solid var(--accent-blue); padding:12px; border-radius:0 8px 8px 0; font-size:0.9rem;">
-                <b>Clinical Pearl Tracking Vector:</b> ${node.pearls}
-            </div>`;
-        }
-
-        if (node.data) {
-            if(node.data.indication) coreContent += `<p style="margin-bottom:8px;"><b>Indication Profile:</b> ${node.data.indication}</p>`;
-            if(node.data.dose) coreContent += `<p style="margin-bottom:8px;"><b>Dosing Guidelines Matrix:</b> ${node.data.dose}</p>`;
-            if(node.data.mechanism) coreContent += `<p style="margin-bottom:8px;"><b>Mechanism Of Action:</b> ${node.data.mechanism}</p>`;
-            if(node.data.clinicalTip) coreContent += `<p style="margin-top:10px; padding:10px; background:rgba(242,139,130,0.08); border-radius:6px;"><b>High-Alert Warning Rule:</b> ${node.data.clinicalTip}</p>`;
-        }
-
-        if (!coreContent && node.content) coreContent = node.content;
-
-        const isDrug = node.id?.startsWith('drug_') || node.origin === 'drugs.js';
-        const uniquePrefixId = `static_${node.id || 'gen'}_${Date.now()}`;
-
-        // Global real-time evaluation engine tracking weight parameters and checkbox lists
-        window[`recalc_drug_${uniquePrefixId}`] = function() {
-            const w = parseFloat(document.getElementById(`${uniquePrefixId}_metric_weight`)?.value) || 0;
-            const liveResultBox = document.getElementById(`${uniquePrefixId}_live_calculation_target`);
-            if (!liveResultBox) return;
-
-            if (w <= 0) {
-                liveResultBox.innerHTML = '';
-                liveResultBox.classList.add('hidden');
-                return;
-            }
-
-            // Gather all currently checked risk parameters inside this card element instance
-            const selectedRisks = [];
-            document.querySelectorAll(`.${uniquePrefixId}_risk_checkbox:checked`).forEach(cb => {
-                selectedRisks.push(cb.value);
-            });
-
-            let computedText = "";
-            let riskAlertsHTML = "";
-
-            // Evaluate multi-select compounding warnings
-            if (selectedRisks.includes('renal')) {
-                riskAlertsHTML += `<div style="color:#ea4335; margin-top:4px;"><b>⚠ Severe Renal Impairment:</b> Clearances diminished. Reduce dose or prolong administration intervals.</div>`;
-            }
-            if (selectedRisks.includes('hepatic')) {
-                riskAlertsHTML += `<div style="color:#ea4335; margin-top:4px;"><b>⚠ Hepatic Insufficiency:</b> High threat of structural compound accumulation. Monitor function panels.</div>`;
-            }
-            if (selectedRisks.includes('shock')) {
-                riskAlertsHTML += `<div style="color:#ea4335; margin-top:4px;"><b>⚠ Decompensated Shock:</b> Restricted systemic perfusion. Central access line optimization recommended.</div>`;
-            }
-            if (selectedRisks.includes('geriatric')) {
-                riskAlertsHTML += `<div style="color:#fbbc04; margin-top:4px;"><b>⚠ Geriatric Fragility:</b> High baseline neurological/organ sensitivity. Initiate low titration boundaries.</div>`;
-            }
-
-            if (node.id === 'drug_hrig') {
-                let absoluteDose = 20 * w;
-                computedText = `• <b>Live HRIG Absolute Dose:</b> <b>${absoluteDose.toLocaleString()} IU</b> absolute volume to administer.`;
-            } else if (node.id === 'drug_epinephrine') {
-                let lowBound = selectedRisks.includes('shock') ? 0.1 * w : 0.05 * w;
-                let highBound = 2.0 * w;
-                computedText = `• <b>Live Epinephrine Continuous Infusion:</b> <b>${lowBound.toFixed(2)} to ${highBound.toFixed(2)} mcg/min</b> operational titration bounds matching current configuration.`;
-            } else {
-                computedText = `• <b>Live Parameters Mapped:</b> Patient target weight assigned at ${w} kg. Multi-risk profiles analyzed cleanly.`;
-            }
-
-            liveResultBox.innerHTML = `
-                <div style="background: rgba(52, 168, 83, 0.08); border-left: 3px solid var(--clinical-success); padding: 12px; border-radius: 6px; font-size: 0.88rem; color: var(--text-primary); line-height: 1.4;">
-                    <div style="font-weight:700; color:var(--clinical-success); margin-bottom:6px; text-transform:uppercase; font-size:0.75rem;">Dynamic Live Dosage Calculations</div>
-                    <div style="margin-bottom:4px;">${computedText}</div>
-                    ${riskAlertsHTML ? `<div style="margin-top:8px; padding-top:6px; border-top:1px dashed rgba(234,67,53,0.15); font-size:0.82rem;">${riskAlertsHTML}</div>` : ''}
-                </div>
-            `;
-            liveResultBox.classList.remove('hidden');
-
-            // Elastic structural stretch to preserve expanded accordion container frameworks
-            const parentAccordionLayer = liveResultBox.closest('.accordion-body-expansion-layer');
-            if (parentAccordionLayer) {
-                parentAccordionLayer.style.maxHeight = (parentAccordionLayer.scrollHeight + 100) + 'px';
-            }
-        };
-
-        return `
-            <div class="clinical-card-container">
-                <div class="clinical-card-header">
-                    <div class="clinical-card-title"><span class="material-symbols-rounded" style="color:var(--accent-blue)">verified_user</span> <span>${escapeHTMLString(title)}</span></div>
-                    <div class="clinical-badge normal">${escapeHTMLString(category)}</div>
-                </div>
-                ${isDrug ? `
-                <div class="patient-metrics-engine-block">
-                    <div class="inline-form-row">
-                        <label>Patient Gender</label>
-                        <select id="${uniquePrefixId}_metric_gender">
-                            <option value="unspecified">Unspecified</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-                    <div class="inline-form-row">
-                        <label>Patient Age (yrs)</label>
-                        <input type="number" id="${uniquePrefixId}_metric_age" placeholder="e.g., 45">
-                    </div>
-                    <div class="inline-form-row">
-                        <label>Patient Weight (kg)</label>
-                        <input type="number" id="${uniquePrefixId}_metric_weight" placeholder="e.g., 70" oninput="window['recalc_drug_${uniquePrefixId}']()">
-                    </div>
-                </div>
-                
-                <div class="risk-factors-engine-block">
-                    <div class="engine-title">Risk Factors (Select All That Apply)</div>
-                    <div class="risk-matrix-grid">
-                        <label class="risk-checkbox-wrapper">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_checkbox" value="renal" onchange="window['recalc_drug_${uniquePrefixId}']()">
-                            Severe Renal Impairment
-                        </label>
-                        <label class="risk-checkbox-wrapper">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_checkbox" value="hepatic" onchange="window['recalc_drug_${uniquePrefixId}']()">
-                            Hepatic Insufficiency
-                        </label>
-                        <label class="risk-checkbox-wrapper">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_checkbox" value="shock" onchange="window['recalc_drug_${uniquePrefixId}']()">
-                            Decompensated Shock
-                        </label>
-                        <label class="risk-checkbox-wrapper">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_checkbox" value="geriatric" onchange="window['recalc_drug_${uniquePrefixId}']()">
-                            Geriatric Fragility
-                        </label>
-                    </div>
-                </div>
-                <div id="${uniquePrefixId}_live_calculation_target" class="hidden" style="margin-bottom:12px;"></div>
-                ` : ''}
-                <div class="clinical-text-block">${coreContent}</div>
-            </div>
-        `;
-    }
-
-    function renderFormattedStaticCard(node) {
-        let title = node.title || "Clinical Protocol Module";
-        let category = node.category || "Database Log";
-        let coreContent = '';
-
-        if (node.desc) coreContent += `<p style="font-weight:500; margin-bottom:12px;">${node.desc}</p>`;
-        
-        if (node.steps && Array.isArray(node.steps)) {
-            coreContent += `<div style="margin-bottom:10px; font-weight:600; font-size:0.8rem; text-transform:uppercase; color:var(--text-secondary);">Procedural Sequence Steps</div>`;
-            coreContent += `<ol style="padding-left:20px; margin-bottom:14px; display:flex; flex-direction:column; gap:6px;">`;
-            node.steps.forEach(st => { coreContent += `<li>${st}</li>`; });
-            coreContent += `</ol>`;
-        }
-
-        if (node.pearls) {
-            coreContent += `<div style="background:rgba(66,133,244,0.08); border-left:3px solid var(--accent-blue); padding:12px; border-radius:0 8px 8px 0; font-size:0.9rem;">
-                <b>Clinical Pearl Tracking Vector:</b> ${node.pearls}
-            </div>`;
-        }
-
-        if (node.data) {
-            if(node.data.indication) coreContent += `<p style="margin-bottom:8px;"><b>Indication Profile:</b> ${node.data.indication}</p>`;
-            if(node.data.dose) coreContent += `<p style="margin-bottom:8px;"><b>Dosing Guidelines Matrix:</b> ${node.data.dose}</p>`;
-            if(node.data.mechanism) coreContent += `<p style="margin-bottom:8px;"><b>Mechanism Of Action:</b> ${node.data.mechanism}</p>`;
-            if(node.data.clinicalTip) coreContent += `<p style="margin-top:10px; padding:10px; background:rgba(242,139,130,0.08); border-radius:6px;"><b>High-Alert Warning Rule:</b> ${node.data.clinicalTip}</p>`;
-        }
-
-        if (!coreContent && node.content) coreContent = node.content;
-
-        const isDrug = node.id?.startsWith('drug_') || node.origin === 'drugs.js';
-        const uniquePrefixId = `static_${node.id || 'gen'}_${Date.now()}`;
-
-        // Global real-time logic engine updating multi-factor formulas instantly
+        // Single implementation of the multi-factor calculator engine
         window[`recalc_drug_${uniquePrefixId}`] = function() {
             const w = parseFloat(document.getElementById(`${uniquePrefixId}_metric_weight`)?.value) || 0;
             const liveResultBox = document.getElementById(`${uniquePrefixId}_live_calculation_target`);
@@ -931,7 +518,6 @@ For clinical data lookups, return data utilizing our classic high-grade structur
                 return;
             }
 
-            // Identify checked factors to update the UI counter badge dynamically
             const checkedBoxes = document.querySelectorAll(`.${uniquePrefixId}_risk_cb:checked`);
             const activeCount = checkedBoxes.length;
             
@@ -941,27 +527,35 @@ For clinical data lookups, return data utilizing our classic high-grade structur
                 else { counterBadge.classList.remove('zero'); }
             }
 
-            // Core mathematical modifiers applied directly to calculations
             let doseMultiplier = 1.0;
+            let riskAlertsHTML = "";
+
             checkedBoxes.forEach(cb => {
-                if (cb.value === 'renal') doseMultiplier *= 0.50;     // Reduce dose limit by 50%
-                if (cb.value === 'hepatic') doseMultiplier *= 0.75;   // Reduce dose limit by 25%
-                if (cb.value === 'geriatric') doseMultiplier *= 0.80; // Reduce dose limit by 20%
-                // Shock logic can trigger alternate code profiles
+                if (cb.value === 'renal') {
+                    doseMultiplier *= 0.50;
+                    riskAlertsHTML += `<div style="color:#ea4335; margin-top:4px;"><b>⚠ Severe Renal Impairment:</b> Clearances diminished. Reduce dose or prolong administration intervals.</div>`;
+                }
+                if (cb.value === 'hepatic') {
+                    doseMultiplier *= 0.75;
+                    riskAlertsHTML += `<div style="color:#ea4335; margin-top:4px;"><b>⚠ Hepatic Insufficiency:</b> High threat of structural compound accumulation. Monitor function panels.</div>`;
+                }
+                if (cb.value === 'shock') {
+                    riskAlertsHTML += `<div style="color:#ea4335; margin-top:4px;"><b>⚠ Decompensated Shock:</b> Restricted systemic perfusion. Central access line optimization recommended.</div>`;
+                }
+                if (cb.value === 'geriatric') {
+                    doseMultiplier *= 0.80;
+                    riskAlertsHTML += `<div style="color:#fbbc04; margin-top:4px;"><b>⚠ Geriatric Fragility:</b> High baseline neurological/organ sensitivity. Initiate low titration boundaries.</div>`;
+                }
             });
 
             let computedText = "";
 
             if (node.id === 'drug_hrig') {
-                let baseDose = 20 * w;
-                let adjustedDose = baseDose * doseMultiplier;
-                computedText = `• <b>Live HRIG Target Dose:</b> <b>${adjustedDose.toLocaleString(undefined, {maximumFractionDigits: 1})} IU</b> total volume calculated. ${(doseMultiplier < 1) ? `<span style="color:#ea4335;">(Mathematically downscaled for chosen metabolic risks by ${( (1 - doseMultiplier) * 100 ).toFixed(0)}%)</span>` : ''}`;
+                let adjustedDose = (20 * w) * doseMultiplier;
+                computedText = `• <b>Live HRIG Target Dose:</b> <b>${adjustedDose.toLocaleString(undefined, {maximumFractionDigits: 1})} IU</b> total volume calculated. ${(doseMultiplier < 1) ? `<span style="color:#ea4335;">(Mathematically downscaled for chosen metabolic risks by ${((1 - doseMultiplier) * 100).toFixed(0)}%)</span>` : ''}`;
             } else if (node.id === 'drug_epinephrine') {
-                let lowBound = 0.05 * w * doseMultiplier;
+                let lowBound = Array.from(checkedBoxes).some(c => c.value === 'shock') ? 0.15 * w * doseMultiplier : 0.05 * w * doseMultiplier;
                 let highBound = 2.0 * w * doseMultiplier;
-                if (Array.from(checkedBoxes).some(c => c.value === 'shock')) {
-                    lowBound = 0.15 * w * doseMultiplier; // Shock state increases the baseline starting infusion rate
-                }
                 computedText = `• <b>Live Epinephrine Infusion:</b> <b>${lowBound.toFixed(2)} to ${highBound.toFixed(2)} mcg/min</b> operational limits.`;
             } else {
                 computedText = `• <b>Live Parameters Mapped:</b> Mass vector calculated at ${w} kg. Current systemic dose modification parameter: <b>x${doseMultiplier.toFixed(2)}</b>.`;
@@ -970,12 +564,12 @@ For clinical data lookups, return data utilizing our classic high-grade structur
             liveResultBox.innerHTML = `
                 <div style="background: rgba(52, 168, 83, 0.08); border-left: 3px solid var(--clinical-success); padding: 12px; border-radius: 6px; font-size: 0.88rem; color: var(--text-primary); line-height: 1.4;">
                     <div style="font-weight:700; color:var(--clinical-success); margin-bottom:4px; text-transform:uppercase; font-size:0.75rem;">Risk-Adjusted Target Output</div>
-                    ${computedText}
+                    <div style="margin-bottom:4px;">${computedText}</div>
+                    ${riskAlertsHTML ? `<div style="margin-top:8px; padding-top:6px; border-top:1px dashed rgba(234,67,53,0.15); font-size:0.82rem;">${riskAlertsHTML}</div>` : ''}
                 </div>
             `;
             liveResultBox.classList.remove('hidden');
 
-            // Elastic structural stretch to preserve expanded accordion container frameworks
             const parentAccordionLayer = liveResultBox.closest('.accordion-body-expansion-layer');
             if (parentAccordionLayer) {
                 parentAccordionLayer.style.maxHeight = (parentAccordionLayer.scrollHeight + 100) + 'px';
