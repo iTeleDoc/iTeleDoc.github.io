@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+        
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="mobile-web-app-capable" content="yes">
+    
+        <title>Cortexa AI</title>
+        <link rel="stylesheet" href="main.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+    </head>
+<body class="theme-dark">
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <!-- New Brand + Hamburger Sidebar Header Section -->
+            <div class="sidebar-brand-header">
+                <div class="cortexa-sidebar-brand" id="brandHomeLink">
+                    <span>Cortexa</span>
+                </div>
+                <button class="icon-btn" id="collapseSidebarBtn" title="Collapse Menu">
+                    <span class="material-symbols-rounded">menu</span>
+                </button>
+            </div>
+    
+            <div class="sidebar-header">
+                <!-- Removed the old standalone collapse button from here -->
+                <button class="sidebar-action-pill-btn" id="newChatBtn">
+                    <span class="material-symbols-rounded">add</span>
+                    <span class="btn-text">New chat</span>
+                </button>
+                <button class="sidebar-action-pill-btn" id="sidebarSearchNavBtn">
+                    <span class="material-symbols-rounded">search</span>
+                    <span class="btn-text">Search chat</span>
+                </button>
+            </div>
+
+            <div class="sidebar-scroll-zone">
+                <div class="history-section">
+                    <div class="section-controls-header">
+                        <span class="section-title">Recent Threads</span>
+                        <div class="section-action-buttons">
+                            <button class="section-utility-btn" id="toggleCollapseAllChatsBtn" title="Collapse/Expand List">
+                                <span class="material-symbols-rounded" id="collapseListIcon">unfold_less</span>
+                            </button>
+                            <button class="section-utility-btn danger" id="deleteAllChatsBtn" title="Wipe All History">
+                                <span class="material-symbols-rounded">delete_sweep</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="history-list" id="chatHistoryContainer"></div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="footer-nav-btn" id="libraryNavBtn">
+                    <span class="material-symbols-rounded">local_library</span>
+                    <span class="btn-text">Library</span>
+                </button>
+                <button class="footer-nav-btn" id="settingsToggleBtn">
+                    <span class="material-symbols-rounded">settings</span>
+                    <span class="btn-text">Settings</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-workspace">
+            <header class="top-nav-bar">
+                <div class="nav-left">
+                    <button class="menu-toggle-btn" id="menuToggleBtn">
+                        <span class="material-symbols-rounded">menu</span>
+                    </button>
+                    <!-- Cortexa brand has been stripped out of here completely -->
+                </div>
+                <div class="nav-right">
+                    <button class="theme-quick-toggle-btn" id="themeQuickToggleBtn" title="Toggle Theme">
+                        <span class="material-symbols-rounded">light_mode</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-viewport" id="contentViewport">
+                
+                <div class="view-panel" id="zeroStateScreen">
+                    <div class="welcome-heading-block">
+                        <h1 class="welcome-heading gradient-text">Hello Doctor</h1>
+                        <p class="sub-welcome">Welcome to the Next-Gen Medical Intelligence Platform</p>
+                    </div>
+                    
+                    <div class="suggestions-grid">
+                        <div class="suggestion-card" data-prompt="Run ACLS Cardiac Arrest Protocol for refractory VFib.">
+                            <div class="card-header-icon-row">
+                                <span class="material-symbols-rounded card-icon clinical-card-icon">cardiology</span>
+                            </div>
+                            <p class="card-text">ACLS Cardiac Arrest Protocol (Refractory VFib/pVT)</p>
+                        </div>
+                        <div class="suggestion-card" data-prompt="Calculate Parkland Fluid Resuscitation for a 80kg patient with 40% TBSA burns.">
+                            <div class="card-header-icon-row">
+                                <span class="material-symbols-rounded card-icon clinical-card-icon">water_drop</span>
+                            </div>
+                            <p class="card-text">Parkland Fluid Resuscitation Volume Engine</p>
+                        </div>
+                        <div class="suggestion-card" data-prompt="Evaluate emergency labs: Platelets 85,000 and AST 120 U/L for preeclampsia.">
+                            <div class="card-header-icon-row">
+                                <span class="material-symbols-rounded card-icon clinical-card-icon">lab_research</span>
+                            </div>
+                            <p class="card-text">Preeclampsia Diagnostic Lab Interpretation Matrix</p>
+                        </div>
+                        <div class="suggestion-card" data-prompt="Open calculator for APGAR Score calculation.">
+                            <div class="card-header-icon-row">
+                                <span class="material-symbols-rounded card-icon clinical-card-icon">calculate</span>
+                            </div>
+                            <p class="card-text">Interactive Neonatal APGAR Score Assessment Matrix</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="view-panel hidden" id="chatFeedScreen">
+                    <div class="chat-feed-container">
+                        <div class="message-stream" id="messageStreamTarget"></div>
+                    </div>
+                </div>
+
+                <div class="view-panel hidden" id="searchWorkspaceScreen">
+                    <div class="workspace-internal-container">
+                        <div class="workspace-header-block">
+                            <h2>Search Core Chat Registers</h2>
+                            <p>Query history databases to review specialized clinical session inputs.</p>
+                        </div>
+                        <div class="workspace-search-bar-wrapper">
+                            <span class="material-symbols-rounded">search</span>
+                            <input type="text" id="internalSearchField" placeholder="Type text or structural parameters to filter entries...">
+                        </div>
+                        <div class="search-results-output-grid" id="searchResultsTargetGrid"></div>
+                    </div>
+                </div>
+
+                <div class="view-panel hidden" id="libraryWorkspaceScreen">
+                    <div class="workspace-internal-container">
+                        <div class="workspace-header-block">
+                            <h2>Clinical Knowledge Base</h2>
+                            <p>Access evidence-based protocols and clinical guidelines.</p>
+                        </div>
+                        <div class="workspace-search-bar-wrapper">
+                            <span class="material-symbols-rounded">filter_list</span>
+                            <input type="text" id="libraryWorkspaceSearchField" placeholder="Search by clinical keyword...">
+                        </div>
+                        <div class="library-accordion-stack" id="libraryWorkspaceAccordionContainer"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <footer class="input-panel-container" id="globalInputDeck">
+                <div class="input-wrapper-matrix">
+                    <textarea id="chatInputPayload" rows="1" placeholder="Ask Cortexa"></textarea>
+                    <div class="input-actions-bar">
+                        <button class="input-action-btn" id="clearInputBtn" title="Clear Buffer">
+                            <span class="material-symbols-rounded">close</span>
+                        </button>
+                        <button class="submit-prompt-btn" id="submitPromptBtn" disabled title="Dispatch Command">
+                            <span class="material-symbols-rounded">send</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-disclaimer-text">
+                    Cortexa is AI and can make mistakes. Verify all clinical data before use.
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <div class="context-menu-floating hidden" id="chatContextMenu">
+        <button class="context-action-item" data-action="pin">
+            <span class="material-symbols-rounded">push_pin</span><span>Pin</span>
+        </button>
+        <button class="context-action-item" data-action="rename">
+            <span class="material-symbols-rounded">edit</span><span>Rename</span>
+        </button>
+        <div class="context-divider"></div>
+        <button class="context-action-item danger" data-action="delete">
+            <span class="material-symbols-rounded">delete</span><span>Delete</span>
+        </button>
+    </div>
+
+    <div class="elegant-modal-mask hidden" id="settingsModal">
+        <div class="elegant-modal-card">
+            <div class="modal-card-header">
+                <div class="title-block">
+                    <span class="material-symbols-rounded text-accent">settings</span>
+                    <h3>Settings</h3>
+                </div>
+                <button class="modal-close-circle-btn" id="closeSettingsModalBtn">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </div>
+            <div class="modal-card-body">
+                <div class="settings-meta-section">
+                    <h4>Groq Cloud Integration</h4>
+                    <p>Enter your API key to enable clinical data inference and cross-database analysis.</p>
+                    <div class="input-field-wrapper">
+                        <span class="material-symbols-rounded prefix-icon">vpn_key</span>
+                        <input type="password" id="groqKeyField" placeholder="API Key (gsk_...)">
+                    </div>
+                </div>
+                <div class="settings-meta-section divider-top">
+                    <h4>System Maintenance</h4>
+                    <p>Permanently delete cached sessions and temporary data.</p>
+                    <button class="danger-action-pill-btn" id="flushMemoryBtn">Clear Local Session Cache</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="calculators.js"></script>
+    <script src="drugs.js"></script>
+    <script src="emergencies.js"></script>
+    <script src="fluids.js"></script>
+    <script src="labs.js"></script>
+    <script src="procedures.js"></script>
+    <script src="protocols.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
