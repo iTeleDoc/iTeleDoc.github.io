@@ -508,7 +508,7 @@ body {
 @keyframes promptBounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
 
 /* ==========================================================================
-   9. NATIVE TOUCHSCREEN & LANDSCAPE MOBILE CONTROLLER (Gemini Mechanics)
+   9. NATIVE TOUCHSCREEN & LANDSCAPE MOBILE CONTROLLER
    ========================================================================== */
 @media (max-width: 1024px), (pointer: coarse) {
     /* Forces the top hamburger navigation button to stay active across landscape rotations */
@@ -713,6 +713,32 @@ body {
     user-select: none;
 }
 
+/* Clean glassmorphic dimming layer background */
+.sidebar-overlay { 
+    position: fixed; 
+    inset: 0; 
+    background-color: rgba(0, 0, 0, 0.4); 
+    backdrop-filter: blur(4px);
+    z-index: 199; /* Positions safely right underneath the main sidebar layout panel (z-index 200) */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
+}
+
+/* Activated state layer */
+.sidebar-overlay.active { 
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Desktop Only Optimization: Prevents width snapping quirks on drag/resize */
+@media (min-width: 1025px) {
+    .sidebar {
+        /* Locks transition rules strictly for standard desktop width manipulation toggles */
+        transition: width var(--transition-smooth) !important;
+    }
+}
+
 /* TOUCHSCREEN SPECIFIC CONTROLS */
    @media (pointer: coarse) {
     /* 1. Force the three dots button to be permanently visible */
@@ -723,28 +749,6 @@ body {
     /* 2. Prevent thread text from sliding underneath the now-permanent button */
     .history-item {
         padding-right: 44px !important;
-    }
-}
-
-/* ==========================================================================
-   MOBILE VIEWPORT & KEYBOARD FIXES
-   ========================================================================== */
-@media (max-width: 768px) {
-    /* Use dynamic viewport height so the app container respects the keyboard area */
-    body, .app-container {
-        height: 100dvh !important;
-        min-height: 100dvh !important;
-        overflow: hidden;
-    }
-    
-    /* Ensure the main content shrinks so it doesn't push the input bar off-screen */
-    .main-content {
-        height: calc(100dvh - 60px) !important; /* Adjust 60px based on header height */
-    }
-
-    /* Keep the bottom control area pinned tightly to the layout edge */
-    .chat-input-area {
-        padding-bottom: env(safe-area-inset-bottom) !important;
     }
 }
 
