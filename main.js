@@ -23,7 +23,7 @@
 function compileMasterKnowledgeBase() {
     const pool = [];
     
-    // FIXED: Mapped to correct window global array handles
+    // Mapped to correct window global array handles
     if (window.PROTOCOLS_DB && Array.isArray(window.PROTOCOLS_DB)) {
         window.PROTOCOLS_DB.forEach(x => pool.push({ ...x, type: 'protocol', origin: 'protocols.js' }));
     }
@@ -307,7 +307,7 @@ function compileMasterKnowledgeBase() {
 
         document.addEventListener('click', () => document.getElementById('chatContextMenu').classList.add('hidden'));
 
-        // FIXED: Click delegation capture for dynamically rendered historical threads
+        // Click delegation capture for dynamically rendered historical threads
         const historyContainer = document.getElementById('chatHistoryContainer');
         if (historyContainer) {
             historyContainer.addEventListener('click', (e) => {
@@ -888,7 +888,7 @@ For clinical data lookups, return data utilizing our classic high-grade structur
     }
 
     // ==========================================
-    // NEW: MESSAGE ACTION UTILITIES (EDIT / COPY)
+    // MESSAGE ACTION UTILITIES (EDIT / COPY)
     // ==========================================
 
     window.copyMessageText = function(idx, btnElement) {
@@ -1230,24 +1230,5 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         }
     };
 
-    if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', () => {
-        const keyboardHeight = window.innerHeight - window.visualViewport.height;
-        const appContainer = document.querySelector('.app-container');
-        
-        if (appContainer) {
-            if (keyboardHeight > 0) {
-                // Keyboard is open: shrink the container explicitly to match the visible space
-                appContainer.style.height = `${window.visualViewport.height}px`;
-            } else {
-                // Keyboard is closed: revert back to dynamic viewport height
-                appContainer.style.height = '100dvh';
-            }
-        }
-        // Force scroll to the bottom of the page to keep input visible
-        window.scrollTo(0, 0);
-    });
-}
-    
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
