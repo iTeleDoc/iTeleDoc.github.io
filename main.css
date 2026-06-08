@@ -43,9 +43,18 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     font-family: var(--font-stack); background-color: var(--bg-main); color: var(--text-primary);
-    overflow: hidden; height: 100vh; width: 100vw; -webkit-font-smoothing: antialiased;
+    overflow: hidden; 
+    height: 100vh;
+    height: 100dvh; /* absolute fix for Safari mobile chrome browser updates */
+    width: 100vw; -webkit-font-smoothing: antialiased;
 }
-.app-container { display: flex; width: 100vw; height: 100vh; position: relative; }
+.app-container { 
+    display: flex; 
+    width: 100vw; 
+    height: 100vh; 
+    height: 100dvh; 
+    position: relative; 
+}
 
 /* --- Left Sidebar Sheet Configuration --- */
 .sidebar {
@@ -60,8 +69,6 @@ body {
 /* ==========================================================================
    SIDEBAR COLLAPSED STATES: Perfect Icon Centering Matrix
    ========================================================================== */
-
-/* 1. Center the Floating Chat History Row Elements */
 .sidebar.collapsed .sidebar-scroll-zone {
     padding: 0 !important;
     display: flex !important;
@@ -85,7 +92,6 @@ body {
     border-radius: 50% !important;
 }
 
-/* 2. Center the Bottom Library and Settings Footer Elements */
 .sidebar.collapsed .sidebar-footer {
     padding: 12px !important;
     display: flex !important;
@@ -104,19 +110,9 @@ body {
 
 .sidebar-header { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 .icon-btn {
-    background: none; 
-    border: none; 
-    color: var(--text-primary); 
-    cursor: pointer;
-    width: 44px; 
-    height: 44px; 
-    border-radius: 50%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    transition: background var(--transition-smooth); 
-    margin-bottom: 4px;
-    flex-shrink: 0; /* Crucial: Prevents the button from shrinking or disappearing when width approaches 68px */
+    background: none; border: none; color: var(--text-primary); cursor: pointer;
+    width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    transition: background var(--transition-smooth); margin-bottom: 4px; flex-shrink: 0;
 }
 .icon-btn:hover { background-color: var(--bg-hover); }
 
@@ -128,7 +124,7 @@ body {
 .sidebar.collapsed .sidebar-action-pill-btn { width: 44px; height: 44px; padding: 0; justify-content: center; border-radius: 50%; }
 .sidebar-action-pill-btn:hover { background-color: var(--bg-hover); color: var(--text-primary); }
 
-.sidebar-scroll-zone { flex: 1; overflow-y: auto; padding: 0 12px; margin-top: 12px; min-height: 0; -webkit-overflow-scrolling: touch; }
+.sidebar-scroll-zone { flex: 1; overflow-y: auto; padding: 0 12px; margin-top: 12px; }
 .section-controls-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 4px; }
 .section-title { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
 .section-action-buttons { display: flex; align-items: center; gap: 2px; }
@@ -145,34 +141,16 @@ body {
     background: none; border: none; color: var(--text-primary); font-family: var(--font-stack); font-size: 0.88rem;
     text-align: left; cursor: pointer; width: 100%; overflow: hidden;
 }
-
-@media (hover: none) {
-    .history-item {
-        padding-right: 68px !important;
-    }
-}
 .history-item-wrapper:hover, .history-item-wrapper.active { background-color: var(--bg-hover); }
 .history-item-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
 .item-action-trigger-btn {
     position: absolute; right: 8px; background: none; border: none; color: var(--text-secondary);
     cursor: pointer; width: 28px; height: 28px; border-radius: 50%; display: none; align-items: center; justify-content: center;
 }
-
-@media (hover: none) {
-    .item-action-trigger-btn {
-        display: flex !important;
-    }
-}
 .history-item-wrapper:hover .item-action-trigger-btn { display: flex; }
 .item-action-trigger-btn:hover { background-color: var(--bg-surface); color: var(--text-primary); }
 .pinned-indicator-badge { position: absolute; right: 36px; color: var(--pinned-accent); display: flex; align-items: center; }
 .pinned-indicator-badge span { font-size: 0.95rem !important; }
-
-@media (hover: none) {
-    .pinned-indicator-badge {
-        right: 40px !important;
-    }
-}
 
 .sidebar-footer { padding: 12px; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 4px; }
 .footer-nav-btn {
@@ -182,34 +160,30 @@ body {
 .footer-nav-btn:hover, .footer-nav-btn.active { background-color: var(--bg-hover); color: var(--text-primary); }
 
 /* --- Main App Platform Engine Layout --- */
-.main-workspace {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.main-workspace { 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
     height: 100vh;
-    height: 100dvh; /* Modern dynamic viewport tracking to capture layout shifts on mobile web browsers */
-    min-width: 0;
-    background-color: var(--bg-main);
-    position: relative;
-    overflow: hidden; /* Prevents the body itself from scrolling or breaking boundaries */
+    height: 100dvh; /* Dynamically tracks Safari browser toolbars */
+    position: relative; 
+    overflow: hidden;
 }
 
-.top-nav-bar {
+.top-nav-bar { 
     position: fixed;
     top: 0;
     right: 0;
     left: 0;
     z-index: 80;
     background-color: var(--bg-main);
-    height: 64px;
-    padding: env(safe-area-inset-top, 0px) 24px 0 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    height: calc(64px + env(safe-area-inset-top, 0px)); 
+    padding: env(safe-area-inset-top, 0px) 24px 0 24px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
     border-bottom: 1px solid var(--border-color);
-    box-sizing: border-box;
 }
-
 .nav-left { display: flex; align-items: center; gap: 12px; }
 .menu-toggle-btn { display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; }
 .cortexa-brand { font-size: 1.35rem; font-weight: 500; display: flex; align-items: center; cursor: pointer; }
@@ -220,50 +194,32 @@ body {
 .theme-quick-toggle-btn:hover { background-color: var(--bg-hover); color: var(--text-primary); }
 .theme-quick-toggle-btn span { font-size: 1.4rem !important; }
 
-.content-viewport {
-    flex: 1;
-    overflow-y: auto;
-    position: relative;
-    width: 100%;
-    /* Math calculates exact pixel heights for browser layout boundaries + notches */
-    padding-top: calc(64px + env(safe-area-inset-top, 0px));
-    padding-bottom: 140px;
-    box-sizing: border-box;
+.content-viewport { 
+    flex: 1; 
+    overflow-y: auto; 
+    position: relative; 
+    width: 100%; 
+    padding-top: calc(64px + env(safe-area-inset-top, 0px)); /* Forces website body to start right under top bar */
+    padding-bottom: 180px; /* Gives spacing for absolute bottom panel containers */
 }
-
-.view-panel { width: 100%; max-width: 760px; margin: 0 auto; padding: 40px 24px 140px 24px; animation: panelTransition 0.25s ease-out both; min-height: auto; }
+.view-panel { width: 100%; max-width: 760px; margin: 0 auto; padding: 40px 24px 24px 24px; animation: panelTransition 0.25s ease-out both; }
 @keyframes panelTransition { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
 /* --- Welcome Dashboard Layout --- */
-.welcome-heading-block { 
-    margin-bottom: 48px; 
-  }
+.welcome-heading-block { margin-bottom: 48px; }
+.welcome-heading { font-size: 3.2rem; font-weight: 500; line-height: 1.15; margin-bottom: 6px; }
   
-  .welcome-heading { 
-    font-size: 3.2rem; 
-    font-weight: 500; 
-    line-height: 1.15; 
-    margin-bottom: 6px; 
-  }
-  
-  .gradient-text { 
-    /* 1. Force the element to respect background sizing */
+.gradient-text { 
     display: inline-block; 
-    
-    /* 2. Apply the gradient & clip */
     background: var(--gemini-gradient); 
     background-size: 200% auto; 
     -webkit-background-clip: text; 
     background-clip: text;
     -webkit-text-fill-color: transparent; 
-    
-    /* 3. Animation */
     animation: gemini-shimmer 6s ease infinite; 
-    
-    /* 4. Reset properties that can break the mask */
     color: transparent;
     text-shadow: none; 
-  }
+}
 .sub-welcome { color: var(--text-secondary); font-size: 1.35rem; font-weight: 400; }
 
 /* --- Animation Keyframes --- */
@@ -320,7 +276,7 @@ body {
 .accordion-body-expansion-layer { max-height: 0; overflow: hidden; transition: max-height 0.25s ease-in-out; background-color: rgba(0,0,0,0.04); }
 .accordion-expansion-content { padding: 20px; font-size: 0.94rem; line-height: 1.6; color: var(--text-primary); border-top: 1px solid var(--border-color); }
 
-/* --- Clinical Data Component Blocks (Rendered inside Chat Cards) --- */
+/* --- Clinical Data Component Blocks --- */
 .clinical-card-container {
     background-color: var(--bg-sidebar); border: 1px solid var(--border-color); border-radius: 20px;
     padding: 24px; margin: 16px 0; box-shadow: 0 4px 16px var(--shadow-alpha);
@@ -359,15 +315,10 @@ body {
     border-radius: 12px;
     margin-bottom: 16px;
     display: grid;
-    /* Clean fluid layout: Automatically wraps elements without needing an override block below */
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 10px;
 }
-
-.patient-metrics-engine-block .inline-form-row {
-    margin: 0;
-}
-
+.patient-metrics-engine-block .inline-form-row { margin: 0; }
 .patient-metrics-engine-block label {
     font-size: 0.75rem;
     font-weight: 700;
@@ -376,11 +327,10 @@ body {
     margin-bottom: 4px;
     display: block;
 }
-
 .patient-metrics-engine-block select,
 .patient-metrics-engine-block input {
     box-sizing: border-box;
-    height: 34px; /* Hard-locked heights keep all input variants visually identical */
+    height: 34px; 
     padding: 6px 10px;
     font-size: 0.85rem;
     line-height: 1.2;
@@ -401,7 +351,6 @@ body {
     margin-bottom: 16px;
     overflow: hidden;
 }
-
 .risk-engine-summary-header {
     background-color: rgba(234, 67, 53, 0.04);
     border-bottom: 1px solid var(--border-color);
@@ -412,7 +361,6 @@ body {
     cursor: pointer;
     user-select: none;
 }
-
 .risk-engine-title-group {
     display: flex;
     align-items: center;
@@ -423,7 +371,6 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
 .risk-active-counter-badge {
     background-color: #ea4335;
     color: #ffffff;
@@ -433,22 +380,14 @@ body {
     border-radius: 12px;
     transition: all var(--transition-smooth);
 }
-
-.risk-active-counter-badge.zero {
-    background-color: var(--text-secondary);
-    opacity: 0.6;
-}
-
+.risk-active-counter-badge.zero { background-color: var(--text-secondary); opacity: 0.6; }
 .risk-engine-dropdown-content {
     padding: 12px;
     display: grid;
-    /* Clean fluid layout: Drops down to single columns across phones natively */
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 8px;
     background-color: rgba(0, 0, 0, 0.01);
 }
-
-/* Custom Checkbox Alignment Layouts */
 .risk-matrix-option {
     display: flex;
     align-items: flex-start;
@@ -460,7 +399,6 @@ body {
     padding: 4px;
     user-select: none;
 }
-
 .risk-matrix-option input[type="checkbox"] {
     accent-color: #ea4335;
     width: 15px;
@@ -468,23 +406,10 @@ body {
     margin-top: 1px;
     cursor: pointer;
 }
-
-.risk-factor-coefficient-tag {
-    display: block;
-    font-size: 0.72rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-    margin-top: 2px;
-}
+.risk-factor-coefficient-tag { display: block; font-size: 0.72rem; color: var(--text-secondary); font-weight: 500; margin-top: 2px; }
 
 /* --- Conversational Interface Streams --- */
-.message-stream { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 32px; 
-    padding-top: 16px; 
-}
-
+.message-stream { display: flex; flex-direction: column; gap: 32px; }
 .chat-row { display: flex; gap: 20px; align-items: flex-start; }
 .chat-row.user-row { justify-content: flex-end; flex-direction: row-reverse; }
 .avatar-container { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -496,8 +421,17 @@ body {
 
 /* --- Floating Input Infrastructure --- */
 .input-panel-container {
-    width: 100%; max-width: 760px; margin: 0 auto; padding: 0 24px 24px 24px;
-    background-color: var(--bg-main); position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 50;
+    width: 100%; 
+    max-width: 760px; 
+    margin: 0 auto; 
+    /* Padding handles safe bottom spacing offsets on modern notched screen hardware */
+    padding: 0 24px calc(16px + env(safe-area-inset-bottom, 0px)) 24px;
+    background-color: var(--bg-main); 
+    position: absolute; 
+    bottom: 0; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 50;
 }
 .input-panel-container.hidden { display: none !important; }
 .input-wrapper-matrix {
@@ -561,37 +495,8 @@ body {
 @keyframes promptBounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
 
 /* ==========================================================================
-   SIDEBAR & RESPONSIVE CORE LAYOUT
+   SIDEBAR & BRANDING RESPONSIVE CORE MATRIX
    ========================================================================== */
-.cortexa-sidebar-brand {
-    font-size: 1.35rem;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    background: var(--gemini-gradient);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gemini-shimmer 6s ease infinite;
-    cursor: pointer;
-    opacity: 1;
-    white-space: nowrap;
-    transition: opacity var(--transition-smooth), width var(--transition-smooth);
-}
-
-@supports not (-webkit-background-clip: text) {
-    .cortexa-sidebar-brand {
-        color: var(--text-primary);
-    }
-}
-
-/* Adjust layout spacing on the icon button inside the brand header zone */
-.sidebar-brand-header .icon-btn {
-    margin-bottom: 0;
-    flex-shrink: 0;
-}
-
-/* --- Branding Header Structure --- */
 .sidebar-brand-header {
     display: flex;
     align-items: center;
@@ -603,10 +508,9 @@ body {
 
 .sidebar.collapsed .sidebar-brand-header {
     padding: calc(12px + env(safe-area-inset-top, 0px)) 0 12px 0;
-    justify-content: center;
+    justify-content: center; 
 }
 
-/* Make sure the text vanishes smoothly without taking up physical layout space */
 .sidebar .cortexa-sidebar-brand {
     opacity: 1;
     visibility: visible;
@@ -616,7 +520,7 @@ body {
 }
 
 .sidebar.collapsed .cortexa-sidebar-brand {
-    display: none !important;
+    display: none !important; 
     opacity: 0;
     visibility: hidden;
     width: 0;
@@ -624,39 +528,32 @@ body {
 
 /* --- Mobile Breakpoint (Unified Matrix) --- */
 @media (max-width: 768px) {
-    .menu-toggle-btn { display: flex; }
+    .menu-toggle-btn { display: flex !important; }
     
     .sidebar {
         position: fixed;
-        left: -268px;
+        left: -268px; 
         top: 0;
         bottom: 0;
-        height: 100%;
-        width: 268px;
+        height: 100vh;
+        height: 100dvh;
+        width: 268px !important; 
         transition: left var(--transition-smooth);
-        display: flex;
-        flex-direction: column;
     }
     
-    .sidebar.mobile-open { left: 0; }
+    .sidebar.mobile-open { left: 0 !important; }
 
-    .sidebar-overlay.active, 
     .sidebarOverlay.active {
         display: block;
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0, 0, 0, 0.5);
         z-index: 99;
     }
 
     .welcome-heading { font-size: 2.4rem; }
+    .view-panel { padding: 16px 16px 24px 16px; }
 
-    /* Prevent calculator cards from expanding off-screen */
-    .view-panel { padding: 16px 16px 140px 16px; }
-    .clinical-card-container { width: 100%; box-sizing: border-box; overflow-wrap: break-word; }
-    .patient-metrics-engine-block, .risk-engine-dropdown-content { grid-template-columns: 1fr; }
-
-    /* Combined mobile branding parameters */
     .sidebar-brand-header {
         padding: calc(16px + env(safe-area-inset-top, 0px)) 16px 12px 16px;
         height: calc(64px + env(safe-area-inset-top, 0px));
@@ -669,7 +566,7 @@ body {
 }
 
 /* ==========================================================================
-   MESSAGE ACTIONS & EDITING ENGINE
+   MESSAGE ACTIONS & EDIT ENGINE UI
    ========================================================================== */
 .user-message-wrapper {
     display: flex;
@@ -684,19 +581,12 @@ body {
     opacity: 0;
     transition: opacity var(--transition-smooth);
     margin-top: 6px;
-    padding-right: 8px;
+    padding-right: 8px; 
 }
 
-/* Reveal on hover for desktop mice */
+/* Reveal on hover for desktop platforms */
 .chat-row:hover .message-actions {
     opacity: 1;
-}
-
-/* Force actions to stay permanently visible on touch-primary interfaces natively */
-@media (hover: none) {
-    .message-actions {
-        opacity: 1;
-    }
 }
 
 .msg-action-btn {
@@ -718,13 +608,8 @@ body {
     color: var(--text-primary);
 }
 
-.msg-action-btn.action-success {
-    color: var(--text-primary);
-}
-
-.msg-action-btn span {
-    font-size: 1.1rem !important;
-}
+.msg-action-btn.action-success { color: var(--text-primary); }
+.msg-action-btn span { font-size: 1.1rem !important; }
 
 /* Elegant Clear Edit Box Layout (Gemini Style) */
 .edit-mode-container {
@@ -750,10 +635,7 @@ body {
     width: 100%;
     transition: border-color var(--transition-smooth);
 }
-
-.edit-textarea:focus {
-    border-color: var(--accent-blue);
-}
+.edit-textarea:focus { border-color: var(--accent-blue); }
 
 .edit-actions-row {
     display: flex;
@@ -772,42 +654,24 @@ body {
     transition: background-color var(--transition-smooth), opacity var(--transition-smooth);
     border: none;
 }
-
-.edit-btn.cancel {
-    background: transparent;
-    color: var(--accent-blue);
-}
-
-.edit-btn.cancel:hover {
-    background-color: rgba(66, 133, 244, 0.08);
-}
-
-.edit-btn.update {
-    background: var(--accent-blue);
-    color: #ffffff;
-}
-
-.edit-btn.update:hover {
-    opacity: 0.9;
-}
+.edit-btn.cancel { background: transparent; color: var(--accent-blue); }
+.edit-btn.cancel:hover { background-color: rgba(66, 133, 244, 0.08); }
+.edit-btn.update { background: var(--accent-blue); color: #ffffff; }
+.edit-btn.update:hover { opacity: 0.9; }
 
 .edited-tag {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 0.72rem;
     color: var(--text-secondary);
-    opacity: 0.6;
+    font-weight: 400;
     margin-left: 6px;
-    vertical-align: middle;
     user-select: none;
 }
 
-.edited-tag::before {
-    font-family: 'Material Symbols Rounded';
-    content: "edit";
-    font-size: 0.95rem;
-    font-weight: normal;
-    font-style: normal;
+/* Native touch support: Force actions to show permanently on touch-primary viewports natively */
+@media (hover: none) and (pointer: coarse) {
+    .message-actions {
+        opacity: 1 !important;
+    }
 }
 
 .hidden { display: none !important; }
