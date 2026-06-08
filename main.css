@@ -726,4 +726,26 @@ body {
     }
 }
 
+/* ==========================================================================
+   MOBILE VIEWPORT & KEYBOARD FIXES
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* Use dynamic viewport height so the app container respects the keyboard area */
+    body, .app-container {
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+        overflow: hidden;
+    }
+    
+    /* Ensure the main content shrinks so it doesn't push the input bar off-screen */
+    .main-content {
+        height: calc(100dvh - 60px) !important; /* Adjust 60px based on header height */
+    }
+
+    /* Keep the bottom control area pinned tightly to the layout edge */
+    .chat-input-area {
+        padding-bottom: env(safe-area-inset-bottom) !important;
+    }
+}
+
 .hidden { display: none !important; }
