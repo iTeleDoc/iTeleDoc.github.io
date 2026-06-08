@@ -497,6 +497,30 @@ body {
 /* ==========================================================================
    SIDEBAR & BRANDING RESPONSIVE CORE MATRIX
    ========================================================================== */
+
+/* 1. Base Branding with Glow Engine */
+.cortexa-sidebar-brand {
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    display: inline-block;
+    cursor: pointer;
+    
+    /* Gradient Glow */
+    background: var(--gemini-gradient);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gemini-shimmer 6s ease infinite;
+    
+    /* Layout */
+    white-space: nowrap;
+    transition: opacity var(--transition-smooth), visibility var(--transition-smooth), width var(--transition-smooth);
+}
+
+/* 2. Brand Header Structure */
 .sidebar-brand-header {
     display: flex;
     align-items: center;
@@ -511,14 +535,7 @@ body {
     justify-content: center; 
 }
 
-.sidebar .cortexa-sidebar-brand {
-    opacity: 1;
-    visibility: visible;
-    width: auto;
-    white-space: nowrap;
-    transition: opacity var(--transition-smooth), visibility var(--transition-smooth), width var(--transition-smooth);
-}
-
+/* 3. Collapsed State Logic */
 .sidebar.collapsed .cortexa-sidebar-brand {
     display: none !important; 
     opacity: 0;
@@ -526,7 +543,7 @@ body {
     width: 0;
 }
 
-/* --- Mobile Breakpoint (Unified Matrix) --- */
+/* 4. Mobile Breakpoint (Unified Matrix) */
 @media (max-width: 768px) {
     .menu-toggle-btn { display: flex !important; }
     
@@ -558,6 +575,8 @@ body {
         padding: calc(16px + env(safe-area-inset-top, 0px)) 16px 12px 16px;
         height: calc(64px + env(safe-area-inset-top, 0px));
     }
+    
+    /* Force brand visibility on mobile even if collapsed */
     .sidebar.collapsed .cortexa-sidebar-brand {
         display: block !important;
         opacity: 1 !important;
