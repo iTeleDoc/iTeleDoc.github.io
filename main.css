@@ -752,4 +752,303 @@ body {
     }
 }
 
+/* Container matching ChatGPT's sidebar control system */
+.sidebar-action-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start; /* Aligns smoothly to the left side */
+    gap: 12px;
+    padding: 10px 16px;
+    background-color: transparent; /* No harsh background boxes */
+    color: #ececec; /* Soft white text profile */
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Delicate, crisp border styling */
+    border-radius: 8px; /* ChatGPT style slightly blocky rounded corners (not a full pill) */
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%; /* Spans the sidebar layout block */
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+/* ChatGPT interactive states */
+.sidebar-action-pill-btn:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Precision rules for the inline native SVGs */
+.sidebar-action-pill-btn svg {
+    flex-shrink: 0;
+    color: #b4b4b4; /* Slightly dimmer icon color until hovered */
+    transition: color 0.15s ease;
+}
+
+.sidebar-action-pill-btn:hover svg {
+    color: #ffffff; /* Illuminates fully on focus */
+}
+
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Gemini uses perfectly circular hover rings */
+    background: transparent;
+    color: var(--text-primary, #ffffff);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Smooth, soft fade-in circle background on hover */
+.icon-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Slight compression tactile feel when pressed */
+.icon-btn:active {
+    transform: scale(0.95);
+}
+
+/* Ensure the SVG scales dynamically */
+.icon-btn svg {
+    flex-shrink: 0;
+    transition: opacity 0.2s ease;
+}
+
+.footer-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 10px 16px;
+    background: transparent;
+    color: var(--text-primary, #e3e3e3);
+    border: none;
+    border-radius: 8px; /* Clean modern corner radius */
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color var(--transition-smooth), color var(--transition-smooth);
+}
+
+/* Smooth fade background when hovering over settings option */
+.footer-nav-btn:hover {
+    background-color: var(--bg-hover, rgba(255, 255, 255, 0.06));
+}
+
+/* Match SVG line rendering with standard structural vectors */
+.footer-nav-btn svg {
+    flex-shrink: 0;
+    color: var(--text-secondary, #c4c7c5);
+    transition: color var(--transition-smooth), transform 0.3s ease;
+}
+
+/* Interactive highlight + subtle mechanical gear spin on hover */
+.footer-nav-btn:hover svg {
+    color: var(--text-primary, #ffffff);
+    transform: rotate(45deg);
+}
+
+/* Unique subtle interaction for the library book pages */
+#libraryNavBtn:hover svg {
+    color: var(--text-primary, #ffffff);
+    transform: scale(1.05) translateY(-1px); /* Slight lift to look like it's opening */
+}
+
+/* ==========================================================================
+   GEMINI-SPECIFIC INTERACTIVE PIN & ACTION BUTTON CROSSOVER MATRIX
+   ========================================================================== */
+
+   .history-item-wrapper {
+    position: relative;
+}
+
+/* Master Shared Button Layout Layer */
+.history-item-wrapper .item-action-trigger-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.history-item-wrapper .item-action-trigger-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Base Hidden Rules for Dual-State Rendering Spans */
+.history-item-wrapper .item-action-trigger-btn .pin-icon,
+.history-item-wrapper .item-action-trigger-btn .dots-icon {
+    display: none;
+    font-size: 18px;
+}
+
+/* Strict Color Assignment Mapping rules */
+.history-item-wrapper .item-action-trigger-btn .pin-icon {
+    color: #ffffff !important; /* Pure clinical clean white as requested, bypassing theme blue */
+}
+
+.history-item-wrapper .item-action-trigger-btn .dots-icon {
+    color: var(--text-secondary, #c4c7c5);
+}
+
+/* ----------------------------------
+   CASE A: Thread Record NOT Pinned
+   ---------------------------------- */
+.history-item-wrapper[data-pinned="false"] .item-action-trigger-btn {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Display dots instantly on row cursor hover profiles */
+.history-item-wrapper[data-pinned="false"]:hover .item-action-trigger-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.history-item-wrapper[data-pinned="false"] .dots-icon {
+    display: inline-block;
+}
+
+/* ----------------------------------
+   CASE B: Thread Record IS Pinned
+   ---------------------------------- */
+.history-item-wrapper[data-pinned="true"] .item-action-trigger-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Default Static Presentation State: Show pristine white pin icon */
+.history-item-wrapper[data-pinned="true"] .pin-icon {
+    display: inline-block;
+}
+.history-item-wrapper[data-pinned="true"] .dots-icon {
+    display: none;
+}
+
+/* Hover Interaction Target Crossover: Turn white pin back into context dots seamlessly */
+.history-item-wrapper[data-pinned="true"]:hover .pin-icon {
+    display: none !important;
+}
+.history-item-wrapper[data-pinned="true"]:hover .dots-icon {
+    display: inline-block !important;
+}
+
+/* ==========================================================================
+   CORTEXA LIVE WAVE - INFINITE DYNAMIC COLOR ENGINE
+   ========================================================================== */
+
+/* The interactive circular navigation wrapper */
+.cortexa-dynamic-trigger {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Vector element alignment wrapper */
+.fluid-matrix-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+
+/* Core SVG properties */
+.cortexa-fluid-canvas {
+    overflow: visible;
+}
+
+/* The individual vector beams */
+.cortexa-fluid-canvas line {
+    transform-origin: center;
+    stroke-width: 3px;
+    
+    /* Lock the stroke straight to our multi-tone live gradient */
+    stroke: url(#cortexaLiveGrad) !important;
+    
+    /* Smooth transform handling when merging structural states */
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                stroke-width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* --- THE INFINITE COLOR WAVE ANIMATION --- */
+@keyframes cortexaColorWave {
+    0% {
+        stroke-dashoffset: 0;
+        /* Shifts the gradient definition space across the vector line coordinates */
+        transform: translate(0, 0);
+    }
+    50% {
+        /* Subtle back-and-forth internal vector shift mimicking a pulsing dataset */
+        opacity: 0.9;
+    }
+    100% {
+        /* Loops perfectly without a visible jump */
+        transform: translate(-15%, -15%);
+    }
+}
+
+/* Apply the continuous color animation to the gradient def itself */
+#cortexaLiveGrad {
+    /* Animates the internal gradient x/y attributes dynamically using CSS */
+    animation: cortexaGradientMove 6s infinite linear;
+}
+
+@keyframes cortexaGradientMove {
+    0% {
+        x1: 0%; y1: 0%;
+        x2: 200%; y2: 200%;
+    }
+    100% {
+        x1: -100%; y1: -100%;
+        x2: 100%; y2: 100%;
+    }
+}
+
+/* --- THE HOVER CONVERGENCE INTERACTION --- */
+
+/* Background aura uses a soft neutral opacity trace */
+.cortexa-dynamic-trigger:hover {
+    background-color: rgba(255, 255, 255, 0.05); 
+}
+
+/* Top Beam: Drops down to center axis (Y:12), stays bold, keeps shifting color */
+.cortexa-dynamic-trigger:hover .fluid-beam-top {
+    transform: translateY(4px);
+    stroke-width: 3.5px;
+}
+
+/* Bottom Beam: Rises up to center axis (Y:12), matches alignment perfectly */
+.cortexa-dynamic-trigger:hover .fluid-beam-bottom {
+    transform: translateY(-4px);
+    stroke-width: 3.5px;
+}
+
+/* --- Tactile Click Phase --- */
+.cortexa-dynamic-trigger:active {
+    transform: scale(0.92);
+}
+
 .hidden { display: none !important; }
