@@ -8,7 +8,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="mobile-web-app-capable" content="yes">
     
-        <title>Cortexa AI</title>
+        <title>Cortexa</title>
         <link rel="stylesheet" href="main.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,32 +25,56 @@
                 <div class="cortexa-sidebar-brand" id="brandHomeLink">
                     <span>Cortexa</span>
                 </div>
-                <button class="icon-btn" id="collapseSidebarBtn" title="Collapse Menu">
-                    <span class="material-symbols-rounded">menu</span>
+                <button class="icon-btn cortexa-dynamic-trigger" id="collapseSidebarBtn" title="Menu">
+                    <div class="fluid-matrix-container">
+                        <!-- Cortexa Live Engine Canvas -->
+                        <svg class="cortexa-fluid-canvas" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round">
+                            <defs>
+                                <!-- Angled Gradient Matrix for Infinite Color Flow -->
+                                <linearGradient id="cortexaLiveGrad" x1="0%" y1="0%" x2="200%" y2="200%">
+                                    <stop offset="0%" stop-color="#5c6bc0" />   <!-- Cortexa Indigo -->
+                                    <stop offset="30%" stop-color="#00f2fe" />  <!-- Diagnostic Cyan -->
+                                    <stop offset="65%" stop-color="#ff4e50" />  <!-- Bio-Red -->
+                                    <stop offset="85%" stop-color="#ff8c00" />  <!-- Vibrant Orange -->
+                                    <stop offset="100%" stop-color="#5c6bc0" /> <!-- Loops back to Indigo -->
+                                </linearGradient>
+                            </defs>
+                            <!-- 0.1px vertical offset maps the gradient precisely across horizontal lines -->
+                            <line class="fluid-beam-top" x1="4" y1="8" x2="20" y2="8.1"></line>
+                            <line class="fluid-beam-bottom" x1="4" y1="16" x2="20" y2="16.1"></line>
+                        </svg>
+                    </div>
                 </button>
             </div>
     
             <div class="sidebar-header">
-                <!-- Removed the old standalone collapse button from here -->
-                <button class="sidebar-action-pill-btn" id="newChatBtn">
-                    <span class="material-symbols-rounded">add</span>
-                    <span class="btn-text">New chat</span>
+                <button class="sidebar-action-pill-btn" id="newChatBtn" title="Message">
+                    <!-- ChatGPT style composer/edit icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                    </svg>
+                    <span class="btn-text">New Chat</span>
                 </button>
-                <button class="sidebar-action-pill-btn" id="sidebarSearchNavBtn">
-                    <span class="material-symbols-rounded">search</span>
-                    <span class="btn-text">Search chat</span>
+                <button class="sidebar-action-pill-btn" id="sidebarSearchNavBtn" title="Search">
+                    <!-- ChatGPT style search magnifying glass -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                    <span class="btn-text">Search Chats</span>
                 </button>
             </div>
 
             <div class="sidebar-scroll-zone">
                 <div class="history-section">
                     <div class="section-controls-header">
-                        <span class="section-title">Recent Threads</span>
+                        <span class="section-title">Recents</span>
                         <div class="section-action-buttons">
-                            <button class="section-utility-btn" id="toggleCollapseAllChatsBtn" title="Collapse/Expand List">
+                            <button class="section-utility-btn" id="toggleCollapseAllChatsBtn" title="Collapse/Expand">
                                 <span class="material-symbols-rounded" id="collapseListIcon">unfold_less</span>
                             </button>
-                            <button class="section-utility-btn danger" id="deleteAllChatsBtn" title="Wipe All History">
+                            <button class="section-utility-btn danger" id="deleteAllChatsBtn" title="Delete All History">
                                 <span class="material-symbols-rounded">delete_sweep</span>
                             </button>
                         </div>
@@ -60,12 +84,19 @@
             </div>
 
             <div class="sidebar-footer">
-                <button class="footer-nav-btn" id="libraryNavBtn">
-                    <span class="material-symbols-rounded">local_library</span>
+                <button class="footer-nav-btn" id="libraryNavBtn" title="Library">
+                    <!-- Gemini/ChatGPT style clean geometric open book icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                    </svg>
                     <span class="btn-text">Library</span>
                 </button>
-                <button class="footer-nav-btn" id="settingsToggleBtn">
-                    <span class="material-symbols-rounded">settings</span>
+                <button class="footer-nav-btn" id="settingsToggleBtn" title="Settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
                     <span class="btn-text">Settings</span>
                 </button>
             </div>
@@ -95,29 +126,17 @@
                     </div>
                     
                     <div class="suggestions-grid">
-                        <div class="suggestion-card" data-prompt="Run ACLS Cardiac Arrest Protocol for refractory VFib.">
+                        <div class="suggestion-card" data-prompt="ACLS Cardiac Arrest Algorithms">
                             <div class="card-header-icon-row">
-                                <span class="material-symbols-rounded card-icon clinical-card-icon">cardiology</span>
+                                <span class="material-symbols-rounded card-icon clinical-card-icon">monitor_heart</span>
                             </div>
-                            <p class="card-text">ACLS Cardiac Arrest Protocol (Refractory VFib/pVT)</p>
+                            <p class="card-text">ACLS Cardiac Arrest Algorithms</p>
                         </div>
-                        <div class="suggestion-card" data-prompt="Calculate Parkland Fluid Resuscitation for a 80kg patient with 40% TBSA burns.">
+                        <div class="suggestion-card" data-prompt="Rapid Sequence Intubation">
                             <div class="card-header-icon-row">
-                                <span class="material-symbols-rounded card-icon clinical-card-icon">water_drop</span>
+                                <span class="material-symbols-rounded card-icon clinical-card-icon">air</span>
                             </div>
-                            <p class="card-text">Parkland Fluid Resuscitation Volume Engine</p>
-                        </div>
-                        <div class="suggestion-card" data-prompt="Evaluate emergency labs: Platelets 85,000 and AST 120 U/L for preeclampsia.">
-                            <div class="card-header-icon-row">
-                                <span class="material-symbols-rounded card-icon clinical-card-icon">lab_research</span>
-                            </div>
-                            <p class="card-text">Preeclampsia Diagnostic Lab Interpretation Matrix</p>
-                        </div>
-                        <div class="suggestion-card" data-prompt="Open calculator for APGAR Score calculation.">
-                            <div class="card-header-icon-row">
-                                <span class="material-symbols-rounded card-icon clinical-card-icon">calculate</span>
-                            </div>
-                            <p class="card-text">Interactive Neonatal APGAR Score Assessment Matrix</p>
+                            <p class="card-text">Rapid Sequence Intubation</p>
                         </div>
                     </div>
                 </div>
@@ -162,9 +181,7 @@
                 <div class="input-wrapper-matrix">
                     <textarea id="chatInputPayload" rows="1" placeholder="Ask Cortexa"></textarea>
                     <div class="input-actions-bar">
-                        <button class="input-action-btn" id="clearInputBtn" title="Clear Buffer">
-                            <span class="material-symbols-rounded">close</span>
-                        </button>
+
                         <button class="submit-prompt-btn" id="submitPromptBtn" disabled title="Dispatch Command">
                             <span class="material-symbols-rounded">send</span>
                         </button>
