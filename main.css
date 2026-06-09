@@ -605,9 +605,9 @@ body {
 }
 
 /* ==========================================================================
-   MESSAGE ACTIONS & EDIT ENGINE UI
+   MESSAGE ACTIONS & EDIT ENGINE UI (THEME ADAPTIVE)
    ========================================================================== */
-.user-message-wrapper {
+   .user-message-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -719,7 +719,7 @@ body {
     inset: 0; 
     background-color: rgba(0, 0, 0, 0.4); 
     backdrop-filter: blur(4px);
-    z-index: 199; /* Positions safely right underneath the main sidebar layout panel (z-index 200) */
+    z-index: 199;
     opacity: 0;
     visibility: hidden;
     transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
@@ -734,57 +734,54 @@ body {
 /* Desktop Only Optimization: Prevents width snapping quirks on drag/resize */
 @media (min-width: 1025px) {
     .sidebar {
-        /* Locks transition rules strictly for standard desktop width manipulation toggles */
         transition: width var(--transition-smooth) !important;
     }
 }
 
 /* TOUCHSCREEN SPECIFIC CONTROLS */
-   @media (pointer: coarse) {
-    /* 1. Force the three dots button to be permanently visible */
+@media (pointer: coarse) {
     .item-action-trigger-btn {
         display: flex !important;
     }
     
-    /* 2. Prevent thread text from sliding underneath the now-permanent button */
     .history-item {
         padding-right: 44px !important;
     }
 }
 
-/* Container matching ChatGPT's sidebar control system */
+/* Container matching ChatGPT's sidebar control system - Theme Adaptive */
 .sidebar-action-pill-btn {
     display: inline-flex;
     align-items: center;
-    justify-content: flex-start; /* Aligns smoothly to the left side */
+    justify-content: flex-start;
     gap: 12px;
     padding: 10px 16px;
-    background-color: transparent; /* No harsh background boxes */
-    color: #ececec; /* Soft white text profile */
-    border: 1px solid rgba(255, 255, 255, 0.15); /* Delicate, crisp border styling */
-    border-radius: 8px; /* ChatGPT style slightly blocky rounded corners (not a full pill) */
+    background-color: transparent;
+    color: var(--text-primary); /* Swapped #ececec for adaptive token */
+    border: 1px solid var(--border-color); /* Swapped hardcoded border for adaptive token */
+    border-radius: 8px; /* Preserved your original rectangle shape */
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    width: 100%; /* Spans the sidebar layout block */
+    width: 100%;
     transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
-/* ChatGPT interactive states */
+/* Theme Adaptive Interactive States */
 .sidebar-action-pill-btn:hover {
-    background-color: rgba(255, 255, 255, 0.07);
-    border-color: rgba(255, 255, 255, 0.25);
+    background-color: var(--bg-hover);
+    border-color: var(--text-secondary);
 }
 
 /* Precision rules for the inline native SVGs */
 .sidebar-action-pill-btn svg {
     flex-shrink: 0;
-    color: #b4b4b4; /* Slightly dimmer icon color until hovered */
+    color: var(--text-secondary); /* Swapped #b4b4b4 */
     transition: color 0.15s ease;
 }
 
 .sidebar-action-pill-btn:hover svg {
-    color: #ffffff; /* Illuminates fully on focus */
+    color: var(--text-primary); /* Swapped #ffffff */
 }
 
 .icon-btn {
@@ -793,25 +790,22 @@ body {
     justify-content: center;
     width: 40px;
     height: 40px;
-    border-radius: 50%; /* Gemini uses perfectly circular hover rings */
+    border-radius: 50%;
     background: transparent;
-    color: var(--text-primary, #ffffff);
+    color: var(--text-primary);
     border: none;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-/* Smooth, soft fade-in circle background on hover */
 .icon-btn:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--bg-hover);
 }
 
-/* Slight compression tactile feel when pressed */
 .icon-btn:active {
     transform: scale(0.95);
 }
 
-/* Ensure the SVG scales dynamically */
 .icon-btn svg {
     flex-shrink: 0;
     transition: opacity 0.2s ease;
@@ -824,9 +818,9 @@ body {
     gap: 12px;
     padding: 10px 16px;
     background: transparent;
-    color: var(--text-primary, #e3e3e3);
+    color: var(--text-primary);
     border: none;
-    border-radius: 8px; /* Clean modern corner radius */
+    border-radius: 8px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -834,39 +828,33 @@ body {
     transition: background-color var(--transition-smooth), color var(--transition-smooth);
 }
 
-/* Smooth fade background when hovering over settings option */
 .footer-nav-btn:hover {
-    background-color: var(--bg-hover, rgba(255, 255, 255, 0.06));
+    background-color: var(--bg-hover);
 }
 
-/* Match SVG line rendering with standard structural vectors */
 .footer-nav-btn svg {
     flex-shrink: 0;
-    color: var(--text-secondary, #c4c7c5);
+    color: var(--text-secondary);
     transition: color var(--transition-smooth), transform 0.3s ease;
 }
 
-/* Interactive highlight + subtle mechanical gear spin on hover */
 .footer-nav-btn:hover svg {
-    color: var(--text-primary, #ffffff);
+    color: var(--text-primary);
     transform: rotate(45deg);
 }
 
-/* Unique subtle interaction for the library book pages */
 #libraryNavBtn:hover svg {
-    color: var(--text-primary, #ffffff);
-    transform: scale(1.05) translateY(-1px); /* Slight lift to look like it's opening */
+    color: var(--text-primary);
+    transform: scale(1.05) translateY(-1px);
 }
 
 /* ==========================================================================
    GEMINI-SPECIFIC INTERACTIVE PIN & ACTION BUTTON CROSSOVER MATRIX
    ========================================================================== */
-
-   .history-item-wrapper {
+.history-item-wrapper {
     position: relative;
 }
 
-/* Master Shared Button Layout Layer */
 .history-item-wrapper .item-action-trigger-btn {
     display: inline-flex;
     align-items: center;
@@ -886,34 +874,30 @@ body {
 }
 
 .history-item-wrapper .item-action-trigger-btn:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--bg-hover);
 }
 
-/* Base Hidden Rules for Dual-State Rendering Spans */
 .history-item-wrapper .item-action-trigger-btn .pin-icon,
 .history-item-wrapper .item-action-trigger-btn .dots-icon {
     display: none;
     font-size: 18px;
 }
 
-/* Strict Color Assignment Mapping rules */
+/* Theme Adaptive Pin Colors */
 .history-item-wrapper .item-action-trigger-btn .pin-icon {
-    color: #ffffff !important; /* Pure clinical clean white as requested, bypassing theme blue */
+    color: var(--pinned-accent) !important; /* Dynamically maps to #a8c7fa in dark and #1a73e8 in light */
 }
 
 .history-item-wrapper .item-action-trigger-btn .dots-icon {
-    color: var(--text-secondary, #c4c7c5);
+    color: var(--text-secondary);
 }
 
-/* ----------------------------------
-   CASE A: Thread Record NOT Pinned
-   ---------------------------------- */
+/* CASE A: Thread Record NOT Pinned */
 .history-item-wrapper[data-pinned="false"] .item-action-trigger-btn {
     opacity: 0;
     pointer-events: none;
 }
 
-/* Display dots instantly on row cursor hover profiles */
 .history-item-wrapper[data-pinned="false"]:hover .item-action-trigger-btn {
     opacity: 1;
     pointer-events: auto;
@@ -923,15 +907,12 @@ body {
     display: inline-block;
 }
 
-/* ----------------------------------
-   CASE B: Thread Record IS Pinned
-   ---------------------------------- */
+/* CASE B: Thread Record IS Pinned */
 .history-item-wrapper[data-pinned="true"] .item-action-trigger-btn {
     opacity: 1;
     pointer-events: auto;
 }
 
-/* Default Static Presentation State: Show pristine white pin icon */
 .history-item-wrapper[data-pinned="true"] .pin-icon {
     display: inline-block;
 }
@@ -939,7 +920,6 @@ body {
     display: none;
 }
 
-/* Hover Interaction Target Crossover: Turn white pin back into context dots seamlessly */
 .history-item-wrapper[data-pinned="true"]:hover .pin-icon {
     display: none !important;
 }
@@ -948,10 +928,8 @@ body {
 }
 
 /* ==========================================================================
-   CORTEXA LIVE WAVE - INFINITE DYNAMIC COLOR ENGINE
+   CORTEXA LIVE WAVE - INFINITE DYNAMIC COLOR ENGINE (FIXED LOOP)
    ========================================================================== */
-
-/* The interactive circular navigation wrapper */
 .cortexa-dynamic-trigger {
     position: relative;
     width: 40px;
@@ -966,7 +944,6 @@ body {
     transition: background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Vector element alignment wrapper */
 .fluid-matrix-container {
     display: flex;
     align-items: center;
@@ -975,78 +952,46 @@ body {
     height: 20px;
 }
 
-/* Core SVG properties */
 .cortexa-fluid-canvas {
     overflow: visible;
 }
 
-/* The individual vector beams */
 .cortexa-fluid-canvas line {
     transform-origin: center;
     stroke-width: 3px;
-    
-    /* Lock the stroke straight to our multi-tone live gradient */
     stroke: url(#cortexaLiveGrad) !important;
-    
-    /* Smooth transform handling when merging structural states */
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
                 stroke-width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* --- THE INFINITE COLOR WAVE ANIMATION --- */
-@keyframes cortexaColorWave {
-    0% {
-        stroke-dashoffset: 0;
-        /* Shifts the gradient definition space across the vector line coordinates */
-        transform: translate(0, 0);
-    }
-    50% {
-        /* Subtle back-and-forth internal vector shift mimicking a pulsing dataset */
-        opacity: 0.9;
-    }
-    100% {
-        /* Loops perfectly without a visible jump */
-        transform: translate(-15%, -15%);
-    }
-}
-
-/* Apply the continuous color animation to the gradient def itself */
-#cortexaLiveGrad {
-    /* Animates the internal gradient x/y attributes dynamically using CSS */
-    animation: cortexaGradientMove 6s infinite linear;
-}
-
+/* Smooth, cross-browser gradient horizontal translation loop */
 @keyframes cortexaGradientMove {
     0% {
-        x1: 0%; y1: 0%;
-        x2: 200%; y2: 200%;
+        gradientTransform: translate(0, 0);
     }
     100% {
-        x1: -100%; y1: -100%;
-        x2: 100%; y2: 100%;
+        gradientTransform: translate(-24, 0);
     }
 }
 
-/* --- THE HOVER CONVERGENCE INTERACTION --- */
-
-/* Background aura uses a soft neutral opacity trace */
-.cortexa-dynamic-trigger:hover {
-    background-color: rgba(255, 255, 255, 0.05); 
+#cortexaLiveGrad {
+    animation: cortexaGradientMove 4s infinite linear;
 }
 
-/* Top Beam: Drops down to center axis (Y:12), stays bold, keeps shifting color */
+.cortexa-dynamic-trigger:hover {
+    background-color: var(--bg-hover); 
+}
+
 .cortexa-dynamic-trigger:hover .fluid-beam-top {
     transform: translateY(4px);
     stroke-width: 3.5px;
 }
 
-/* Bottom Beam: Rises up to center axis (Y:12), matches alignment perfectly */
 .cortexa-dynamic-trigger:hover .fluid-beam-bottom {
     transform: translateY(-4px);
     stroke-width: 3.5px;
 }
 
-/* --- Tactile Click Phase --- */
 .cortexa-dynamic-trigger:active {
     transform: scale(0.92);
 }
