@@ -27,19 +27,7 @@
                 </div>
                 <button class="icon-btn cortexa-dynamic-trigger" id="collapseSidebarBtn" title="Menu">
                     <div class="fluid-matrix-container">
-                        <!-- Cortexa Live Engine Canvas -->
                         <svg class="cortexa-fluid-canvas" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round">
-                            <defs>
-                                <!-- Angled Gradient Matrix for Infinite Color Flow -->
-                                <linearGradient id="cortexaLiveGrad" x1="0%" y1="0%" x2="200%" y2="200%">
-                                    <stop offset="0%" stop-color="#5c6bc0" />   <!-- Cortexa Indigo -->
-                                    <stop offset="30%" stop-color="#00f2fe" />  <!-- Diagnostic Cyan -->
-                                    <stop offset="65%" stop-color="#ff4e50" />  <!-- Bio-Red -->
-                                    <stop offset="85%" stop-color="#ff8c00" />  <!-- Vibrant Orange -->
-                                    <stop offset="100%" stop-color="#5c6bc0" /> <!-- Loops back to Indigo -->
-                                </linearGradient>
-                            </defs>
-                            <!-- 0.1px vertical offset maps the gradient precisely across horizontal lines -->
                             <line class="fluid-beam-top" x1="4" y1="8" x2="20" y2="8.1"></line>
                             <line class="fluid-beam-bottom" x1="4" y1="16" x2="20" y2="16.1"></line>
                         </svg>
@@ -108,17 +96,8 @@
                     <button class="menu-toggle-btn cortexa-dynamic-trigger" id="menuToggleBtn" title="Open Drawer Menu">
                         <div class="fluid-matrix-container">
                             <svg class="cortexa-fluid-canvas" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round">
-                                <defs>
-                                    <linearGradient id="cortexaLiveGradMobile" x1="0%" y1="0%" x2="200%" y2="200%">
-                                        <stop offset="0%" stop-color="#5c6bc0" />
-                                        <stop offset="30%" stop-color="#00f2fe" />
-                                        <stop offset="65%" stop-color="#ff4e50" />
-                                        <stop offset="85%" stop-color="#ff8c00" />
-                                        <stop offset="100%" stop-color="#5c6bc0" />
-                                    </linearGradient>
-                                </defs>
-                                <line class="fluid-beam-top" x1="4" y1="8" x2="20" y2="8.1" stroke="url(#cortexaLiveGradMobile)"></line>
-                                <line class="fluid-beam-bottom" x1="4" y1="16" x2="20" y2="16.1" stroke="url(#cortexaLiveGradMobile)"></line>
+                                <line class="fluid-beam-top" x1="4" y1="8" x2="20" y2="8.1"></line>
+                                <line class="fluid-beam-bottom" x1="4" y1="16" x2="20" y2="16.1"></line>
                             </svg>
                         </div>
                     </button>
@@ -126,7 +105,8 @@
                 </div>
                 <div class="nav-right">
                     <button class="theme-quick-toggle-btn" id="themeQuickToggleBtn" title="Toggle Theme">
-                        <span class="material-symbols-rounded">light_mode</span>
+                        <span class="material-symbols-rounded icon-sun">light_mode</span>
+                        <span class="material-symbols-rounded icon-moon">dark_mode</span>
                     </button>
                 </div>
             </header>
@@ -164,12 +144,12 @@
                 <div class="view-panel hidden" id="searchWorkspaceScreen">
                     <div class="workspace-internal-container">
                         <div class="workspace-header-block">
-                            <h2>Search Core Chat Registers</h2>
-                            <p>Query history databases to review specialized clinical session inputs.</p>
+                            <h2>Search Recent Chats</h2>
+                            <p>Search history threads to review and filter recent chats.</p>
                         </div>
                         <div class="workspace-search-bar-wrapper">
                             <span class="material-symbols-rounded">search</span>
-                            <input type="text" id="internalSearchField" placeholder="Type text or structural parameters to filter entries...">
+                            <input type="text" id="internalSearchField" placeholder="Type text to filter entries...">
                         </div>
                         <div class="search-results-output-grid" id="searchResultsTargetGrid"></div>
                     </div>
