@@ -1,6 +1,6 @@
 /**
  * Cortexa AI — Gemini UI Performance Orchestrator
- * Stable, Leak-Proof System Core Architecture
+ * System Core Architecture
  */
 
 (function() {
@@ -1142,27 +1142,89 @@ For clinical data lookups, return data utilizing our classic high-grade structur
 
         const dataRef = SystemState.threads[SystemState.selectedContextMenuThreadId];
         const labelNode = el.querySelector('[data-action="pin"] span:last-child');
-        if (dataRef && dataRef.pinned) {
-            if (labelNode) labelNode.textContent = "Unpin";
-        } else {
-            if (labelNode) labelNode.textContent = "Pin";
+        const iconNode = el.querySelector('[data-action="pin"] span:first-child');
+        
+        if (dataRef && labelNode) {
+            // Update the context menu option to match the thread's pin state
+            if (dataRef.pinned) {
+                labelNode.textContent = 'Unpin';
+                if (iconNode) iconNode.textContent = 'keep_off';
+            } else {
+                labelNode.textContent = 'Pin';
+                if (iconNode) iconNode.textContent = 'push_pin';
+            }
         }
 
+        // Position the floating menu correctly next to the click location
+        el.style.left = `${event.clientX}px`;
+        el.style.top = `${event.clientY}px`;
         el.classList.remove('hidden');
-        let lx = event.clientX; let ty = event.clientY;
-        if (lx + 180 > window.innerWidth) lx = window.innerWidth - 190;
-        if (ty + 160 > window.innerHeight) ty = window.innerHeight - 170;
 
-        el.style.left = lx + 'px'; el.style.top = ty + 'px';
+        // Setup the option action listeners inside the popup
+        el.querySelectorAll('.context-action-item').forEach(btn => {
+            // Clone the button to remove any old click listeners safely
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
 
-        el.querySelectorAll('.context-action-item').forEach(button => {
-            const clone = button.cloneNode(true);
-            button.parentNode.replaceChild(clone, button);
-            clone.addEventListener('click', (ev) => {
-                ev.stopPropagation(); el.classList.add('hidden');
-                executeContextActionSequence(clone.getAttribute('data-action'));
+            newBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const action = newBtn.getAttribute('data-action');
+                executeContextMenuAction(action);
+                el.classList.add('hidden');
             });
         });
+    }
+
+    function executeContextMenuAction(action) {
+        const id = SystemState.selectedContextMenuThreadId;
+        if (!id || !SystemState.threads[id]) return;
+
+        if (action === 'pin') {
+            SystemState.threads[id].pinned = !SystemState.threads[id].pinned;
+            persistThreadsToStorage();
+            renderThreadSidebarHistory();
+        } else if (action === 'rename') {
+            const currentLabel = SystemState.threads[id].label;
+            const newLabel = prompt("Enter a new title for this conversation:", currentLabel);
+            if (newLabel && newLabel.trim()) {
+                SystemState.threads[id].label = newLabel.trim();
+                persistThreadsToStorage();
+                renderThreadSidebarHistory();
+            }
+        } else if (action === 'delete') {
+            if (confirm("Are you sure you want to delete this chat thread?")) {
+                delete SystemState.threads[id];
+                if (SystemState.activeThreadId === id) {
+                    SystemState.activeThreadId = null;
+                    routeWorkspaceView('zeroStateScreen');
+                }
+                persistThreadsToStorage();
+                renderThreadSidebarHistory();
+            }
+        }
+    }
+
+    function scrollViewportToBottom() {
+        const viewport = document.getElementById('contentViewport');
+        if (viewport) {
+            // Smoothly push layout calculations to the bottom of the feed frame
+            setTimeout(() => {
+                viewport.scrollTo({
+                    top: viewport.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 50);
+        }
+    }
+
+    function escapeHTMLString(str) {
+        if (!str) return '';
+        return str
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
     }
 
     function executeContextActionSequence(actionType) {
