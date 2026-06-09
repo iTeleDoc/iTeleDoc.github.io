@@ -1,6 +1,6 @@
 /**
  * Cortexa AI — Gemini UI Performance Orchestrator
- * System Core Architecture
+ * Stable, Leak-Proof System Core Architecture
  */
 
 (function() {
@@ -67,42 +67,51 @@ function compileMasterKnowledgeBase() {
     }
 
     function loadLocalStorageCache() {
-        const cachedTheme = localStorage.getItem('ctx_theme');
-        if (cachedTheme) SystemState.theme = cachedTheme;
-    
-        const cachedKey = localStorage.getItem('ctx_api_gateway_key');
-        if (cachedKey) SystemState.groqKey = cachedKey;
-    
-        const cachedThreads = localStorage.getItem('ctx_saved_threads');
-        if (cachedThreads) {
-            SystemState.threads = JSON.parse(cachedThreads);
-        } else {
-            const initialId = 'thread_seed_' + Date.now();
-            SystemState.threads = {
-                [initialId]: { 
-                    id: initialId, 
-                    label: "New Conversation", 
-                    pinned: false, 
-                    messages: [
-                        { 
-                            sender: 'ai', 
-                            text: `<div class="system-card-container">
-                                <div class="system-card-header">
-                                    <div class="system-card-title">
-                                        <span class="material-symbols-rounded">forum</span> Welcome to Cortexa AI
-                                    </div>
-                                    <div class="system-badge normal">Ready</div>
-                                </div>
-                                <div class="system-text-block">
-                                    Hello! How can I assist you with your clinical database analysis or data processing today?
-                                </div>
-                             </div>` 
-                        }
-                    ]
-                }
-            };
-            persistThreadsToStorage();
+        try {
+            const cachedTheme = localStorage.getItem('ctx_theme');
+            if (cachedTheme) SystemState.theme = cachedTheme;
+        
+            const cachedKey = localStorage.getItem('ctx_api_gateway_key');
+            if (cachedKey) SystemState.groqKey = cachedKey;
+        
+            const cachedThreads = localStorage.getItem('ctx_saved_threads');
+            if (cachedThreads) {
+                SystemState.threads = JSON.parse(cachedThreads);
+            } else {
+                generateSeedConversation();
+            }
+        } catch (e) {
+            console.error("Storage read failed, initializing clean state:", e);
+            generateSeedConversation();
         }
+    }
+
+    function generateSeedConversation() {
+        const initialId = 'thread_seed_' + Date.now();
+        SystemState.threads = {
+            [initialId]: { 
+                id: initialId, 
+                label: "New Conversation", 
+                pinned: false, 
+                messages: [
+                    { 
+                        sender: 'ai', 
+                        text: `<div class="system-card-container">
+                            <div class="system-card-header">
+                                <div class="system-card-title">
+                                    <span class="material-symbols-rounded">forum</span> Welcome to Cortexa AI
+                                </div>
+                                <div class="system-badge normal">Ready</div>
+                            </div>
+                            <div class="system-text-block">
+                                Hello! How can I assist you with your clinical database analysis or data processing today?
+                            </div>
+                         </div>` 
+                    }
+                ]
+            }
+        };
+        persistThreadsToStorage();
     }
 
     function applyInterfaceThemeEngine() {
@@ -118,7 +127,11 @@ function compileMasterKnowledgeBase() {
     }
 
     function persistThreadsToStorage() {
-        localStorage.setItem('ctx_saved_threads', JSON.stringify(SystemState.threads));
+        try {
+            localStorage.setItem('ctx_saved_threads', JSON.stringify(SystemState.threads));
+        } catch (e) {
+            console.error("Failed to write conversations to storage:", e);
+        }
     }
 
     // ==========================================
@@ -304,10 +317,18 @@ function compileMasterKnowledgeBase() {
         });
     
         document.getElementById('flushMemoryBtn').addEventListener('click', () => {
-            localStorage.clear(); location.reload();
+            if (confirm('Are you sure you want to completely clear the local cache? This will reset the system.')) {
+                localStorage.removeItem('ctx_theme');
+                localStorage.removeItem('ctx_api_gateway_key');
+                localStorage.removeItem('ctx_saved_threads');
+                location.reload();
+            }
         });
     
-        document.addEventListener('click', () => document.getElementById('chatContextMenu').classList.add('hidden'));
+        document.addEventListener('click', () => {
+            const contextMenu = document.getElementById('chatContextMenu');
+            if (contextMenu) contextMenu.classList.add('hidden');
+        });
     
         const historyContainer = document.getElementById('chatHistoryContainer');
         if (historyContainer) {
@@ -320,8 +341,11 @@ function compileMasterKnowledgeBase() {
     }
 
     function verifySendBufferCapacity() {
-        const val = document.getElementById('chatInputPayload').value.trim();
-        document.getElementById('submitPromptBtn').disabled = (val.length === 0);
+        const area = document.getElementById('chatInputPayload');
+        if (!area) return;
+        const val = area.value.trim();
+        const submitBtn = document.getElementById('submitPromptBtn');
+        if (submitBtn) submitBtn.disabled = (val.length === 0);
     }
 
     // ==========================================
@@ -329,6 +353,7 @@ function compileMasterKnowledgeBase() {
     // ==========================================
     async function dispatchInferenceSequence() {
         const area = document.getElementById('chatInputPayload');
+        if (!area) return;
         const query = area.value.trim();
         if (!query) return;
 
@@ -844,7 +869,7 @@ For clinical data lookups, return data utilizing our classic high-grade structur
 
     function renderActiveChatMessageStreams() {
         const stream = document.getElementById('messageStreamTarget');
-        if (!SystemState.activeThreadId || !SystemState.threads[SystemState.activeThreadId].messages.length) return;
+        if (!stream || !SystemState.activeThreadId || !SystemState.threads[SystemState.activeThreadId] || !SystemState.threads[SystemState.activeThreadId].messages.length) return;
     
         let trackingHTML = '';
         const messages = SystemState.threads[SystemState.activeThreadId].messages;
@@ -892,27 +917,31 @@ For clinical data lookups, return data utilizing our classic high-grade structur
     // ==========================================
 
     window.copyMessageText = function(idx, btnElement) {
+        if (!SystemState.activeThreadId || !SystemState.threads[SystemState.activeThreadId]) return;
         const msg = SystemState.threads[SystemState.activeThreadId].messages[idx];
         if (!msg) return;
 
         navigator.clipboard.writeText(msg.text).then(() => {
             const icon = btnElement.querySelector('span');
-            icon.textContent = 'check';
+            if (icon) icon.textContent = 'check';
             btnElement.classList.add('action-success'); // Flashes white
             
             setTimeout(() => {
-                icon.textContent = 'content_copy';
+                if (icon) icon.textContent = 'content_copy';
                 btnElement.classList.remove('action-success');
             }, 2000);
         });
     };
 
     window.enableMessageEditMode = function(idx) {
+        if (!SystemState.activeThreadId || !SystemState.threads[SystemState.activeThreadId]) return;
         const msg = SystemState.threads[SystemState.activeThreadId].messages[idx];
         if (!msg) return;
 
         const row = document.getElementById(`msg-row-${idx}`);
+        if (!row) return;
         const wrapper = row.querySelector('.user-message-wrapper');
+        if (!wrapper) return;
 
         // Swap out the bubble for the transparent edit UI block
         wrapper.innerHTML = `
@@ -926,8 +955,10 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         `;
         
         const textarea = document.getElementById(`edit-textarea-${idx}`);
-        textarea.focus();
-        textarea.selectionStart = textarea.selectionEnd = textarea.value.length; // Move cursor to end
+        if (textarea) {
+            textarea.focus();
+            textarea.selectionStart = textarea.selectionEnd = textarea.value.length; // Move cursor to end
+        }
     };
 
     window.cancelMessageEditMode = function() {
@@ -935,10 +966,13 @@ For clinical data lookups, return data utilizing our classic high-grade structur
     };
 
     window.commitMessageEdit = async function(idx) {
-        const newText = document.getElementById(`edit-textarea-${idx}`).value.trim();
+        const textarea = document.getElementById(`edit-textarea-${idx}`);
+        if (!textarea) return window.cancelMessageEditMode();
+        const newText = textarea.value.trim();
         if (!newText) return window.cancelMessageEditMode();
 
         const activeThread = SystemState.threads[SystemState.activeThreadId];
+        if (!activeThread) return;
         
         // 1. Array Truncation: Delete the old AI response (and anything after this prompt)
         activeThread.messages.length = idx + 1;
@@ -962,18 +996,20 @@ For clinical data lookups, return data utilizing our classic high-grade structur
                 </div>
             </div>
         `;
-        stream.appendChild(loader);
-        scrollViewportToBottom();
+        if (stream) {
+            stream.appendChild(loader);
+            scrollViewportToBottom();
+        }
 
         try {
             const systemResolutionOutput = await processClinicalInferenceResolution(newText);
-            if (stream.contains(loader)) stream.removeChild(loader);
+            if (stream && stream.contains(loader)) stream.removeChild(loader);
 
             activeThread.messages.push({ sender: 'ai', text: systemResolutionOutput });
             persistThreadsToStorage(); 
             renderActiveChatMessageStreams();
         } catch (err) {
-            if (stream.contains(loader)) stream.removeChild(loader);
+            if (stream && stream.contains(loader)) stream.removeChild(loader);
             activeThread.messages.push({ 
                 sender: 'ai', 
                 text: `<div class="clinical-card-container"><h4 style="color:var(--clinical-alert)">Gateway Endpoint Failure</h4><p style="margin-top:8px;">${err.message}</p></div>` 
@@ -996,7 +1032,6 @@ For clinical data lookups, return data utilizing our classic high-grade structur
             html += `
 <div class="history-item-wrapper ${isActive}" data-id="${t.id}" data-pinned="${t.pinned}">
     <button class="history-item">
-        <!-- Matching SVG to your New Chat button -->
         <svg class="history-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
@@ -1013,17 +1048,23 @@ For clinical data lookups, return data utilizing our classic high-grade structur
 
         box.querySelectorAll('.history-item-wrapper').forEach(row => {
             const id = row.getAttribute('data-id');
-            row.querySelector('.history-item').addEventListener('click', () => {
-                SystemState.activeThreadId = id;
-                renderThreadSidebarHistory();
-                routeWorkspaceView('chatFeedScreen');
-                renderActiveChatMessageStreams();
-            });
-            row.querySelector('.item-action-trigger-btn').addEventListener('click', (e) => {
-                e.stopPropagation(); e.preventDefault();
-                SystemState.selectedContextMenuThreadId = id;
-                triggerFloatingActionContextMenu(e);
-            });
+            const historyItem = row.querySelector('.history-item');
+            if (historyItem) {
+                historyItem.addEventListener('click', () => {
+                    SystemState.activeThreadId = id;
+                    renderThreadSidebarHistory();
+                    routeWorkspaceView('chatFeedScreen');
+                    renderActiveChatMessageStreams();
+                });
+            }
+            const actionTrigger = row.querySelector('.item-action-trigger-btn');
+            if (actionTrigger) {
+                actionTrigger.addEventListener('click', (e) => {
+                    e.stopPropagation(); e.preventDefault();
+                    SystemState.selectedContextMenuThreadId = id;
+                    triggerFloatingActionContextMenu(e);
+                });
+            }
         });
     }
 
@@ -1107,6 +1148,7 @@ For clinical data lookups, return data utilizing our classic high-grade structur
                 const itemIdx = parseInt(triggerBtn.getAttribute('data-index'));
                 const targetNodeModel = arrayData[itemIdx];
                 const parentElementNode = triggerBtn.parentElement;
+                if (!parentElementNode) return;
                 const bodyLayer = parentElementNode.querySelector('.accordion-body-expansion-layer');
                 const contentContainer = parentElementNode.querySelector('.accordion-expansion-content');
                 
@@ -1115,10 +1157,11 @@ For clinical data lookups, return data utilizing our classic high-grade structur
                 // Collapse all open alternative elements to conserve performance allocations
                 stack.querySelectorAll('.accordion-element-node').forEach(el => {
                     el.classList.remove('expanded');
-                    el.querySelector('.accordion-body-expansion-layer').style.maxHeight = null;
+                    const expansionLayer = el.querySelector('.accordion-body-expansion-layer');
+                    if (expansionLayer) expansionLayer.style.maxHeight = null;
                 });
 
-                if (!standsExpanded) {
+                if (!standsExpanded && bodyLayer && contentContainer) {
                     // Inject and compile content directly when requested by user intent layout actions
                     if (targetNodeModel.type === 'calc') {
                         contentContainer.innerHTML = renderInteractiveCalculationFormCard(targetNodeModel, `lib_matrix_${itemIdx}`);
@@ -1142,89 +1185,29 @@ For clinical data lookups, return data utilizing our classic high-grade structur
 
         const dataRef = SystemState.threads[SystemState.selectedContextMenuThreadId];
         const labelNode = el.querySelector('[data-action="pin"] span:last-child');
-        const iconNode = el.querySelector('[data-action="pin"] span:first-child');
-        
-        if (dataRef && labelNode) {
-            // Update the context menu option to match the thread's pin state
-            if (dataRef.pinned) {
-                labelNode.textContent = 'Unpin';
-                if (iconNode) iconNode.textContent = 'keep_off';
-            } else {
-                labelNode.textContent = 'Pin';
-                if (iconNode) iconNode.textContent = 'push_pin';
-            }
+        if (dataRef && dataRef.pinned) {
+            if (labelNode) labelNode.textContent = "Unpin";
+        } else {
+            if (labelNode) labelNode.textContent = "Pin";
         }
 
-        // Position the floating menu correctly next to the click location
-        el.style.left = `${event.clientX}px`;
-        el.style.top = `${event.clientY}px`;
         el.classList.remove('hidden');
+        let lx = event.clientX; let ty = event.clientY;
+        if (lx + 180 > window.innerWidth) lx = window.innerWidth - 190;
+        if (ty + 160 > window.innerHeight) ty = window.innerHeight - 170;
 
-        // Setup the option action listeners inside the popup
-        el.querySelectorAll('.context-action-item').forEach(btn => {
-            // Clone the button to remove any old click listeners safely
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
+        el.style.left = lx + 'px'; el.style.top = ty + 'px';
 
-            newBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const action = newBtn.getAttribute('data-action');
-                executeContextMenuAction(action);
-                el.classList.add('hidden');
-            });
-        });
-    }
-
-    function executeContextMenuAction(action) {
-        const id = SystemState.selectedContextMenuThreadId;
-        if (!id || !SystemState.threads[id]) return;
-
-        if (action === 'pin') {
-            SystemState.threads[id].pinned = !SystemState.threads[id].pinned;
-            persistThreadsToStorage();
-            renderThreadSidebarHistory();
-        } else if (action === 'rename') {
-            const currentLabel = SystemState.threads[id].label;
-            const newLabel = prompt("Enter a new title for this conversation:", currentLabel);
-            if (newLabel && newLabel.trim()) {
-                SystemState.threads[id].label = newLabel.trim();
-                persistThreadsToStorage();
-                renderThreadSidebarHistory();
-            }
-        } else if (action === 'delete') {
-            if (confirm("Are you sure you want to delete this chat thread?")) {
-                delete SystemState.threads[id];
-                if (SystemState.activeThreadId === id) {
-                    SystemState.activeThreadId = null;
-                    routeWorkspaceView('zeroStateScreen');
-                }
-                persistThreadsToStorage();
-                renderThreadSidebarHistory();
-            }
-        }
-    }
-
-    function scrollViewportToBottom() {
-        const viewport = document.getElementById('contentViewport');
-        if (viewport) {
-            // Smoothly push layout calculations to the bottom of the feed frame
-            setTimeout(() => {
-                viewport.scrollTo({
-                    top: viewport.scrollHeight,
-                    behavior: 'smooth'
+        el.querySelectorAll('.context-action-item').forEach(button => {
+            const clone = button.cloneNode(true);
+            if (button.parentNode) {
+                button.parentNode.replaceChild(clone, button);
+                clone.addEventListener('click', (ev) => {
+                    ev.stopPropagation(); el.classList.add('hidden');
+                    executeContextActionSequence(clone.getAttribute('data-action'));
                 });
-            }, 50);
-        }
-    }
-
-    function escapeHTMLString(str) {
-        if (!str) return '';
-        return str
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+            }
+        });
     }
 
     function executeContextActionSequence(actionType) {
@@ -1264,6 +1247,7 @@ For clinical data lookups, return data utilizing our classic high-grade structur
     // Dynamic execution parser route for streaming responses compiled on-the-fly by Groq
     window.evaluateDynamicCloudCalculator = function(button) {
         const form = button.parentElement;
+        if (!form) return;
         const out = form.querySelector('.dynamic-calc-result-target');
         const fields = form.querySelectorAll('.dynamic-custom-field');
         
