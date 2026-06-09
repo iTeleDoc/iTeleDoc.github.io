@@ -510,7 +510,7 @@ body {
 /* ==========================================================================
    9. NATIVE TOUCHSCREEN & LANDSCAPE MOBILE CONTROLLER
    ========================================================================== */
-@media (max-width: 1024px), (pointer: coarse) {
+   @media (max-width: 1024px), (pointer: coarse) {
     /* Forces the top hamburger navigation button to stay active across landscape rotations */
     .menu-toggle-btn { 
         display: flex !important; 
@@ -593,6 +593,20 @@ body {
         border-radius: 24px !important; 
         justify-content: flex-start !important; 
         padding: 12px 16px !important; 
+    }
+
+    /* ----------------------------------------------------------------------
+       TOUCHSCREEN THREE-DOTS ALWAYS-ON ENGINE (ADDED)
+       ---------------------------------------------------------------------- */
+    /* 1. Prevent unpinned chat texts from sliding behind the now-permanent option menu */
+    .history-item {
+        padding-right: 44px !important;
+    }
+
+    /* 2. Overrule the desktop hover hide states so the three dots button remains interactive */
+    .history-item-wrapper[data-pinned="false"] .item-action-trigger-btn {
+        opacity: 1 !important;
+        pointer-events: auto !important;
     }
 
     /* Dashboard Layout Tweaks for Touch screens */
