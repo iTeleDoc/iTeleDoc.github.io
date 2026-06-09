@@ -963,187 +963,64 @@ body {
 }
 
 .fluid-matrix-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-block; 
     width: 20px;
     height: 20px;
+    transform-origin: center center;
     
-    /* 1. Shimmer Engine Gradient Setup */
+    /* DYNAMIC COLOR ENGINE: Preserved completely untouched */
     background: var(--gemini-gradient); 
     background-size: 200% auto; 
     animation: gemini-shimmer 6s ease infinite; 
-
-    /* 2. Static Mask Base Window Configuration (Merged Single Line by Default) */
-    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12"></line></svg>');
-    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12"></line></svg>');
+    
     -webkit-mask-size: contain;
     mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     
-    transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), -webkit-mask-image 0.4s ease;
+    /* Premium Timing Engine: Slow, ultra-smooth structural morphing */
+    transition: -webkit-mask-image 0.8s cubic-bezier(0.25, 1, 0.3, 1),
+                mask-image 0.8s cubic-bezier(0.25, 1, 0.3, 1);
 }
 
-.cortexa-fluid-canvas {
-    overflow: visible;
-}
-
-.cortexa-fluid-canvas line {
-    transform-origin: center;
-    stroke-width: 3px;
-    stroke: url(#cortexaLiveGrad) !important;
-    /* Speed Control Engine: 0.65s duration with clean hardware ease-out curves */
-    transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1),
-                stroke-width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-/* Smooth, cross-browser gradient horizontal translation loop */
-@keyframes cortexaGradientMove {
-    0% {
-        gradientTransform: translate(0, 0);
-    }
-    100% {
-        gradientTransform: translate(-24, 0);
-    }
-}
-
-#cortexaLiveGrad {
-    animation: cortexaGradientMove 4s infinite linear;
-}
-
-/* Your exact engine keyframes */
+/* Master dynamic infinite color shift timeline configuration */
 @keyframes gemini-shimmer {
     0% { background-position: 0% center; }
     50% { background-position: 100% center; }
     100% { background-position: 0% center; }
 }
 
+/* --- Inline Element Normalizers --- */
+.cortexa-fluid-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.cortexa-fluid-canvas line {
+    stroke: transparent !important; 
+}
 
 /* ==========================================================================
-   STATE-DRIVEN MATRIX ANIMATIONS (Two Lines Closed / One Line Open)
+   THE UNIFIED DYNAMIC CONVERGENCE ENGINE (TWO LINES CLOSED / ONE LINE OPENED)
    ========================================================================== */
 
-/* CLOSED STATE (Default): Lines stay separated at their original positions */
-.cortexa-dynamic-trigger .fluid-beam-top {
-    transform: translateY(0); /* Returns to original 8 */
-}
-.cortexa-dynamic-trigger .fluid-beam-bottom {
-    transform: translateY(0); /* Returns to original 16 */
-}
-
-/* Update the CSS Container Mask for the Default Closed State (Two Lines) */
+/* 1. DEFAULT CLOSED STATE (No Class) -> Renders as TWO SEPARATE NORMAL-SIZED LINES (Y=8 and Y=16) */
 .cortexa-dynamic-trigger .fluid-matrix-container {
-    transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), -webkit-mask-image 0.4s ease;
     -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
     mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
 }
 
-
-/* OPENED STATE (.is-open): Lines collapse together at Y=12 */
-.cortexa-dynamic-trigger.is-open .fluid-beam-top {
-    transform: translateY(4px); /* Moves 8 -> 12 */
-}
-.cortexa-dynamic-trigger.is-open .fluid-beam-bottom {
-    transform: translateY(-4px); /* Moves 16 -> 12 */
-}
-
-/* Update the CSS Container Mask dynamically for the Opened State (One Line) */
+/* 2. DYNAMIC OPEN STATE (.is-open) -> Both lines slide completely to the center line (Y=12) 
+      They lock perfectly over each other to form ONE clean, normal-thickness line */
 .cortexa-dynamic-trigger.is-open .fluid-matrix-container {
-    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12"></line></svg>');
-    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12"></line></svg>');
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12.1"></line><line x1="4" y1="12" x2="20" y2="12.1"></line></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12.1"></line><line x1="4" y1="12" x2="20" y2="12.1"></line></svg>');
 }
 
-
-/* ==========================================================================
-   GEMINI-SPECIFIC INTERACTIVE PIN & ACTION BUTTON CROSSOVER MATRIX
-   ========================================================================== */
-.history-item-wrapper {
-    position: relative;
-}
-
-.history-item-wrapper .item-action-trigger-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 5;
-    transition: background-color 0.15s ease, opacity 0.15s ease;
-}
-
-.history-item-wrapper .item-action-trigger-btn:hover {
-    background-color: var(--bg-hover);
-}
-
-.history-item-wrapper .item-action-trigger-btn .pin-icon,
-.history-item-wrapper .item-action-trigger-btn .dots-icon {
-    display: none;
-    font-size: 18px;
-}
-
-/* Theme Adaptive Pin Colors */
-.history-item-wrapper .item-action-trigger-btn .pin-icon {
-    color: var(--pinned-accent) !important; 
-}
-
-.history-item-wrapper .item-action-trigger-btn .dots-icon {
-    color: var(--text-secondary);
-}
-
-/* CASE A: Thread Record NOT Pinned */
-.history-item-wrapper[data-pinned="false"] .item-action-trigger-btn {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.history-item-wrapper[data-pinned="false"]:hover .item-action-trigger-btn {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.history-item-wrapper[data-pinned="false"] .dots-icon {
-    display: inline-block;
-}
-
-/* CASE B: Thread Record IS Pinned */
-.history-item-wrapper[data-pinned="true"] .item-action-trigger-btn {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.history-item-wrapper[data-pinned="true"] .pin-icon {
-    display: inline-block;
-}
-.history-item-wrapper[data-pinned="true"] .dots-icon {
-    display: none;
-}
-
-.history-item-wrapper[data-pinned="true"]:hover .pin-icon {
-    display: none !important;
-}
-.history-item-wrapper[data-pinned="true"]:hover .dots-icon {
-    display: inline-block !important;
-}
-
-
-/* ==========================================================================
-   INTERACTIVE CORE BUTTON STATES & UTILITIES
-   ========================================================================== */
+/* --- Interactive Hover Core States --- */
 .cortexa-dynamic-trigger:hover {
     background-color: var(--bg-hover); 
-}
-
-.cortexa-dynamic-trigger:hover .fluid-matrix-container {
-    transform: scaleY(1.1);
 }
 
 .cortexa-dynamic-trigger:active,
