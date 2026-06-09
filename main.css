@@ -1002,20 +1002,14 @@ body {
 }
 
 /* ==========================================================================
-   THE UNIFIED DYNAMIC CONVERGENCE ENGINE (EXPLICIT DEVICE / ID LAYOUT STATES)
+   THE UNIFIED DYNAMIC CONVERGENCE ENGINE (FORCED TWO-LINE CONSTANT GEOMETRY)
    ========================================================================== */
 
-/* --- TWO LINES LAYOUT MASK DEFINITION (Y=8 and Y=16) --- */
-#collapseSidebarBtn .fluid-matrix-container,
-#menuToggleBtn:not(.is-open) .fluid-matrix-container {
+/* FORCED FOR ALL STATES (OPENED AND CLOSED) -> Always renders as TWO SEPARATE NORMAL-SIZED LINES (Y=8 and Y=16) */
+.cortexa-dynamic-trigger .fluid-matrix-container,
+.cortexa-dynamic-trigger.is-open .fluid-matrix-container {
     -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
     mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
-}
-
-/* --- ONE LINE LAYOUT MASK DEFINITION (Y=12) --- */
-#menuToggleBtn.is-open .fluid-matrix-container {
-    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12.1"></line><line x1="4" y1="12" x2="20" y2="12.1"></line></svg>');
-    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12.1"></line><line x1="4" y1="12" x2="20" y2="12.1"></line></svg>');
 }
 
 /* --- Interactive Hover Core States --- */
