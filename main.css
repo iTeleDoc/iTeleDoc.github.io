@@ -968,7 +968,7 @@ body {
     height: 20px;
     transform-origin: center center;
     
-    /* DYNAMIC COLOR ENGINE: Preserved completely untouched */
+    /* DYNAMIC COLOR ENGINE: Color loop is preserved completely untouched */
     background: var(--gemini-gradient); 
     background-size: 200% auto; 
     animation: gemini-shimmer 6s ease infinite; 
@@ -978,7 +978,7 @@ body {
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     
-    /* Premium Timing Engine: Slow, ultra-smooth structural morphing */
+    /* Premium Timing Engine: Slow, ultra-smooth 0.8s structural morphing */
     transition: -webkit-mask-image 0.8s cubic-bezier(0.25, 1, 0.3, 1),
                 mask-image 0.8s cubic-bezier(0.25, 1, 0.3, 1);
 }
@@ -1005,17 +1005,50 @@ body {
    THE UNIFIED DYNAMIC CONVERGENCE ENGINE (TWO LINES CLOSED / ONE LINE OPENED)
    ========================================================================== */
 
-/* 1. DEFAULT CLOSED STATE (No Class) -> Renders as TWO SEPARATE NORMAL-SIZED LINES (Y=8 and Y=16) */
-.cortexa-dynamic-trigger .fluid-matrix-container {
+/* 1. DEFAULT CLOSED STATE -> Specific to morphing vectors only. 
+      Renders as TWO SEPARATE NORMAL-SIZED LINES (Y=8 and Y=16) */
+#collapseSidebarBtn .fluid-matrix-container,
+#menuToggleBtn .fluid-matrix-container {
     -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
     mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
 }
 
-/* 2. DYNAMIC OPEN STATE (.is-open) -> Both lines slide completely to the center line (Y=12) 
-      They lock perfectly over each other to form ONE clean, normal-thickness line */
-.cortexa-dynamic-trigger.is-open .fluid-matrix-container {
+/* 2. DYNAMIC OPEN STATE (.is-open) -> Specific to morphing vectors only.
+      Both lines collapse cleanly to the center (Y=12) to form ONE normal-thickness line */
+#collapseSidebarBtn.is-open .fluid-matrix-container,
+#menuToggleBtn.is-open .fluid-matrix-container {
     -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12.1"></line><line x1="4" y1="12" x2="20" y2="12.1"></line></svg>');
     mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12.1"></line><line x1="4" y1="12" x2="20" y2="12.1"></line></svg>');
+}
+
+/* ==========================================================================
+   INTERACTIVE FOOTER NAVIGATION & GENERAL STATES
+   ========================================================================== */
+.footer-nav-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px;
+    color: var(--text-secondary, #8e8e93);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-nav-btn:hover,
+.footer-nav-btn.is-active {
+    color: var(--text-primary, #ffffff);
+}
+
+.footer-nav-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.footer-nav-btn:active svg {
+    transform: scale(0.95);
 }
 
 /* --- Interactive Hover Core States --- */
