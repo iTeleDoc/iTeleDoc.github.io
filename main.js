@@ -1,6 +1,5 @@
 /**
- * Cortexa AI — Gemini UI Performance Orchestrator
- * Stable, Leak-Proof System Core Architecture
+ * Cortexa AI — Medical Intelligence Platform
  */
 
 (function() {
@@ -67,21 +66,22 @@ function compileMasterKnowledgeBase() {
     }
 
     function loadLocalStorageCache() {
-        try {
-            const cachedTheme = localStorage.getItem('ctx_theme');
-            if (cachedTheme) SystemState.theme = cachedTheme;
-        
-            const cachedKey = localStorage.getItem('ctx_api_gateway_key');
-            if (cachedKey) SystemState.groqKey = cachedKey;
-        
-            const cachedThreads = localStorage.getItem('ctx_saved_threads');
-            if (cachedThreads) {
-                SystemState.threads = JSON.parse(cachedThreads);
-            } else {
+        const cachedTheme = localStorage.getItem('ctx_theme');
+        if (cachedTheme) SystemState.theme = cachedTheme;
+    
+        const cachedKey = localStorage.getItem('ctx_api_gateway_key');
+        if (cachedKey) SystemState.groqKey = cachedKey;
+    
+        const cachedThreads = localStorage.getItem('ctx_saved_threads');
+        if (cachedThreads) {
+            SystemState.threads = JSON.parse(cachedThreads);
+            
+            // Extra Safety Check: If the parsed object has no active keys, build a seed
+            if (Object.keys(SystemState.threads).length === 0) {
                 generateSeedConversation();
             }
-        } catch (e) {
-            console.error("Storage read failed, initializing clean state:", e);
+        } else {
+            // If local cache is totally blank, run your explicit seed creator
             generateSeedConversation();
         }
     }
@@ -325,17 +325,41 @@ function compileMasterKnowledgeBase() {
             }
         });
     
+        // Core DOM Triggers hoisted to top to prevent runtime reference errors
+        const collapseSidebarBtn = document.getElementById('collapseSidebarBtn');
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+
         document.addEventListener('click', () => {
             const contextMenu = document.getElementById('chatContextMenu');
             if (contextMenu) contextMenu.classList.add('hidden');
         });
-    
+        
         const historyContainer = document.getElementById('chatHistoryContainer');
         if (historyContainer) {
             historyContainer.addEventListener('click', (e) => {
                 if (e.target.closest('.history-item') || e.target.closest('.sidebar-action-pill-btn')) {
                     closeMobileSidebarIfOpen();
+                    
+                    // Sync up: if the sidebar closes via history clicks, remove .is-open to show 2 lines again
+                    if (collapseSidebarBtn) collapseSidebarBtn.classList.remove('is-open');
+                    if (menuToggleBtn) menuToggleBtn.classList.remove('is-open');
                 }
+            });
+        }
+        
+        // Sidebar toggle click logic
+        if (collapseSidebarBtn) {
+            collapseSidebarBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                collapseSidebarBtn.classList.toggle('is-open'); // Toggles open state (merges into 1 line)
+            });
+        }
+
+        // Drawer Menu toggle click logic (Synchronized feature match)
+        if (menuToggleBtn) {
+            menuToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuToggleBtn.classList.toggle('is-open'); // Toggles open state (merges into 1 line)
             });
         }
     }
@@ -1280,6 +1304,13 @@ For clinical data lookups, return data utilizing our classic high-grade structur
             }
         }
     };
+
+    const toggleBtn = document.getElementById('themeQuickToggleBtn');
+
+toggleBtn.addEventListener('click', () => {
+    // This flips between the sun and moon instantly via CSS
+    toggleBtn.classList.toggle('dark-mode'); 
+});
 
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
