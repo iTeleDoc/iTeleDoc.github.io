@@ -1,4 +1,8 @@
-/* --- Core UI CSS Design Tokens --- */
+/**
+ * Cortexa AI — Styles
+ */
+ 
+ /* --- Core UI CSS Design Tokens --- */
 :root {
     --font-stack: "Google Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     --transition-smooth: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -942,9 +946,9 @@ body {
 }
 
 /* ==========================================================================
-   CORTEXA LIVE WAVE - INFINITE DYNAMIC COLOR ENGINE (FIXED LOOP)
+   CORTEXA LIVE WAVE - INFINITE DYNAMIC COLOR ENGINE
    ========================================================================== */
-.cortexa-dynamic-trigger {
+   .cortexa-dynamic-trigger {
     position: relative;
     width: 40px;
     height: 40px;
@@ -955,7 +959,7 @@ body {
     background: transparent;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s ease;
 }
 
 .fluid-matrix-container {
@@ -964,6 +968,21 @@ body {
     justify-content: center;
     width: 20px;
     height: 20px;
+    
+    /* 1. Shimmer Engine Gradient Setup */
+    background: var(--gemini-gradient); 
+    background-size: 200% auto; 
+    animation: gemini-shimmer 6s ease infinite; 
+
+    /* 2. Static Mask Base Window Configuration (Merged Single Line by Default) */
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12"></line></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12"></line></svg>');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    
+    transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), -webkit-mask-image 0.4s ease;
 }
 
 .cortexa-fluid-canvas {
@@ -974,7 +993,8 @@ body {
     transform-origin: center;
     stroke-width: 3px;
     stroke: url(#cortexaLiveGrad) !important;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    /* Speed Control Engine: 0.65s duration with clean hardware ease-out curves */
+    transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1),
                 stroke-width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -992,22 +1012,201 @@ body {
     animation: cortexaGradientMove 4s infinite linear;
 }
 
+/* Your exact engine keyframes */
+@keyframes gemini-shimmer {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
+}
+
+
+/* ==========================================================================
+   STATE-DRIVEN MATRIX ANIMATIONS (Two Lines Closed / One Line Open)
+   ========================================================================== */
+
+/* CLOSED STATE (Default): Lines stay separated at their original positions */
+.cortexa-dynamic-trigger .fluid-beam-top {
+    transform: translateY(0); /* Returns to original 8 */
+}
+.cortexa-dynamic-trigger .fluid-beam-bottom {
+    transform: translateY(0); /* Returns to original 16 */
+}
+
+/* Update the CSS Container Mask for the Default Closed State (Two Lines) */
+.cortexa-dynamic-trigger .fluid-matrix-container {
+    transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), -webkit-mask-image 0.4s ease;
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
+}
+
+
+/* OPENED STATE (.is-open): Lines collapse together at Y=12 */
+.cortexa-dynamic-trigger.is-open .fluid-beam-top {
+    transform: translateY(4px); /* Moves 8 -> 12 */
+}
+.cortexa-dynamic-trigger.is-open .fluid-beam-bottom {
+    transform: translateY(-4px); /* Moves 16 -> 12 */
+}
+
+/* Update the CSS Container Mask dynamically for the Opened State (One Line) */
+.cortexa-dynamic-trigger.is-open .fluid-matrix-container {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12"></line></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12"></line></svg>');
+}
+
+
+/* ==========================================================================
+   GEMINI-SPECIFIC INTERACTIVE PIN & ACTION BUTTON CROSSOVER MATRIX
+   ========================================================================== */
+.history-item-wrapper {
+    position: relative;
+}
+
+.history-item-wrapper .item-action-trigger-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.history-item-wrapper .item-action-trigger-btn:hover {
+    background-color: var(--bg-hover);
+}
+
+.history-item-wrapper .item-action-trigger-btn .pin-icon,
+.history-item-wrapper .item-action-trigger-btn .dots-icon {
+    display: none;
+    font-size: 18px;
+}
+
+/* Theme Adaptive Pin Colors */
+.history-item-wrapper .item-action-trigger-btn .pin-icon {
+    color: var(--pinned-accent) !important; 
+}
+
+.history-item-wrapper .item-action-trigger-btn .dots-icon {
+    color: var(--text-secondary);
+}
+
+/* CASE A: Thread Record NOT Pinned */
+.history-item-wrapper[data-pinned="false"] .item-action-trigger-btn {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.history-item-wrapper[data-pinned="false"]:hover .item-action-trigger-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.history-item-wrapper[data-pinned="false"] .dots-icon {
+    display: inline-block;
+}
+
+/* CASE B: Thread Record IS Pinned */
+.history-item-wrapper[data-pinned="true"] .item-action-trigger-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.history-item-wrapper[data-pinned="true"] .pin-icon {
+    display: inline-block;
+}
+.history-item-wrapper[data-pinned="true"] .dots-icon {
+    display: none;
+}
+
+.history-item-wrapper[data-pinned="true"]:hover .pin-icon {
+    display: none !important;
+}
+.history-item-wrapper[data-pinned="true"]:hover .dots-icon {
+    display: inline-block !important;
+}
+
+
+/* ==========================================================================
+   INTERACTIVE CORE BUTTON STATES & UTILITIES
+   ========================================================================== */
 .cortexa-dynamic-trigger:hover {
     background-color: var(--bg-hover); 
 }
 
-.cortexa-dynamic-trigger:hover .fluid-beam-top {
-    transform: translateY(4px);
-    stroke-width: 3.5px;
+.cortexa-dynamic-trigger:hover .fluid-matrix-container {
+    transform: scaleY(1.1);
 }
 
-.cortexa-dynamic-trigger:hover .fluid-beam-bottom {
-    transform: translateY(-4px);
-    stroke-width: 3.5px;
-}
-
-.cortexa-dynamic-trigger:active {
+.cortexa-dynamic-trigger:active,
+.menu-toggle-btn:active {
     transform: scale(0.92);
+}
+
+.menu-toggle-btn {
+    transition: transform 0.2s ease; 
+}
+.menu-toggle-btn:hover {
+    background-color: var(--bg-hover); 
+}
+
+/* Modern Theme Toggle Button Styling */
+.theme-quick-toggle-btn {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border: none;                  
+    border-radius: 12px;           
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-quick-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+.theme-quick-toggle-btn:active {
+    transform: translateY(1px);
+}
+
+.theme-quick-toggle-btn .material-symbols-rounded {
+    position: absolute;
+    font-size: 24px;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+.theme-quick-toggle-btn .icon-sun {
+    color: #ffb703 !important; 
+}
+
+.theme-quick-toggle-btn .icon-moon {
+    color: #8F00FF !important; 
+    opacity: 0;
+    transform: rotate(-90deg) scale(0);
+}
+
+.theme-quick-toggle-btn.dark-mode .icon-sun {
+    opacity: 0;
+    transform: rotate(90deg) scale(0);
+}
+
+.theme-quick-toggle-btn.dark-mode .icon-moon {
+    opacity: 1;
+    transform: rotate(0) scale(1);
 }
 
 .hidden { display: none !important; }
