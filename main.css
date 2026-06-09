@@ -963,63 +963,75 @@ body {
 }
 
 .fluid-matrix-container {
-    display: inline-block; 
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
     width: 20px;
     height: 20px;
-    transform-origin: center center;
-    
-    /* DYNAMIC COLOR ENGINE: Preserved completely untouched */
-    background: var(--gemini-gradient); 
-    background-size: 200% auto; 
-    animation: gemini-shimmer 6s ease infinite; 
-    
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    
-    /* Premium Timing Engine: Slow, ultra-smooth structural morphing */
-    transition: -webkit-mask-image 0.8s cubic-bezier(0.25, 1, 0.3, 1),
-                mask-image 0.8s cubic-bezier(0.25, 1, 0.3, 1);
 }
 
-/* Master dynamic infinite color shift timeline configuration */
-@keyframes gemini-shimmer {
-    0% { background-position: 0% center; }
-    50% { background-position: 100% center; }
-    100% { background-position: 0% center; }
-}
-
-/* --- Inline Element Normalizers --- */
 .cortexa-fluid-canvas {
-    display: block;
+    overflow: visible;
     width: 100%;
     height: 100%;
 }
 
 .cortexa-fluid-canvas line {
-    stroke: transparent !important; 
+    stroke-width: 3px;
+    stroke-linecap: round;
+    transform-origin: 12px 12px;
+    
+    /* PRESERVED DYNAMIC COLOR ENGINE: Binds colors directly to the vector stroke */
+    stroke: var(--gemini-gradient);
+    
+    /* Premium Timing Engine: Smooth 0.8s slide transition curve */
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.3, 1);
+}
+
+/* Fallback asset binding to ensure explicit gradient mapping to your local defs */
+#collapseSidebarBtn .cortexa-fluid-canvas line {
+    stroke: url(#cortexaLiveGrad) !important;
+}
+
+#menuToggleBtn .cortexa-fluid-canvas line {
+    stroke: url(#cortexaLiveGradMenu) !important;
+}
+
+/* Smooth linear gradient horizontal movement loop translation animation */
+@keyframes cortexaGradientMove {
+    0% { gradientTransform: translate(0, 0); }
+    100% { gradientTransform: translate(-24, 0); }
+}
+
+#cortexaLiveGrad, #cortexaLiveGradMenu {
+    animation: cortexaGradientMove 4s infinite linear;
 }
 
 /* ==========================================================================
    THE UNIFIED DYNAMIC CONVERGENCE ENGINE (TWO LINES CLOSED / ONE LINE OPENED)
    ========================================================================== */
 
-/* 1. DEFAULT CLOSED STATE (No Class) -> Specific to isolated triggers only 
-      Renders as TWO SEPARATE NORMAL-SIZED LINES (Y=8 and Y=16) */
-#collapseSidebarBtn .fluid-matrix-container,
-#menuToggleBtn .fluid-matrix-container {
-    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
-    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
+/* 1. DEFAULT CLOSED STATE (No Class) -> MUST BE TWO NORMAL DISTINCT LINES (Y=8 and Y=16) */
+.cortexa-dynamic-trigger .fluid-beam-top,
+.menu-toggle-btn .fluid-beam-top {
+    transform: translateY(0);
+}
+.cortexa-dynamic-trigger .fluid-beam-bottom,
+.menu-toggle-btn .fluid-beam-bottom {
+    transform: translateY(0);
 }
 
-/* 2. DYNAMIC OPEN STATE (.is-open) -> Specific to isolated triggers only 
-      Both lines slide completely to the center line (Y=12) 
-      They lock perfectly over each other to form ONE clean, normal-thickness line */
-#collapseSidebarBtn.is-open .fluid-matrix-container,
-#menuToggleBtn.is-open .fluid-matrix-container {
-    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12.1"></line><line x1="4" y1="12" x2="20" y2="12.1"></line></svg>');
-    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="12" x2="20" y2="12.1"></line><line x1="4" y1="12" x2="20" y2="12.1"></line></svg>');
+/* 2. DYNAMIC OPEN STATE (.is-open) -> MUST BE ONE SINGLE COMBINED LINE
+      Top line slides down +4px to meet center midpoint (Y=12).
+      Bottom line slides up -4px to meet center midpoint (Y=12).
+      They lock over each other perfectly to form exactly ONE normal-thickness line. */
+.cortexa-dynamic-trigger.is-open .fluid-beam-top,
+.menu-toggle-btn.is-open .fluid-beam-top {
+    transform: translateY(4px);
+}
+.cortexa-dynamic-trigger.is-open .fluid-beam-bottom,
+.menu-toggle-btn.is-open .fluid-beam-bottom {
+    transform: translateY(-4px);
 }
 
 /* --- Interactive Hover Core States --- */
