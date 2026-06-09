@@ -156,10 +156,9 @@ function compileMasterKnowledgeBase() {
     function registerOperationalDOMEvents() {
         const area = document.getElementById('chatInputPayload');
         const submit = document.getElementById('submitPromptBtn');
-
+    
         // Helper tool function to cleanly hide the mobile drawer
         function closeMobileSidebarIfOpen() {
-            // Native capability evaluation instead of hardcoded bypass numbers
             const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
             if (isTouchTarget) {
                 const sidebar = document.getElementById('sidebar');
@@ -169,43 +168,41 @@ function compileMasterKnowledgeBase() {
                 }
             }
         }
-
+    
         document.getElementById('brandHomeLink').addEventListener('click', () => {
             SystemState.activeThreadId = null;
             renderThreadSidebarHistory();
             routeWorkspaceView('zeroStateScreen');
-            closeMobileSidebarIfOpen(); // FIXED: Auto-closes menu
+            closeMobileSidebarIfOpen();
         });
-
+    
         document.getElementById('newChatBtn').addEventListener('click', () => {
             SystemState.activeThreadId = null;
             renderThreadSidebarHistory();
             routeWorkspaceView('zeroStateScreen');
             if (area) { area.value = ''; area.style.height = 'auto'; }
             verifySendBufferCapacity();
-            closeMobileSidebarIfOpen(); // FIXED: Auto-closes menu
+            closeMobileSidebarIfOpen();
         });
-
+    
         document.getElementById('sidebarSearchNavBtn').addEventListener('click', () => {
             routeWorkspaceView('searchWorkspaceScreen');
-            closeMobileSidebarIfOpen(); // FIXED: Auto-closes menu
+            closeMobileSidebarIfOpen();
         });
         
         document.getElementById('libraryNavBtn').addEventListener('click', () => {
             routeWorkspaceView('libraryWorkspaceScreen');
-            closeMobileSidebarIfOpen(); // FIXED: Auto-closes menu
+            closeMobileSidebarIfOpen();
         });
-
+    
         document.getElementById('collapseSidebarBtn').addEventListener('click', () => {
             const sidebar = document.getElementById('sidebar');
             const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
-
+    
             if (isTouchTarget) {
-                // Completely collapses the off-canvas drawer structure out of the layout view
                 sidebar.classList.remove('mobile-open');
                 document.getElementById('sidebarOverlay').classList.remove('active');
             } else {
-                // Fallback standard compression routine for desktop mouse input environments
                 sidebar.classList.toggle('collapsed');
             }
         });
@@ -214,13 +211,13 @@ function compileMasterKnowledgeBase() {
             document.getElementById('sidebar').classList.add('mobile-open');
             document.getElementById('sidebarOverlay').classList.add('active');
         });
-
+    
         document.getElementById('sidebarOverlay').addEventListener('click', () => {
             document.getElementById('sidebar').classList.remove('mobile-open');
             document.getElementById('settingsModal').classList.add('hidden');
             document.getElementById('sidebarOverlay').classList.remove('active');
         });
-
+    
         if (area) {
             area.addEventListener('input', () => {
                 area.style.height = 'auto';
@@ -234,13 +231,18 @@ function compileMasterKnowledgeBase() {
                 }
             });
         }
-
-        document.getElementById('clearInputBtn').addEventListener('click', () => {
-            area.value = ''; area.style.height = 'auto'; verifySendBufferCapacity();
-        });
-
+    
+        // Safe execution wrapper prevents layout crashes if HTML changes
+        const clearInputBtn = document.getElementById('clearInputBtn');
+        if (clearInputBtn) {
+            clearInputBtn.addEventListener('click', () => {
+                if (area) { area.value = ''; area.style.height = 'auto'; }
+                verifySendBufferCapacity();
+            });
+        }
+    
         if (submit) submit.addEventListener('click', dispatchInferenceSequence);
-
+    
         document.querySelectorAll('.suggestion-card').forEach(card => {
             card.addEventListener('click', () => {
                 if (area) {
@@ -252,15 +254,15 @@ function compileMasterKnowledgeBase() {
                 }
             });
         });
-
+    
         document.getElementById('internalSearchField').addEventListener('input', (e) => {
             processHistorySearchQuery(e.target.value.toLowerCase().trim());
         });
-
+    
         document.getElementById('libraryWorkspaceSearchField').addEventListener('input', (e) => {
             renderLibraryWorkspaceScreen(e.target.value.toLowerCase().trim());
         });
-
+    
         document.getElementById('toggleCollapseAllChatsBtn').addEventListener('click', () => {
             SystemState.historyCollapsed = !SystemState.historyCollapsed;
             const container = document.getElementById('chatHistoryContainer');
@@ -271,47 +273,45 @@ function compileMasterKnowledgeBase() {
                 container.classList.remove('list-collapsed'); icon.textContent = 'unfold_less';
             }
         });
-
+    
         document.getElementById('deleteAllChatsBtn').addEventListener('click', () => {
-            if (confirm('Permanently wipe out historical session registers?')) {
+            if (confirm('Are you sure you want to permanently wipe all sessions?')) {
                 SystemState.threads = {}; SystemState.activeThreadId = null;
                 persistThreadsToStorage(); renderThreadSidebarHistory();
                 routeWorkspaceView('zeroStateScreen');
-                closeMobileSidebarIfOpen(); // FIXED
+                closeMobileSidebarIfOpen();
             }
         });
-
+    
         document.getElementById('themeQuickToggleBtn').addEventListener('click', () => {
             SystemState.theme = SystemState.theme === 'dark' ? 'light' : 'dark';
             localStorage.setItem('ctx_theme', SystemState.theme);
             applyInterfaceThemeEngine();
         });
-
+    
         document.getElementById('settingsToggleBtn').addEventListener('click', () => {
             document.getElementById('groqKeyField').value = SystemState.groqKey;
             document.getElementById('settingsModal').classList.remove('hidden');
             document.getElementById('sidebarOverlay').classList.add('active');
-            closeMobileSidebarIfOpen(); // FIXED: Closes backdrop drawer underneath modal
+            closeMobileSidebarIfOpen(); 
         });
-
+    
         document.getElementById('closeSettingsModalBtn').addEventListener('click', () => {
             SystemState.groqKey = document.getElementById('groqKeyField').value.trim();
             localStorage.setItem('ctx_api_gateway_key', SystemState.groqKey);
             document.getElementById('settingsModal').classList.add('hidden');
             document.getElementById('sidebarOverlay').classList.remove('active');
         });
-
+    
         document.getElementById('flushMemoryBtn').addEventListener('click', () => {
             localStorage.clear(); location.reload();
         });
-
+    
         document.addEventListener('click', () => document.getElementById('chatContextMenu').classList.add('hidden'));
-
-        // Click delegation capture for dynamically rendered historical threads
+    
         const historyContainer = document.getElementById('chatHistoryContainer');
         if (historyContainer) {
             historyContainer.addEventListener('click', (e) => {
-                // Check if the clicked target or its ancestors belong to a history navigation button
                 if (e.target.closest('.history-item') || e.target.closest('.sidebar-action-pill-btn')) {
                     closeMobileSidebarIfOpen();
                 }
@@ -994,14 +994,19 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         records.forEach(t => {
             const isActive = (t.id === SystemState.activeThreadId && SystemState.activeViewPanelId === 'chatFeedScreen') ? 'active' : '';
             html += `
-                <div class="history-item-wrapper ${isActive}" data-id="${t.id}">
-                    <button class="history-item">
-                        <span class="material-symbols-rounded">chat_bubble</span>
-                        <span class="history-item-text">${escapeHTMLString(t.label)}</span>
-                    </button>
-                    ${t.pinned ? `<div class="pinned-indicator-badge"><span class="material-symbols-rounded">push_pin</span></div>` : ''}
-                    <button class="item-action-trigger-btn"><span class="material-symbols-rounded">more_vert</span></button>
-                </div>
+<div class="history-item-wrapper ${isActive}" data-id="${t.id}" data-pinned="${t.pinned}">
+    <button class="history-item">
+        <!-- Matching SVG to your New Chat button -->
+        <svg class="history-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span class="history-item-text">${escapeHTMLString(t.label)}</span>
+    </button>
+    <button class="item-action-trigger-btn" title="Options">
+        <span class="material-symbols-rounded pin-icon">keep</span>
+        <span class="material-symbols-rounded dots-icon">more_vert</span>
+    </button>
+</div>
             `;
         });
         box.innerHTML = html;
@@ -1168,13 +1173,13 @@ For clinical data lookups, return data utilizing our classic high-grade structur
             SystemState.threads[id].pinned = !SystemState.threads[id].pinned;
             persistThreadsToStorage(); renderThreadSidebarHistory();
         } else if (actionType === 'rename') {
-            const val = prompt("Enter custom tracking label designation:", SystemState.threads[id].label);
+            const val = prompt("Rename this thread:", SystemState.threads[id].label);
             if (val && val.trim().length > 0) {
                 SystemState.threads[id].label = val.trim();
                 persistThreadsToStorage(); renderThreadSidebarHistory();
             }
         } else if (actionType === 'delete') {
-            if (confirm("Drop structural clinical case data thread register log completely?")) {
+            if (confirm("Are you sure you want to drop this clinical thread?")) {
                 delete SystemState.threads[id];
                 if (SystemState.activeThreadId === id) SystemState.activeThreadId = null;
                 persistThreadsToStorage(); renderThreadSidebarHistory();
