@@ -1255,47 +1255,71 @@ body.keyboard-open #inputArea {
 }
 
 /* ==========================================================================
-   CLEAN VIEWPORT RESTORATION & ELEMENT DECOUPLING MATRIX
+   PERMANENT DECOUPLED KEYBOARD LAYOUT ADJUSTMENT MATRIX
    ========================================================================== */
 
-/* 1. Ensure the core window canvas elements cannot bounce, shift, or leak white */
-html, body {
+/* 1. Prevent the underlying mobile browser canvas from ever flashing white */
+html, body, .app-container {
     background-color: var(--bg-main) !important;
-    height: 100% !important;
-    margin: 0;
-    padding: 0;
-    overflow: hidden !important;
 }
 
-/* 2. Restore app-container to fill the true dynamic display area */
-.app-container {
+html {
+    height: 100% !important;
+}
+
+body {
     height: 100vh !important;
     height: 100dvh !important;
-    width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    position: relative !important;
+    overflow: hidden !important;
+    margin: 0;
+    padding: 0;
+    position: relative;
 }
 
-/* 3. FIX: Keep the sidebar absolutely bound to the physical screen limits */
+/* 2. Lock the sidebar to the physical viewport bounds so it never shifts up */
 #sidebar {
     position: fixed !important;
     top: 0 !important;
     bottom: 0 !important;
+    left: 0 !important;
+    height: 100vh !important;
     height: 100dvh !important;
-    z-index: 2000 !important; /* Forces it over all input trays and cards */
+    z-index: 2000 !important; /* Overrules panels, modals, and keyboard frames */
+    transform: translateX(-100%);
 }
 
-/* 4. FIX: Allow the scrolling room stream to resize independently when the keyboard pops up */
+#sidebar.active,
+body.sidebar-active #sidebar {
+    transform: translateX(0) !important;
+}
+
+/* 3. Re-anchor the application structure using absolute boundary locking */
+.app-container {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+/* 4. Allow your chat message streaming views to fill the remaining layout canvas naturally */
 #mainLayoutMainStream,
 #chatContainer,
 .main-content-panel {
     flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
+    width: 100% !important;
 }
 
-/* 5. Keep input section firmly docked at the floor */
+/* 5. Pin the bottom interaction bar completely flush to the screen base line */
 .chat-input-area-container,
 .input-panel-wrapper,
 #inputArea {
@@ -1304,7 +1328,22 @@ html, body {
     box-sizing: border-box !important;
     background-color: var(--bg-main) !important;
     z-index: 999 !important;
+    margin: 0 !important;
+    
+    /* Dynamically pads for device home indicators or clamps flush to keyboard frames */
     padding-bottom: calc(12px + var(--keyboard-offset, env(safe-area-inset-bottom, 0px))) !important;
+}
+
+/* 6. Enforce proper margins for the disclosure subtext */
+.disclaimer-text,
+.system-disclosure-label {
+    margin-top: 4px !important;
+    margin-bottom: 2px !important;
+    font-size: 0.72rem !important;
+    color: var(--text-secondary) !important;
+    text-align: center;
+    width: 100%;
+    display: block;
 }
 
 .hidden { display: none !important; }
