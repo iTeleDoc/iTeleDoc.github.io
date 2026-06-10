@@ -1446,8 +1446,8 @@ toggleBtn.addEventListener('click', () => {
 
 const cv = document.getElementById('contentViewport');
 
-alert(
-    'offsetHeight=' + cv.offsetHeight +
-    '\nclientHeight=' + cv.clientHeight +
-    '\nstyle.height=' + cv.style.height
-);
+cv.style.height = '0px';
+
+requestAnimationFrame(() => {
+    cv.style.height = '';
+});
