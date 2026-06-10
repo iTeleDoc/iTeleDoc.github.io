@@ -469,24 +469,34 @@ function compileMasterKnowledgeBase() {
             if (!isTouchTarget || !window.visualViewport) return;
         
             const restoreViewport = () => {
-                document.documentElement.style.height = '100dvh';
-                document.body.style.height = '100dvh';
-        
                 const app = document.querySelector('.app-container');
                 const workspace = document.querySelector('.main-workspace');
                 const viewport = document.getElementById('contentViewport');
-        
-                if (app) app.style.height = '100dvh';
-                if (workspace) workspace.style.height = '100dvh';
-        
+            
+                document.documentElement.style.height = '100dvh';
+                document.body.style.height = '100dvh';
+            
+                if (app) {
+                    app.style.display = 'none';
+                    app.offsetHeight;
+                    app.style.display = '';
+                }
+            
+                if (workspace) {
+                    workspace.style.minHeight = '0';
+                    workspace.offsetHeight;
+                }
+            
+                if (viewport) {
+                    viewport.style.minHeight = '0';
+                    viewport.offsetHeight;
+                }
+            
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
                         window.scrollTo(0, 0);
-        
-                        if (viewport) {
-                            viewport.style.minHeight = '0';
-                            viewport.offsetHeight; // force reflow
-                        }
+            
+                        window.dispatchEvent(new Event('resize'));
                     });
                 });
             };
