@@ -1510,17 +1510,3 @@ toggleBtn.addEventListener('click', () => {
 
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
-
-
-
-
-
-
-
-
-const cv = document.getElementById('contentViewport');
-
-alert(
-    'clientHeight=' + cv.clientHeight +
-    '\nscrollHeight=' + cv.scrollHeight +
-    '\nscrollTop=' + cv.scrollTop
