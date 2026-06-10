@@ -3,12 +3,16 @@
  */
  
  /* --- Core UI CSS Design Tokens --- */
-html,
-body,
-.app-container,
-.main-workspace {
-    min-height: 100dvh;
-}
+ html,
+ body {
+     overflow: hidden;
+     overscroll-behavior: none;
+ }
+ 
+ .main-workspace,
+ .content-viewport {
+     min-height: 0;
+ }
 
 @supports (-webkit-touch-callout: none) {
     html,
@@ -69,13 +73,15 @@ body,
 }
 
 body {
-    font-family: var(--font-stack); 
-    background-color: var(--bg-main); 
+    font-family: var(--font-stack);
+    background-color: var(--bg-main);
     color: var(--text-primary);
-    overflow: hidden; 
-    height: 100vh;
+
+    overflow: hidden;
+
+    width: 100vw;
     height: 100dvh;
-    width: 100vw; 
+
     -webkit-font-smoothing: antialiased;
 }
 
@@ -323,14 +329,17 @@ body {
 /* ==========================================================================
    5. MAIN WORKSPACE VIEWPORT LAYOUT ARCHITECTURE
    ========================================================================== */
-.main-workspace { 
-    flex: 1; 
-    display: flex; 
-    flex-direction: column; 
-    height: 100vh;
-    height: 100dvh; 
-    position: relative; 
-    overflow: visible;
+   .main-workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+
+    min-height: 0;
+    height: 100%;
+
+    overflow: hidden;
 }
 
 .top-nav-bar { 
@@ -351,15 +360,15 @@ body {
 .nav-left { display: flex; align-items: center; gap: 12px; }
 .cortexa-brand { font-size: 1.35rem; font-weight: 500; display: flex; align-items: center; cursor: pointer; }
 
-.content-viewport { 
-    flex: 1; 
-    overflow-y: auto; 
-    position: relative; 
-    width: 100%; 
-    padding-top: calc(64px + env(safe-area-inset-top, 0px)); 
-    padding-bottom: calc(
-        90px + env(safe-area-inset-bottom)
-    ); 
+.app-container {
+    display: flex;
+
+    width: 100vw;
+    height: 100%;
+
+    position: relative;
+
+    min-height: 0;
 }
 .view-panel { width: 100%; max-width: 760px; margin: 0 auto; padding: 40px 24px 24px 24px; animation: panelTransition 0.25s ease-out both; }
 @keyframes panelTransition { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -721,8 +730,7 @@ body {
         top: 0;
         left: 0;
         bottom: 0;
-        height: 100vh;
-        height: 100dvh;
+        height: 100%;
         width: 280px !important; 
         max-width: 85vw; /* Absolute block constraint layout protection */
         transform: translateX(-100%); /* Slides entirely out of view when closed */
