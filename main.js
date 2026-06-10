@@ -1518,8 +1518,9 @@ toggleBtn.addEventListener('click', () => {
 
 
 
-document.body.style.background = 'red';
+const cv = document.getElementById('contentViewport');
 
-setTimeout(() => {
-    document.body.style.background = '';
-}, 2000);
+alert(
+    'clientHeight=' + cv.clientHeight +
+    '\nscrollHeight=' + cv.scrollHeight +
+    '\nscrollTop=' + cv.scrollTop
