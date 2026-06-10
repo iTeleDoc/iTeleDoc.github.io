@@ -5,14 +5,14 @@
 (function() {
     'use strict';
 
-// ==========================================
+    // ==========================================
     // 1. ENGINE RUNTIME STATE MATRIX
     // ==========================================
     let SystemState = {
         theme: 'dark',
         groqKey: '',
         activeThreadId: null,
-        historyCollapsed: true, // Set this to true to keep history rows structured on boot
+        historyCollapsed: false,
         selectedContextMenuThreadId: null,
         activeViewPanelId: 'zeroStateScreen',
         threads: {}
@@ -52,7 +52,7 @@ function compileMasterKnowledgeBase() {
 
     let SYSTEM_KNOWLEDGE_POOLS = [];
 
-// ==========================================
+    // ==========================================
     // 2. LIFECYCLE CONTROLLER INIT
     // ==========================================
     function initializeCortexaSystem() {
@@ -63,12 +63,6 @@ function compileMasterKnowledgeBase() {
         renderThreadSidebarHistory();
         renderLibraryWorkspaceScreen();
         verifySendBufferCapacity();
-
-        // NATIVE INITIALIZATION ROUTINE: Force sidebar closed by default across form structures safely
-        const sidebar = document.getElementById('sidebar');
-        if (sidebar) {
-            sidebar.classList.add('collapsed');
-        }
     }
 
     function loadLocalStorageCache() {
