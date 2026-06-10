@@ -1518,7 +1518,10 @@ toggleBtn.addEventListener('click', () => {
 
 
 
+const el = document.querySelector('.input-panel-container');
+
 alert(
-    'scrollY=' + window.scrollY +
-    '\npageYOffset=' + window.pageYOffset
+    'top=' + el.getBoundingClientRect().top +
+    '\nbottom=' + el.getBoundingClientRect().bottom +
+    '\nviewport=' + window.innerHeight
 );
