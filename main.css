@@ -591,23 +591,29 @@ body {
 /* ==========================================================================
    9. NATIVE TOUCHSCREEN & LANDSCAPE MOBILE CONTROLLER
    ========================================================================== */
-@media (max-width: 1024px), (pointer: coarse) {
+/* ==========================================================================
+   9. NATIVE TOUCHSCREEN & LANDSCAPE MOBILE CONTROLLER
+   ========================================================================== */
+   @media (max-width: 1024px), (pointer: coarse) {
     /* Forces the top hamburger navigation button to stay active across landscape rotations */
     .menu-toggle-btn { 
-        /* When the sidebar has the active state class triggered by your JavaScript, 
+        display: flex !important; 
+        visibility: visible !important;
+        border-radius: 12px !important; /* Fixed: Rectangle preserved on mobile viewports */
+    }
+
+    /* When the sidebar has the active state class triggered by your JavaScript, 
        force it to open wide, bypassing the default 'collapsed' startup class */
-        body.sidebar-active #sidebar,
-        body.sidebar-active .sidebar.collapsed {
+    body.sidebar-active #sidebar,
+    body.sidebar-active .sidebar.collapsed {
         transform: translateX(0) !important;
         width: 280px !important; /* Matches your core sidebar design footprint width */
         display: flex !important;
         opacity: 1 !important;
         visibility: visible !important;
     }
-        display: flex !important; 
-        visibility: visible !important;
-        border-radius: 12px !important; /* Fixed: Rectangle preserved on mobile viewports */
-        /* 1. Allow input rows to stack vertically instead of squeezing side-by-side */
+
+    /* 1. Allow input rows to stack vertically instead of squeezing side-by-side */
     .inline-form-row {
         width: 100% !important;
     }
@@ -638,7 +644,6 @@ body {
         margin-left: 0 !important;
         margin-right: 0 !important;
         width: 100% !important;
-    }
     }
 
     .cortexa-dynamic-trigger {
@@ -724,7 +729,7 @@ body {
     }
 
     /* ----------------------------------------------------------------------
-       TOUCHSCREEN THREE-DOTS ALWAYS-ON ENGINE (ADDED)
+       TOUCHSCREEN THREE-DOTS ALWAYS-ON ENGINE
        ---------------------------------------------------------------------- */
     /* 1. Prevent unpinned chat texts from sliding behind the now-permanent option menu */
     .history-item {
