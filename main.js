@@ -1519,8 +1519,6 @@ toggleBtn.addEventListener('click', () => {
 
 
 alert(
-    'body=' + document.body.getBoundingClientRect().height +
-    '\napp=' + document.querySelector('.app-container').getBoundingClientRect().height +
-    '\nworkspace=' + document.querySelector('.main-workspace').getBoundingClientRect().height +
-    '\ncontent=' + document.getElementById('contentViewport').getBoundingClientRect().height
+    'scrollY=' + window.scrollY +
+    '\npageYOffset=' + window.pageYOffset
 );
