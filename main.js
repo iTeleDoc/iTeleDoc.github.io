@@ -697,9 +697,10 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         let fieldsHTML = '';
         
         const isDrugOrFluid = model.id?.startsWith('drug_') || 
-                              model.id?.startsWith('calc_parkland') || 
-                              model.origin === 'drugs.js' || 
-                              model.origin === 'fluids.js';
+                                model.id?.startsWith('calc_') || // Universally matches ALL calculators
+                                model.origin === 'drugs.js' || 
+                                model.origin === 'fluids.js' ||
+                                model.type === 'calculator';
 
         // Local live runtime updates to handle inner counter interactions safely
         window[`update_interactive_counter_${uniquePrefixId}`] = function() {
