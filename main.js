@@ -12,7 +12,7 @@
         theme: 'dark',
         groqKey: '',
         activeThreadId: null,
-        historyCollapsed: false,
+        historyCollapsed: true,
         selectedContextMenuThreadId: null,
         activeViewPanelId: 'zeroStateScreen',
         threads: {}
@@ -63,6 +63,15 @@ function compileMasterKnowledgeBase() {
         renderThreadSidebarHistory();
         renderLibraryWorkspaceScreen();
         verifySendBufferCapacity();
+
+        // Safely collapse the desktop view on load without touching mobile panels
+        const isMobileOrTablet = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+        if (!isMobileOrTablet) {
+            const sidebarElement = document.getElementById('sidebar');
+            if (sidebarElement) {
+                sidebarElement.classList.add('collapsed');
+            }
+        }
     }
 
     function loadLocalStorageCache() {
@@ -697,7 +706,7 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         let fieldsHTML = '';
         
         const isDrugOrFluid = model.id?.startsWith('drug_') || 
-                                model.id?.startsWith('calc_') || // Universally matches ALL calculators
+                                model.id?.startsWith('calc_') ||
                                 model.origin === 'drugs.js' || 
                                 model.origin === 'fluids.js' ||
                                 model.type === 'calculator';
