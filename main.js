@@ -535,43 +535,37 @@ For clinical data lookups, return data utilizing our classic high-grade structur
     }
 
 // ==========================================================================
-    // LIQUID VISUAL VIEWPORT KEYBOARD COUPLING ENGINE
+    // DECOUPLED KEYBOARD LAYOUT TRACKING ENGINE
     // ==========================================================================
     (function initKeyboardLayoutWatcher() {
         if (!window.visualViewport) return;
 
-        const syncViewportDimensions = () => {
+        const handleViewportResize = () => {
             const viewportHeight = window.visualViewport.height;
             const windowHeight = window.innerHeight;
             
-            // Elements to contain
-            const appContainer = document.querySelector('.app-container');
-            
-            if (appContainer) {
-                // Force the layout container to shrink exactly to the visible window height
-                appContainer.style.height = `${viewportHeight}px`;
-            }
+            // Target the scrollable viewport container area directly
+            const contentPanel = document.getElementById('chatContainer') || 
+                                 document.getElementById('mainLayoutMainStream') || 
+                                 document.querySelector('.main-content-panel');
 
-            // Calculate if the software keyboard layout is deployed
+            // Determine if the soft keyboard layout is active
             if (viewportHeight < windowHeight * 0.85) {
                 document.body.classList.add('keyboard-open');
-                // Keyboard is active: drop safe area inset padding because keyboard covers the device bezel
                 document.documentElement.style.setProperty('--keyboard-offset', '0px');
                 
-                // Snaps the browser back on its tracks, instantly closing the 1cm unpainted gap
+                // Keep the input tray flat to the keyboard without shifting the sidebar anchor
                 window.scrollTo(0, 0);
             } else {
                 document.body.classList.remove('keyboard-open');
-                // Restore regular smartphone home-bar padding when closed
                 document.documentElement.style.setProperty('--keyboard-offset', 'env(safe-area-inset-bottom, 0px)');
             }
         };
 
-        // Hook tracking configurations to the visual viewport layer
-        window.visualViewport.addEventListener('resize', syncViewportDimensions);
-        window.visualViewport.addEventListener('scroll', syncViewportDimensions);
+        window.visualViewport.addEventListener('resize', handleViewportResize);
+        window.visualViewport.addEventListener('scroll', handleViewportResize);
     })();
-
+    
     // ==========================================
     // 6. ADAPTIVE DOM CARD RENDERING BLOCKS
     // ==========================================
