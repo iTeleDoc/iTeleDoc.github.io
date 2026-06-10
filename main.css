@@ -1195,5 +1195,14 @@ body {
         transition: opacity 0.3s ease !important;
     }
 }
+/* ==========================================================================
+   GLOBAL VIEWPORT TOUCH PROPAGATION PATCH
+   ========================================================================== */
+   #chatContainer,
+   .app-container,
+   .main-content-panel {
+       /* Allows custom touch tracking rules to register without browser interference */
+       touch-action: pan-y !important; 
+   }
 
 .hidden { display: none !important; }
