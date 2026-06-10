@@ -933,17 +933,45 @@ For clinical data lookups, return data utilizing our classic high-grade structur
                         </div>
                     </div>`;
             } else {
+                // REMOVED: The avatar-container div wrapper entirely
+                // UPDATED: Added an inline style width property override to let the bubble-content span the full width
                 trackingHTML += `
-                    <div class="chat-row">
-                        <div class="avatar-container ai"><span class="material-symbols-rounded">clinical_notes</span></div>
-                        <div class="bubble-content">${msg.text}</div>
+                    <div class="chat-row ai-row" id="msg-row-${idx}">
+                        <div class="bubble-content" style="width: 100%; max-width: 100%; margin-left: 0;">${msg.text}</div>
                     </div>
                 `;
             }
         });
     
+        // 1. Flush and render the HTML markup content straight to the DOM
         stream.innerHTML = trackingHTML;
-        scrollViewportToBottom();
+        
+        // 2. Exact Pixel Viewport Scroll Engine
+        const view = document.getElementById('contentViewport');
+        const lastIndex = messages.length - 1;
+        
+        if (lastIndex >= 0 && view) {
+            const lastMsg = messages[lastIndex];
+            
+            if (lastMsg.sender === 'ai') {
+                const targetCard = document.getElementById(`msg-row-${lastIndex}`);
+                if (targetCard) {
+                    // Calculate exactly how far down the card is inside the stream wrapper container
+                    const targetTopPosition = targetCard.offsetTop;
+                    
+                    // Force the parent viewport container to scroll precisely to the card's start coordinate
+                    view.scrollTo({
+                        top: targetTopPosition,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    view.scrollTop = view.scrollHeight;
+                }
+            } else {
+                // If it is a user text prompt entry, push scroll to the bottom normally
+                view.scrollTop = view.scrollHeight;
+            }
+        }
     }
 
     // ==========================================
