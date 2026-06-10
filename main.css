@@ -3,6 +3,22 @@
  */
  
  /* --- Core UI CSS Design Tokens --- */
+html,
+body,
+.app-container,
+.main-workspace {
+    min-height: 100dvh;
+}
+
+@supports (-webkit-touch-callout: none) {
+    html,
+    body,
+    .app-container,
+    .main-workspace {
+        height: 100dvh;
+    }
+}
+
 :root {
     --font-stack: "Google Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     --transition-smooth: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -526,7 +542,7 @@ body {
 .input-panel-container {
     width: 100%; max-width: 760px; margin: 0 auto; 
     padding: 0 24px calc(16px + env(safe-area-inset-bottom, 0px)) 24px;
-    background-color: var(--bg-main); position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 50;
+    background-color: var(--bg-main); position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 50;
 }
 .input-panel-container.hidden { display: none !important; }
 .input-wrapper-matrix {
