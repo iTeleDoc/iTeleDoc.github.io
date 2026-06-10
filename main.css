@@ -594,6 +594,16 @@ body {
 @media (max-width: 1024px), (pointer: coarse) {
     /* Forces the top hamburger navigation button to stay active across landscape rotations */
     .menu-toggle-btn { 
+        /* When the sidebar has the active state class triggered by your JavaScript, 
+       force it to open wide, bypassing the default 'collapsed' startup class */
+        body.sidebar-active #sidebar,
+        body.sidebar-active .sidebar.collapsed {
+        transform: translateX(0) !important;
+        width: 280px !important; /* Matches your core sidebar design footprint width */
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
         display: flex !important; 
         visibility: visible !important;
         border-radius: 12px !important; /* Fixed: Rectangle preserved on mobile viewports */
