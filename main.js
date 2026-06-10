@@ -1323,7 +1323,7 @@ toggleBtn.addEventListener('click', () => {
 });
 
 // ==========================================================================
-    // SIDEBAR GLOBAL TOUCH-SLIDE GESTURE ENGINE (Anywhere on Screen)
+    // SIDEBAR SMART TOUCH ENGINE (Swipes Anywhere + Restores Taps/Clicks)
     // ==========================================================================
     (function initSidebarSwipeGestures() {
         let touchStartX = 0;
@@ -1336,7 +1336,6 @@ toggleBtn.addEventListener('click', () => {
 
         if (!sidebarElement || !overlayElement) return;
 
-        // Trace start positions anywhere across the viewport bounds
         window.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
@@ -1345,6 +1344,16 @@ toggleBtn.addEventListener('click', () => {
         window.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             touchEndY = e.changedTouches[0].screenY;
+            
+            // 1. TAP DETECTION: If the movement is less than 8px, treat it as a normal tap
+            const moveX = Math.abs(touchEndX - touchStartX);
+            const moveY = Math.abs(touchEndY - touchStartY);
+            if (moveX < 8 && moveY < 8) {
+                // Let the browser handle standard element click handlers (like clicking the overlay)
+                return;
+            }
+
+            // 2. SWIPE DETECTION: Process actual drag movements
             handleSwipeGesture();
         }, { passive: true });
 
@@ -1352,21 +1361,19 @@ toggleBtn.addEventListener('click', () => {
             const deltaX = touchEndX - touchStartX;
             const deltaY = touchEndY - touchStartY;
 
-            // Strict escape hatch: vertical scrolling motion dominates horizontal swipe
+            // Ignore vertical scrolling motions
             if (Math.abs(deltaY) > Math.abs(deltaX)) return;
 
-            // 60px minimum movement distance parameter required to fire actions
             const swipeThreshold = 60;
             const isSidebarOpen = sidebarElement.classList.contains('active') || document.body.classList.contains('sidebar-active');
 
             if (!isSidebarOpen) {
-                // ACTION: Slide Open from ANYWHERE (Swipe Right)
-                // Filter added: requires a true horizontal gesture momentum (> 20px rightward start)
-                if (deltaX > swipeThreshold && (touchEndX - touchStartX) > 20) {
+                // Swipe Right: Open menu from anywhere
+                if (deltaX > swipeThreshold) {
                     openMobileSidebar();
                 }
             } else {
-                // ACTION: Slide Close from ANYWHERE (Swipe Left)
+                // Swipe Left: Close menu from anywhere
                 if (deltaX < -swipeThreshold) {
                     closeMobileSidebar();
                 }
