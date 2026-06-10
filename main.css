@@ -1255,37 +1255,38 @@ body.keyboard-open #inputArea {
 }
 
 /* ==========================================================================
-   PERMANENT MOBILE KEYBOARD VOID ERADICATION & COUPLING LAYER
+   CLEAN VIEWPORT RESTORATION & ELEMENT DECOUPLING MATRIX
    ========================================================================== */
 
-/* 1. Prevent the underlying browser window canvas from flashing white */
-html, body, .app-container {
+/* 1. Ensure the core window canvas elements cannot bounce, shift, or leak white */
+html, body {
     background-color: var(--bg-main) !important;
-}
-
-html {
     height: 100% !important;
-}
-
-body {
-    /* Use dynamic viewport sizing targets */
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    overflow: hidden !important;
-    position: relative;
     margin: 0;
     padding: 0;
+    overflow: hidden !important;
 }
 
-/* 2. Transition your input section from standard positioning to a structural flex system */
+/* 2. Restore app-container to fill the true dynamic display area */
 .app-container {
+    height: 100vh !important;
     height: 100dvh !important;
+    width: 100% !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
+    position: relative !important;
 }
 
-/* 3. Force the main scrolling room area to consume all remaining height vector parameters */
+/* 3. FIX: Keep the sidebar absolutely bound to the physical screen limits */
+#sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100dvh !important;
+    z-index: 2000 !important; /* Forces it over all input trays and cards */
+}
+
+/* 4. FIX: Allow the scrolling room stream to resize independently when the keyboard pops up */
 #mainLayoutMainStream,
 #chatContainer,
 .main-content-panel {
@@ -1294,33 +1295,16 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
-/* 4. Ground the interactive layout bar tightly using a variable padding engine */
+/* 5. Keep input section firmly docked at the floor */
 .chat-input-area-container,
 .input-panel-wrapper,
 #inputArea {
-    position: relative !important; /* Changed from fixed to flow with the flex containment container */
-    bottom: auto !important;
-    left: auto !important;
-    right: auto !important;
+    position: relative !important;
     width: 100% !important;
     box-sizing: border-box !important;
     background-color: var(--bg-main) !important;
     z-index: 999 !important;
-    
-    /* Sets up an elastic safe-area baseline variable */
     padding-bottom: calc(12px + var(--keyboard-offset, env(safe-area-inset-bottom, 0px))) !important;
-}
-
-/* 5. Clean up subtext element metrics */
-.disclaimer-text,
-.system-disclosure-label {
-    margin-top: 4px !important;
-    margin-bottom: 2px !important;
-    font-size: 0.72rem !important;
-    color: var(--text-secondary) !important;
-    text-align: center;
-    width: 100%;
-    display: block;
 }
 
 .hidden { display: none !important; }
