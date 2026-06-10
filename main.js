@@ -1444,12 +1444,10 @@ toggleBtn.addEventListener('click', () => {
 
 
 
-const input = document.querySelector('.input-panel-container');
-
-const r = input.getBoundingClientRect();
+const cv = document.getElementById('contentViewport');
 
 alert(
-    'top=' + r.top +
-    '\nbottom=' + r.bottom +
-    '\nviewport=' + window.innerHeight
+    'clientHeight=' + cv.clientHeight +
+    '\nscrollHeight=' + cv.scrollHeight +
+    '\nscrollTop=' + cv.scrollTop
 );
