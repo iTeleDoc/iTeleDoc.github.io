@@ -548,7 +548,7 @@ For clinical data lookups, return data utilizing our classic high-grade structur
                 document.body.classList.add('keyboard-open');
                 document.documentElement.style.setProperty('--keyboard-offset', '0px');
                 
-                // Keep the input tray flat to the keyboard without shifting the canvas bounds
+                // Pin the layout view container back to coordinate flat tracks
                 window.scrollTo(0, 0);
             } else {
                 document.body.classList.remove('keyboard-open');
