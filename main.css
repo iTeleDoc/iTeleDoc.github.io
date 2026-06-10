@@ -600,6 +600,18 @@ body {
         display: flex !important; 
         visibility: visible !important;
         border-radius: 12px !important; /* Fixed: Rectangle preserved on mobile viewports */
+        /* If the layout engine is actively displaying on a touchscreen device,
+       force the sidebar container to slide into view completely when summoned,
+       even if it initially carries the startup desktop 'collapsed' state selector */
+    body.sidebar-active #sidebar,
+    body.sidebar-active .sidebar.collapsed {
+        transform: translateX(0) !important;
+        width: 280px !important; /* Forces the mobile panel to its full container layout width */
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+    }
+    
     }
 
     /* When the sidebar has the active state class triggered by your JavaScript, 
