@@ -534,8 +534,8 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         return completionResult.choices[0].message.content;
     }
 
-// ==========================================================================
-    // DECOUPLED KEYBOARD LAYOUT TRACKING ENGINE
+    // ==========================================================================
+    // DECOUPLED KEYBOARD SCROLL COUPLING ENGINE
     // ==========================================================================
     (function initKeyboardLayoutWatcher() {
         if (!window.visualViewport) return;
@@ -543,18 +543,12 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         const handleViewportResize = () => {
             const viewportHeight = window.visualViewport.height;
             const windowHeight = window.innerHeight;
-            
-            // Target the scrollable viewport container area directly
-            const contentPanel = document.getElementById('chatContainer') || 
-                                 document.getElementById('mainLayoutMainStream') || 
-                                 document.querySelector('.main-content-panel');
 
-            // Determine if the soft keyboard layout is active
             if (viewportHeight < windowHeight * 0.85) {
                 document.body.classList.add('keyboard-open');
                 document.documentElement.style.setProperty('--keyboard-offset', '0px');
                 
-                // Keep the input tray flat to the keyboard without shifting the sidebar anchor
+                // Keep the input tray flat to the keyboard without shifting the canvas bounds
                 window.scrollTo(0, 0);
             } else {
                 document.body.classList.remove('keyboard-open');
