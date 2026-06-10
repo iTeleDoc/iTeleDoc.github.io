@@ -491,20 +491,41 @@ function compileMasterKnowledgeBase() {
                 });
             };
         
+            function forceViewportRefresh() {
+                document.body.style.overflow = 'auto';
+            
+                requestAnimationFrame(() => {
+                    window.scrollTo(0, 0);
+            
+                    requestAnimationFrame(() => {
+                        document.body.style.overflow = 'hidden';
+                    });
+                });
+            }
+            
             window.visualViewport.addEventListener('resize', () => {
                 const active = document.activeElement;
+            
                 const editing =
                     active &&
-                    (active.tagName === 'TEXTAREA' ||
-                     active.tagName === 'INPUT');
-        
+                    (
+                        active.tagName === 'TEXTAREA' ||
+                        active.tagName === 'INPUT'
+                    );
+            
                 if (!editing) {
-                    setTimeout(restoreViewport, 150);
+                    setTimeout(() => {
+                        restoreViewport();
+                        forceViewportRefresh();
+                    }, 150);
                 }
             });
         
             document.addEventListener('focusout', () => {
-                setTimeout(restoreViewport, 150);
+                setTimeout(() => {
+                    restoreViewport();
+                    forceViewportRefresh();
+                }, 150);
             });
         })();
 
@@ -1489,3 +1510,16 @@ toggleBtn.addEventListener('click', () => {
 
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
+
+
+
+
+
+
+
+
+
+alert(
+    'innerHeight=' + window.innerHeight +
+    '\nviewport=' + window.visualViewport.height
+);
