@@ -382,6 +382,82 @@ function compileMasterKnowledgeBase() {
                 menuToggleBtn.classList.toggle('is-open'); // Toggles open state (merges into 1 line)
             });
         }
+
+        // ==========================================================================
+        // NATIVE TOUCH GESTURE SLIDE DISPATCH ENGINE
+        // ==========================================================================
+        (function initSidebarSwipeMechanics() {
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+
+            const SWIPE_THRESHOLD_X = 50;  // Minimum swipe distance in pixels
+            const SWIPE_CONSTRAINT_Y = 40; // Max allowed vertical shift (prevents conflict with scrolling)
+            const EDGE_BOUNDARY_X = 50;    // Swipe right must start within 50px of left screen edge
+
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (!sidebar || !overlay) return;
+
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].clientX;
+                touchStartY = e.changedTouches[0].clientY;
+            }, { passive: true });
+
+            document.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].clientX;
+                touchEndY = e.changedTouches[0].clientY;
+                handleSwipeResolution();
+            }, { passive: true });
+
+            function handleSwipeResolution() {
+                const deltaX = touchEndX - touchStartX;
+                const deltaY = Math.abs(touchEndY - touchStartY);
+
+                // If vertical scrolling is prominent, cancel sidebar actions
+                if (deltaY > SWIPE_CONSTRAINT_Y) return;
+
+                const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+                if (!isTouchDevice) return;
+
+                const isOpen = sidebar.classList.contains('mobile-open');
+
+                // SWIPE RIGHT: Opens the sidebar if swipe initiated near the left margin
+                if (deltaX > SWIPE_THRESHOLD_X && !isOpen) {
+                    if (touchStartX <= EDGE_BOUNDARY_X) {
+                        openDrawer();
+                    }
+                } 
+                // SWIPE LEFT: Closes the sidebar if swiped anywhere on screen while open
+                else if (deltaX < -SWIPE_THRESHOLD_X && isOpen) {
+                    closeDrawer();
+                }
+            }
+
+            function openDrawer() {
+                sidebar.classList.add('mobile-open');
+                overlay.classList.add('active');
+                
+                // Keep the structural action buttons synchronized with open state geometries
+                const collapseBtn = document.getElementById('collapseSidebarBtn');
+                const menuBtn = document.getElementById('menuToggleBtn');
+                if (collapseBtn) collapseBtn.classList.add('is-open');
+                if (menuBtn) menuBtn.classList.add('is-open');
+            }
+
+            function closeDrawer() {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+                
+                const collapseBtn = document.getElementById('collapseSidebarBtn');
+                const menuBtn = document.getElementById('menuToggleBtn');
+                if (collapseBtn) collapseBtn.classList.remove('is-open');
+                if (menuBtn) menuBtn.classList.remove('is-open');
+            }
+        })();
+        
     }
 
     function verifySendBufferCapacity() {
