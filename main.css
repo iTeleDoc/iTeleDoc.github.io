@@ -510,64 +510,52 @@ body {
 .risk-factor-coefficient-tag { display: block; font-size: 0.72rem; color: var(--text-secondary); font-weight: 500; margin-top: 2px; }
 
 /* ==========================================================================
-   ANSWER & CLINICAL CARDS SCREEN-SIZE FIT ADAPTATION
+   FINAL FIX: ANSWER CARDS & CALCULATOR RESPONSIVENESS OVERRIDES
    ========================================================================== */
-   .clinical-card-container,
-   .system-card-container {
-       width: 100% !important;
-       max-width: 100% !important;
-       box-sizing: border-box !important;
-       word-wrap: break-word;
-       overflow-wrap: break-word;
-   }
-   
-   /* Ensure card headers break down gracefully on tiny screens */
-   .clinical-card-header,
-   .system-card-header {
-       display: flex;
-       flex-wrap: wrap;
-       gap: 8px;
-       justify-content: space-between;
-       align-items: center;
-       width: 100%;
-   }
-   
-   /* Force titles or badges to shrink instead of overflowing lines */
-   .clinical-card-title,
-   .system-card-title {
-       display: flex;
-       align-items: center;
-       gap: 8px;
-       font-size: clamp(0.95rem, 4vw, 1.15rem); /* Dynamically scales text down on phones */
-       min-width: 0;
-       overflow: hidden;
-       text-overflow: ellipsis;
-   }
-   
-   /* Adjust embedded calculator form widths to never exceed the parent bubble boundaries */
-   .inline-calc-form {
-       width: 100% !important;
-       max-width: 100% !important;
-       box-sizing: border-box !important;
-   }
-   
-   /* Form input parameters row wrap correction */
-   .inline-form-row {
-       display: flex;
-       flex-direction: column;
-       gap: 4px;
-       width: 100%;
-   }
-   
-   /* Mobile Touchscreen Specific Cleanups */
-   @media (max-width: 768px) {
-       .clinical-card-container,
-       .system-card-container {
-           padding: 12px !important;
-           border-radius: 12px !important;
-       }
-   }
-   
+
+/* 1. Force the parent card structures to stay within the screen viewport */
+.clinical-card-container,
+.system-card-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important; /* Clips any child element attempting to spill right */
+}
+
+/* 2. Prevent form layout fields from stretching sideways */
+.inline-calc-form {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.inline-form-row {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 3. THE CRITICAL FIX: Kill dropdown expansion caused by long option text */
+.inline-form-row select,
+.inline-form-row input {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important; /* Overrides native browser layout calculation sizes */
+    box-sizing: border-box !important;
+    text-overflow: ellipsis !important; /* Truncates long strings gracefully with ... */
+    white-space: nowrap !important;
+    overflow: hidden !important;
+}
+
+/* 4. Ensure header text wraps cleanly on compact phone screens */
+.clinical-card-header,
+.system-card-header {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    width: 100% !important;
+}
+
 /* ==========================================================================
    7. CHAT MESSAGE STREAMS & DATA INPUT NODES
    ========================================================================== */
@@ -1150,6 +1138,72 @@ body {
 .theme-quick-toggle-btn.dark-mode .icon-moon {
     opacity: 1;
     transform: rotate(0) scale(1);
+}
+
+/* ==========================================================================
+   INTERACTIVE CARDS AND CALCULATOR LAYOUT RESPONSIEVNESS FIX
+   ========================================================================== */
+
+/* 1. Prevent cards from defining any rigid widths or breaking outer feeds */
+.clinical-card-container,
+.system-card-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    overflow: hidden; /* Clips any unintended horizontal grid leaks */
+}
+
+/* 2. Format internal dynamic form container structures */
+.inline-calc-form {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 3. Stop long select options and text fields from blowing out boundaries */
+.inline-form-row {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.inline-form-row input,
+.inline-form-row select {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important; /* Overrules browser native min-content values */
+    box-sizing: border-box !important;
+    text-overflow: ellipsis; /* Gracefully truncates options if viewport is micro-sized */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* 4. Fix headers wrapping dynamically when buttons and badges collide */
+.clinical-card-header,
+.system-card-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+}
+
+.clinical-card-title,
+.system-card-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    font-size: clamp(0.95rem, 4vw, 1.15rem); /* Shrinks font down fluidly on small viewports */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .hidden { display: none !important; }
