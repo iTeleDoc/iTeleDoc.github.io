@@ -1323,7 +1323,7 @@ toggleBtn.addEventListener('click', () => {
 });
 
 // ==========================================================================
-    // SIDEBAR TOUCH-SLIDE GESTURE ENGINE (Touchscreen Optimization)
+    // SIDEBAR GLOBAL TOUCH-SLIDE GESTURE ENGINE (Anywhere on Screen)
     // ==========================================================================
     (function initSidebarSwipeGestures() {
         let touchStartX = 0;
@@ -1336,7 +1336,7 @@ toggleBtn.addEventListener('click', () => {
 
         if (!sidebarElement || !overlayElement) return;
 
-        // Listen to global window touch starts to register edge-swipe intentions
+        // Trace start positions anywhere across the viewport bounds
         window.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
@@ -1352,20 +1352,21 @@ toggleBtn.addEventListener('click', () => {
             const deltaX = touchEndX - touchStartX;
             const deltaY = touchEndY - touchStartY;
 
-            // Reject vertical scrolls masquerading as horizontal swipes
+            // Strict escape hatch: vertical scrolling motion dominates horizontal swipe
             if (Math.abs(deltaY) > Math.abs(deltaX)) return;
 
-            // Threshold calculation metrics: requires 60px minimum sweep distance
+            // 60px minimum movement distance parameter required to fire actions
             const swipeThreshold = 60;
             const isSidebarOpen = sidebarElement.classList.contains('active') || document.body.classList.contains('sidebar-active');
 
             if (!isSidebarOpen) {
-                // ACTION: Slide Open (Swipe Right) starting from the left region of screen
-                if (deltaX > swipeThreshold && touchStartX < 80) {
+                // ACTION: Slide Open from ANYWHERE (Swipe Right)
+                // Filter added: requires a true horizontal gesture momentum (> 20px rightward start)
+                if (deltaX > swipeThreshold && (touchEndX - touchStartX) > 20) {
                     openMobileSidebar();
                 }
             } else {
-                // ACTION: Slide Close (Swipe Left) starting anywhere
+                // ACTION: Slide Close from ANYWHERE (Swipe Left)
                 if (deltaX < -swipeThreshold) {
                     closeMobileSidebar();
                 }
@@ -1375,7 +1376,7 @@ toggleBtn.addEventListener('click', () => {
         function openMobileSidebar() {
             sidebarElement.classList.add('active');
             overlayElement.classList.add('active');
-            document.body.classList.add('sidebar-active'); // Enforces system synchronization
+            document.body.classList.add('sidebar-active');
         }
 
         function closeMobileSidebar() {
