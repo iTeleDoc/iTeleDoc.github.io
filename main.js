@@ -12,7 +12,7 @@
         theme: 'dark',
         groqKey: '',
         activeThreadId: null,
-        historyCollapsed: false,
+        historyCollapsed: true, // Changed from false to true
         selectedContextMenuThreadId: null,
         activeViewPanelId: 'zeroStateScreen',
         threads: {}
