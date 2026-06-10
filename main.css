@@ -509,6 +509,7 @@ body {
 .risk-matrix-option input[type="checkbox"] { accent-color: #ea4335; width: 15px; height: 15px; margin-top: 1px; cursor: pointer; }
 .risk-factor-coefficient-tag { display: block; font-size: 0.72rem; color: var(--text-secondary); font-weight: 500; margin-top: 2px; }
 
+
 /* ==========================================================================
    7. CHAT MESSAGE STREAMS & DATA INPUT NODES
    ========================================================================== */
@@ -1070,19 +1071,33 @@ body {
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
 }
 
-/* --- SUN STATE (Default Dark Theme View) --- */
-.theme-quick-toggle-btn .icon-sun {
-    color: #ffb703 !important; 
+/* ==========================================================================
+   THEME QUICK TOGGLE BUTTON INDIVIDUAL ICON TRANSITIONS
+   ========================================================================== */
+
+/* 1. Establish the shared baseline rules for BOTH icons */
+.theme-quick-toggle-btn .icon-sun,
+.theme-quick-toggle-btn .icon-moon {
+    position: absolute;
+    font-size: 24px;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease !important;
+    transform-origin: center center;
 }
 
-/* --- MOON STATE (Active Light Theme View) --- */
+/* --- DEFAULT DARK MODE STATE (Sun visible, Moon hidden) --- */
+.theme-quick-toggle-btn .icon-sun {
+    color: #ffb703 !important; 
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
 .theme-quick-toggle-btn .icon-moon {
     color: #8F00FF !important; 
     opacity: 0;
     transform: rotate(-90deg) scale(0);
 }
 
-/* 4. Structural Activation Matrix & Layered Shadow Injector */
+/* --- TOGGLED LIGHT MODE STATE (Sun hides, Moon appears) --- */
 .theme-quick-toggle-btn.dark-mode .icon-sun {
     opacity: 0;
     transform: rotate(90deg) scale(0);
@@ -1090,7 +1105,7 @@ body {
 
 .theme-quick-toggle-btn.dark-mode .icon-moon {
     opacity: 1;
-    transform: rotate(0) scale(1);
+    transform: rotate(0deg) scale(1);
 }
 
 /* ==========================================================================
@@ -1159,6 +1174,5 @@ body {
         align-items: center !important;
     }
 }
-
 
 .hidden { display: none !important; }
