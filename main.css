@@ -577,7 +577,7 @@ body {
 .settings-meta-section h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
 .settings-meta-section p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 12px; }
 .divider-top { border-top: 1px solid var(--border-color); padding-top: 20px; }
-.input-field-wrapper { display: flex; align-items: center; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 14px; gap: 10px; }
+.input-field-wrapper { display: flex; align-items: center; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 6px 14px; gap: 10px; }
 .input-field-wrapper .prefix-icon { color: var(--text-secondary); font-size: 1.15rem !important; }
 .input-field-wrapper input { background: none; border: none; outline: none; width: 100%; color: var(--text-primary); font-family: var(--font-stack); font-size: 0.9rem; }
 .danger-action-pill-btn { 
@@ -1261,7 +1261,7 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 0 14px;
-    height: 48px;
+    height: 36px;
     transition: border-color var(--transition-smooth);
 }
 
@@ -1274,7 +1274,7 @@ body {
     border: none;
     color: var(--text-primary);
     font-family: var(--font-stack);
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     padding-left: 12px;
     width: 100%;
     outline: none;
