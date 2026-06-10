@@ -669,6 +669,8 @@ body {
     .sidebar.mobile-open { 
         transform: translateX(0) !important; 
         width: 280px !important;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
 
     /* Suppresses standard desktop icon bar compression layouts inside touchscreen states */
