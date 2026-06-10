@@ -1209,42 +1209,49 @@ body {
    PWA BOTTOM WHITE GAP ROOT ERADICATION
    ========================================================================== */
 
-/* Force the root HTML layer to fill the actual physical glass screen dimensions */
+/* 1. Standardize root backgrounds so the white canvas can NEVER leak through */
+html, body, .app-container {
+    background-color: var(--bg-main) !important;
+}
+
 html {
     height: 100% !important;
-    background-color: var(--bg-main) !important; /* Matches your core dark background token */
 }
 
 body {
-    /* Overrules old vh bugs by tracking the truly active dynamic mobile viewport */
-    height: 100vh !important;
-    height: 100dvh !important; 
-    
-    background-color: var(--bg-main) !important;
+    /* Use interactive viewport height to adjust dynamically when the keyboard slides up */
+    height: 100vih !important;
+    height: 100dvh !important;
     overflow: hidden;
     margin: 0;
     padding: 0;
 }
 
-/* Ensure the absolute main app wrapper stretches entirely into the safe area zone */
-.app-container {
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--bg-main) !important;
-}
-
-/* Fix the floating interactive input container area to map safely inside the safe area inset */
+/* 2. Anchor the input container relative to the physical visual viewport limit */
 .chat-input-area-container,
 .input-panel-wrapper,
 #inputArea {
     position: fixed !important;
-    bottom: 0 !important;
-    background-color: var(--bg-main) !important;
     
-    /* Safely cushions input boxes above the home bar while extending the background under it */
+    /* Enforces positioning relative to the dynamic bottom layout bounds */
+    bottom: 0 !important; 
+    
+    background-color: var(--bg-main) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    z-index: 999 !important;
+
+    /* The ultimate combination: handles regular safe area, plus folds perfectly over the keyboard */
     padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* 3. Javascript-Assisted Mobile Engine Hook Layout Override */
+body.keyboard-open .chat-input-area-container,
+body.keyboard-open .input-panel-wrapper,
+body.keyboard-open #inputArea {
+    /* When keyboard is active, strip device home-bar padding to prevent float spacing */
+    padding-bottom: 12px !important; 
+    bottom: 0 !important;
 }
 
 .hidden { display: none !important; }
