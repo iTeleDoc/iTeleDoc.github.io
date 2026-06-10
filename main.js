@@ -1322,5 +1322,68 @@ toggleBtn.addEventListener('click', () => {
     toggleBtn.classList.toggle('dark-mode'); 
 });
 
+// ==========================================================================
+    // SIDEBAR TOUCH-SLIDE GESTURE ENGINE (Touchscreen Optimization)
+    // ==========================================================================
+    (function initSidebarSwipeGestures() {
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        const sidebarElement = document.getElementById('sidebar');
+        const overlayElement = document.getElementById('sidebarOverlay');
+
+        if (!sidebarElement || !overlayElement) return;
+
+        // Listen to global window touch starts to register edge-swipe intentions
+        window.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        window.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipeGesture();
+        }, { passive: true });
+
+        function handleSwipeGesture() {
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+
+            // Reject vertical scrolls masquerading as horizontal swipes
+            if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+
+            // Threshold calculation metrics: requires 60px minimum sweep distance
+            const swipeThreshold = 60;
+            const isSidebarOpen = sidebarElement.classList.contains('active') || document.body.classList.contains('sidebar-active');
+
+            if (!isSidebarOpen) {
+                // ACTION: Slide Open (Swipe Right) starting from the left region of screen
+                if (deltaX > swipeThreshold && touchStartX < 80) {
+                    openMobileSidebar();
+                }
+            } else {
+                // ACTION: Slide Close (Swipe Left) starting anywhere
+                if (deltaX < -swipeThreshold) {
+                    closeMobileSidebar();
+                }
+            }
+        }
+
+        function openMobileSidebar() {
+            sidebarElement.classList.add('active');
+            overlayElement.classList.add('active');
+            document.body.classList.add('sidebar-active'); // Enforces system synchronization
+        }
+
+        function closeMobileSidebar() {
+            sidebarElement.classList.remove('active');
+            overlayElement.classList.remove('active');
+            document.body.classList.remove('sidebar-active');
+        }
+    })();
+    
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
