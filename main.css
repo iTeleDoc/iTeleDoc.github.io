@@ -1205,52 +1205,46 @@ body {
        touch-action: pan-y !important; 
    }
 
-/* ==========================================================================
-   PWA HOME SCREEN SAFE AREA PINNING LAYER
+   /* ==========================================================================
+   PWA BOTTOM WHITE GAP ROOT ERADICATION
    ========================================================================== */
 
-/* 1. Force the root layout container to utilize the full dynamic viewport height */
-html, body {
-    height: 100vh !important;
-    height: -webkit-fill-available !important; /* Fixes stubborn iOS Safari height tracking */
-    overflow: hidden;
+/* Force the root HTML layer to fill the actual physical glass screen dimensions */
+html {
+    height: 100% !important;
+    background-color: var(--bg-main) !important; /* Matches your core dark background token */
 }
 
-/* 2. Pin the input layout element wrapper strictly down to the device deck */
-.chat-input-area-container, 
+body {
+    /* Overrules old vh bugs by tracking the truly active dynamic mobile viewport */
+    height: 100vh !important;
+    height: 100dvh !important; 
+    
+    background-color: var(--bg-main) !important;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure the absolute main app wrapper stretches entirely into the safe area zone */
+.app-container {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-main) !important;
+}
+
+/* Fix the floating interactive input container area to map safely inside the safe area inset */
+.chat-input-area-container,
 .input-panel-wrapper,
-#inputArea { 
+#inputArea {
     position: fixed !important;
     bottom: 0 !important;
-    left: 0;
-    right: 0;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    z-index: 999 !important;
+    background-color: var(--bg-main) !important;
     
-    /* Hardware-accelerated hardware layer promotion */
-    transform: translateZ(0); 
-
-    /* THE FIX: Injects adaptive padding using the device's native hardware safe area boundaries */
+    /* Safely cushions input boxes above the home bar while extending the background under it */
     padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
-    background-color: var(--bg-main) !important; 
-}
-
-/* 3. Keep the scrolling message container from slipping behind the pinned input */
-#chatContainer,
-.message-feed-stream {
-    padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px)) !important;
-}
-
-/* 4. Fix Disclaimer or System Subtext placement to render right under input bounds */
-.disclaimer-text,
-.system-disclosure-label {
-    margin-top: 6px !important;
-    margin-bottom: 2px !important;
-    font-size: 0.75rem !important;
-    text-align: center;
-    width: 100%;
-    display: block;
 }
 
 .hidden { display: none !important; }
