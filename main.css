@@ -25,7 +25,7 @@
     --border-color: #444746;
     --shadow-alpha: rgba(0, 0, 0, 0.5);
     --bubble-user-bg: #282a2c;
-    --pinned-accent: #a8c7fa;
+    --pinned-accent: #ffffff;
 }
 
 .theme-light {
@@ -40,7 +40,7 @@
     --border-color: #c4c7c5;
     --shadow-alpha: rgba(60, 64, 67, 0.08);
     --bubble-user-bg: #f0f4f9;
-    --pinned-accent: #1a73e8;
+    --pinned-accent: #000000;
 }
 
 /* ==========================================================================
@@ -261,7 +261,7 @@ body {
 
 .history-list { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
 .history-list.list-collapsed { display: none !important; }
-.history-item-wrapper { display: flex; align-items: center; border-radius: 20px; position: relative; }
+.history-item-wrapper { display: flex; align-items: center; border-radius: 12px; position: relative; }
 .history-item {
     display: flex; align-items: center; gap: 12px; padding: 10px 40px 10px 14px; border-radius: 20px;
     background: none; border: none; color: var(--text-primary); font-family: var(--font-stack); font-size: 0.88rem;
@@ -274,8 +274,12 @@ body {
     cursor: pointer; width: 28px; height: 28px; border-radius: 50%; display: none; align-items: center; justify-content: center;
 }
 .history-item-wrapper:hover .item-action-trigger-btn { display: flex; }
-.item-action-trigger-btn:hover { background-color: var(--bg-surface); color: var(--text-primary); }
-.pinned-indicator-badge { position: absolute; right: 36px; color: var(--pinned-accent); display: flex; align-items: center; }
+.item-action-trigger-btn:hover { 
+    background-color: rgba(255, 255, 255, 0.12) !important; /* !important breaks through the layout overrides */
+    color: var(--text-primary) !important; 
+    border-radius: 9px !important; 
+}
+.pinned-indicator-badge { position: absolute; right: 36px; color: var(--text-primary); display: flex; align-items: center; }
 .pinned-indicator-badge span { font-size: 0.95rem !important; }
 
 .footer-nav-btn {
@@ -516,7 +520,7 @@ body {
 .avatar-container.ai span { font-size: 1.15rem !important; }
 .bubble-content { font-size: 0.98rem; line-height: 1.62; color: var(--text-primary); word-break: break-word; }
 .chat-row:not(.user-row) .bubble-content { flex: 1; }
-.chat-row.user-row .bubble-content { background-color: var(--bubble-user-bg); padding: 12px 20px; border-radius: 24px; max-width: calc(100% - 52px); width: auto; }
+.chat-row.user-row .bubble-content { background-color: var(--bubble-user-bg); padding: 12px 20px; border-radius: 12px; max-width: calc(100% - 52px); width: auto; }
 
 .input-panel-container {
     width: 100%; max-width: 760px; margin: 0 auto; 
@@ -593,6 +597,38 @@ body {
         display: flex !important; 
         visibility: visible !important;
         border-radius: 12px !important; /* Fixed: Rectangle preserved on mobile viewports */
+        /* 1. Allow input rows to stack vertically instead of squeezing side-by-side */
+    .inline-form-row {
+        width: 100% !important;
+    }
+
+    /* 2. Fix the top summary blocks (e.g., age, weight, gender metrics layout) */
+    .patient-metrics-engine-block {
+        grid-template-columns: repeat(2, 1fr) !important; /* Forces a clean, balanced 2-column split on small devices */
+        gap: 12px !important;
+        padding: 12px !important;
+    }
+
+    /* 3. Fix the risk factor selection matrices */
+    .risk-engine-dropdown-content {
+        grid-template-columns: 1fr !important; /* Drops to a single, easily scrollable stack */
+        gap: 10px !important;
+        padding: 10px !important;
+    }
+
+    /* 4. Increase tap target spacing for checkbox selections so text doesn't overlap */
+    .risk-matrix-option {
+        padding: 6px 4px !important;
+        font-size: 0.9rem !important; /* Slightly larger text for readability on small touch glass */
+    }
+
+    /* 5. Prevent nested forms from pushing past the main chat bubble bounds */
+    .inline-calc-form {
+        padding: 12px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+    }
     }
 
     .cortexa-dynamic-trigger {
@@ -870,8 +906,10 @@ body {
     transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
+/* Find this line near the bottom and update it to match your new rectangle shape */
 .history-item-wrapper .item-action-trigger-btn:hover {
-    background-color: var(--bg-hover);
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    border-radius: 9px !important;
 }
 
 .history-item-wrapper .item-action-trigger-btn .pin-icon,
@@ -882,7 +920,11 @@ body {
 
 /* Theme Adaptive Pin Colors */
 .history-item-wrapper .item-action-trigger-btn .pin-icon {
-    color: var(--pinned-accent) !important; /* Dynamically maps to #a8c7fa in dark and #1a73e8 in light */
+    color: var(--pinned-accent) !important;
+}
+
+.history-item-wrapper .item-action-trigger-btn .dots-icon {
+    color: var(--text-secondary);
 }
 
 .history-item-wrapper .item-action-trigger-btn .dots-icon {
