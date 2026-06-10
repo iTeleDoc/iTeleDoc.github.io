@@ -534,6 +534,28 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         return completionResult.choices[0].message.content;
     }
 
+    // ==========================================================================
+    // KEYBOARD VISUAL VIEWPORT ADJUSTMENT ENGINE
+    // ==========================================================================
+    (function initKeyboardLayoutWatcher() {
+        if (!window.visualViewport) return;
+
+        window.visualViewport.addEventListener('resize', () => {
+            const inputField = document.getElementById('chatInput') || document.activeElement;
+            const isInputActive = inputField && (inputField.tagName === 'INPUT' || inputField.tagName === 'TEXTAREA');
+
+            // If the viewport height shrinks drastically while focusing an input, keyboard is open
+            if (window.visualViewport.height < window.innerHeight * 0.85 && isInputActive) {
+                document.body.classList.add('keyboard-open');
+                
+                // Instantly force window scroll parameters to 0 to snap the unpainted white void shut
+                window.scrollTo(0, 0);
+            } else {
+                document.body.classList.remove('keyboard-open');
+            }
+        });
+    })();
+    
     // ==========================================
     // 6. ADAPTIVE DOM CARD RENDERING BLOCKS
     // ==========================================
@@ -1392,6 +1414,6 @@ toggleBtn.addEventListener('click', () => {
             document.body.classList.remove('sidebar-active');
         }
     })();
-    
+
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
