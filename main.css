@@ -1255,63 +1255,72 @@ body.keyboard-open #inputArea {
 }
 
 /* ==========================================================================
-   STATIC DRUG & RISK METRICS ENGINE CARD RESPONSIVENESS CAPABILITY
+   PERMANENT MOBILE KEYBOARD VOID ERADICATION & COUPLING LAYER
    ========================================================================== */
 
-/* 1. Prevent the metric input container from overflowing on small touchscreens */
-.patient-metrics-engine-block {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
-    gap: 10px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    margin-bottom: 12px !important;
+/* 1. Prevent the underlying browser window canvas from flashing white */
+html, body, .app-container {
+    background-color: var(--bg-main) !important;
 }
 
-/* 2. Break down checkbox configurations to wrap text gracefully instead of stretching right */
-.risk-engine-dropdown-content {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
+html {
+    height: 100% !important;
 }
 
-.risk-matrix-option {
+body {
+    /* Use dynamic viewport sizing targets */
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow: hidden !important;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. Transition your input section from standard positioning to a structural flex system */
+.app-container {
+    height: 100dvh !important;
     display: flex !important;
-    align-items: flex-start !important;
-    gap: 10px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    padding: 8px !important;
-    overflow-wrap: break-word !important;
-    word-wrap: break-word !important;
-    word-break: break-word !important;
-}
-
-/* Force the descriptive child blocks to stay locked inside the flexible layout space */
-.risk-matrix-option > div {
-    flex: 1 !important;
-    min-width: 0 !important;
-    overflow-wrap: break-word !important;
-    word-wrap: break-word !important;
-}
-
-/* 3. Wrap long metadata description lines downwards */
-.risk-factor-coefficient-tag {
-    display: block !important; /* Forces the subtext underneath the label title on micro screens */
-    margin-top: 2px !important;
-    font-size: 0.78rem !important;
-    white-space: normal !important; /* Overrules any truncation bugs */
-}
-
-/* 4. Correct the header panel layout for the physiological risk area */
-.risk-engine-summary-header {
-    display: flex !important;
+    flex-direction: column !important;
     justify-content: space-between !important;
-    align-items: center !important;
+}
+
+/* 3. Force the main scrolling room area to consume all remaining height vector parameters */
+#mainLayoutMainStream,
+#chatContainer,
+.main-content-panel {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 4. Ground the interactive layout bar tightly using a variable padding engine */
+.chat-input-area-container,
+.input-panel-wrapper,
+#inputArea {
+    position: relative !important; /* Changed from fixed to flow with the flex containment container */
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    background-color: var(--bg-main) !important;
+    z-index: 999 !important;
+    
+    /* Sets up an elastic safe-area baseline variable */
+    padding-bottom: calc(12px + var(--keyboard-offset, env(safe-area-inset-bottom, 0px))) !important;
+}
+
+/* 5. Clean up subtext element metrics */
+.disclaimer-text,
+.system-disclosure-label {
+    margin-top: 4px !important;
+    margin-bottom: 2px !important;
+    font-size: 0.72rem !important;
+    color: var(--text-secondary) !important;
+    text-align: center;
+    width: 100%;
+    display: block;
 }
 
 .hidden { display: none !important; }
