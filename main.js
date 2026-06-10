@@ -458,6 +458,27 @@ function compileMasterKnowledgeBase() {
             }
         })();
 
+        // ==========================================================================
+        // TOUCHSCREEN VIRTUAL KEYBOARD LAYOUT CLOSURE PATCH
+        // ==========================================================================
+        (function initTouchKeyboardResetMechanics() {
+            const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+            if (!isTouchTarget) return;
+
+            // When focus moves away from inputs/textareas, reset window viewport scroll constraints
+            document.addEventListener('focusout', (e) => {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                    setTimeout(() => {
+                        // Forces the scroll position to snapping bounds 
+                        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                        
+                        // Force layout pass update matrix calculation
+                        window.dispatchEvent(new Event('resize'));
+                    }, 40); // Minimal micro-task delay to allow physical layout frame closure
+                }
+            });
+        })();
+
     }
 
     function verifySendBufferCapacity() {
