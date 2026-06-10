@@ -591,9 +591,6 @@ body {
 /* ==========================================================================
    9. NATIVE TOUCHSCREEN & LANDSCAPE MOBILE CONTROLLER
    ========================================================================== */
-/* ==========================================================================
-   9. NATIVE TOUCHSCREEN & LANDSCAPE MOBILE CONTROLLER
-   ========================================================================== */
    @media (max-width: 1024px), (pointer: coarse) {
     /* Forces the top hamburger navigation button to stay active across landscape rotations */
     .menu-toggle-btn { 
