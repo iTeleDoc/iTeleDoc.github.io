@@ -510,6 +510,65 @@ body {
 .risk-factor-coefficient-tag { display: block; font-size: 0.72rem; color: var(--text-secondary); font-weight: 500; margin-top: 2px; }
 
 /* ==========================================================================
+   ANSWER & CLINICAL CARDS SCREEN-SIZE FIT ADAPTATION
+   ========================================================================== */
+   .clinical-card-container,
+   .system-card-container {
+       width: 100% !important;
+       max-width: 100% !important;
+       box-sizing: border-box !important;
+       word-wrap: break-word;
+       overflow-wrap: break-word;
+   }
+   
+   /* Ensure card headers break down gracefully on tiny screens */
+   .clinical-card-header,
+   .system-card-header {
+       display: flex;
+       flex-wrap: wrap;
+       gap: 8px;
+       justify-content: space-between;
+       align-items: center;
+       width: 100%;
+   }
+   
+   /* Force titles or badges to shrink instead of overflowing lines */
+   .clinical-card-title,
+   .system-card-title {
+       display: flex;
+       align-items: center;
+       gap: 8px;
+       font-size: clamp(0.95rem, 4vw, 1.15rem); /* Dynamically scales text down on phones */
+       min-width: 0;
+       overflow: hidden;
+       text-overflow: ellipsis;
+   }
+   
+   /* Adjust embedded calculator form widths to never exceed the parent bubble boundaries */
+   .inline-calc-form {
+       width: 100% !important;
+       max-width: 100% !important;
+       box-sizing: border-box !important;
+   }
+   
+   /* Form input parameters row wrap correction */
+   .inline-form-row {
+       display: flex;
+       flex-direction: column;
+       gap: 4px;
+       width: 100%;
+   }
+   
+   /* Mobile Touchscreen Specific Cleanups */
+   @media (max-width: 768px) {
+       .clinical-card-container,
+       .system-card-container {
+           padding: 12px !important;
+           border-radius: 12px !important;
+       }
+   }
+   
+/* ==========================================================================
    7. CHAT MESSAGE STREAMS & DATA INPUT NODES
    ========================================================================== */
 .message-stream { display: flex; flex-direction: column; gap: 32px; }
