@@ -534,28 +534,44 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         return completionResult.choices[0].message.content;
     }
 
-    // ==========================================================================
-    // KEYBOARD VISUAL VIEWPORT ADJUSTMENT ENGINE
+// ==========================================================================
+    // LIQUID VISUAL VIEWPORT KEYBOARD COUPLING ENGINE
     // ==========================================================================
     (function initKeyboardLayoutWatcher() {
         if (!window.visualViewport) return;
 
-        window.visualViewport.addEventListener('resize', () => {
-            const inputField = document.getElementById('chatInput') || document.activeElement;
-            const isInputActive = inputField && (inputField.tagName === 'INPUT' || inputField.tagName === 'TEXTAREA');
+        const syncViewportDimensions = () => {
+            const viewportHeight = window.visualViewport.height;
+            const windowHeight = window.innerHeight;
+            
+            // Elements to contain
+            const appContainer = document.querySelector('.app-container');
+            
+            if (appContainer) {
+                // Force the layout container to shrink exactly to the visible window height
+                appContainer.style.height = `${viewportHeight}px`;
+            }
 
-            // If the viewport height shrinks drastically while focusing an input, keyboard is open
-            if (window.visualViewport.height < window.innerHeight * 0.85 && isInputActive) {
+            // Calculate if the software keyboard layout is deployed
+            if (viewportHeight < windowHeight * 0.85) {
                 document.body.classList.add('keyboard-open');
+                // Keyboard is active: drop safe area inset padding because keyboard covers the device bezel
+                document.documentElement.style.setProperty('--keyboard-offset', '0px');
                 
-                // Instantly force window scroll parameters to 0 to snap the unpainted white void shut
+                // Snaps the browser back on its tracks, instantly closing the 1cm unpainted gap
                 window.scrollTo(0, 0);
             } else {
                 document.body.classList.remove('keyboard-open');
+                // Restore regular smartphone home-bar padding when closed
+                document.documentElement.style.setProperty('--keyboard-offset', 'env(safe-area-inset-bottom, 0px)');
             }
-        });
+        };
+
+        // Hook tracking configurations to the visual viewport layer
+        window.visualViewport.addEventListener('resize', syncViewportDimensions);
+        window.visualViewport.addEventListener('scroll', syncViewportDimensions);
     })();
-    
+
     // ==========================================
     // 6. ADAPTIVE DOM CARD RENDERING BLOCKS
     // ==========================================
