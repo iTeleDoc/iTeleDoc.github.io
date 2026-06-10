@@ -143,32 +143,41 @@ function compileMasterKnowledgeBase() {
         }
     }
 
-    // ==========================================
+// ==========================================
     // 3. UI VIEWPORT ROUTER MATRIX
     // ==========================================
     function routeWorkspaceView(panelId) {
         SystemState.activeViewPanelId = panelId;
         
+        // Hide all structural workspace screens instantly
         document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
         document.getElementById('sidebarSearchNavBtn').classList.remove('active');
         document.getElementById('libraryNavBtn').classList.remove('active');
+        document.getElementById('settingsToggleBtn').classList.remove('active');
 
         const activePanel = document.getElementById(panelId);
         if (activePanel) activePanel.classList.remove('hidden');
 
+        // Manage standard global chat text input tray visibility matrix
         const deck = document.getElementById('globalInputDeck');
-        if (panelId === 'searchWorkspaceScreen' || panelId === 'libraryWorkspaceScreen') {
+        if (panelId === 'searchWorkspaceScreen' || panelId === 'libraryWorkspaceScreen' || panelId === 'settingsWorkspaceScreen') {
             deck.classList.add('hidden');
         } else {
             deck.classList.remove('hidden');
         }
 
+        // Fire rendering triggers or update navigation layouts
         if (panelId === 'searchWorkspaceScreen') {
             document.getElementById('sidebarSearchNavBtn').classList.add('active');
             processHistorySearchQuery();
         } else if (panelId === 'libraryWorkspaceScreen') {
             document.getElementById('libraryNavBtn').classList.add('active');
             renderLibraryWorkspaceScreen();
+        } else if (panelId === 'settingsWorkspaceScreen') {
+            document.getElementById('settingsToggleBtn').classList.add('active');
+            // Seed current runtime key into target field element
+            const keyField = document.getElementById('groqKeyField');
+            if (keyField) keyField.value = SystemState.groqKey;
         }
     }
 
@@ -236,7 +245,6 @@ function compileMasterKnowledgeBase() {
     
         document.getElementById('sidebarOverlay').addEventListener('click', () => {
             document.getElementById('sidebar').classList.remove('mobile-open');
-            document.getElementById('settingsModal').classList.add('hidden');
             document.getElementById('sidebarOverlay').classList.remove('active');
         });
     
@@ -311,19 +319,22 @@ function compileMasterKnowledgeBase() {
             applyInterfaceThemeEngine();
         });
     
+        // Setup direct integrated page workspace router layout
         document.getElementById('settingsToggleBtn').addEventListener('click', () => {
-            document.getElementById('groqKeyField').value = SystemState.groqKey;
-            document.getElementById('settingsModal').classList.remove('hidden');
-            document.getElementById('sidebarOverlay').classList.add('active');
+            routeWorkspaceView('settingsWorkspaceScreen');
             closeMobileSidebarIfOpen(); 
         });
     
-        document.getElementById('closeSettingsModalBtn').addEventListener('click', () => {
-            SystemState.groqKey = document.getElementById('groqKeyField').value.trim();
-            localStorage.setItem('ctx_api_gateway_key', SystemState.groqKey);
-            document.getElementById('settingsModal').classList.add('hidden');
-            document.getElementById('sidebarOverlay').classList.remove('active');
-        });
+        // Auto-save gateway credential strings asynchronously on keyup/change input updates
+        const keyField = document.getElementById('groqKeyField');
+        if (keyField) {
+            const saveCredentials = () => {
+                SystemState.groqKey = keyField.value.trim();
+                localStorage.setItem('ctx_api_gateway_key', SystemState.groqKey);
+            };
+            keyField.addEventListener('input', saveCredentials);
+            keyField.addEventListener('change', saveCredentials);
+        }
     
         document.getElementById('flushMemoryBtn').addEventListener('click', () => {
             if (confirm('Are you sure you want to completely clear the local cache? This will reset the system.')) {
