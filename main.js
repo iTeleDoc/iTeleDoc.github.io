@@ -458,6 +458,81 @@ function compileMasterKnowledgeBase() {
             }
         })();
 
+        // ==========================================================================
+        // TOUCHSCREEN VIRTUAL KEYBOARD LAYOUT CLOSURE PATCH
+        // ==========================================================================
+        (function initTouchKeyboardResetMechanics() {
+            const isTouchTarget =
+                window.matchMedia('(pointer: coarse)').matches ||
+                window.innerWidth <= 1024;
+        
+            if (!isTouchTarget || !window.visualViewport) return;
+        
+            const restoreViewport = () => {
+                document.documentElement.style.height = '100dvh';
+                document.body.style.height = '100dvh';
+        
+                const app = document.querySelector('.app-container');
+                const workspace = document.querySelector('.main-workspace');
+                const viewport = document.getElementById('contentViewport');
+        
+                if (app) app.style.height = '100dvh';
+                if (workspace) workspace.style.height = '100dvh';
+        
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+        
+                        window.scrollTo(0, 0);
+        
+                        if (viewport) {
+        
+                            // Safari keyboard-close fix
+                            viewport.style.height = '0px';
+        
+                            viewport.offsetHeight; // force layout flush
+        
+                            requestAnimationFrame(() => {
+        
+                                viewport.style.height = '';
+        
+                                viewport.offsetHeight; // force recalculation
+        
+                            });
+                        }
+        
+                    });
+                });
+            };
+        
+            let lastViewportHeight = window.visualViewport.height;
+        
+            window.visualViewport.addEventListener('resize', () => {
+                const active = document.activeElement;
+        
+                const editing =
+                    active &&
+                    (
+                        active.tagName === 'TEXTAREA' ||
+                        active.tagName === 'INPUT'
+                    );
+        
+                const currentHeight = window.visualViewport.height;
+        
+                const keyboardClosed =
+                    currentHeight > lastViewportHeight + 80;
+        
+                lastViewportHeight = currentHeight;
+        
+                if (!editing || keyboardClosed) {
+                    setTimeout(restoreViewport, 150);
+                }
+            });
+        
+            document.addEventListener('focusout', () => {
+                setTimeout(restoreViewport, 150);
+            });
+        })();
+
     }
 
     function verifySendBufferCapacity() {
@@ -1439,15 +1514,3 @@ toggleBtn.addEventListener('click', () => {
 
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
-
-
-
-
-
-const cv = document.getElementById('contentViewport');
-
-cv.style.height = '0px';
-
-requestAnimationFrame(() => {
-    cv.style.height = '';
-});
