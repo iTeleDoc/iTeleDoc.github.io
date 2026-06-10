@@ -462,32 +462,49 @@ function compileMasterKnowledgeBase() {
         // TOUCHSCREEN VIRTUAL KEYBOARD LAYOUT CLOSURE PATCH
         // ==========================================================================
         (function initTouchKeyboardResetMechanics() {
-            // Target touch-capable or mobile-sized layouts
-            const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+            const isTouchTarget =
+                window.matchMedia('(pointer: coarse)').matches ||
+                window.innerWidth <= 1024;
+        
             if (!isTouchTarget || !window.visualViewport) return;
-
-            // Monitor the true, interactive visual window geometry
-            window.visualViewport.addEventListener('resize', () => {
-                const area = document.getElementById('chatInputPayload');
-                
-                // If an input is not actively focused, the keyboard is closed or closing
-                if (document.activeElement !== area && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-                    
-                    // Force microtask to let the operational system render keyboard collapse frame
-                    setTimeout(() => {
-                        // Hard reset structural offsets back to absolute window origin coordinates
+        
+            const restoreViewport = () => {
+                document.documentElement.style.height = '100dvh';
+                document.body.style.height = '100dvh';
+        
+                const app = document.querySelector('.app-container');
+                const workspace = document.querySelector('.main-workspace');
+                const viewport = document.getElementById('contentViewport');
+        
+                if (app) app.style.height = '100dvh';
+                if (workspace) workspace.style.height = '100dvh';
+        
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
                         window.scrollTo(0, 0);
-                        document.body.scrollTop = 0;
-                        
-                        // Force full DOM recalculation down to the lowest layout layer
-                        const container = document.querySelector('.app-container');
-                        if (container) {
-                            container.style.height = '100dvh';
-                            // Clean up layout cycle immediately after enforcement pass
-                            setTimeout(() => { container.style.height = ''; }, 10);
+        
+                        if (viewport) {
+                            viewport.style.minHeight = '0';
+                            viewport.offsetHeight; // force reflow
                         }
-                    }, 50);
+                    });
+                });
+            };
+        
+            window.visualViewport.addEventListener('resize', () => {
+                const active = document.activeElement;
+                const editing =
+                    active &&
+                    (active.tagName === 'TEXTAREA' ||
+                     active.tagName === 'INPUT');
+        
+                if (!editing) {
+                    setTimeout(restoreViewport, 150);
                 }
+            });
+        
+            document.addEventListener('focusout', () => {
+                setTimeout(restoreViewport, 150);
             });
         })();
 
