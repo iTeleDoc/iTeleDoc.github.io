@@ -534,32 +534,6 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         return completionResult.choices[0].message.content;
     }
 
-    // ==========================================================================
-    // DECOUPLED KEYBOARD SCROLL COUPLING ENGINE
-    // ==========================================================================
-    (function initKeyboardLayoutWatcher() {
-        if (!window.visualViewport) return;
-
-        const handleViewportResize = () => {
-            const viewportHeight = window.visualViewport.height;
-            const windowHeight = window.innerHeight;
-
-            if (viewportHeight < windowHeight * 0.85) {
-                document.body.classList.add('keyboard-open');
-                document.documentElement.style.setProperty('--keyboard-offset', '0px');
-                
-                // Pin the layout view container back to coordinate flat tracks
-                window.scrollTo(0, 0);
-            } else {
-                document.body.classList.remove('keyboard-open');
-                document.documentElement.style.setProperty('--keyboard-offset', 'env(safe-area-inset-bottom, 0px)');
-            }
-        };
-
-        window.visualViewport.addEventListener('resize', handleViewportResize);
-        window.visualViewport.addEventListener('scroll', handleViewportResize);
-    })();
-    
     // ==========================================
     // 6. ADAPTIVE DOM CARD RENDERING BLOCKS
     // ==========================================
@@ -1347,77 +1321,6 @@ toggleBtn.addEventListener('click', () => {
     // This flips between the sun and moon instantly via CSS
     toggleBtn.classList.toggle('dark-mode'); 
 });
-
-// ==========================================================================
-    // SIDEBAR SMART TOUCH ENGINE (Swipes Anywhere + Restores Taps/Clicks)
-    // ==========================================================================
-    (function initSidebarSwipeGestures() {
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchEndX = 0;
-        let touchEndY = 0;
-
-        const sidebarElement = document.getElementById('sidebar');
-        const overlayElement = document.getElementById('sidebarOverlay');
-
-        if (!sidebarElement || !overlayElement) return;
-
-        window.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
-        }, { passive: true });
-
-        window.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
-            
-            // 1. TAP DETECTION: If the movement is less than 8px, treat it as a normal tap
-            const moveX = Math.abs(touchEndX - touchStartX);
-            const moveY = Math.abs(touchEndY - touchStartY);
-            if (moveX < 8 && moveY < 8) {
-                // Let the browser handle standard element click handlers (like clicking the overlay)
-                return;
-            }
-
-            // 2. SWIPE DETECTION: Process actual drag movements
-            handleSwipeGesture();
-        }, { passive: true });
-
-        function handleSwipeGesture() {
-            const deltaX = touchEndX - touchStartX;
-            const deltaY = touchEndY - touchStartY;
-
-            // Ignore vertical scrolling motions
-            if (Math.abs(deltaY) > Math.abs(deltaX)) return;
-
-            const swipeThreshold = 60;
-            const isSidebarOpen = sidebarElement.classList.contains('active') || document.body.classList.contains('sidebar-active');
-
-            if (!isSidebarOpen) {
-                // Swipe Right: Open menu from anywhere
-                if (deltaX > swipeThreshold) {
-                    openMobileSidebar();
-                }
-            } else {
-                // Swipe Left: Close menu from anywhere
-                if (deltaX < -swipeThreshold) {
-                    closeMobileSidebar();
-                }
-            }
-        }
-
-        function openMobileSidebar() {
-            sidebarElement.classList.add('active');
-            overlayElement.classList.add('active');
-            document.body.classList.add('sidebar-active');
-        }
-
-        function closeMobileSidebar() {
-            sidebarElement.classList.remove('active');
-            overlayElement.classList.remove('active');
-            document.body.classList.remove('sidebar-active');
-        }
-    })();
 
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
