@@ -457,7 +457,7 @@ function compileMasterKnowledgeBase() {
                 if (menuBtn) menuBtn.classList.remove('is-open');
             }
         })();
-        
+
     }
 
     function verifySendBufferCapacity() {
@@ -554,8 +554,8 @@ function compileMasterKnowledgeBase() {
 
         if (!SystemState.groqKey) {
             return `<div class="clinical-card-container">
-                <div class="clinical-card-header"><div class="clinical-card-title"><span class="material-symbols-rounded" style="color:var(--clinical-warning)">cloud_off</span><span>Groq Pipeline Gateway Unbound</span></div></div>
-                <p class="clinical-text-block">No entry exists in localized local data files. Link your custom Groq API infrastructure authorization parameter keys inside standard <b>Settings</b> panel sheets to initialize downstream LLM inference layers mapping this layout.</p>
+                <div class="clinical-card-header"><div class="clinical-card-title"><span class="material-symbols-rounded" style="color:var(--clinical-warning)">cloud_off</span><span>Groq API Not Integrated</span></div></div>
+                <p class="clinical-text-block">No entry exists in local database. Link your custom Groq API keys inside <b>Settings</b> to initialize your search.</p>
             </div>`;
         }
 
