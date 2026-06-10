@@ -462,19 +462,31 @@ function compileMasterKnowledgeBase() {
         // TOUCHSCREEN VIRTUAL KEYBOARD LAYOUT CLOSURE PATCH
         // ==========================================================================
         (function initTouchKeyboardResetMechanics() {
+            // Target touch-capable or mobile-sized layouts
             const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
-            if (!isTouchTarget) return;
+            if (!isTouchTarget || !window.visualViewport) return;
 
-            // When focus moves away from inputs/textareas, reset window viewport scroll constraints
-            document.addEventListener('focusout', (e) => {
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            // Monitor the true, interactive visual window geometry
+            window.visualViewport.addEventListener('resize', () => {
+                const area = document.getElementById('chatInputPayload');
+                
+                // If an input is not actively focused, the keyboard is closed or closing
+                if (document.activeElement !== area && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                    
+                    // Force microtask to let the operational system render keyboard collapse frame
                     setTimeout(() => {
-                        // Forces the scroll position to snapping bounds 
-                        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                        // Hard reset structural offsets back to absolute window origin coordinates
+                        window.scrollTo(0, 0);
+                        document.body.scrollTop = 0;
                         
-                        // Force layout pass update matrix calculation
-                        window.dispatchEvent(new Event('resize'));
-                    }, 40); // Minimal micro-task delay to allow physical layout frame closure
+                        // Force full DOM recalculation down to the lowest layout layer
+                        const container = document.querySelector('.app-container');
+                        if (container) {
+                            container.style.height = '100dvh';
+                            // Clean up layout cycle immediately after enforcement pass
+                            setTimeout(() => { container.style.height = ''; }, 10);
+                        }
+                    }, 50);
                 }
             });
         })();
