@@ -1447,7 +1447,7 @@ toggleBtn.addEventListener('click', () => {
 const cv = document.getElementById('contentViewport');
 
 alert(
-    'clientHeight=' + cv.clientHeight +
-    '\nscrollHeight=' + cv.scrollHeight +
-    '\nscrollTop=' + cv.scrollTop
+    'offsetHeight=' + cv.offsetHeight +
+    '\nclientHeight=' + cv.clientHeight +
+    '\nstyle.height=' + cv.style.height
 );
