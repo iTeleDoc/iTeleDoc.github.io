@@ -1440,34 +1440,16 @@ toggleBtn.addEventListener('click', () => {
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
 
-// ==========================================================================
-// MOBILE TOUCHSCREEN VIRTUAL KEYBOARD LAYOUT CLOSURE PATCH
-// ==========================================================================
-(function initTouchKeyboardResetMechanics() {
-    // Only run on mobile/touch interfaces
-    const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
-    if (!isTouchTarget || !window.visualViewport) return;
 
-    window.visualViewport.addEventListener('resize', () => {
-        // Check if the user is no longer actively typing in any input field
-        const activeTag = document.activeElement ? document.activeElement.tagName : '';
-        if (activeTag !== 'INPUT' && activeTag !== 'TEXTAREA') {
-            
-            // Allow a tiny delay (microtask) for the virtual keyboard to slide out
-            setTimeout(() => {
-                // 1. Force clear any ghost scrolling offsets trapped by the mobile browser engine
-                window.scrollTo(0, 0);
-                document.body.scrollTop = 0;
-                
-                // 2. Force programmatic refresh to expand layout containers to the very bottom
-                const wrappers = document.querySelectorAll('#wrapper, .app-container');
-                wrappers.forEach(el => {
-                    if (el) {
-                        el.style.height = '100dvh'; // Force Dynamic Viewport Height
-                        setTimeout(() => { el.style.height = ''; }, 20); // Clean up immediately
-                    }
-                });
-            }, 60);
-        }
-    });
-})();
+
+
+
+const input = document.querySelector('.input-panel-container');
+
+const r = input.getBoundingClientRect();
+
+alert(
+    'top=' + r.top +
+    '\nbottom=' + r.bottom +
+    '\nviewport=' + window.innerHeight
+);
