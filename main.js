@@ -1518,10 +1518,8 @@ toggleBtn.addEventListener('click', () => {
 
 
 
-const el = document.querySelector('.input-panel-container');
+document.body.style.background = 'red';
 
-alert(
-    'top=' + el.getBoundingClientRect().top +
-    '\nbottom=' + el.getBoundingClientRect().bottom +
-    '\nviewport=' + window.innerHeight
-);
+setTimeout(() => {
+    document.body.style.background = '';
+}, 2000);
