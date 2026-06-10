@@ -14,14 +14,8 @@ window.CALCULATORS_DB = [
             { id: "color", label: "Skin Coloration (Perfusion Axis)", type: "select", options: [{v:"0",l:"Cyanotic / pale across body (0)"},{v:"1",l:"Acrocyanosis (pink core, blue hands/feet) (1)"},{v:"2",l:"Completely pink infant (2)"}] }
         ],
         execute: (inputs) => {
-            // Guard clause prevents layout calculations from breaking if selectors aren't initialized yet
-            if (inputs.hr === undefined || inputs.resp === undefined || inputs.tone === undefined || inputs.reflex === undefined || inputs.color === undefined) {
-                return { value: "Waiting", interpretation: "Select configuration vectors.", management: "Complete parameter fields above.", status: "normal" };
-            }
-
             const sum = parseInt(inputs.hr) + parseInt(inputs.resp) + parseInt(inputs.tone) + parseInt(inputs.reflex) + parseInt(inputs.color);
             let status = "normal", inter = "", mgmt = "";
-            
             if (sum >= 7) {
                 status = "normal"; inter = "Vigorous and excellent systemic transition.";
                 mgmt = "Routine post-delivery standard management care. Protect thermal environment via immediate skin-to-skin contact.";
