@@ -518,7 +518,7 @@ body {
 .chat-row.user-row { justify-content: flex-end; flex-direction: row-reverse; }
 .avatar-container { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .avatar-container.ai { background: var(--gemini-gradient); color: #ffffff; }
-.avatar-container.ai span { font-size: 1.15rem !important; }
+.avatar-container.ai span { font-size: 1.5rem !important; }
 .bubble-content { font-size: 0.98rem; line-height: 1.62; color: var(--text-primary); word-break: break-word; }
 .chat-row:not(.user-row) .bubble-content { flex: 1; }
 .chat-row.user-row .bubble-content { background-color: var(--bubble-user-bg); padding: 12px 20px; border-radius: 12px; max-width: calc(100% - 52px); width: auto; }
