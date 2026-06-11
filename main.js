@@ -572,22 +572,13 @@ function compileMasterKnowledgeBase() {
         const stream = document.getElementById('messageStreamTarget');
         const loader = document.createElement('div');
         loader.className = 'chat-row';
-        loader.className = 'chat-row';
         loader.innerHTML = `
-            <div class="avatar-container ai" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(66, 133, 244, 0.1); border-radius: 50%; color: var(--accent-blue);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-                    <path d="M12 6v12"></path>
-                    <path d="M8 10v4"></path>
-                    <path d="M16 11v2"></path>
-                    <path d="M4.5 12h15"></path>
-                </svg>
-            </div>
-            <div class="bubble-content" style="width: 100%; max-width: 100%; margin-left: 12px;">
+            <div class="avatar-container ai"><span class="material-symbols-rounded">network_intelligence</span></div>
+            <div class="bubble-content">
                 <div class="typing-pulse-container">
                     <div class="pulse-dot"></div><div class="pulse-dot"></div><div class="pulse-dot"></div>
                 </div>
-            </div> 
+            </div>
         `;
         stream.appendChild(loader); scrollViewportToBottom();
 
@@ -1222,23 +1213,13 @@ For clinical data lookups, return data utilizing our classic high-grade structur
         const loader = document.createElement('div');
         loader.className = 'chat-row';
         loader.innerHTML = `
-        <div class="avatar-container ai" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: linear-gradient(135deg, rgba(0, 210, 255, 0.1), rgba(0, 82, 255, 0.1)); border: 1px solid rgba(0, 210, 255, 0.2); border-radius: 10px; color: #00d2ff; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-            <!-- Elegant Minimal Medical Wave Node -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-                <path d="M12 6v12" stroke="#0052ff"/>
-                <path d="M8 10v4"/>
-                <path d="M16 11v2"/>
-            </svg>
-        </div>
-        <div class="bubble-content" style="margin-left: 14px;">
-            <div class="typing-pulse-container">
-                <div class="pulse-dot" style="background-color: #00d2ff;"></div>
-                <div class="pulse-dot" style="background-color: #0084ff;"></div>
-                <div class="pulse-dot" style="background-color: #0052ff;"></div>
+            <div class="avatar-container ai"><span class="material-symbols-rounded">clinical_notes</span></div>
+            <div class="bubble-content">
+                <div class="typing-pulse-container">
+                    <div class="pulse-dot"></div><div class="pulse-dot"></div><div class="pulse-dot"></div>
+                </div>
             </div>
-        </div>
-    `;
+        `;
         if (stream) {
             stream.appendChild(loader);
             scrollViewportToBottom();
