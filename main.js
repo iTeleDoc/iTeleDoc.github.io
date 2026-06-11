@@ -572,13 +572,22 @@ function compileMasterKnowledgeBase() {
         const stream = document.getElementById('messageStreamTarget');
         const loader = document.createElement('div');
         loader.className = 'chat-row';
+        loader.className = 'chat-row';
         loader.innerHTML = `
-            <div class="avatar-container ai"><span class="material-symbols-rounded">clinical_notes</span></div>
-            <div class="bubble-content">
+            <div class="avatar-container ai" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: rgba(66, 133, 244, 0.1); border-radius: 50%; color: var(--accent-blue);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                    <path d="M12 6v12"></path>
+                    <path d="M8 10v4"></path>
+                    <path d="M16 11v2"></path>
+                    <path d="M4.5 12h15"></path>
+                </svg>
+            </div>
+            <div class="bubble-content" style="width: 100%; max-width: 100%; margin-left: 12px;">
                 <div class="typing-pulse-container">
                     <div class="pulse-dot"></div><div class="pulse-dot"></div><div class="pulse-dot"></div>
                 </div>
-            </div>
+            </div> 
         `;
         stream.appendChild(loader); scrollViewportToBottom();
 
@@ -630,7 +639,7 @@ function compileMasterKnowledgeBase() {
         if (!SystemState.groqKey) {
             return `<div class="clinical-card-container">
                 <div class="clinical-card-header"><div class="clinical-card-title"><span class="material-symbols-rounded" style="color:var(--clinical-warning)">cloud_off</span><span>Groq API Not Integrated</span></div></div>
-                <p class="clinical-text-block">No entry exists in local database. Link your custom Groq API keys inside <b>Settings</b> to initialize your search.</p>
+                <p class="clinical-text-block">No entry exists in local database. Link your custom Groq API keys inside <a href="#" onclick="document.getElementById('settingsToggleBtn').click(); return false;" style="color: #5c6bc0; text-decoration: none;"><b>Settings</b></a> to initialize your search.</p>
             </div>`;
         }
 
