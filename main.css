@@ -3,7 +3,7 @@
  */
  
  /* --- Core UI CSS Design Tokens --- */
- :root {
+:root {
     --font-stack: "Google Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     --transition-smooth: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --gemini-gradient: linear-gradient(74deg, #4285f4 0%, #9b51e0 30%, #ea4335 65%, #fbbc04 100%);
@@ -154,7 +154,6 @@
     .menu-toggle-btn {
         display: inline-flex !important;
     }
-
 }
 
 /* ==========================================================================
@@ -712,77 +711,113 @@
         width: 100% !important;
     }
 
-    .cortexa-dynamic-trigger {
-        border-radius: 12px !important; /* Fixed: Unified rectangle shape preserved for touch queries */
-    }
-    
-    /* Configures the sidebar panel into an absolute elastic off-screen drawer layer */
-    .sidebar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        height: 100vh;
-        height: 100dvh;
-        width: 280px !important; 
-        max-width: 85vw; /* Absolute block constraint layout protection */
-        transform: translateX(-100%); /* Slides entirely out of view when closed */
-        z-index: 200;
-        transition: transform var(--transition-smooth);
-    }
-    
-    /* Opened slide drawer mapping rules for landscape and mobile devices */
-    .sidebar.mobile-open { 
-        transform: translateX(0) !important; 
-        width: 280px !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
+/* Clean, universal look for the menu button trigger inside the top bar on touch interfaces */
+.cortexa-dynamic-trigger {
+    border-radius: 12px !important; 
+    display: inline-flex !important; /* Forces the hamburger menu to be visible and interactive inside the top bar */
+}
 
+/* REFACTORED: The sidebar now acts as a top-docked drop-down sheet */
+.sidebar {
+    position: relative !important; /* Replaces fixed/absolute positioning so it sits inline and pushes the page layout down */
+    top: 0;
+    left: 0;
+    width: 100% !important; /* Spans the entire width of the viewport */
+    max-width: 100vw !important;
     
-    /* Guarantees that internal components maintain structure when slid out on mobile devices */
-    .sidebar.collapsed .cortexa-sidebar-brand {
-        display: block !important;
-        opacity: 1 !important;
-        width: auto !important;
-        visibility: visible !important;
-    }
+    /* Starts completely collapsed vertically, cutting off overflowing child links */
+    max-height: 0 !important; 
+    opacity: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    transform: none !important; /* Removes horizontal slide transitions entirely */
+    z-index: 90 !important; /* Lowers layer order relative to a fixed top header if present */
+    border-bottom: 1px solid var(--border-color);
+    
+    /* Smooth transformation expanding the actual body by separating the header from content */
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.25s ease-in-out,
+                visibility 0.25s ease-in-out !important;
+}
 
-    
-    /* Restores absolute native scrolling capabilities to the sidebar component arrays */
-    .sidebar.collapsed .sidebar-scroll-zone { 
-        padding: 0 12px !important; 
-        display: block !important; 
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-    }
-    
-    .sidebar.collapsed .history-item-wrapper, 
-    .sidebar.collapsed .history-item { 
-        width: auto !important; 
-        border-radius: 20px !important; 
-        justify-content: flex-start !important; 
-    }
-    
-    .sidebar.collapsed .sidebar-footer { 
-        padding: 12px !important; 
-        display: flex !important; 
-        flex-direction: column !important; 
-        align-items: stretch !important; 
-    }
-    
-    .sidebar.collapsed .footer-nav-btn { 
-        width: auto !important; 
-        border-radius: 20px !important; 
-        justify-content: flex-start !important; 
-    }
-    
-    .sidebar.collapsed .sidebar-action-pill-btn { 
-        width: 100% !important; 
-        border-radius: 24px !important; 
-        justify-content: flex-start !important; 
-        padding: 12px 16px !important; 
-    }
+/* REFACTORED: Dropdown menu open state */
+.sidebar.mobile-open { 
+    max-height: 75vh !important; /* Expands open dynamically to cover up to 75% of the screen height */
+    opacity: 1 !important;
+    visibility: visible !important;
+    overflow-y: auto !important; /* Lets users scroll content items vertically inside the dropdown if list overflows */
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* Redundant structural branding header disappears because the top bar already contains the app logo */
+.sidebar.mobile-open .sidebar-brand-header {
+    display: none !important;
+}
+
+/* Omit and disable desktop sidebar collapsing rules entirely on touch devices.
+   Forces all interior navigation components to keep their layout text and structure 
+   intact when flowing downwards rather than wrapping or crushing icons.
+*/
+.sidebar.collapsed {
+    position: relative !important;
+    width: 100% !important;
+    max-height: 0 !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    transform: none !important;
+}
+
+.sidebar .cortexa-sidebar-brand {
+    display: block !important;
+    opacity: 1 !important;
+    width: auto !important;
+    visibility: visible !important;
+}
+
+.sidebar .btn-text, 
+.sidebar .section-controls-header,
+.sidebar .history-item-text, 
+.sidebar .item-action-trigger-btn,
+.sidebar .pinned-indicator-badge { 
+    display: flex !important; 
+}
+
+.sidebar .sidebar-scroll-zone { 
+    padding: 12px 16px !important; 
+    display: block !important; 
+    overflow-y: visible !important;
+}
+
+.sidebar .history-item-wrapper, 
+.sidebar .history-item { 
+    width: 100% !important; 
+    border-radius: 12px !important; 
+    justify-content: flex-start !important; 
+}
+
+.sidebar .sidebar-footer { 
+    padding: 16px !important; 
+    display: flex !important; 
+    flex-direction: row !important; /* Aligns footer items side-by-side inside the dropdown to save vertical room */
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    align-items: center !important; 
+}
+
+.sidebar .footer-nav-btn { 
+    width: auto !important; 
+    flex: 1 1 auto !important;
+    border-radius: 12px !important; 
+    justify-content: center !important; 
+}
+
+.sidebar .sidebar-action-pill-btn { 
+    width: 100% !important; 
+    border-radius: 12px !important; 
+    justify-content: center !important; 
+    padding: 10px 16px !important; 
+}
 
     /* ----------------------------------------------------------------------
        TOUCHSCREEN THREE-DOTS ALWAYS-ON ENGINE
@@ -916,13 +951,16 @@
     user-select: none;
 }
 
-.sidebar-overlay {
-    position: fixed;
-    /* Offset the overlay so it also begins right beneath the header bar */
-    top: calc(4.5rem + env(safe-area-inset-top, 0px));
-    left: 0;
-    right: 0;
-    bottom: 0;
+/* Clean glassmorphic dimming layer background */
+.sidebar-overlay { 
+    position: fixed; 
+    inset: 0; 
+    background-color: rgba(0, 0, 0, 0.4); 
+    backdrop-filter: blur(4px);
+    z-index: 199;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
 }
 
 /* Activated state layer */
@@ -1234,54 +1272,13 @@
    @media (max-width: 992px) {
     #sidebar {
         will-change: transform;
+        transform: translateX(-100%);
         transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
-
-    @media (max-width: 1024px) {
-        .sidebar {
-            position: fixed;
-            /* Position exactly underneath the sticky top nav-bar */
-            top: calc(4.5rem + env(safe-area-inset-top, 0px)) !important; 
-            left: 0;
-            right: 0;
-            bottom: auto; /* Dissolves full-screen height locking */
-            
-            /* Sets menu size behavior */
-            width: 100% !important;
-            max-width: 100vw !important;
-            max-height: 75vh; /* Prevents long menus from overflowing the viewport view */
-            
-            /* Starts off hidden by shrinking up on the Y-axis */
-            transform: translateY(-100%); 
-            opacity: 0;
-            visibility: hidden;
-            z-index: 150;
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 8px 24px var(--shadow-alpha);
-        }
     
-        /* Active drop-down transition states triggered by system controls */
-        .sidebar.mobile-open,
-        body.sidebar-active #sidebar,
-        body.sidebar-active .sidebar.collapsed {
-            transform: translateY(0) !important;
-            width: 100% !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-        }
-    }
-    
-    @media (max-width: 992px) {
-        #sidebar {
-            will-change: transform, opacity;
-            transform: translateY(-100%);
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease !important;
-        }
-        
-        #sidebar.active,
-        body.sidebar-active #sidebar {
-            transform: translateY(0) !important;
-        }
+    #sidebar.active,
+    body.sidebar-active #sidebar {
+        transform: translateX(0) !important;
     }
 
     #sidebarOverlay {
