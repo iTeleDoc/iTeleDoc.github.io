@@ -64,10 +64,13 @@ function compileMasterKnowledgeBase() {
         renderLibraryWorkspaceScreen();
         verifySendBufferCapacity();
 
-        // Allow the stylesheet layout matrix to govern viewport adjustments.
-        const desktopView = window.matchMedia('(min-width: 1025px)');
-        if (desktopView.matches) {
-            document.getElementById('sidebar')?.classList.add('collapsed');
+        // Safely collapse the desktop view on load without touching mobile panels
+        const isMobileOrTablet = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+        if (!isMobileOrTablet) {
+            const sidebarElement = document.getElementById('sidebar');
+            if (sidebarElement) {
+                sidebarElement.classList.add('collapsed');
+            }
         }
     }
 
@@ -185,17 +188,14 @@ function compileMasterKnowledgeBase() {
         const area = document.getElementById('chatInputPayload');
         const submit = document.getElementById('submitPromptBtn');
     
-        // Helper tool function to cleanly hide the mobile drawer dropdown
+        // Helper tool function to cleanly hide the mobile drawer
         function closeMobileSidebarIfOpen() {
             const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
             if (isTouchTarget) {
                 const sidebar = document.getElementById('sidebar');
                 if (sidebar && sidebar.classList.contains('mobile-open')) {
                     sidebar.classList.remove('mobile-open');
-                    const menuToggleBtn = document.getElementById('menuToggleBtn');
-                    const collapseSidebarBtn = document.getElementById('collapseSidebarBtn');
-                    if (menuToggleBtn) menuToggleBtn.classList.remove('is-open');
-                    if (collapseSidebarBtn) collapseSidebarBtn.classList.remove('is-open');
+                    document.getElementById('sidebarOverlay').classList.remove('active');
                 }
             }
         }
@@ -224,6 +224,28 @@ function compileMasterKnowledgeBase() {
         document.getElementById('libraryNavBtn').addEventListener('click', () => {
             routeWorkspaceView('libraryWorkspaceScreen');
             closeMobileSidebarIfOpen();
+        });
+    
+        document.getElementById('collapseSidebarBtn').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+    
+            if (isTouchTarget) {
+                sidebar.classList.remove('mobile-open');
+                document.getElementById('sidebarOverlay').classList.remove('active');
+            } else {
+                sidebar.classList.toggle('collapsed');
+            }
+        });
+        
+        document.getElementById('menuToggleBtn').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.add('mobile-open');
+            document.getElementById('sidebarOverlay').classList.add('active');
+        });
+    
+        document.getElementById('sidebarOverlay').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.remove('mobile-open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
         });
     
         if (area) {
@@ -344,61 +366,173 @@ function compileMasterKnowledgeBase() {
                 }
             });
         }
-
-        // ==========================================================================
-        // REFACTORED TOUCH SCREEN DROP DOWN ROUTINES
-        // ==========================================================================
-        const sidebarElement = document.getElementById('sidebar');
-
-        function toggleMobileDropdown(e) {
-            if (e) e.stopPropagation(); // Stop bubble tracking to prevent immediate click closure
-            
-            const isMobileLayout = window.matchMedia('(max-width: 1024px)').matches || window.matchMedia('(pointer: coarse)').matches;
-            
-            if (isMobileLayout) {
-                sidebarElement.classList.toggle('mobile-open');
-                
-                // Sync interior toggle button active states if needed
-                if (sidebarElement.classList.contains('mobile-open')) {
-                    if (menuToggleBtn) menuToggleBtn.classList.add('is-open');
-                    if (collapseSidebarBtn) collapseSidebarBtn.classList.add('is-open');
-                } else {
-                    if (menuToggleBtn) menuToggleBtn.classList.remove('is-open');
-                    if (collapseSidebarBtn) collapseSidebarBtn.classList.remove('is-open');
-                }
-            } else {
-                // Fallback safety layer for standard desktop layouts
-                if (sidebarElement) sidebarElement.classList.toggle('collapsed');
-            }
-        }
-
-        // 1. Hook top bar hamburger menu button to toggle dropdown menu open/close state
-        if (menuToggleBtn) {
-            menuToggleBtn.addEventListener('click', toggleMobileDropdown);
-        }
-
-        // 2. Make the interior hamburger menu button collapse/exit the menu instantly while inside
-        if (collapseSidebarBtn) {
-            collapseSidebarBtn.addEventListener('click', toggleMobileDropdown);
-        }
-
-        // 3. Global click coordinator: Tap anywhere outside the menu on touch screens to exit
-        document.addEventListener('click', (event) => {
-            const isMobileLayout = window.matchMedia('(max-width: 1024px)').matches || window.matchMedia('(pointer: coarse)').matches;
-            
-            if (isMobileLayout && sidebarElement && sidebarElement.classList.contains('mobile-open')) {
-                // Verify if click target resides entirely outside both the menu sheet container and the hamburger icon
-                const clickedInsideMenu = sidebarElement.contains(event.target);
-                const clickedMenuIcon = menuToggleBtn && menuToggleBtn.contains(event.target);
-                
-                if (!clickedInsideMenu && !clickedMenuIcon) {
-                    sidebarElement.classList.remove('mobile-open');
-                    if (menuToggleBtn) menuToggleBtn.classList.remove('is-open');
-                    if (collapseSidebarBtn) collapseSidebarBtn.classList.remove('is-open');
-                }
-            }
-        });
         
+        // Sidebar toggle click logic
+        if (collapseSidebarBtn) {
+            collapseSidebarBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                collapseSidebarBtn.classList.toggle('is-open'); // Toggles open state (merges into 1 line)
+            });
+        }
+
+        // Drawer Menu toggle click logic (Synchronized feature match)
+        if (menuToggleBtn) {
+            menuToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuToggleBtn.classList.toggle('is-open'); // Toggles open state (merges into 1 line)
+            });
+        }
+
+        // ==========================================================================
+        // NATIVE TOUCH GESTURE SLIDE DISPATCH ENGINE
+        // ==========================================================================
+        (function initSidebarSwipeMechanics() {
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+
+            const SWIPE_THRESHOLD_X = 50;  // Minimum swipe distance in pixels
+            const SWIPE_CONSTRAINT_Y = 40; // Max allowed vertical shift (prevents conflict with scrolling)
+            const EDGE_BOUNDARY_X = 50;    // Swipe right must start within 50px of left screen edge
+
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (!sidebar || !overlay) return;
+
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].clientX;
+                touchStartY = e.changedTouches[0].clientY;
+            }, { passive: true });
+
+            document.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].clientX;
+                touchEndY = e.changedTouches[0].clientY;
+                handleSwipeResolution();
+            }, { passive: true });
+
+            function handleSwipeResolution() {
+                const deltaX = touchEndX - touchStartX;
+                const deltaY = Math.abs(touchEndY - touchStartY);
+
+                // If vertical scrolling is prominent, cancel sidebar actions
+                if (deltaY > SWIPE_CONSTRAINT_Y) return;
+
+                const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+                if (!isTouchDevice) return;
+
+                const isOpen = sidebar.classList.contains('mobile-open');
+
+                // SWIPE RIGHT: Opens the sidebar if swipe initiated near the left margin
+                if (deltaX > SWIPE_THRESHOLD_X && !isOpen) {
+                    if (touchStartX <= EDGE_BOUNDARY_X) {
+                        openDrawer();
+                    }
+                } 
+                // SWIPE LEFT: Closes the sidebar if swiped anywhere on screen while open
+                else if (deltaX < -SWIPE_THRESHOLD_X && isOpen) {
+                    closeDrawer();
+                }
+            }
+
+            function openDrawer() {
+                sidebar.classList.add('mobile-open');
+                overlay.classList.add('active');
+                
+                // Keep the structural action buttons synchronized with open state geometries
+                const collapseBtn = document.getElementById('collapseSidebarBtn');
+                const menuBtn = document.getElementById('menuToggleBtn');
+                if (collapseBtn) collapseBtn.classList.add('is-open');
+                if (menuBtn) menuBtn.classList.add('is-open');
+            }
+
+            function closeDrawer() {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+                
+                const collapseBtn = document.getElementById('collapseSidebarBtn');
+                const menuBtn = document.getElementById('menuToggleBtn');
+                if (collapseBtn) collapseBtn.classList.remove('is-open');
+                if (menuBtn) menuBtn.classList.remove('is-open');
+            }
+        })();
+
+        // ==========================================================================
+        // TOUCHSCREEN VIRTUAL KEYBOARD LAYOUT CLOSURE PATCH
+        // ==========================================================================
+        (function initTouchKeyboardResetMechanics() {
+            const isTouchTarget =
+                window.matchMedia('(pointer: coarse)').matches ||
+                window.innerWidth <= 1024;
+        
+            if (!isTouchTarget || !window.visualViewport) return;
+        
+            const restoreViewport = () => {
+                document.documentElement.style.height = '100dvh';
+                document.body.style.height = '100dvh';
+        
+                const app = document.querySelector('.app-container');
+                const workspace = document.querySelector('.main-workspace');
+                const viewport = document.getElementById('contentViewport');
+        
+                if (app) app.style.height = '100dvh';
+                if (workspace) workspace.style.height = '100dvh';
+        
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+        
+                        window.scrollTo(0, 0);
+        
+                        if (viewport) {
+        
+                            // Safari keyboard-close fix
+                            viewport.style.height = '0px';
+        
+                            viewport.offsetHeight; // force layout flush
+        
+                            requestAnimationFrame(() => {
+        
+                                viewport.style.height = '';
+        
+                                viewport.offsetHeight; // force recalculation
+        
+                            });
+                        }
+        
+                    });
+                });
+            };
+        
+            let lastViewportHeight = window.visualViewport.height;
+        
+            window.visualViewport.addEventListener('resize', () => {
+                const active = document.activeElement;
+        
+                const editing =
+                    active &&
+                    (
+                        active.tagName === 'TEXTAREA' ||
+                        active.tagName === 'INPUT'
+                    );
+        
+                const currentHeight = window.visualViewport.height;
+        
+                const keyboardClosed =
+                    currentHeight > lastViewportHeight + 80;
+        
+                lastViewportHeight = currentHeight;
+        
+                if (!editing || keyboardClosed) {
+                    setTimeout(restoreViewport, 150);
+                }
+            });
+        
+            document.addEventListener('focusout', () => {
+                setTimeout(restoreViewport, 150);
+            });
+        })();
+
     }
 
     function verifySendBufferCapacity() {
