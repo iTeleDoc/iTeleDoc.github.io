@@ -1514,3 +1514,12 @@ toggleBtn.addEventListener('click', () => {
 
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
+
+
+
+
+
+
+
+
+
