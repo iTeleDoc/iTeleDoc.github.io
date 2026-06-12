@@ -1652,42 +1652,4 @@ body {
     /* Legacy Browser Fallback (Ensures text stays visible if clipping fails) */
     color: #4285f4; 
     
-    /* Modern Text-Clipping Gradient Matrix */
-    background: linear-gradient(
-        74deg, 
-        #4285f4 0%, 
-        #9b51e0 25%, 
-        #ea4335 50%, 
-        #fbbc04 75%, 
-        #4285f4 100%
-    );
-    background-size: 200% auto;
-    
-    /* Clipping Mask Pipeline */
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    
-    /* Optional: Hardware-Accelerated Animation Loop */
-    animation: gradientShimmer 6s linear infinite;
-}
-
-/* Smooth translation across the 200% background scale */
-@keyframes gradientShimmer {
-    0% { background-position: 0% center; }
-    100% { background-position: 200% center; }
-}
-.suggestion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media (max-width: 600px) { .suggestion-grid { grid-template-columns: 1fr; } }
-
-.card { background-color: var(--card-surface); padding: 18px 20px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border-color); }
-.card:active { background-color: var(--bg-hover); }
-.card-content p { color: var(--text-primary); font-size: 0.95rem; line-height: 1.4; margin-top: 8px; font-weight: 400; }
-.card-icon { color: var(--text-secondary); font-size: 22px; }
-
-
-
-
-#chatInput { flex: 1; background: none; border: none; outline: none; color: var(--text-primary); font-family: inherit; font-size: 1rem; resize: none; max-height: 150px; padding: 12px 4px; line-height: 1.4; }
-#chatInput::placeholder { color: var(--text-secondary); }
 
