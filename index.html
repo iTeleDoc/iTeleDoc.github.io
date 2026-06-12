@@ -44,7 +44,6 @@
     
             <div class="sidebar-header">
                 <button class="sidebar-action-pill-btn" id="newChatBtn" title="Message">
-                    <!-- ChatGPT style composer/edit icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 20h9"></path>
                         <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
@@ -52,7 +51,6 @@
                     <span class="btn-text">New Chat</span>
                 </button>
                 <button class="sidebar-action-pill-btn" id="sidebarSearchNavBtn" title="Search">
-                    <!-- ChatGPT style search magnifying glass -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <path d="m21 21-4.3-4.3"></path>
@@ -80,7 +78,6 @@
 
             <div class="sidebar-footer">
                 <button class="footer-nav-btn" id="libraryNavBtn" title="Library">
-                    <!-- Gemini/ChatGPT style clean geometric open book icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
@@ -114,7 +111,6 @@
                             </svg>
                         </div>
                     </button>
-                    <!-- Cortexa brand has been stripped out of here completely -->
                 </div>
                 <div class="nav-right">
                     <button class="theme-quick-toggle-btn" id="themeQuickToggleBtn" title="Toggle Theme">
@@ -145,14 +141,12 @@
                             </div>
                             <p class="card-text">Rapid Sequence Intubation</p>
                         </div>
-                        <!-- New Card: Epinephrine -->
                         <div class="suggestion-card" data-prompt="Epinephrine Dosing & Administration">
                             <div class="card-header-icon-row">
                                 <span class="material-symbols-rounded card-icon clinical-card-icon">medication</span>
                             </div>
                             <p class="card-text">Epinephrine Dosing & Administration</p>
                         </div>
-                        <!-- New Card: Glasgow Coma Scale (GCS) -->
                         <div class="suggestion-card" data-prompt="Glasgow Coma Scale (GCS)">
                             <div class="card-header-icon-row">
                                 <span class="material-symbols-rounded card-icon clinical-card-icon">neurology</span>
@@ -197,14 +191,12 @@
                 </div>
 
                 <div class="view-panel hidden" id="settingsWorkspaceScreen">
-                    <!-- Header Block synced exactly with Library/Search typography -->
                     <div class="workspace-header-block">
                         <h2>System Configuration</h2>
                         <p>Manage API integrations, data profiles, and platform environment configurations.</p>
                     </div>
                 
                     <div class="suggestions-grid" style="grid-template-columns: 1fr; gap: 24px; margin-top: 24px;">
-                        <!-- Configuration Card 1: API Integration -->
                         <div class="suggestion-card" style="cursor: default; min-height: auto; gap: 16px;">
                             <div class="card-header-icon-row" style="margin-bottom: 0;">
                                 <span class="card-meta-tag-pill" style="font-weight: 700;">Groq API Integration</span>
@@ -222,7 +214,6 @@
                             </div>
                         </div>
                 
-                        <!-- Configuration Card 2: Environment Options -->
                         <div class="suggestion-card" style="cursor: default; min-height: auto; gap: 16px;">
                             <div class="card-header-icon-row" style="margin-bottom: 0;">
                                 <span class="card-meta-tag-pill"><strong>Local Storage & Cache</strong></span>
@@ -245,7 +236,6 @@
                 <div class="input-wrapper-matrix">
                     <textarea id="chatInputPayload" rows="1" placeholder="Ask Cortexa"></textarea>
                     <div class="input-actions-bar">
-
                         <button class="submit-prompt-btn" id="submitPromptBtn" disabled title="Dispatch Command">
                             <span class="material-symbols-rounded">send</span>
                         </button>
