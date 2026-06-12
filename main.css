@@ -1,5 +1,5 @@
 /**
- * Cortexa AI — Styles
+ * Cortexa AI — Core Styles Sheet
  */
  
  /* --- Core UI CSS Design Tokens --- */
@@ -173,7 +173,7 @@ body {
     width: 44px !important;
     height: 44px !important;
     justify-content: center !important;
-    border-radius: 12px !important; /* Fixed: From 50% to matching rounded rectangle layout */
+    border-radius: 12px !important; 
     margin: 2px 0 !important;
 }
 
@@ -182,7 +182,7 @@ body {
     height: 44px !important;
     padding: 0 !important;
     justify-content: center !important;
-    border-radius: 12px !important; /* Fixed: From 50% to matching rounded rectangle layout */
+    border-radius: 12px !important; 
 }
 
 .sidebar.collapsed .sidebar-footer {
@@ -198,7 +198,7 @@ body {
     height: 44px !important;
     padding: 0 !important;
     justify-content: center !important;
-    border-radius: 12px !important; /* Fixed: From 50% to matching rounded rectangle layout */
+    border-radius: 12px !important; 
 }
 
 .sidebar.collapsed .sidebar-action-pill-btn { 
@@ -206,7 +206,7 @@ body {
     height: 44px; 
     padding: 0; 
     justify-content: center; 
-    border-radius: 12px; /* Fixed: From 50% to matching rounded rectangle layout */
+    border-radius: 12px; 
 }
 
 /* ==========================================================================
@@ -275,7 +275,7 @@ body {
 }
 .history-item-wrapper:hover .item-action-trigger-btn { display: flex; }
 .item-action-trigger-btn:hover { 
-    background-color: rgba(255, 255, 255, 0.12) !important; /* !important breaks through the layout overrides */
+    background-color: rgba(255, 255, 255, 0.12) !important; 
     color: var(--text-primary) !important; 
     border-radius: 9px !important; 
 }
@@ -349,912 +349,213 @@ body {
 /* --- Welcome Dashboard Layout --- */
 .welcome-heading-block { margin-bottom: 48px; }
 .welcome-heading { font-size: 3.2rem; font-weight: 500; line-height: 1.15; margin-bottom: 6px; }
-  
-.gradient-text { 
-    display: inline-block; 
-    background: var(--gemini-gradient); 
-    background-size: 200% auto; 
-    -webkit-background-clip: text; 
-    background-clip: text;
-    -webkit-text-fill-color: transparent; 
-    animation: gemini-shimmer 6s ease infinite; 
-    color: transparent;
-    text-shadow: none; 
-}
+.gradient-text { display: inline-block; background: var(--gemini-gradient); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: gemini-shimmer 6s ease infinite; color: transparent; text-shadow: none; }
 .sub-welcome { color: var(--text-secondary); font-size: 1.25rem; font-weight: 400; }
 
-@keyframes gemini-shimmer {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+@keyframes gemini-shimmer { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
 /* ==========================================================================
    MENU TOGGLE BUTTONS (DESKTOP & TOUCHSCREEN UNIFICATION)
    ========================================================================== */
-.menu-toggle-btn { 
-    display: none; 
-    background: none; 
-    border: none; 
-    color: var(--text-primary); 
-    cursor: pointer; 
-    transition: transform 0.2s ease; 
-    border-radius: 12px; /* Fixed: Rectangle matching theme button shape system */
-}
-
-.menu-toggle-btn:hover {
-    background-color: var(--bg-hover); 
-}
+.menu-toggle-btn { display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; transition: transform 0.2s ease; border-radius: 12px; }
+.menu-toggle-btn:hover { background-color: var(--bg-hover); }
 
 .cortexa-dynamic-trigger {
-    position: relative;
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px; /* Fixed: Circle transformed to rounded corner rectangle layout specs */
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s ease;
+    position: relative; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; background: transparent; border: none; cursor: pointer; transition: background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s ease;
 }
-
-.cortexa-dynamic-trigger:hover {
-    background-color: var(--bg-hover); 
-}
-
-.cortexa-dynamic-trigger:active,
-.menu-toggle-btn:active {
-    transform: scale(0.92);
-}
+.cortexa-dynamic-trigger:hover { background-color: var(--bg-hover); }
+.cortexa-dynamic-trigger:active, .menu-toggle-btn:active { transform: scale(0.92); }
 
 /* ==========================================================================
    6. GRID LAYOUTS & INTERACTIVE COMPONENT BLOCKS
    ========================================================================== */
 .suggestions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
-.suggestion-card {
-    background-color: var(--bg-input); border: 1px solid var(--border-color); border-radius: 12px;
-    padding: 20px; min-height: 130px; display: flex; flex-direction: column; justify-content: space-between;
-    cursor: pointer; transition: background-color var(--transition-smooth), transform var(--transition-smooth);
-}
-.suggestion-card:hover { background-color: var(--bg-hover); transform: translateY(-2px); }
-.card-header-icon-row { display: flex; margin-bottom: 12px; }
-.clinical-card-icon { color: var(--accent-blue); font-size: 1.6rem !important; }
-.card-text { font-size: 0.94rem; color: var(--text-primary); line-height: 1.45; font-weight: 500; }
+.suggestion-card { background-color: var(--bg-surface); padding: 22px; border-radius: 16px; cursor: pointer; border: 1px solid transparent; transition: border var(--transition-smooth), background-color var(--transition-smooth); }
+.suggestion-card:hover { background-color: var(--bg-hover); border: 1px solid var(--border-color); }
+.card-inner-flex { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.suggestion-icon { font-size: 1.5rem !important; }
+.card-headline { font-size: 1.05rem; font-weight: 500; }
+.card-caption { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.45; }
 
-.workspace-internal-container { display: flex; flex-direction: column; gap: 24px; }
-.workspace-header-block h2 { font-size: 1.65rem; font-weight: 500; margin-bottom: 4px; }
-.workspace-header-block p { font-size: 0.88rem; color: var(--text-secondary); }
-.workspace-search-bar-wrapper {
-    display: flex; align-items: center; background-color: var(--bg-input); border: 1px solid var(--border-color);
-    border-radius: 28px; padding: 12px 20px; gap: 12px;
-}
-.workspace-search-bar-wrapper span { color: var(--text-secondary); }
-.workspace-search-bar-wrapper input { background: none; border: none; outline: none; width: 100%; font-family: var(--font-stack); color: var(--text-primary); font-size: 0.98rem; }
-
-.search-results-output-grid { display: flex; flex-direction: column; gap: 8px; }
-.search-result-row-card {
-    background-color: var(--bg-input); border: 1px solid var(--border-color); border-radius: 14px;
-    padding: 14px 18px; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
-}
-.search-result-row-card:hover { background-color: var(--bg-hover); }
-.src-meta-block { display: flex; align-items: center; gap: 14px; }
-.src-meta-block span { color: var(--text-secondary); }
-.src-title { font-size: 0.94rem; font-weight: 500; }
-
-.library-accordion-stack { display: flex; flex-direction: column; gap: 10px; }
-.accordion-element-node { background-color: var(--bg-input); border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; }
-.accordion-element-node.expanded { border-color: var(--accent-blue); }
-.accordion-header-trigger {
-    width: 100%; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;
-    background: none; border: none; font-family: var(--font-stack); text-align: left; cursor: pointer; color: var(--text-primary);
-}
-.accordion-header-text-group .node-cat { font-size: 0.68rem; color: var(--accent-blue); font-weight: 600; text-transform: uppercase; margin-bottom: 2px; }
-.accordion-header-text-group .node-title { font-size: 1rem; font-weight: 500; }
-.accordion-header-trigger .chevron-icon { color: var(--text-secondary); transition: transform var(--transition-smooth); }
-.accordion-element-node.expanded .chevron-icon { transform: rotate(180deg); }
-.accordion-body-expansion-layer { max-height: 0; overflow: hidden; transition: max-height 0.25s ease-in-out; background-color: rgba(0,0,0,0.04); }
-.accordion-expansion-content { padding: 20px; font-size: 0.94rem; line-height: 1.6; color: var(--text-primary); border-top: 1px solid var(--border-color); }
-
-.clinical-card-container {
-    background-color: var(--bg-sidebar); border: 1px solid var(--border-color); border-radius: 20px;
-    padding: 24px; margin: 16px 0; box-shadow: 0 4px 16px var(--shadow-alpha);
-}
-.clinical-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
-.clinical-card-title { font-size: 1.15rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-.clinical-badge { font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; text-transform: uppercase; }
-.clinical-badge.normal { background-color: rgba(52, 168, 83, 0.15); color: var(--clinical-success); }
-.clinical-badge.warning { background-color: rgba(251, 188, 4, 0.15); color: var(--clinical-warning); }
-.clinical-badge.alert { background-color: rgba(234, 67, 53, 0.15); color: var(--clinical-alert); }
-
-.clinical-section-block { margin-bottom: 16px; }
-.clinical-section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 6px; letter-spacing: 0.5px; }
-.clinical-section-value { font-size: 1.4rem; font-weight: 600; color: var(--text-primary); }
-.clinical-text-block { font-size: 0.94rem; line-height: 1.55; color: var(--text-primary); }
-
-.inline-calc-form { background-color: var(--bg-surface); border-radius: 12px; padding: 16px; margin-top: 12px; display: flex; flex-direction: column; gap: 12px; }
-.inline-form-row { display: flex; flex-direction: column; gap: 6px; }
-.inline-form-row label { font-size: 0.82rem; font-weight: 500; color: var(--text-secondary); }
-.inline-form-row input, .inline-form-row select {
-    background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px;
-    padding: 10px 14px; color: var(--text-primary); font-family: var(--font-stack); font-size: 0.92rem; outline: none;
-}
-.inline-calc-submit-btn {
-    align-self: flex-end; background-color: var(--accent-blue); color: #ffffff; border: none;
-    border-radius: 8px; padding: 10px 20px; font-family: var(--font-stack); font-size: 0.88rem; font-weight: 600; cursor: pointer;
-}
-.inline-calc-submit-btn:hover { opacity: 0.9; }
-
-.patient-metrics-engine-block {
-    background-color: rgba(66, 133, 244, 0.05); border: 1px dashed var(--accent-blue);
-    padding: 14px; border-radius: 12px; margin-bottom: 16px; display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;
-}
-.patient-metrics-engine-block .inline-form-row { margin: 0; }
-.patient-metrics-engine-block label { font-size: 0.75rem; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; margin-bottom: 4px; display: block; }
-.patient-metrics-engine-block select, .patient-metrics-engine-block input {
-    box-sizing: border-box; height: 34px; padding: 6px 10px; font-size: 0.85rem; line-height: 1.2;
-    background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 6px; width: 100%;
-    color: var(--text-primary); font-family: var(--font-stack); outline: none;
-}
-
-.risk-engine-dropdown-container { background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
-.risk-engine-summary-header { background-color: rgba(234, 67, 53, 0.04); border-bottom: 1px solid var(--border-color); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
-.risk-engine-title-group { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; color: #ea4335; text-transform: uppercase; letter-spacing: 0.5px; }
-.risk-active-counter-badge { background-color: #ea4335; color: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; transition: all var(--transition-smooth); }
-.risk-active-counter-badge.zero { background-color: var(--text-secondary); opacity: 0.6; }
-.risk-engine-dropdown-content { padding: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; background-color: rgba(0, 0, 0, 0.01); }
-.risk-matrix-option { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 0.85rem; line-height: 1.3; color: var(--text-primary); padding: 4px; user-select: none; }
-.risk-matrix-option input[type="checkbox"] { accent-color: #ea4335; width: 15px; height: 15px; margin-top: 1px; cursor: pointer; }
-.risk-factor-coefficient-tag { display: block; font-size: 0.72rem; color: var(--text-secondary); font-weight: 500; margin-top: 2px; }
-
+.text-alert { color: var(--clinical-alert); }
+.text-warning { color: var(--clinical-warning); }
+.text-success { color: var(--clinical-success); }
+.text-blue { color: var(--accent-blue); }
 
 /* ==========================================================================
-   7. CHAT MESSAGE STREAMS & DATA INPUT NODES
+   7. LIVE INTELLIGENCE CONVERSATION MESSAGES CHAT
    ========================================================================== */
-.message-stream { display: flex; flex-direction: column; gap: 32px; }
-.chat-row { display: flex; gap: 20px; align-items: flex-start; }
-.chat-row.user-row { justify-content: flex-end; flex-direction: row-reverse; }
-.avatar-container { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.avatar-container.ai { background: var(--gemini-gradient); color: #ffffff; }
-.avatar-container.ai span { font-size: 1.5rem !important; }
-.bubble-content { font-size: 0.98rem; line-height: 1.62; color: var(--text-primary); word-break: break-word; }
-.chat-row:not(.user-row) .bubble-content { flex: 1; }
-.chat-row.user-row .bubble-content { background-color: var(--bubble-user-bg); padding: 12px 20px; border-radius: 12px; max-width: calc(100% - 52px); width: auto; }
+.messages-scroll-area { display: flex; flex-direction: column; gap: 24px; padding-bottom: 40px; }
+.message-row { display: flex; width: 100%; margin: 4px 0; animation: msgAnim 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes msgAnim { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.input-panel-container {
-    width: 100%; max-width: 760px; margin: 0 auto; 
-    padding: 0 24px calc(16px + env(safe-area-inset-bottom, 0px)) 24px;
-    background-color: var(--bg-main); position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 50;
-}
-.input-panel-container.hidden { display: none !important; }
-.input-wrapper-matrix {
-    background-color: var(--bg-input); border-radius: 28px; padding: 10px 16px 10px 24px;
-    display: flex; align-items: flex-end; gap: 12px; box-shadow: 0 4px 18px var(--shadow-alpha); border: 1px solid var(--border-color);
-}
-.input-wrapper-matrix textarea {
-    flex: 1; background: none; border: none; outline: none; color: var(--text-primary);
-    font-family: var(--font-stack); font-size: 0.98rem; line-height: 1.5; padding: 8px 0; resize: none; max-height: 140px;
-}
-.input-actions-bar { display: flex; align-items: center; gap: 4px; height: 38px; }
-.input-action-btn, .submit-prompt-btn {
-    background: none; border: none; color: var(--text-secondary); cursor: pointer;
-    width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-}
-.input-action-btn:hover { background-color: var(--bg-hover); color: var(--text-primary); }
-.submit-prompt-btn:disabled { opacity: 0.25; cursor: default; }
-.submit-prompt-btn:not(:disabled) { color: var(--accent-blue); }
-.input-disclaimer-text { font-size: 0.72rem; color: var(--text-secondary); text-align: center; margin-top: 12px; line-height: 1.35; }
+.message-row.user-alignment { justify-content: flex-end; }
+.message-row.ai-alignment { justify-content: flex-start; }
+
+.chat-bubble { max-width: 85%; padding: 14px 20px; font-size: 0.96rem; line-height: 1.6; border-radius: 20px; white-space: pre-wrap; word-wrap: break-word; }
+.message-row.user-alignment .chat-bubble { background-color: var(--bubble-user-bg); color: var(--text-primary); border-top-right-radius: 4px; }
+.message-row.ai-alignment .chat-bubble { background: transparent; color: var(--text-primary); padding-left: 0; max-width: 100%; }
+
+/* --- Rendered Clinical Schema Layout Layout Cards --- */
+.system-card-container { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; margin: 12px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 24px var(--shadow-alpha); }
+.system-card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background-color: rgba(255, 255, 255, 0.02); border-bottom: 1px solid var(--border-color); }
+.system-card-title { font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; color: var(--text-primary); }
+.system-card-title span { font-size: 1.25rem !important; color: var(--accent-blue); }
+.system-badge { font-size: 0.72rem; text-transform: uppercase; font-weight: 700; padding: 4px 10px; border-radius: 8px; letter-spacing: 0.4px; }
+.system-badge.normal { background-color: rgba(52, 168, 83, 0.15); color: var(--clinical-success); }
+.system-badge.danger { background-color: rgba(234, 67, 53, 0.15); color: var(--clinical-alert); }
+
+.system-text-block { padding: 18px 20px; font-size: 0.92rem; color: var(--text-secondary); line-height: 1.55; }
+.system-data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; padding: 0 20px 18px 20px; }
+.data-grid-item { background-color: rgba(0,0,0,0.12); padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.02); }
+.data-grid-item-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 4px; font-weight: 500; }
+.data-grid-item-value { font-size: 1rem; font-weight: 600; color: var(--text-primary); }
+
+.accordion-container-card { background: rgba(0,0,0,0.08); border: 1px solid var(--border-color); border-radius: 12px; margin: 12px 20px 18px 20px; overflow: hidden; }
+.accordion-toggle-trigger-bar { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: none; border: none; color: var(--text-primary); font-family: var(--font-stack); font-size: 0.88rem; font-weight: 600; cursor: pointer; text-align: left; }
+.accordion-toggle-trigger-bar:hover { background-color: rgba(255,255,255,0.02); }
+.accordion-body-expansion-layer { max-height: 0; overflow: hidden; transition: max-height var(--transition-smooth) ease-out; background-color: rgba(0,0,0,0.12); }
+.accordion-body-expansion-layer.open { max-height: 1200px; }
+.accordion-content-padded-box { padding: 16px; border-top: 1px solid var(--border-color); }
+
+/* --- Local Dynamic Computation Forms Layout Styles --- */
+.calculation-form-matrix { display: flex; flex-direction: column; gap: 14px; }
+.calculator-input-field-group { display: flex; flex-direction: column; gap: 6px; }
+.calculator-input-field-group label { font-size: 0.82rem; font-weight: 500; color: var(--text-secondary); }
+.calculator-input-field-group input { background-color: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-stack); font-size: 0.9rem; padding: 10px 14px; border-radius: 8px; outline: none; width: 100%; transition: border-color var(--transition-smooth); }
+.calculator-input-field-group input:focus { border-color: var(--accent-blue); }
+.execute-calc-action-btn { background-color: var(--accent-blue); color: #ffffff; border: none; font-family: var(--font-stack); font-weight: 600; font-size: 0.88rem; padding: 12px; border-radius: 8px; cursor: pointer; transition: opacity var(--transition-smooth); text-align: center; margin-top: 4px; }
+.execute-calc-action-btn:hover { opacity: 0.9; }
 
 /* ==========================================================================
-   8. SYSTEM CONTEXT MENUS & MODAL CORE WINDOWS
+   8. FIXED CONTROL INPUT TRAY ARCHITECTURE
    ========================================================================== */
-.context-menu-floating {
-    position: fixed; background-color: var(--bg-surface); border: 1px solid var(--border-color);
-    border-radius: 12px; box-shadow: 0 8px 24px var(--shadow-alpha); padding: 6px 0; min-width: 170px; z-index: 500;
-    display: flex; flex-direction: column;
-}
-.context-action-item {
-    background: none; border: none; padding: 8px 14px; display: flex; align-items: center; gap: 10px;
-    color: var(--text-primary); font-family: var(--font-stack); font-size: 0.86rem; cursor: pointer; text-align: left; width: 100%;
-}
-.context-action-item span:first-child { font-size: 1.1rem !important; color: var(--text-secondary); }
-.context-action-item:hover { background-color: var(--bg-hover); }
-.context-action-item.danger { color: #ea4335; }
-.context-action-item.danger span { color: #ea4335 !important; }
-.context-divider { height: 1px; background-color: var(--border-color); margin: 4px 0; }
+.global-composer-deck { position: fixed; bottom: 0; right: 0; left: 268px; background: linear-gradient(transparent 0%, var(--bg-main) 25%); padding: 12px 24px 32px 24px; z-index: 70; transition: left var(--transition-smooth); }
+.sidebar.collapsed ~ .main-workspace .global-composer-deck { left: 68px; }
 
-.elegant-modal-mask { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 600; }
-.elegant-modal-card { background-color: var(--bg-sidebar); border: 1px solid var(--border-color); width: 100%; max-width: 480px; border-radius: 20px; overflow: hidden; box-shadow: 0 12px 36px rgba(0,0,0,0.4); }
-.modal-card-header { padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); }
-.modal-card-header .title-block { display: flex; align-items: center; gap: 10px; }
-.modal-card-header h3 { font-size: 1.2rem; font-weight: 500; }
-.text-accent { color: var(--accent-blue); }
-.modal-close-circle-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; }
-.modal-close-circle-btn:hover { background-color: var(--bg-hover); color: var(--text-primary); }
-.modal-card-body { padding: 24px; display: flex; flex-direction: column; gap: 24px; }
-.settings-meta-section h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
-.settings-meta-section p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 12px; }
-.divider-top { border-top: 1px solid var(--border-color); padding-top: 20px; }
-.input-field-wrapper { display: flex; align-items: center; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 12px; padding: 6px 14px; gap: 10px; }
-.input-field-wrapper .prefix-icon { color: var(--text-secondary); font-size: 1.15rem !important; }
-.input-field-wrapper input { background: none; border: none; outline: none; width: 100%; color: var(--text-primary); font-family: var(--font-stack); font-size: 0.9rem; }
-.danger-action-pill-btn { 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    box-sizing: border-box;
-    width: 100%; 
-    height: 35px;
-    padding: 12px; 
-    background-color: rgba(168, 52, 52, 0.1); 
-    color: #a83434; 
-    border: 1px solid rgba(168, 52, 52, 0.2); 
-    border-radius: 12px; 
-    cursor: pointer; 
-    font-weight: 500; 
-    font-family: var(--font-stack);
-    font-size: 0.8rem;
-    transition: background-color var(--transition-smooth), border-color var(--transition-smooth);
-}
+.composer-limiter-wrapper { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+.composer-container-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 24px; padding: 10px 14px 10px 22px; display: flex; flex-direction: column; box-shadow: 0 8px 32px var(--shadow-alpha); }
+.composer-container-card textarea { background: transparent; border: none; outline: none; color: var(--text-primary); font-family: var(--font-stack); font-size: 1rem; resize: none; max-height: 200px; min-height: 28px; line-height: 1.5; padding-top: 4px; width: 100%; }
 
-.danger-action-pill-btn:hover { 
-    background-color: rgba(168, 52, 52, 0.18);
-    border-color: rgba(168, 52, 52, 0.4);
-}
+.composer-actions-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; padding-top: 4px; }
+.utility-composer-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; }
+.utility-composer-btn:hover { background-color: var(--bg-hover); color: var(--text-primary); }
+.utility-composer-btn span { font-size: 1.25rem !important; }
 
-/* Custom Action Pill Base Structure - Clean Green Variant */
-.create-groq-api-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    box-sizing: border-box;
-    width: 100%;
-    height: 35px;
-    padding: 12px;
-    background-color: rgba(52, 168, 83, 0.1); 
-    color: #34a853; 
-    border: 1px solid rgba(52, 168, 83, 0.2); 
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 500;
-    font-family: var(--font-stack);
-    font-size: 0.8rem;
-    transition: background-color var(--transition-smooth), border-color var(--transition-smooth);
-}
+.submit-action-circle-btn { background-color: var(--text-primary); color: var(--bg-main); border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.15s ease, transform 0.15s ease; }
+.submit-action-circle-btn:disabled { background-color: var(--border-color) !important; color: var(--text-secondary) !important; cursor: not-allowed; opacity: 0.4; }
+.submit-action-circle-btn:not(:disabled):hover { transform: scale(1.04); }
+.submit-action-circle-btn span { font-size: 1.2rem !important; font-weight: 700; }
 
-/* Green Interaction Accent Layer */
-.create-groq-api-btn:hover {
-    background-color: rgba(83, 234, 53, 0.18);
-    border-color: rgba(52, 168, 83, 0.4);
-}
-
-.typing-pulse-container { display: flex; gap: 4px; align-items: center; height: 24px; }
-.pulse-dot { width: 8px; height: 8px; background-color: var(--text-secondary); border-radius: 50%; animation: promptBounce 1.4s infinite ease-in-out both; }
-.pulse-dot:nth-child(1) { animation-delay: -0.32s; }
-.pulse-dot:nth-child(2) { animation-delay: -0.16s; }
-@keyframes promptBounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+.composer-security-disclosure { font-size: 0.72rem; color: var(--text-secondary); text-align: center; letter-spacing: 0.1px; }
 
 /* ==========================================================================
-   9. NATIVE TOUCHSCREEN & LANDSCAPE MOBILE CONTROLLER
+   9. EXTRA WORKSPACE SCREENS COMPONENTS (SEARCH, LIBRARY, SETTINGS)
    ========================================================================== */
-   @media (max-width: 1024px), (pointer: coarse) {
-    /* Forces the top hamburger navigation button to stay active across landscape rotations */
-    .menu-toggle-btn { 
-        display: flex !important; 
-        visibility: visible !important;
-        border-radius: 12px !important; /* Fixed: Rectangle preserved on mobile viewports */
-    }
+.workspace-search-header { margin-bottom: 28px; }
+.workspace-search-header h3 { font-size: 1.6rem; font-weight: 500; margin-bottom: 6px; }
+.workspace-search-header p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 18px; }
 
-    /* When the sidebar has the active state class triggered by your JavaScript, 
-       force it to open wide, bypassing the default 'collapsed' startup class */
-    body.sidebar-active #sidebar,
-    body.sidebar-active .sidebar.collapsed {
-        transform: translateX(0) !important;
-        width: 280px !important; /* Matches your core sidebar design footprint width */
-        display: flex !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
+.search-input-field-wrapper { display: flex; align-items: center; background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 14px; padding: 0 16px; height: 48px; transition: border-color var(--transition-smooth); }
+.search-input-field-wrapper:focus-within { border-color: var(--accent-blue); }
+.search-input-field-wrapper input { background: transparent; border: none; outline: none; color: var(--text-primary); font-family: var(--font-stack); font-size: 0.95rem; width: 100%; padding-left: 12px; }
+.search-input-field-wrapper .input-prefix-icon { color: var(--text-secondary); font-size: 1.35rem !important; }
 
-    /* 1. Allow input rows to stack vertically instead of squeezing side-by-side */
-    .inline-form-row {
-        width: 100% !important;
-    }
+.search-results-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.search-result-row-card { background-color: var(--bg-surface); padding: 16px 20px; border-radius: 12px; cursor: pointer; border: 1px solid transparent; display: flex; align-items: center; justify-content: space-between; transition: background-color var(--transition-smooth); }
+.search-result-row-card:hover { background-color: var(--bg-hover); border-color: var(--border-color); }
+.search-result-meta-block { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+.search-result-title { font-size: 0.95rem; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+.search-result-snippet { font-size: 0.84rem; color: var(--text-secondary); white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
 
-    /* 2. Fix the top summary blocks (e.g., age, weight, gender metrics layout) */
-    .patient-metrics-engine-block {
-        grid-template-columns: repeat(2, 1fr) !important; /* Forces a clean, balanced 2-column split on small devices */
-        gap: 12px !important;
-        padding: 12px !important;
-    }
+/* --- Library UI Components --- */
+.library-grid-system { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+.library-component-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; min-height: 150px; }
+.library-card-top-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.library-meta-title-group { display: flex; flex-direction: column; gap: 2px; }
+.library-item-headline { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); }
+.library-item-origin-tag { font-size: 0.72rem; color: var(--text-secondary); font-family: monospace; }
+.library-badge { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; }
+.library-badge.type-protocol { background-color: rgba(155, 81, 224, 0.15); color: #9b51e0; }
+.library-badge.type-emergency { background-color: rgba(234, 67, 53, 0.15); color: var(--clinical-alert); }
+.library-badge.type-procedure { background-color: rgba(66, 133, 244, 0.15); color: var(--accent-blue); }
+.library-badge.type-condition { background-color: rgba(244, 180, 4, 0.15); color: var(--clinical-warning); }
+.library-badge.type-calc { background-color: rgba(52, 168, 83, 0.15); color: var(--clinical-success); }
 
-    /* 3. Fix the risk factor selection matrices */
-    .risk-engine-dropdown-content {
-        grid-template-columns: 1fr !important; /* Drops to a single, easily scrollable stack */
-        gap: 10px !important;
-        padding: 10px !important;
-    }
+.library-item-description { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.45; margin-bottom: 16px; flex: 1; }
+.library-action-row { display: flex; justify-content: flex-end; }
+.library-launch-action-btn { background-color: var(--bg-hover); color: var(--text-primary); border: 1px solid var(--border-color); font-family: var(--font-stack); font-size: 0.82rem; font-weight: 600; padding: 6px 14px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background-color var(--transition-smooth); }
+.library-launch-action-btn:hover { background-color: var(--bg-input); }
+.library-launch-action-btn span { font-size: 1rem !important; }
 
-    /* 4. Increase tap target spacing for checkbox selections so text doesn't overlap */
-    .risk-matrix-option {
-        padding: 6px 4px !important;
-        font-size: 0.9rem !important; /* Slightly larger text for readability on small touch glass */
-    }
+/* --- Settings Infrastructure View Components --- */
+.settings-meta-section { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 12px; }
+.settings-meta-section h4 { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
+.settings-meta-section p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+.settings-meta-section.divider-top { margin-top: 24px; }
 
-    /* 5. Prevent nested forms from pushing past the main chat bubble bounds */
-    .inline-calc-form {
-        padding: 12px !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        width: 100% !important;
-    }
-
-    .cortexa-dynamic-trigger {
-        border-radius: 12px !important; /* Fixed: Unified rectangle shape preserved for touch queries */
-    }
-    
-    /* Configures the sidebar panel into an absolute elastic off-screen drawer layer */
-    .sidebar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        height: 100vh;
-        height: 100dvh;
-        width: 280px !important; 
-        max-width: 85vw; /* Absolute block constraint layout protection */
-        transform: translateX(-100%); /* Slides entirely out of view when closed */
-        z-index: 200;
-        transition: transform var(--transition-smooth);
-    }
-    
-    /* Opened slide drawer mapping rules for landscape and mobile devices */
-    .sidebar.mobile-open { 
-        transform: translateX(0) !important; 
-        width: 280px !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-
-    /* Suppresses standard desktop icon bar compression layouts inside touchscreen states */
-    .sidebar.collapsed {
-        width: 280px !important;
-        transform: translateX(-100%) !important;
-    }
-    
-    /* Guarantees that internal components maintain structure when slid out on mobile devices */
-    .sidebar.collapsed .cortexa-sidebar-brand {
-        display: block !important;
-        opacity: 1 !important;
-        width: auto !important;
-        visibility: visible !important;
-    }
-
-    .sidebar.collapsed .btn-text, 
-    .sidebar.collapsed .section-controls-header,
-    .sidebar.collapsed .history-item-text, 
-    .sidebar.collapsed .item-action-trigger-btn,
-    .sidebar.collapsed .pinned-indicator-badge { 
-        display: flex !important; 
-    }
-    
-    /* Restores absolute native scrolling capabilities to the sidebar component arrays */
-    .sidebar.collapsed .sidebar-scroll-zone { 
-        padding: 0 12px !important; 
-        display: block !important; 
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-    }
-    
-    .sidebar.collapsed .history-item-wrapper, 
-    .sidebar.collapsed .history-item { 
-        width: auto !important; 
-        border-radius: 20px !important; 
-        justify-content: flex-start !important; 
-    }
-    
-    .sidebar.collapsed .sidebar-footer { 
-        padding: 12px !important; 
-        display: flex !important; 
-        flex-direction: column !important; 
-        align-items: stretch !important; 
-    }
-    
-    .sidebar.collapsed .footer-nav-btn { 
-        width: auto !important; 
-        border-radius: 20px !important; 
-        justify-content: flex-start !important; 
-    }
-    
-    .sidebar.collapsed .sidebar-action-pill-btn { 
-        width: 100% !important; 
-        border-radius: 24px !important; 
-        justify-content: flex-start !important; 
-        padding: 12px 16px !important; 
-    }
-
-    /* ----------------------------------------------------------------------
-       TOUCHSCREEN THREE-DOTS ALWAYS-ON ENGINE
-       ---------------------------------------------------------------------- */
-    /* 1. Prevent unpinned chat texts from sliding behind the now-permanent option menu */
-    .history-item {
-        padding-right: 44px !important;
-    }
-
-    /* 2. Overrule the desktop hover hide states so the three dots button remains interactive */
-    .history-item-wrapper[data-pinned="false"] .item-action-trigger-btn {
-        opacity: 1 !important;
-        pointer-events: auto !important;
-    }
-
-    /* Dashboard Layout Tweaks for Touch screens */
-    .welcome-heading { font-size: 2.4rem; }
-    .view-panel { padding: 16px 16px 24px 16px; }
-    .sidebar-brand-header {
-        padding: calc(16px + env(safe-area-inset-top, 0px)) 16px 12px 16px;
-        height: calc(64px + env(safe-area-inset-top, 0px));
-    }
-}
+.danger-action-pill-btn { background-color: rgba(234, 67, 53, 0.12); color: #ea4335; border: 1px solid rgba(234, 67, 53, 0.3); font-family: var(--font-stack); font-weight: 600; font-size: 0.86rem; padding: 10px 18px; border-radius: 8px; cursor: pointer; transition: background-color var(--transition-smooth); width: fit-content; }
+.danger-action-pill-btn:hover { background-color: rgba(234, 67, 53, 0.22); }
 
 /* ==========================================================================
-   MESSAGE ACTIONS & EDIT ENGINE UI (THEME ADAPTIVE)
+   10. POPUP FLOATING CUSTOM RIGHT CLICK CONTEXT MENUS
    ========================================================================== */
-.user-message-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    width: 100%;
+.custom-context-menu { position: fixed; z-index: 500; background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 6px; display: flex; flex-direction: column; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); animation: menuPop 0.12s cubic-bezier(0,0,0.2,1) both; }
+@keyframes menuPop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+.context-item { width: 100%; display: flex; align-items: center; gap: 10px; padding: 8px 12px; font-family: var(--font-stack); font-size: 0.84rem; font-weight: 500; color: var(--text-primary); background: none; border: none; border-radius: 6px; cursor: pointer; text-align: left; }
+.context-item:hover { background-color: var(--bg-hover); }
+.context-item.text-danger { color: #ui-color-alert; }
+.context-item.text-danger:hover { background-color: rgba(234, 67, 53, 0.12); color: #ea4335; }
+.context-icon { font-size: 1.15rem !important; color: var(--text-secondary); }
+.context-item:hover .context-icon { color: inherit; }
+
+/* ==========================================================================
+   11. SYSTEM UTILITY VISIBILITY MODIFIERS MATRIX
+   ========================================================================== */
+.hidden { display: none !important; }
+
+/* ==========================================================================
+   12. ULTRA-RESPONSIVE ADAPTIVE TOUCH SCREEN LAYOUT MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .sidebar { position: fixed; top: 0; bottom: 0; left: 0; transform: translateX(-100%); z-index: 200; height: 100vh; height: 100dvh; }
+    .sidebar.mobile-open { transform: translateX(0); box-shadow: 16px 0 48px rgba(0,0,0,0.6); }
+    
+    .sidebar-overlay { position: fixed; top: 0; bottom: 0; left: 0; right: 0; background-color: rgba(0,0,0,0.4); z-index: 150; opacity: 0; pointer-events: none; transition: opacity var(--transition-smooth); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
+    
+    .menu-toggle-btn { display: inline-flex; }
+    .top-nav-bar { padding: 0 16px; }
+    .global-composer-deck { left: 0 !important; padding: 12px 16px 24px 16px; }
+    .content-viewport { padding-bottom: 160px; }
+    .view-panel { padding: 24px 16px; }
+    
+    .welcome-heading { font-size: 2.2rem; }
+    .sub-welcome { font-size: 1rem; }
 }
 
-.message-actions {
-    display: flex;
-    gap: 4px;
-    opacity: 0;
-    transition: opacity var(--transition-smooth);
-    margin-top: 6px;
-    padding-right: 8px; 
-}
-
-/* Force actions to show permanently on touch-screens */
-@media (hover: none) and (pointer: coarse) {
-    .message-actions {
-        opacity: 1 !important;
-    }
-}
-
-/* Reveal on hover for desktop platforms */
-.chat-row:hover .message-actions {
-    opacity: 1;
-}
-
-.msg-action-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background var(--transition-smooth), color var(--transition-smooth);
-}
-
-.msg-action-btn:hover {
-    background-color: var(--bg-hover);
-    color: var(--text-primary);
-}
-
-.msg-action-btn.action-success { color: var(--text-primary); }
-.msg-action-btn span { font-size: 1.1rem !important; }
-
-/* Elegant Clear Edit Box Layout (Gemini Style) */
-.edit-mode-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 700px;
-    animation: panelTransition 0.2s ease-out both;
-}
-
-.edit-textarea {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 16px 20px;
-    color: var(--text-primary);
-    font-family: var(--font-stack);
-    font-size: 0.98rem;
-    line-height: 1.5;
-    resize: vertical;
-    min-height: 100px;
-    outline: none;
-    width: 100%;
-    transition: border-color var(--transition-smooth);
-}
-.edit-textarea:focus { border-color: var(--accent-blue); }
-
-.edit-actions-row {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 12px;
-}
-
-.edit-btn {
-    padding: 8px 20px;
-    border-radius: 24px;
-    font-size: 0.88rem;
-    font-weight: 500;
-    font-family: var(--font-stack);
-    cursor: pointer;
-    transition: background-color var(--transition-smooth), opacity var(--transition-smooth);
-    border: none;
-}
-.edit-btn.cancel { background: transparent; color: var(--accent-blue); }
-.edit-btn.cancel:hover { background-color: rgba(66, 133, 244, 0.08); }
-.edit-btn.update { background: var(--accent-blue); color: #ffffff; }
-.edit-btn.update:hover { opacity: 0.9; }
-
-.edited-tag {
-    font-size: 0.72rem;
-    color: var(--text-secondary);
-    font-weight: 400;
-    margin-left: 6px;
-    user-select: none;
-}
-
-/* Clean glassmorphic dimming layer background */
-.sidebar-overlay { 
-    position: fixed; 
-    inset: 0; 
-    background-color: rgba(0, 0, 0, 0.4); 
-    backdrop-filter: blur(4px);
-    z-index: 199;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
-}
-
-/* Activated state layer */
-.sidebar-overlay.active { 
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Desktop Only Optimization: Prevents width snapping quirks on drag/resize */
 @media (min-width: 1025px) {
-    .sidebar {
-        transition: width var(--transition-smooth) !important;
-    }
+    .sidebar.collapsed ~ .main-workspace .top-nav-bar { left: 68px; }
+    .main-workspace .top-nav-bar { left: 268px; transition: left var(--transition-smooth); }
 }
 
-/* TOUCHSCREEN SPECIFIC CONTROLS */
 @media (pointer: coarse) {
-    .item-action-trigger-btn {
-        display: flex !important;
-    }
-    
-    .history-item {
-        padding-right: 44px !important;
-    }
+    /* Optimize interactive elements touch targeting padding dimensions for coarse input indicators */
+    .history-item { padding: 12px 40px 12px 16px; }
+    .footer-nav-btn, .sidebar-action-pill-btn { padding: 12px 16px; }
+    .icon-btn, .cortexa-dynamic-trigger { width: 44px; height: 44px; }
 }
 
-/* ==========================================================================
-   GEMINI-SPECIFIC INTERACTIVE PIN & ACTION BUTTON CROSSOVER MATRIX
-   ========================================================================== */
-.history-item-wrapper {
-    position: relative;
-}
-
-.history-item-wrapper .item-action-trigger-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 5;
-    transition: background-color 0.15s ease, opacity 0.15s ease;
-}
-
-/* Find this line near the bottom and update it to match your new rectangle shape */
-.history-item-wrapper .item-action-trigger-btn:hover {
-    background-color: rgba(255, 255, 255, 0.12) !important;
-    border-radius: 9px !important;
-}
-
-.history-item-wrapper .item-action-trigger-btn .pin-icon,
-.history-item-wrapper .item-action-trigger-btn .dots-icon {
-    display: none;
-    font-size: 18px;
-}
-
-/* Theme Adaptive Pin Colors */
-.history-item-wrapper .item-action-trigger-btn .pin-icon {
-    color: var(--pinned-accent) !important;
-}
-
-.history-item-wrapper .item-action-trigger-btn .dots-icon {
-    color: var(--text-secondary);
-}
-
-.history-item-wrapper .item-action-trigger-btn .dots-icon {
-    color: var(--text-secondary);
-}
-
-/* CASE A: Thread Record NOT Pinned */
-.history-item-wrapper[data-pinned="false"] .item-action-trigger-btn {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.history-item-wrapper[data-pinned="false"]:hover .item-action-trigger-btn {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.history-item-wrapper[data-pinned="false"] .dots-icon {
-    display: inline-block;
-}
-
-/* CASE B: Thread Record IS Pinned */
-.history-item-wrapper[data-pinned="true"] .item-action-trigger-btn {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.history-item-wrapper[data-pinned="true"] .pin-icon {
-    display: inline-block;
-}
-.history-item-wrapper[data-pinned="true"] .dots-icon {
-    display: none;
-}
-
-.history-item-wrapper[data-pinned="true"]:hover .pin-icon {
-    display: none !important;
-}
-.history-item-wrapper[data-pinned="true"]:hover .dots-icon {
-    display: inline-block !important;
-}
-
-/* ==========================================================================
-   CORTEXA LIVE WAVE - INFINITE DYNAMIC COLOR ENGINE
-   ========================================================================== */
-.fluid-matrix-container {
-    display: inline-block; 
-    width: 20px;
-    height: 20px;
-    transform-origin: center center;
-    
-    /* DYNAMIC COLOR ENGINE: Preserved completely untouched */
-    background: var(--gemini-gradient); 
-    background-size: 200% auto; 
-    animation: gemini-shimmer 6s ease infinite; 
-    
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    
-    /* Premium Timing Engine: Slow, ultra-smooth structural morphing */
-    transition: -webkit-mask-image 0.8s cubic-bezier(0.25, 1, 0.3, 1),
-                mask-image 0.8s cubic-bezier(0.25, 1, 0.3, 1);
-}
-
-/* Master dynamic infinite color shift timeline configuration */
-@keyframes gemini-shimmer {
-    0% { background-position: 0% center; }
-    50% { background-position: 100% center; }
-    100% { background-position: 0% center; }
-}
-
-/* --- Inline Element Normalizers --- */
-.cortexa-fluid-canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
-.cortexa-fluid-canvas line {
-    stroke: transparent !important; 
-}
-
-/* ==========================================================================
-   THE UNIFIED DYNAMIC CONVERGENCE ENGINE (FORCED TWO-LINE CONSTANT GEOMETRY)
-   ========================================================================== */
-
-/* FORCED FOR ALL STATES (OPENED AND CLOSED) -> Always renders as TWO SEPARATE NORMAL-SIZED LINES (Y=8 and Y=16) */
-.cortexa-dynamic-trigger .fluid-matrix-container,
-.cortexa-dynamic-trigger.is-open .fluid-matrix-container {
-    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
-    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8.1"></line><line x1="4" y1="16" x2="20" y2="16.1"></line></svg>');
-}
-
-/* ==========================================================================
-   THEME TOGGLE SYSTEM (FIXED BACKGROUND & SHADOW ARCHITECTURE)
-   ========================================================================== */
-
-/* 1. Base Adaptive Button State */
-.theme-quick-toggle-btn {
-    position: relative;
-    width: 44px;
-    height: 44px;
-    border: none;                  
-    border-radius: 12px;           
-    background-color: transparent;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: visible; /* Changed from hidden to let the outer drop-shadow display cleanly */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 2. Adaptive Hover states based on theme backgrounds */
-.theme-quick-toggle-btn:hover {
-    background-color: var(--bg-hover);
-    transform: translateY(-1px);
-}
-
-.theme-quick-toggle-btn:active {
-    transform: translateY(1px) scale(0.96);
-}
-
-/* 3. Base Glyphs Positioning */
-.theme-quick-toggle-btn .material-symbols-rounded {
-    position: absolute;
-    font-size: 24px;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-}
-
-/* ==========================================================================
-   THEME QUICK TOGGLE BUTTON INDIVIDUAL ICON TRANSITIONS
-   ========================================================================== */
-
-/* 1. Establish the shared baseline rules for BOTH icons */
-.theme-quick-toggle-btn .icon-sun,
-.theme-quick-toggle-btn .icon-moon {
-    position: absolute;
-    font-size: 24px;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease !important;
-    transform-origin: center center;
-}
-
-/* --- DEFAULT DARK MODE STATE (Sun visible, Moon hidden) --- */
-.theme-quick-toggle-btn .icon-sun {
-    color: #ffb703 !important; 
-    opacity: 1;
-    transform: rotate(0deg) scale(1);
-}
-
-.theme-quick-toggle-btn .icon-moon {
-    color: #8F00FF !important; 
-    opacity: 0;
-    transform: rotate(-90deg) scale(0);
-}
-
-/* --- TOGGLED LIGHT MODE STATE (Sun hides, Moon appears) --- */
-.theme-quick-toggle-btn.dark-mode .icon-sun {
-    opacity: 0;
-    transform: rotate(90deg) scale(0);
-}
-
-.theme-quick-toggle-btn.dark-mode .icon-moon {
-    opacity: 1;
-    transform: rotate(0deg) scale(1);
-}
-
-/* ==========================================================================
-   NUCLEAR RESPONSIVENESS RESTRUCTURING OVERRIDE
-   ========================================================================== */
-
-/* 1. Force total container wrapping on ALL potential elements */
-.clinical-card-container,
-.system-card-container,
-.inline-calc-form,
-.inline-form-row {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-}
-
-/* 2. Break down the layout rows to a vertical block so they never try to squeeze horizontally */
-.inline-form-row {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    justify-content: flex-start !important;
-    float: none !important;
-}
-
-/* 3. Strip dropdown select options of their text sizing dominance */
-.inline-form-row select,
-.inline-form-row input {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-    display: block !important;
-    
-    /* Native truncation parameters */
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-}
-
-/* 4. Ensure option tags inside the select wrapper do not stretch it */
-.inline-form-row select option {
-    max-width: 100% !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-}
-
-/* 5. Force card headers to stack tightly if text elements collide */
-.clinical-card-header,
-.system-card-header {
-    display: flex !important;
-    flex-direction: column !important; /* Forces items vertically on micro viewports */
-    align-items: flex-start !important;
-    gap: 8px !important;
-    width: 100% !important;
-}
-
-/* Re-align headers to horizontal row only on larger screens */
-@media (min-width: 480px) {
-    .clinical-card-header,
-    .system-card-header {
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-    }
-}
-
-/* ==========================================================================
-   TOUCH GESTURE TRANSITION SMOOTHING LAYER
-   ========================================================================== */
-   @media (max-width: 992px) {
-    #sidebar {
-        will-change: transform;
-        transform: translateX(-100%);
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    }
-    
-    #sidebar.active,
-    body.sidebar-active #sidebar {
-        transform: translateX(0) !important;
-    }
-
-    #sidebarOverlay {
-        will-change: opacity;
-        transition: opacity 0.3s ease !important;
-    }
-}
 /* ==========================================================================
    GLOBAL VIEWPORT TOUCH PROPAGATION PATCH
    ========================================================================== */
-   #chatContainer,
-   .app-container,
-   .main-content-panel {
-       /* Allows custom touch tracking rules to register without browser interference */
-       touch-action: pan-y !important; 
-   }
+#chatContainer,
+.app-container,
+.main-content-panel {
+    touch-action: pan-y !important; 
+}
 
-   /* Custom Input Field Layout Refinement inside Settings Cards */
+/* Custom Input Field Layout Refinement inside Settings Cards */
 #settingsWorkspaceScreen .input-field-wrapper {
     position: relative;
     display: flex;
@@ -1286,10 +587,3 @@ body {
     color: var(--text-secondary);
     font-size: 1.25rem;
 }
-
-/* Sync Settings active buttons with navigation highlighting maps */
-#settingsToggleBtn.active svg {
-    color: var(--text-primary) !important;
-}
-
-.hidden { display: none !important; }
