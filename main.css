@@ -703,10 +703,17 @@ body {
         transform: translateY(-10px) scale(0.95) !important;
     }
     
-    /* Removes the redundant inner header spacing inside the floating card dropdown */
-    .sidebar-brand-header {
-        display: none !important; 
-    }
+.sidebar-brand-header {
+    display: flex !important;
+    padding: 12px 16px !important;
+    height: auto !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Adds smooth padding to the scrollable zone right underneath it */
+.sidebar-scroll-zone {
+    padding-top: 8px !important;
+}
 
     /* Soft top padding replacement since the original brand header is hidden */
     .sidebar-scroll-zone {
