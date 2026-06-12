@@ -1523,21 +1523,27 @@ toggleBtn.addEventListener('click', () => {
 
 
 
-// Fix for iOS standalone PWA keyboard layout shift bug
-document.addEventListener('focusout', (e) => {
-    if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
-        // Check if running as iOS standalone standalone PWA
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        const isStandalone = window.navigator.standalone === true;
+// Target all text inputs and textareas
+const inputFields = document.querySelectorAll('input, textarea, [contenteditable="true"]');
 
-        if (isIOS && isStandalone) {
-            // Force WebKit to recalculate viewport layout
-            window.scrollTo(window.scrollX, window.scrollY);
-            
-            // Alternative backup fallback for deep container hierarchies:
+inputFields.forEach(input => {
+    input.addEventListener('blur', () => {
+        // Only run if on an iOS device
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        
+        if (isIOS) {
             setTimeout(() => {
-                window.dispatchEvent(new Event('resize'));
-            }, 50);
+                // 1. Force the document body scroll position to snap back to top
+                window.scrollTo(0, 0);
+                
+                // 2. Force a document-level visual redraw 
+                document.body.style.height = '100%';
+                
+                // 3. Clean up by removing the inline style right after layout snaps
+                setTimeout(() => {
+                    document.body.style.removeProperty('height');
+                }, 10);
+            }, 60); // 60ms delay gives the keyboard slide-down animation time to finish
         }
-    }
+    });
 });
