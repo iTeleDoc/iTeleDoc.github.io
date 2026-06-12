@@ -238,7 +238,23 @@
                 </div>
 
             </div>
-
+            <footer class="input-zone">
+                <div class="input-pill">
+                    <button class="control-btn add-btn" id="addFileBtn" title="Add File">
+                        <span class="material-symbols-rounded fill-icon">add</span>
+                    </button>
+                    <input type="file" id="fileUploader" class="hidden" multiple>
+                    
+                    <textarea id="chatInput" rows="1" placeholder="Ask Cortexa"></textarea>
+                    
+                    <button class="control-btn" id="micBtn" title="Dictate">
+                        <span class="material-symbols-rounded" id="micIcon">mic</span>
+                    </button>
+                    <button class="control-btn send-btn hidden" id="sendBtn" title="Send">
+                        <span class="material-symbols-rounded fill-icon" style="color: var(--accent-blue);">send</span>
+                    </button>
+                </div>
+            </footer>
 
         </main>
     </div>
