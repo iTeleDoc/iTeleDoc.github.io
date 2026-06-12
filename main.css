@@ -46,7 +46,7 @@
 /* ==========================================================================
    1. BASE NORMALIZATION & RENDER TOKENS
    ========================================================================== */
-   * { 
+* { 
     box-sizing: border-box; 
     margin: 0; 
     padding: 0; 
@@ -57,8 +57,6 @@ body {
     background-color: var(--bg-main); 
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
-    
-    /* FIX: Lock the base viewport layer without using broken vh/dvh variables */
     position: fixed;
     top: 0;
     left: 0;
@@ -70,7 +68,6 @@ body {
 .app-container { 
     display: flex; 
     position: relative; 
-    
     width: 100%; 
     height: 100%; 
 }
@@ -311,13 +308,13 @@ body {
 /* ==========================================================================
    5. MAIN WORKSPACE VIEWPORT LAYOUT ARCHITECTURE
    ========================================================================== */
-.main-workspace { 
+   .main-workspace { 
     flex: 1; 
     display: flex; 
     flex-direction: column; 
-    height: 100%; 
     position: relative; 
     overflow: hidden;
+    height: 100%; 
 }
 
 .top-nav-bar { 
@@ -706,7 +703,8 @@ body {
         top: 0;
         left: 0;
         bottom: 0;
-        height: 100%;
+        height: 100vh;
+        height: 100dvh;
         width: 280px !important; 
         max-width: 85vw; /* Absolute block constraint layout protection */
         transform: translateX(-100%); /* Slides entirely out of view when closed */
