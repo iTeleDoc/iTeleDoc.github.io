@@ -269,7 +269,34 @@
         </button>
     </div>
 
-
+    <div class="elegant-modal-mask hidden" id="settingsModal">
+        <div class="elegant-modal-card">
+            <div class="modal-card-header">
+                <div class="title-block">
+                    <span class="material-symbols-rounded text-accent">settings</span>
+                    <h3>Settings</h3>
+                </div>
+                <button class="modal-close-circle-btn" id="closeSettingsModalBtn">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </div>
+            <div class="modal-card-body">
+                <div class="settings-meta-section">
+                    <h4>Groq Cloud Integration</h4>
+                    <p>Enter your API key to enable clinical data inference and cross-database analysis.</p>
+                    <div class="input-field-wrapper">
+                        <span class="material-symbols-rounded prefix-icon">vpn_key</span>
+                        <input type="password" id="groqKeyField" placeholder="API Key (gsk_...)">
+                    </div>
+                </div>
+                <div class="settings-meta-section divider-top">
+                    <h4>System Maintenance</h4>
+                    <p>Permanently delete cached sessions and temporary data.</p>
+                    <button class="danger-action-pill-btn" id="flushMemoryBtn">Clear Local Session Cache</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="calculators.js"></script>
     <script src="drugs.js"></script>
