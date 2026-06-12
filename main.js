@@ -1525,31 +1525,23 @@ toggleBtn.addEventListener('click', () => {
 
 
 
-// Bulletproof iOS PWA Keyboard Viewport Alignment Fix
+// Professional iOS PWA Keyboard Redraw Realignment Fix
 if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', () => {
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         const isStandalone = window.navigator.standalone === true;
 
         if (isIOS && isStandalone) {
-            // If the viewport height expands back (keyboard closed)
+            // Check if keyboard closed (Visual viewport expands back to equal full screen height)
             if (window.visualViewport.height >= window.innerHeight) {
                 setTimeout(() => {
-                    // Force WebKit to snap layout boundaries down to 0
+                    // Force the window coordinate container matrix to snap down to the base layout
                     window.scrollTo(0, 0);
-                    document.body.dispatchEvent(new Event('resize'));
-                }, 40);
+                    document.body.style.display = 'none';
+                    document.body.offsetHeight; // Forces engine layout flush recalculation
+                    document.body.style.display = '';
+                }, 30);
             }
         }
     });
 }
-
-// Fallback anchor for text area input focus loss
-document.addEventListener('focusout', (e) => {
-    if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
-        setTimeout(() => {
-            window.scrollTo(0, Math.max(0, document.body.scrollHeight - window.innerHeight));
-            window.scrollTo(0, 0);
-        }, 50);
-    }
-});
