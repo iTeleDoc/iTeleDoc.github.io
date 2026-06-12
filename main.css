@@ -1437,14 +1437,6 @@ body {
     width: 100vw;
 }
 
-/* ========== MATERIAL ICONS (GOOGLE SYMBOLS) ========== */
-.material-symbols-rounded {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    font-size: 24px;
-}
-.material-symbols-rounded.fill-icon {
-    font-variation-settings: 'FILL' 1, 'wght' 400;
-}
 
 /* ========== APP CONTAINER & LAYOUT ========== */
 .app-container {
@@ -1454,20 +1446,7 @@ body {
     position: relative;
 }
 
-/* ========== GLOBAL ICON BUTTON ========== */
-.icon-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
-}
+
 .icon-btn:hover, .icon-btn:active { background-color: var(--bg-hover); color: var(--text-primary); }
 
 /* ========== SIDEBAR & OVERLAY ========== */
@@ -1493,12 +1472,6 @@ body {
 }
 .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
 
-/* ========== SIDEBAR RESPONSIVE (DESKTOP) ========== */
-@media (min-width: 900px) {
-    .sidebar { position: relative; left: 0; width: 320px; }
-    .sidebar.collapsed { left: -320px; position: absolute; }
-    .sidebar-overlay { display: none !important; }
-}
 
 
 .search-input-container input {
@@ -1529,13 +1502,3 @@ body {
 .brand-text { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.3px; }
 .brand-badge { background-color: var(--bg-hover); color: var(--accent-blue); font-size: 0.75rem; padding: 2px 10px; border-radius: 12px; font-weight: 600; border: 1px solid var(--border-color); }
 .top-actions { display: flex; align-items: center; }
-
-/* ========== CHAT STAGE & ZERO STATE ========== */
-.chat-stage { flex: 1; overflow-y: auto; padding: 76px 16px 140px; width: 100%; scroll-behavior: smooth; }
-.zero-state { display: flex; flex-direction: column; justify-content: center; height: 75%; max-width: 860px; margin: 0 auto; width: 100%; }
-.greeting {
-    font-size: 2.4rem; 
-    font-weight: 500; 
-    letter-spacing: -0.6px;
-    margin-bottom: 40px;
-
