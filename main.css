@@ -335,16 +335,13 @@ body {
 .nav-left { display: flex; align-items: center; gap: 12px; }
 .cortexa-brand { font-size: 1.35rem; font-weight: 500; display: flex; align-items: center; cursor: pointer; }
 
-.content-viewport {
-    flex: 1;
-    overflow-y: auto;
-    position: relative;
-    width: 100%;
-    padding-top: calc(64px + env(safe-area-inset-top, 0px));
-
-    padding-bottom: calc(
-        120px + env(safe-area-inset-bottom, 0px)
-    );
+.content-viewport { 
+    flex: 1; 
+    overflow-y: auto; 
+    position: relative; 
+    width: 100%; 
+    padding-top: calc(64px + env(safe-area-inset-top, 0px)); 
+    padding-bottom: 0 !important; 
 }
 .view-panel { width: 100%; max-width: 760px; margin: 0 auto; padding: 40px 24px 24px 24px; animation: panelTransition 0.25s ease-out both; }
 @keyframes panelTransition { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -527,9 +524,20 @@ body {
 .chat-row.user-row .bubble-content { background-color: var(--bubble-user-bg); padding: 12px 20px; border-radius: 12px; max-width: calc(100% - 52px); width: auto; }
 
 .input-panel-container {
-    width: 100%; max-width: 760px; margin: 0 auto; 
+    width: 100%;
     padding: 0 24px calc(16px + env(safe-area-inset-bottom, 0px)) 24px;
-    background-color: var(--bg-main); position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 50;
+    background-color: var(--bg-main);
+
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    max-width: none !important;
+    margin: 0 !important;
+    transform: none !important;
+
+    z-index: 50;
 }
 .input-panel-container.hidden { display: none !important; }
 .input-wrapper-matrix {
