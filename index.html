@@ -238,24 +238,21 @@
                 </div>
 
             </div>
-            <footer class="input-zone">
-                <div class="input-pill">
-                    <button class="control-btn add-btn" id="addFileBtn" title="Add File">
-                        <span class="material-symbols-rounded fill-icon">add</span>
-                    </button>
-                    <input type="file" id="fileUploader" class="hidden" multiple>
-                    
-                    <textarea id="chatInput" rows="1" placeholder="Ask Cortexa"></textarea>
-                    
-                    <button class="control-btn" id="micBtn" title="Dictate">
-                        <span class="material-symbols-rounded" id="micIcon">mic</span>
-                    </button>
-                    <button class="control-btn send-btn hidden" id="sendBtn" title="Send">
-                        <span class="material-symbols-rounded fill-icon" style="color: var(--accent-blue);">send</span>
-                    </button>
+
+            <footer class="input-panel-container" id="globalInputDeck">
+                <div class="input-wrapper-matrix">
+                    <textarea id="chatInputPayload" rows="1" placeholder="Ask Cortexa"></textarea>
+                    <div class="input-actions-bar">
+
+                        <button class="submit-prompt-btn" id="submitPromptBtn" disabled title="Dispatch Command">
+                            <span class="material-symbols-rounded">send</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-disclaimer-text">
+                    Cortexa is AI & can make mistakes. Verify clinical data before use.
                 </div>
             </footer>
-
         </main>
     </div>
 
@@ -272,34 +269,7 @@
         </button>
     </div>
 
-    <div class="elegant-modal-mask hidden" id="settingsModal">
-        <div class="elegant-modal-card">
-            <div class="modal-card-header">
-                <div class="title-block">
-                    <span class="material-symbols-rounded text-accent">settings</span>
-                    <h3>Settings</h3>
-                </div>
-                <button class="modal-close-circle-btn" id="closeSettingsModalBtn">
-                    <span class="material-symbols-rounded">close</span>
-                </button>
-            </div>
-            <div class="modal-card-body">
-                <div class="settings-meta-section">
-                    <h4>Groq Cloud Integration</h4>
-                    <p>Enter your API key to enable clinical data inference and cross-database analysis.</p>
-                    <div class="input-field-wrapper">
-                        <span class="material-symbols-rounded prefix-icon">vpn_key</span>
-                        <input type="password" id="groqKeyField" placeholder="API Key (gsk_...)">
-                    </div>
-                </div>
-                <div class="settings-meta-section divider-top">
-                    <h4>System Maintenance</h4>
-                    <p>Permanently delete cached sessions and temporary data.</p>
-                    <button class="danger-action-pill-btn" id="flushMemoryBtn">Clear Local Session Cache</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <script src="calculators.js"></script>
     <script src="drugs.js"></script>
