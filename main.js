@@ -1525,24 +1525,6 @@ toggleBtn.addEventListener('click', () => {
 
 const vp = document.getElementById('contentViewport');
 
-console.log({
-    clientHeight: vp.clientHeight,
-    offsetHeight: vp.offsetHeight,
-    scrollHeight: vp.scrollHeight,
-
-    app: document.querySelector('.app-container')?.offsetHeight,
-    workspace: document.querySelector('.main-workspace')?.offsetHeight,
-
-    body: document.body.offsetHeight,
-    html: document.documentElement.offsetHeight
-});
-
-
-
-
-
-const vp = document.getElementById('contentViewport');
-
 console.log(
     vp.lastElementChild?.getBoundingClientRect()
 );
