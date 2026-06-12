@@ -1514,3 +1514,42 @@ toggleBtn.addEventListener('click', () => {
 
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
+
+
+
+
+
+
+
+
+
+
+
+// Bulletproof iOS PWA Keyboard Viewport Alignment Fix
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isStandalone = window.navigator.standalone === true;
+
+        if (isIOS && isStandalone) {
+            // If the viewport height expands back (keyboard closed)
+            if (window.visualViewport.height >= window.innerHeight) {
+                setTimeout(() => {
+                    // Force WebKit to snap layout boundaries down to 0
+                    window.scrollTo(0, 0);
+                    document.body.dispatchEvent(new Event('resize'));
+                }, 40);
+            }
+        }
+    });
+}
+
+// Fallback anchor for text area input focus loss
+document.addEventListener('focusout', (e) => {
+    if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
+        setTimeout(() => {
+            window.scrollTo(0, Math.max(0, document.body.scrollHeight - window.innerHeight));
+            window.scrollTo(0, 0);
+        }, 50);
+    }
+});
