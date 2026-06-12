@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-        
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <meta name="mobile-web-app-capable" content="yes">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-        <title>Cortexa</title>
-        <link rel="icon" href="favicon.png">
-        <link rel="apple-touch-icon" href="cortexa.png">
-        <link rel="stylesheet" href="main.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
-    </head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <title>Cortexa</title>
+    <link rel="icon" href="favicon.png">
+    <link rel="apple-touch-icon" href="cortexa.png">
+    <link rel="stylesheet" href="main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+</head>
 <body class="theme-dark">
 
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -44,7 +44,6 @@
     
             <div class="sidebar-header">
                 <button class="sidebar-action-pill-btn" id="newChatBtn" title="Message">
-                    <!-- ChatGPT style composer/edit icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 20h9"></path>
                         <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
@@ -52,7 +51,6 @@
                     <span class="btn-text">New Chat</span>
                 </button>
                 <button class="sidebar-action-pill-btn" id="sidebarSearchNavBtn" title="Search">
-                    <!-- ChatGPT style search magnifying glass -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <path d="m21 21-4.3-4.3"></path>
@@ -80,19 +78,18 @@
 
             <div class="sidebar-footer">
                 <button class="footer-nav-btn" id="libraryNavBtn" title="Library">
-                    <!-- Gemini/ChatGPT style clean geometric open book icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2-2.5z"></path>
+                        <path d="M6 6h10M6 10h10M6 14h10"></path>
                     </svg>
-                    <span class="btn-text">Library</span>
+                    <span class="btn-text">Knowledge Library</span>
                 </button>
                 <button class="footer-nav-btn" id="settingsToggleBtn" title="Settings">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                     </svg>
-                    <span class="btn-text">Settings</span>
+                    <span class="btn-text">System Settings</span>
                 </button>
             </div>
         </aside>
@@ -100,26 +97,14 @@
         <main class="main-workspace">
             <header class="top-nav-bar">
                 <div class="nav-left">
-                    <button class="menu-toggle-btn cortexa-dynamic-trigger" id="menuToggleBtn" title="Menu">
-                        <div class="fluid-matrix-container">
-                            <svg class="cortexa-fluid-canvas" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round">
-                                <defs>
-                                    <linearGradient id="cortexaLiveGradMenu" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stop-color="#8F00FF" />
-                                        <stop offset="100%" stop-color="#ffb703" />
-                                    </linearGradient>
-                                </defs>
-                                <line class="fluid-beam-top" x1="4" y1="8" x2="20" y2="8.1"></line>
-                                <line class="fluid-beam-bottom" x1="4" y1="16" x2="20" y2="16.1"></line>
-                            </svg>
-                        </div>
+                    <button class="menu-toggle-btn" id="menuToggleBtn" title="Open Drawer Menu">
+                        <span class="material-symbols-rounded">menu</span>
                     </button>
-                    <!-- Cortexa brand has been stripped out of here completely -->
+                    <h1 class="cortexa-brand" id="topNavHomeBtn">Cortexa</h1>
                 </div>
                 <div class="nav-right">
-                    <button class="theme-quick-toggle-btn" id="themeQuickToggleBtn" title="Toggle Theme">
-                        <span class="material-symbols-rounded icon-sun">light_mode</span>
-                        <span class="material-symbols-rounded icon-moon">dark_mode</span>
+                    <button class="icon-btn" id="themeQuickToggleBtn" title="Toggle Display Mode">
+                        <span class="material-symbols-rounded">light_mode</span>
                     </button>
                 </div>
             </header>
@@ -128,185 +113,123 @@
                 
                 <div class="view-panel" id="zeroStateScreen">
                     <div class="welcome-heading-block">
-                        <h1 class="welcome-heading gradient-text">Hello Doctor</h1>
-                        <p class="sub-welcome">Welcome to the Next-Gen Medical Intelligence Platform</p>
+                        <h2 class="welcome-heading">Hello, <span class="gradient-text">Clinical Innovator</span></h2>
+                        <p class="sub-welcome">How can Cortexa support your analytical clinical workflows today?</p>
                     </div>
-                    
                     <div class="suggestions-grid">
-                        <div class="suggestion-card" data-prompt="ACLS Cardiac Arrest Algorithms">
-                            <div class="card-header-icon-row">
-                                <span class="material-symbols-rounded card-icon clinical-card-icon">monitor_heart</span>
+                        <div class="suggestion-card" data-prompt="Analyze Pediatric Medication Error Mitigation Strategies">
+                            <div class="card-inner-flex">
+                                <span class="material-symbols-rounded suggestion-icon text-alert">health_and_safety</span>
+                                <div class="card-headline">Pediatric Medication Safety</div>
                             </div>
-                            <p class="card-text">ACLS Cardiac Arrest Algorithms</p>
+                            <p class="card-caption">Evaluate database mitigation vectors to bypass infusion delivery margin calculation failures.</p>
                         </div>
-                        <div class="suggestion-card" data-prompt="Rapid Sequence Intubation">
-                            <div class="card-header-icon-row">
-                                <span class="material-symbols-rounded card-icon clinical-card-icon">air</span>
+                        <div class="suggestion-card" data-prompt="Review Cardiac Tamponade Emergency Decompression Procedures">
+                            <div class="card-inner-flex">
+                                <span class="material-symbols-rounded suggestion-icon text-warning">emergency</span>
+                                <div class="card-headline">Emergency Decompression</div>
                             </div>
-                            <p class="card-text">Rapid Sequence Intubation</p>
+                            <p class="card-caption">Examine specialized guidelines regarding structural needle access point targets.</p>
                         </div>
-                        <!-- New Card: Epinephrine -->
-                        <div class="suggestion-card" data-prompt="Epinephrine Dosing & Administration">
-                            <div class="card-header-icon-row">
-                                <span class="material-symbols-rounded card-icon clinical-card-icon">medication</span>
+                        <div class="suggestion-card" data-prompt="Calculate Infusion Dosing Rate Metric Parameters">
+                            <div class="card-inner-flex">
+                                <span class="material-symbols-rounded suggestion-icon text-success">calculate</span>
+                                <div class="card-headline">Dynamic Matrix Calculators</div>
                             </div>
-                            <p class="card-text">Epinephrine Dosing & Administration</p>
+                            <p class="card-caption">Access operational processing matrix modules for microgram per minute weight-indexed delivery vectors.</p>
                         </div>
-                        <!-- New Card: Glasgow Coma Scale (GCS) -->
-                        <div class="suggestion-card" data-prompt="Glasgow Coma Scale (GCS)">
-                            <div class="card-header-icon-row">
-                                <span class="material-symbols-rounded card-icon clinical-card-icon">neurology</span>
+                        <div class="suggestion-card" data-prompt="Synthesize Anaphylaxis Protocol Interventions">
+                            <div class="card-inner-flex">
+                                <span class="material-symbols-rounded suggestion-icon text-blue">clinical_notes</span>
+                                <div class="card-headline">Anaphylactic Crisis Protocols</div>
                             </div>
-                            <p class="card-text">Glasgow Coma Scale (GCS)</p>
+                            <p class="card-caption">Review intramuscular vasoactive drug administration intervals and sequence steps.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="view-panel hidden" id="chatFeedScreen">
-                    <div class="chat-feed-container">
-                        <div class="message-stream" id="messageStreamTarget"></div>
-                    </div>
+                <div class="view-panel hidden" id="chatWorkspaceScreen">
+                    <div class="messages-scroll-area" id="chatThreadMessagesFeed"></div>
                 </div>
 
                 <div class="view-panel hidden" id="searchWorkspaceScreen">
-                    <div class="workspace-internal-container">
-                        <div class="workspace-header-block">
-                            <h2>Search Recent Chats</h2>
-                            <p>Search history threads to review and filter recent chats.</p>
+                    <div class="workspace-search-header">
+                        <h3>Search Conversations</h3>
+                        <p>Locate active indices, clinical threads, and historical logs locally cached inside this platform sandbox.</p>
+                        <div class="search-input-field-wrapper">
+                            <span class="material-symbols-rounded input-prefix-icon">search</span>
+                            <input type="text" id="internalSearchField" placeholder="Type terms to query local sessions matrix...">
                         </div>
-                        <div class="workspace-search-bar-wrapper">
-                            <span class="material-symbols-rounded">search</span>
-                            <input type="text" id="internalSearchField" placeholder="Type text to filter entries...">
-                        </div>
-                        <div class="search-results-output-grid" id="searchResultsTargetGrid"></div>
                     </div>
+                    <div class="search-results-list" id="searchResultsZone"></div>
                 </div>
 
                 <div class="view-panel hidden" id="libraryWorkspaceScreen">
-                    <div class="workspace-internal-container">
-                        <div class="workspace-header-block">
-                            <h2>Clinical Knowledge Base</h2>
-                            <p>Access evidence-based protocols and clinical guidelines.</p>
+                    <div class="workspace-search-header">
+                        <h3>Knowledge Library</h3>
+                        <p>Explore embedded operational guidelines, emergency registries, and analytical tools directly accessible in your environment.</p>
+                        <div class="search-input-field-wrapper">
+                            <span class="material-symbols-rounded input-prefix-icon">menu_book</span>
+                            <input type="text" id="libraryWorkspaceSearchField" placeholder="Filter protocols, procedures, drugs, calculators...">
                         </div>
-                        <div class="workspace-search-bar-wrapper">
-                            <span class="material-symbols-rounded">filter_list</span>
-                            <input type="text" id="libraryWorkspaceSearchField" placeholder="Search by clinical keyword...">
-                        </div>
-                        <div class="library-accordion-stack" id="libraryWorkspaceAccordionContainer"></div>
                     </div>
+                    <div class="library-grid-system" id="libraryItemsContainer"></div>
                 </div>
 
                 <div class="view-panel hidden" id="settingsWorkspaceScreen">
-                    <!-- Header Block synced exactly with Library/Search typography -->
-                    <div class="workspace-header-block">
-                        <h2>System Configuration</h2>
-                        <p>Manage API integrations, data profiles, and platform environment configurations.</p>
+                    <div class="workspace-search-header">
+                        <h3>Settings</h3>
+                        <p>Manage infrastructure parameters, secure API integration access layers, and localized data persistence states.</p>
                     </div>
-                
-                    <div class="suggestions-grid" style="grid-template-columns: 1fr; gap: 24px; margin-top: 24px;">
-                        <!-- Configuration Card 1: API Integration -->
-                        <div class="suggestion-card" style="cursor: default; min-height: auto; gap: 16px;">
-                            <div class="card-header-icon-row" style="margin-bottom: 0;">
-                                <span class="card-meta-tag-pill" style="font-weight: 700;">Groq API Integration</span>
-                            </div>
-                            <div>
-                                <p style="font-size: 0.85rem;">Enter your API key to enable secure data processing and language model analytics.</p>
-                                <div class="input-field-wrapper" style="margin-top: 12px; width: 100%; padding: 0;">
-                                    <input type="password" id="groqKeyField" placeholder="API Gateway Key (gsk_...)" style="width: 100%;">
-                                </div>
-                                <br>
-                                <p style="font-size: 0.85rem;" class="button-helper-text">Don't have an API key? Create one here:</p>
-                                <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" class="create-groq-api-btn" style="margin-top: 16px;">
-                                    Create Groq API Key
-                                </a>
-                            </div>
+                    <div class="settings-meta-section">
+                        <h4>Groq Cloud Integration</h4>
+                        <p>Enter your operational endpoint API credentials key to enable intelligent real-time data streaming and inferencing.</p>
+                        <div class="input-field-wrapper">
+                            <span class="material-symbols-rounded prefix-icon">vpn_key</span>
+                            <input type="password" id="groqKeyField" placeholder="API Key Credentials (gsk_...)">
                         </div>
-                
-                        <!-- Configuration Card 2: Environment Options -->
-                        <div class="suggestion-card" style="cursor: default; min-height: auto; gap: 16px;">
-                            <div class="card-header-icon-row" style="margin-bottom: 0;">
-                                <span class="card-meta-tag-pill"><strong>Local Storage & Cache</strong></span>
-                            </div>
-                            <div>
-                                <p style="font-size: 0.85rem;">
-                                    Clear temporary browser storage, reset platform settings, and delete active session logs instantly.
-                                </p>
-                                <button class="danger-action-pill-btn" id="flushMemoryBtn" style="margin-top: 16px;">
-                                    Clear Local Session Cache
-                                </button>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="settings-meta-section divider-top">
+                        <h4>Platform Infrastructure Memory Maintenance</h4>
+                        <p>Permanently drop cached session items, indexing blocks, and localized state histories completely from your browser memory array.</p>
+                        <button class="danger-action-pill-btn" id="flushMemoryBtn">Clear Local Session Cache</button>
                     </div>
                 </div>
 
             </div>
 
-            <footer class="input-panel-container" id="globalInputDeck">
-                <div class="input-wrapper-matrix">
-                    <textarea id="chatInputPayload" rows="1" placeholder="Ask Cortexa"></textarea>
-                    <div class="input-actions-bar">
-
-                        <button class="submit-prompt-btn" id="submitPromptBtn" disabled title="Dispatch Command">
-                            <span class="material-symbols-rounded">send</span>
-                        </button>
+            <div class="global-composer-deck" id="globalInputDeck">
+                <div class="composer-limiter-wrapper">
+                    <div class="composer-container-card">
+                        <textarea id="chatInputPayload" rows="1" placeholder="Ask Cortexa regarding clinical workflows, protocols or variables..."></textarea>
+                        <div class="composer-actions-row">
+                            <button class="utility-composer-btn" id="clearInputBtn" title="Clear Buffer">
+                                <span class="material-symbols-rounded">backspace</span>
+                            </button>
+                            <button class="submit-action-circle-btn" id="submitPromptBtn" disabled title="Send Pipeline Message">
+                                <span class="material-symbols-rounded">arrow_upward</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="composer-security-disclosure">
+                        Cortexa handles computations inside sandboxed localized system structures. Verify clinical telemetry before execution.
                     </div>
                 </div>
-                <div class="input-disclaimer-text">
-                    Cortexa is AI & can make mistakes. Verify clinical data before use.
-                </div>
-            </footer>
+            </div>
         </main>
     </div>
 
-    <div class="context-menu-floating hidden" id="chatContextMenu">
-        <button class="context-action-item" data-action="pin">
-            <span class="material-symbols-rounded">push_pin</span><span>Pin</span>
+    <div class="custom-context-menu hidden" id="chatContextMenu">
+        <button class="context-item" id="contextPinThreadBtn">
+            <span class="material-symbols-rounded context-icon">keep</span>
+            <span id="contextPinText">Pin Session</span>
         </button>
-        <button class="context-action-item" data-action="rename">
-            <span class="material-symbols-rounded">edit</span><span>Rename</span>
-        </button>
-        <div class="context-divider"></div>
-        <button class="context-action-item danger" data-action="delete">
-            <span class="material-symbols-rounded">delete</span><span>Delete</span>
+        <button class="context-item text-danger" id="contextDeleteThreadBtn">
+            <span class="material-symbols-rounded context-icon">delete</span>
+            <span>Delete Session</span>
         </button>
     </div>
 
-    <div class="elegant-modal-mask hidden" id="settingsModal">
-        <div class="elegant-modal-card">
-            <div class="modal-card-header">
-                <div class="title-block">
-                    <span class="material-symbols-rounded text-accent">settings</span>
-                    <h3>Settings</h3>
-                </div>
-                <button class="modal-close-circle-btn" id="closeSettingsModalBtn">
-                    <span class="material-symbols-rounded">close</span>
-                </button>
-            </div>
-            <div class="modal-card-body">
-                <div class="settings-meta-section">
-                    <h4>Groq Cloud Integration</h4>
-                    <p>Enter your API key to enable clinical data inference and cross-database analysis.</p>
-                    <div class="input-field-wrapper">
-                        <span class="material-symbols-rounded prefix-icon">vpn_key</span>
-                        <input type="password" id="groqKeyField" placeholder="API Key (gsk_...)">
-                    </div>
-                </div>
-                <div class="settings-meta-section divider-top">
-                    <h4>System Maintenance</h4>
-                    <p>Permanently delete cached sessions and temporary data.</p>
-                    <button class="danger-action-pill-btn" id="flushMemoryBtn">Clear Local Session Cache</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="calculators.js"></script>
-    <script src="drugs.js"></script>
-    <script src="emergencies.js"></script>
-    <script src="fluids.js"></script>
-    <script src="labs.js"></script>
-    <script src="procedures.js"></script>
-    <script src="protocols.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
