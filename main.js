@@ -1514,17 +1514,3 @@ toggleBtn.addEventListener('click', () => {
 
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
-
-
-
-
-
-
-
-const el = document.elementFromPoint(
-  window.innerWidth / 2,
-  window.innerHeight - 5
-);
-
-console.log(el);
-console.log(getComputedStyle(el).backgroundColor);
