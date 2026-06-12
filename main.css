@@ -649,17 +649,70 @@ body {
         border-radius: 12px !important; /* Fixed: Rectangle preserved on mobile viewports */
     }
 
-    /* When the sidebar has the active state class triggered by your JavaScript, 
-       force it to open wide, bypassing the default 'collapsed' startup class */
+    /* ==========================================================================
+       9. FLOATING UPPER-LEFT DROPDOWN SIDEBAR SPECS
+       ========================================================================== */
+    
+    /* Configures the sidebar panel into a floating card hanging from the upper left */
+    .sidebar {
+        position: fixed !important;
+        /* Positioned right under your top header bar */
+        top: calc(64px + env(safe-area-inset-top, 0px)) !important; 
+        left: 16px !important; 
+        bottom: auto !important; /* Deletes the full-screen vertical stretch */
+        
+        /* Dropdown Box Geometry Constraints */
+        width: 290px !important; 
+        max-width: calc(100vw - 32px) !important;
+        max-height: calc(75vh - env(safe-area-inset-top, 0px)) !important;
+        height: auto !important; /* Allows the card to shrink match its contents */
+        
+        /* Premium Floating Card Aesthetic */
+        background-color: var(--bg-sidebar) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 20px !important;
+        box-shadow: 0 16px 40px var(--shadow-alpha) !important;
+        z-index: 1000 !important;
+        
+        /* Hidden Closed Dropdown State (Fades and Minimizes upward) */
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-10px) scale(0.95) !important;
+        pointer-events: none !important;
+        transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                    visibility 0.2s !important;
+    }
+    
+    /* Active Opened Dropdown State (Triggered via your JS) */
+    .sidebar.mobile-open,
     body.sidebar-active #sidebar,
-    body.sidebar-active .sidebar.collapsed {
-        transform: translateX(0) !important;
-        width: 280px !important; /* Matches your core sidebar design footprint width */
-        display: flex !important;
+    body.sidebar-active .sidebar.collapsed { 
         opacity: 1 !important;
         visibility: visible !important;
+        transform: translateY(0) scale(1) !important; 
+        pointer-events: auto !important;
+        width: 290px !important;
+        display: flex !important;
     }
 
+    /* Suppresses desktop icon bar behaviors on mobile touchscreens */
+    .sidebar.collapsed {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-10px) scale(0.95) !important;
+    }
+    
+    /* Removes the redundant inner header spacing inside the floating card dropdown */
+    .sidebar-brand-header {
+        display: none !important; 
+    }
+
+    /* Soft top padding replacement since the original brand header is hidden */
+    .sidebar-scroll-zone {
+        padding-top: 12px !important;
+    }
+    
     /* 1. Allow input rows to stack vertically instead of squeezing side-by-side */
     .inline-form-row {
         width: 100% !important;
@@ -696,36 +749,7 @@ body {
     .cortexa-dynamic-trigger {
         border-radius: 12px !important; /* Fixed: Unified rectangle shape preserved for touch queries */
     }
-    
-    /* Configures the sidebar panel into an absolute elastic off-screen drawer layer */
-    .sidebar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        height: 100vh;
-        height: 100dvh;
-        width: 280px !important; 
-        max-width: 85vw; /* Absolute block constraint layout protection */
-        transform: translateX(-100%); /* Slides entirely out of view when closed */
-        z-index: 200;
-        transition: transform var(--transition-smooth);
-    }
-    
-    /* Opened slide drawer mapping rules for landscape and mobile devices */
-    .sidebar.mobile-open { 
-        transform: translateX(0) !important; 
-        width: 280px !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
 
-    /* Suppresses standard desktop icon bar compression layouts inside touchscreen states */
-    .sidebar.collapsed {
-        width: 280px !important;
-        transform: translateX(-100%) !important;
-    }
-    
     /* Guarantees that internal components maintain structure when slid out on mobile devices */
     .sidebar.collapsed .cortexa-sidebar-brand {
         display: block !important;
@@ -1290,118 +1314,6 @@ body {
 /* Sync Settings active buttons with navigation highlighting maps */
 #settingsToggleBtn.active svg {
     color: var(--text-primary) !important;
-}
-
-/* ==========================================================================
-   TOUCHSCREEN & MOBILE DROPDOWN REFACTOR (PHONE, TABLET, IPAD, IPHONE)
-   ========================================================================== */
-   @media (pointer: coarse), (max-width: 1024px) {
-    /* Ensure universal sizing models are absolute across the dropdown layout scope */
-    .sidebar, 
-    .sidebar *, 
-    .main-workspace {
-        box-sizing: border-box !important;
-    }
-
-    .app-container {
-        flex-direction: column !important;
-        overflow-x: hidden !important;
-    }
-
-    .sidebar-overlay {
-        display: none !important;
-    }
-
-    /* 3. Refactor Sidebar Container — Fluid Width Alignment Patch */
-    .sidebar {
-        position: fixed !important;
-        top: calc(64px + env(safe-area-inset-top, 0px)) !important;
-        left: 0 !important;
-        
-        /* Changed from 100vw to 100% to follow parent app-container containment safely */
-        width: 100% !important; 
-        max-width: 100% !important;
-        
-        height: auto !important;
-        max-height: calc(85dvh - 64px) !important;
-        background-color: var(--bg-sidebar) !important;
-        border-bottom: 1px solid var(--border-color) !important;
-        border-right: none !important;
-        z-index: 75 !important;
-        
-        transform: translateY(-120%) !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
-                    opacity 0.35s ease, 
-                    visibility 0.35s linear !important;
-    }
-
-    .sidebar.mobile-open {
-        transform: translateY(0) !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-
-    .sidebar-brand-header {
-        height: 54px !important;
-        padding: 8px 16px !important;
-        width: 100% !important;
-    }
-
-    /* 4. Shift Main Workspace view down fluidly — Fluid Width Alignment Patch */
-    .main-workspace {
-        width: 100% !important;
-        max-width: 100% !important;
-        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-
-    .sidebar.mobile-open + .main-workspace {
-        transform: translateY(calc(75dvh - 64px)) !important;
-    }
-    
-    /* Alternate calculation system mapping standard scrollable heights */
-    :root:has(.sidebar.mobile-open) .main-workspace {
-        transform: translateY(340px) !important;
-    }
-    :root:has(.sidebar.mobile-open) .sidebar {
-        height: 340px !important;
-    }
-
-    /* 5. Elegant Upper-Right Close Button Design System */
-    .mobile-sidebar-close-trigger-btn {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: 12px;
-        right: 16px;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background-color: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        color: var(--text-primary);
-        cursor: pointer;
-        z-index: 90;
-        transition: background-color 0.2s ease, transform 0.1s ease;
-    }
-
-    .mobile-sidebar-close-trigger-btn:active {
-        transform: scale(0.92);
-        background-color: var(--bg-hover);
-    }
-
-    .mobile-sidebar-close-trigger-btn span {
-        font-size: 1.25rem !important;
-    }
-}
-
-/* Hide mobile-specific design nodes on computer screens */
-@media (pointer: fine) and (min-width: 1025px) {
-    .mobile-sidebar-close-trigger-btn {
-        display: none !important;
-    }
 }
 
 .hidden { display: none !important; }
