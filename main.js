@@ -1,90 +1,114 @@
 /**
  * Cortexa AI — Medical Intelligence Platform
+ * Production Refactored Object State Controller & Lifecycle Management Engine
  */
 
 (function() {
     'use strict';
 
-    // ==========================================
-    // 1. ENGINE RUNTIME STATE MATRIX
-    // ==========================================
+    // ==========================================================================
+    // 1. SYSTEM CORE RUNTIME ARCHITECTURE STATE MATRIX
+    // ==========================================================================
     let SystemState = {
         theme: 'dark',
         groqKey: '',
         activeThreadId: null,
-        historyCollapsed: true,
+        historyCollapsed: false,
         selectedContextMenuThreadId: null,
         activeViewPanelId: 'zeroStateScreen',
         threads: {}
     };
 
-    // Safe Global Database Registry Access Layer
+    let SYSTEM_KNOWLEDGE_POOLS = [];
+
+    /**
+     * Loops safely through available global module registries to build index arrays.
+     * @returns {Array} Compiled system dataset dictionaries.
+     */
     function compileMasterKnowledgeBase() {
         const pool = [];
         
-        // Mapped to correct window global array handles
+        // Register array instances from integrated clinical file contexts safely
         if (window.PROTOCOLS_DB && Array.isArray(window.PROTOCOLS_DB)) {
-            window.PROTOCOLS_DB.forEach(x => pool.push({ ...x, type: 'protocol', origin: 'protocols.js' }));
+            window.PROTOCOLS_DB.forEach(function(item) {
+                pool.push(Object.assign({}, item, { type: 'protocol', origin: 'protocols.js' }));
+            });
         }
         if (window.EMERGENCIES_DB && Array.isArray(window.EMERGENCIES_DB)) {
-            window.EMERGENCIES_DB.forEach(x => pool.push({ ...x, type: 'emergency', origin: 'emergencies.js' }));
+            window.EMERGENCIES_DB.forEach(function(item) {
+                pool.push(Object.assign({}, item, { type: 'emergency', origin: 'emergencies.js' }));
+            });
         }
         if (window.PROCEDURES_DB && Array.isArray(window.PROCEDURES_DB)) {
-            window.PROCEDURES_DB.forEach(x => pool.push({ ...x, type: 'procedure', origin: 'procedures.js' }));
+            window.PROCEDURES_DB.forEach(function(item) {
+                pool.push(Object.assign({}, item, { type: 'procedure', origin: 'procedures.js' }));
+            });
         }
         if (window.DRUGS_DB && Array.isArray(window.DRUGS_DB)) {
-            window.DRUGS_DB.forEach(x => pool.push({ ...x, type: 'condition', origin: 'drugs.js' }));
+            window.DRUGS_DB.forEach(function(item) {
+                pool.push(Object.assign({}, item, { type: 'condition', origin: 'drugs.js' }));
+            });
         }
-        
-        // Map dynamic calculations from specialized files safely
         if (window.CALCULATORS_DB && Array.isArray(window.CALCULATORS_DB)) {
-            window.CALCULATORS_DB.forEach(x => pool.push({ ...x, type: 'calc', origin: 'calculators.js' }));
+            window.CALCULATORS_DB.forEach(function(item) {
+                pool.push(Object.assign({}, item, { type: 'calc', origin: 'calculators.js' }));
+            });
         }
         if (window.FLUIDS_DB && Array.isArray(window.FLUIDS_DB)) {
-            window.FLUIDS_DB.forEach(x => pool.push({ ...x, type: 'calc', origin: 'fluids.js' }));
+            window.FLUIDS_DB.forEach(function(item) {
+                pool.push(Object.assign({}, item, { type: 'calc', origin: 'fluids.js' }));
+            });
         }
         if (window.LABS_DB && Array.isArray(window.LABS_DB)) {
-            window.LABS_DB.forEach(x => pool.push({ ...x, type: 'calc', origin: 'labs.js' }));
+            window.LABS_DB.forEach(function(item) {
+                pool.push(Object.assign({}, item, { type: 'calc', origin: 'labs.js' }));
+            });
         }
 
         return pool;
     }
 
-    let SYSTEM_KNOWLEDGE_POOLS = [];
-
-    // ==========================================
-    // 2. LIFECYCLE CONTROLLER INIT
-    // ==========================================
+    // ==========================================================================
+    // 2. RUNTIME SYSTEM LIFECYCLE CONTROLLER
+    // ==========================================================================
     function initializeCortexaSystem() {
         SYSTEM_KNOWLEDGE_POOLS = compileMasterKnowledgeBase();
         loadLocalStorageCache();
         applyInterfaceThemeEngine();
         registerOperationalDOMEvents();
         renderThreadSidebarHistory();
-        renderLibraryWorkspaceScreen();
         verifySendBufferCapacity();
 
-        // Safely collapse the desktop view on load without touching mobile panels
-        const isMobileOrTablet = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
-        if (!isMobileOrTablet) {
-            const sidebarElement = document.getElementById('sidebar');
-            if (sidebarElement) {
-                sidebarElement.classList.add('collapsed');
+        // Collapse desktop sidebar configuration schemas dynamically
+        const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+        if (!isTouchTarget) {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.add('collapsed');
             }
         }
     }
 
     function loadLocalStorageCache() {
         const cachedTheme = localStorage.getItem('ctx_theme');
-        if (cachedTheme) SystemState.theme = cachedTheme;
+        if (cachedTheme) {
+            SystemState.theme = cachedTheme;
+        }
     
         const cachedKey = localStorage.getItem('ctx_api_gateway_key');
-        if (cachedKey) SystemState.groqKey = cachedKey;
+        if (cachedKey) {
+            SystemState.groqKey = cachedKey;
+        }
     
         const cachedThreads = localStorage.getItem('ctx_saved_threads');
         if (cachedThreads) {
-            SystemState.threads = JSON.parse(cachedThreads);
-            if (Object.keys(SystemState.threads).length === 0) {
+            try {
+                SystemState.threads = JSON.parse(cachedThreads);
+                if (Object.keys(SystemState.threads).length === 0) {
+                    generateSeedConversation();
+                }
+            } catch (e) {
+                console.error("Storage parse error, resetting state matrix:", e);
                 generateSeedConversation();
             }
         } else {
@@ -94,28 +118,17 @@
 
     function generateSeedConversation() {
         const initialId = 'thread_seed_' + Date.now();
-        SystemState.threads = {
-            [initialId]: { 
-                id: initialId, 
-                label: "New Conversation", 
-                pinned: false, 
-                messages: [
-                    { 
-                        sender: 'ai', 
-                        text: `<div class="system-card-container">
-                            <div class="system-card-header">
-                                <div class="system-card-title">
-                                    <span class="material-symbols-rounded">forum</span> Welcome to Cortexa AI
-                                </div>
-                                <div class="system-badge normal">Ready</div>
-                            </div>
-                            <div class="system-text-block">
-                                Hello! How can I assist you with your clinical database analysis or data processing today?
-                            </div>
-                         </div>` 
-                    }
-                ]
-            }
+        SystemState.threads = {};
+        SystemState.threads[initialId] = { 
+            id: initialId, 
+            label: "Welcome System Record", 
+            pinned: false, 
+            messages: [
+                { 
+                    sender: 'ai', 
+                    text: '<div class="system-card-container"><div class="system-card-header"><div class="system-card-title"><span class="material-symbols-rounded">forum</span> Welcome to Cortexa AI</div><div class="system-badge normal">Ready</div></div><div class="system-text-block">Hello! How can I assist you with clinical database protocols or analysis parameters today?</div></div>' 
+                }
+            ]
         };
         persistThreadsToStorage();
     }
@@ -124,11 +137,17 @@
         const list = document.body.classList;
         const themeIcon = document.querySelector('#themeQuickToggleBtn span');
         if (SystemState.theme === 'dark') {
-            list.replace('theme-light', 'theme-dark');
-            if (themeIcon) themeIcon.textContent = 'light_mode';
+            list.remove('theme-light');
+            list.add('theme-dark');
+            if (themeIcon) {
+                themeIcon.textContent = 'light_mode';
+            }
         } else {
-            list.replace('theme-dark', 'theme-light');
-            if (themeIcon) themeIcon.textContent = 'dark_mode';
+            list.remove('theme-dark');
+            list.add('theme-light');
+            if (themeIcon) {
+                themeIcon.textContent = 'dark_mode';
+            }
         }
     }
 
@@ -136,47 +155,60 @@
         try {
             localStorage.setItem('ctx_saved_threads', JSON.stringify(SystemState.threads));
         } catch (e) {
-            console.error("Failed to write conversations to storage:", e);
+            console.error("Failed to write state context matrix to storage:", e);
         }
     }
 
-    // ==========================================
-    // 3. UI VIEWPORT ROUTER MATRIX
-    // ==========================================
+    // ==========================================================================
+    // 3. UI VIEWPORT INTEGRATED ROUTER MATRIX
+    // ==========================================================================
     function routeWorkspaceView(panelId) {
         SystemState.activeViewPanelId = panelId;
         
-        document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
+        // Clear primary interface highlighting states
+        document.querySelectorAll('.view-panel').forEach(function(panel) {
+            panel.classList.add('hidden');
+        });
         document.getElementById('sidebarSearchNavBtn').classList.remove('active');
         document.getElementById('libraryNavBtn').classList.remove('active');
         document.getElementById('settingsToggleBtn').classList.remove('active');
 
         const activePanel = document.getElementById(panelId);
-        if (activePanel) activePanel.classList.remove('hidden');
-
-        const deck = document.getElementById('globalInputDeck');
-        if (panelId === 'searchWorkspaceScreen' || panelId === 'libraryWorkspaceScreen' || panelId === 'settingsWorkspaceScreen') {
-            deck.classList.add('hidden');
-        } else {
-            deck.classList.remove('hidden');
+        if (activePanel) {
+            activePanel.classList.remove('hidden');
         }
 
+        // Floating user entry text panel matrix state enforcement
+        const deck = document.getElementById('globalInputDeck');
+        if (panelId === 'searchWorkspaceScreen' || panelId === 'libraryWorkspaceScreen' || panelId === 'settingsWorkspaceScreen') {
+            if (deck) {
+                deck.classList.add('hidden');
+            }
+        } else {
+            if (deck) {
+                deck.classList.remove('hidden');
+            }
+        }
+
+        // Sub-panel initializer evaluation paths
         if (panelId === 'searchWorkspaceScreen') {
             document.getElementById('sidebarSearchNavBtn').classList.add('active');
-            processHistorySearchQuery();
+            processHistorySearchQuery('');
         } else if (panelId === 'libraryWorkspaceScreen') {
             document.getElementById('libraryNavBtn').classList.add('active');
-            renderLibraryWorkspaceScreen();
+            renderLibraryWorkspaceScreen('');
         } else if (panelId === 'settingsWorkspaceScreen') {
             document.getElementById('settingsToggleBtn').classList.add('active');
             const keyField = document.getElementById('groqKeyField');
-            if (keyField) keyField.value = SystemState.groqKey;
+            if (keyField) {
+                keyField.value = SystemState.groqKey;
+            }
         }
     }
 
-    // ==========================================
-    // 4. CORE CONTROLS AND INTERFACES
-    // ==========================================
+    // ==========================================================================
+    // 4. CORE CONTROLS AND EVENT ROUTER INTEGRATIONS
+    // ==========================================================================
     function registerOperationalDOMEvents() {
         const area = document.getElementById('chatInputPayload');
         const submit = document.getElementById('submitPromptBtn');
@@ -187,66 +219,105 @@
                 const sidebar = document.getElementById('sidebar');
                 if (sidebar && sidebar.classList.contains('mobile-open')) {
                     sidebar.classList.remove('mobile-open');
-                    document.getElementById('sidebarOverlay').classList.remove('active');
+                    const overlay = document.getElementById('sidebarOverlay');
+                    if (overlay) {
+                        overlay.classList.remove('active');
+                    }
+                    syncSidebarButtonStates(false);
                 }
             }
         }
+
+        function syncSidebarButtonStates(isOpen) {
+            const collapseBtn = document.getElementById('collapseSidebarBtn');
+            const menuBtn = document.getElementById('menuToggleBtn');
+            if (isOpen) {
+                if (collapseBtn) collapseBtn.classList.add('is-open');
+                if (menuBtn) menuBtn.classList.add('is-open');
+            } else {
+                if (collapseBtn) collapseBtn.classList.remove('is-open');
+                if (menuBtn) menuBtn.classList.remove('is-open');
+            }
+        }
     
-        document.getElementById('brandHomeLink').addEventListener('click', () => {
+        document.getElementById('brandHomeLink').addEventListener('click', function() {
+            SystemState.activeThreadId = null;
+            renderThreadSidebarHistory();
+            routeWorkspaceView('zeroStateScreen');
+            closeMobileSidebarIfOpen();
+        });
+
+        document.getElementById('viewportHomeLink').addEventListener('click', function() {
             SystemState.activeThreadId = null;
             renderThreadSidebarHistory();
             routeWorkspaceView('zeroStateScreen');
             closeMobileSidebarIfOpen();
         });
     
-        document.getElementById('newChatBtn').addEventListener('click', () => {
+        document.getElementById('newChatBtn').addEventListener('click', function() {
             SystemState.activeThreadId = null;
             renderThreadSidebarHistory();
             routeWorkspaceView('zeroStateScreen');
-            if (area) { area.value = ''; area.style.height = 'auto'; }
+            if (area) { 
+                area.value = ''; 
+                area.style.height = 'auto'; 
+            }
             verifySendBufferCapacity();
             closeMobileSidebarIfOpen();
         });
     
-        document.getElementById('sidebarSearchNavBtn').addEventListener('click', () => {
+        document.getElementById('sidebarSearchNavBtn').addEventListener('click', function() {
             routeWorkspaceView('searchWorkspaceScreen');
             closeMobileSidebarIfOpen();
         });
         
-        document.getElementById('libraryNavBtn').addEventListener('click', () => {
+        document.getElementById('libraryNavBtn').addEventListener('click', function() {
             routeWorkspaceView('libraryWorkspaceScreen');
             closeMobileSidebarIfOpen();
         });
     
-        document.getElementById('collapseSidebarBtn').addEventListener('click', () => {
+        document.getElementById('collapseSidebarBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
             const sidebar = document.getElementById('sidebar');
             const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
     
             if (isTouchTarget) {
-                sidebar.classList.remove('mobile-open');
-                document.getElementById('sidebarOverlay').classList.remove('active');
+                if (sidebar.classList.contains('mobile-open')) {
+                    sidebar.classList.remove('mobile-open');
+                    document.getElementById('sidebarOverlay').classList.remove('active');
+                    syncSidebarButtonStates(false);
+                } else {
+                    sidebar.classList.add('mobile-open');
+                    document.getElementById('sidebarOverlay').classList.add('active');
+                    syncSidebarButtonStates(true);
+                }
             } else {
                 sidebar.classList.toggle('collapsed');
+                const isCollapsed = sidebar.classList.contains('collapsed');
+                syncSidebarButtonStates(!isCollapsed);
             }
         });
         
-        document.getElementById('menuToggleBtn').addEventListener('click', () => {
+        document.getElementById('menuToggleBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
             document.getElementById('sidebar').classList.add('mobile-open');
             document.getElementById('sidebarOverlay').classList.add('active');
+            syncSidebarButtonStates(true);
         });
     
-        document.getElementById('sidebarOverlay').addEventListener('click', () => {
+        document.getElementById('sidebarOverlay').addEventListener('click', function() {
             document.getElementById('sidebar').classList.remove('mobile-open');
             document.getElementById('sidebarOverlay').classList.remove('active');
+            syncSidebarButtonStates(false);
         });
     
         if (area) {
-            area.addEventListener('input', () => {
+            area.addEventListener('input', function() {
                 area.style.height = 'auto';
                 area.style.height = area.scrollHeight + 'px';
                 verifySendBufferCapacity();
             });
-            area.addEventListener('keydown', (e) => {
+            area.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' && !e.shiftKey && !submit.disabled) {
                     e.preventDefault();
                     dispatchInferenceSequence();
@@ -256,16 +327,21 @@
     
         const clearInputBtn = document.getElementById('clearInputBtn');
         if (clearInputBtn) {
-            clearInputBtn.addEventListener('click', () => {
-                if (area) { area.value = ''; area.style.height = 'auto'; }
+            clearInputBtn.addEventListener('click', function() {
+                if (area) { 
+                    area.value = ''; 
+                    area.style.height = 'auto'; 
+                }
                 verifySendBufferCapacity();
             });
         }
     
-        if (submit) submit.addEventListener('click', dispatchInferenceSequence);
+        if (submit) {
+            submit.addEventListener('click', dispatchInferenceSequence);
+        }
     
-        document.querySelectorAll('.suggestion-card').forEach(card => {
-            card.addEventListener('click', () => {
+        document.querySelectorAll('.suggestion-card').forEach(function(card) {
+            card.addEventListener('click', function() {
                 if (area) {
                     area.value = card.getAttribute('data-prompt');
                     area.style.height = 'auto';
@@ -276,52 +352,52 @@
             });
         });
     
-        document.getElementById('internalSearchField').addEventListener('input', (e) => {
+        document.getElementById('internalSearchField').addEventListener('input', function(e) {
             processHistorySearchQuery(e.target.value.toLowerCase().trim());
         });
     
-        document.getElementById('libraryWorkspaceSearchField').addEventListener('input', (e) => {
+        document.getElementById('libraryWorkspaceSearchField').addEventListener('input', function(e) {
             renderLibraryWorkspaceScreen(e.target.value.toLowerCase().trim());
         });
     
-        document.getElementById('toggleCollapseAllChatsBtn').addEventListener('click', () => {
+        document.getElementById('toggleCollapseAllChatsBtn').addEventListener('click', function() {
             SystemState.historyCollapsed = !SystemState.historyCollapsed;
             const container = document.getElementById('chatHistoryContainer');
             const icon = document.getElementById('collapseListIcon');
             if (SystemState.historyCollapsed) {
-                container.classList.add('list-collapsed');
+                container.classList.add('list-collapsed'); 
                 icon.textContent = 'unfold_more';
             } else {
-                container.classList.remove('list-collapsed');
+                container.classList.remove('list-collapsed'); 
                 icon.textContent = 'unfold_less';
             }
         });
     
-        document.getElementById('deleteAllChatsBtn').addEventListener('click', () => {
-            if (confirm('Are you sure you want to permanently wipe all sessions?')) {
-                SystemState.threads = {};
+        document.getElementById('deleteAllChatsBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to permanently wipe all configuration sessions?')) {
+                SystemState.threads = {}; 
                 SystemState.activeThreadId = null;
-                persistThreadsToStorage();
+                persistThreadsToStorage(); 
                 renderThreadSidebarHistory();
                 routeWorkspaceView('zeroStateScreen');
                 closeMobileSidebarIfOpen();
             }
         });
     
-        document.getElementById('themeQuickToggleBtn').addEventListener('click', () => {
-            SystemState.theme = SystemState.theme === 'dark' ? 'light' : 'dark';
+        document.getElementById('themeQuickToggleBtn').addEventListener('click', function() {
+            SystemState.theme = (SystemState.theme === 'dark') ? 'light' : 'dark';
             localStorage.setItem('ctx_theme', SystemState.theme);
             applyInterfaceThemeEngine();
         });
     
-        document.getElementById('settingsToggleBtn').addEventListener('click', () => {
+        document.getElementById('settingsToggleBtn').addEventListener('click', function() {
             routeWorkspaceView('settingsWorkspaceScreen');
-            closeMobileSidebarIfOpen();
+            closeMobileSidebarIfOpen(); 
         });
     
         const keyField = document.getElementById('groqKeyField');
         if (keyField) {
-            const saveCredentials = () => {
+            const saveCredentials = function() {
                 SystemState.groqKey = keyField.value.trim();
                 localStorage.setItem('ctx_api_gateway_key', SystemState.groqKey);
             };
@@ -329,764 +405,617 @@
             keyField.addEventListener('change', saveCredentials);
         }
     
-        document.getElementById('flushMemoryBtn').addEventListener('click', () => {
-            if (confirm('Are you sure you want to completely clear the local cache? This will reset the system.')) {
+        document.getElementById('flushMemoryBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to completely flash the local cache? System reset sequence will initiate.')) {
                 localStorage.removeItem('ctx_theme');
                 localStorage.removeItem('ctx_api_gateway_key');
                 localStorage.removeItem('ctx_saved_threads');
                 location.reload();
             }
         });
-    
-        document.addEventListener('click', () => {
+
+        // Global UI Context sheets dismissal paths
+        document.addEventListener('click', function() {
             const contextMenu = document.getElementById('chatContextMenu');
-            if (contextMenu) contextMenu.classList.add('hidden');
+            if (contextMenu) {
+                contextMenu.classList.add('hidden');
+            }
         });
-    
-        const historyContainer = document.getElementById('chatHistoryContainer');
-        if (historyContainer) {
-            historyContainer.addEventListener('click', (e) => {
-                if (e.target.closest('.history-item') || e.target.closest('.sidebar-action-pill-btn')) {
-                    closeMobileSidebarIfOpen();
+
+        // Registry configuration options inside Context Panel sheets
+        document.getElementById('contextPinThreadBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const threadId = SystemState.selectedContextMenuThreadId;
+            if (threadId && SystemState.threads[threadId]) {
+                SystemState.threads[threadId].pinned = !SystemState.threads[threadId].pinned;
+                persistThreadsToStorage();
+                renderThreadSidebarHistory();
+            }
+            const contextMenu = document.getElementById('chatContextMenu');
+            if (contextMenu) {
+                contextMenu.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('contextDeleteThreadBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const threadId = SystemState.selectedContextMenuThreadId;
+            if (threadId && SystemState.threads[threadId]) {
+                delete SystemState.threads[threadId];
+                if (SystemState.activeThreadId === threadId) {
+                    SystemState.activeThreadId = null;
+                    routeWorkspaceView('zeroStateScreen');
+                }
+                persistThreadsToStorage();
+                renderThreadSidebarHistory();
+            }
+            const contextMenu = document.getElementById('chatContextMenu');
+            if (contextMenu) {
+                contextMenu.classList.add('hidden');
+            }
+        });
+
+        // ==========================================================================
+        // NATIVE TOUCH EDGE-SWIPE TRACKING SUBSYSTEM
+        // ==========================================================================
+        (function initSidebarSwipeMechanics() {
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+
+            const SWIPE_THRESHOLD_X = 60;  
+            const SWIPE_CONSTRAINT_Y = 40; 
+            const EDGE_BOUNDARY_X = 40;    
+
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (!sidebar || !overlay) return;
+
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].clientX;
+                touchStartY = e.changedTouches[0].clientY;
+            }, { passive: true });
+
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].clientX;
+                touchEndY = e.changedTouches[0].clientY;
+                handleSwipeResolution();
+            }, { passive: true });
+
+            function handleSwipeResolution() {
+                const deltaX = touchEndX - touchStartX;
+                const deltaY = Math.abs(touchEndY - touchStartY);
+
+                if (deltaY > SWIPE_CONSTRAINT_Y) return;
+
+                const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+                if (!isTouchDevice) return;
+
+                const isOpen = sidebar.classList.contains('mobile-open');
+
+                if (deltaX > SWIPE_THRESHOLD_X && !isOpen) {
+                    if (touchStartX <= EDGE_BOUNDARY_X) {
+                        sidebar.classList.add('mobile-open');
+                        overlay.classList.add('active');
+                        syncSidebarButtonStates(true);
+                    }
+                } 
+                else if (deltaX < -SWIPE_THRESHOLD_X && isOpen) {
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                    syncSidebarButtonStates(false);
+                }
+            }
+        })();
+
+        // ==========================================================================
+        // TOUCHSCREEN VIRTUAL KEYBOARD VIEWPORT GEOMETRY FIX
+        // ==========================================================================
+        (function initTouchKeyboardResetMechanics() {
+            const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
+            if (!isTouchTarget || !window.visualViewport) return;
+
+            const restoreViewport = function() {
+                document.documentElement.style.height = '100dvh';
+                document.body.style.height = '100dvh';
+                
+                const app = document.querySelector('.app-container');
+                const workspace = document.querySelector('.main-workspace');
+                const viewport = document.getElementById('contentViewport');
+                
+                if (app) app.style.height = '100dvh';
+                if (workspace) workspace.style.height = '100dvh';
+                
+                requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                        window.scrollTo(0, 0);
+                        if (viewport) {
+                            viewport.style.height = '0px';
+                            viewport.offsetHeight; 
+                            requestAnimationFrame(function() {
+                                viewport.style.height = '';
+                                viewport.offsetHeight; 
+                            });
+                        }
+                    });
+                });
+            };
+
+            let lastViewportHeight = window.visualViewport.height;
+            
+            window.visualViewport.addEventListener('resize', function() {
+                const active = document.activeElement;
+                const isEditing = active && (active.tagName === 'TEXTAREA' || active.tagName === 'INPUT');
+                const currentHeight = window.visualViewport.height;
+                const keyboardClosed = currentHeight > lastViewportHeight + 80;
+                
+                lastViewportHeight = currentHeight;
+                
+                if (!isEditing || keyboardClosed) {
+                    setTimeout(restoreViewport, 150);
                 }
             });
-        }
+
+            document.addEventListener('focusout', function() {
+                setTimeout(restoreViewport, 150);
+            });
+        })();
     }
 
     function verifySendBufferCapacity() {
         const area = document.getElementById('chatInputPayload');
-        const submit = document.getElementById('submitPromptBtn');
-        if (!area || !submit) return;
-        
-        if (area.value.trim().length > 0) {
-            submit.disabled = false;
-        } else {
-            submit.disabled = true;
+        if (!area) return;
+        const val = area.value.trim();
+        const submitBtn = document.getElementById('submitPromptBtn');
+        if (submitBtn) {
+            submitBtn.disabled = (val.length === 0);
         }
     }
 
-    // ==========================================
-    // 5. SIDEBAR HISTORICAL THREAD LAYOUT RENDERING
-    // ==========================================
+    // ==========================================================================
+    // 5. INTUITIVE INFERENCE LOGIC MATCHING & ROUTING ENGINE
+    // ==========================================================================
+    async function dispatchInferenceSequence() {
+        const area = document.getElementById('chatInputPayload');
+        if (!area) return;
+        const query = area.value.trim();
+        if (!query) return;
+
+        area.value = '';
+        area.style.height = 'auto';
+        verifySendBufferCapacity();
+
+        // Instantiate fallback thread wrapper contexts if empty
+        if (!SystemState.activeThreadId) {
+            const newId = 'case_log_' + Date.now();
+            SystemState.activeThreadId = newId;
+            SystemState.threads[newId] = {
+                id: newId,
+                label: query.length > 28 ? query.substring(0, 26) + '...' : query,
+                pinned: false,
+                messages: []
+            };
+        }
+
+        const currentThread = SystemState.threads[SystemState.activeThreadId];
+        currentThread.messages.push({ sender: 'user', text: query });
+        
+        routeWorkspaceView('chatStreamingScreen');
+        renderActiveChatMessageStream();
+        renderThreadSidebarHistory();
+
+        // Pre-evaluation routing check against matching static clinical keywords
+        const normalizedQuery = query.toLowerCase();
+        let conceptMatchFound = false;
+
+        for (let i = 0; i < SYSTEM_KNOWLEDGE_POOLS.length; i++) {
+            const entity = SYSTEM_KNOWLEDGE_POOLS[i];
+            if (normalizedQuery.includes(entity.title.toLowerCase())) {
+                const formattedPayload = compileClinicalEntityTemplateHTML(entity);
+                
+                // Introduce structural layout execution delays to simulate pipeline processing
+                await new Promise(function(resolve) { setTimeout(resolve, 450); });
+                
+                currentThread.messages.push({ sender: 'ai', text: formattedPayload });
+                persistThreadsToStorage();
+                renderActiveChatMessageStream();
+                conceptMatchFound = true;
+                break;
+            }
+        }
+
+        if (conceptMatchFound) return;
+
+        // Fallback interface sequence: Execute remote API data payload request vectors
+        if (!SystemState.groqKey) {
+            await new Promise(function(resolve) { setTimeout(resolve, 400); });
+            currentThread.messages.push({
+                sender: 'ai',
+                text: '<div class="system-card-container"><div class="system-card-header"><div class="system-card-title"><span class="material-symbols-rounded">gated_sign_in</span> Gateway Key Required</div><div class="system-badge danger-variant">Hold</div></div><div class="system-text-block">Local knowledge pool returned negative parameters. Please configure your Groq Cloud Key credential matrices in the <b>System Workspace Console Screen</b> to unlock advanced cloud reasoning pipelines.</div></div>'
+            });
+            persistThreadsToStorage();
+            renderActiveChatMessageStream();
+            return;
+        }
+
+        // Build inference prompt structural contextual wrappers
+        currentThread.messages.push({ sender: 'ai', text: '<div class="clinical-streaming-loader-placeholder">Analyzing clinical vectors...</div>' });
+        renderActiveChatMessageStream();
+
+        try {
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + SystemState.groqKey
+                },
+                body: JSON.stringify({
+                    model: 'mixtral-8x7b-32768',
+                    messages: [
+                        { role: 'system', content: 'You are Cortexa AI, an expert enterprise clinical system assistant tool. Output structured clear HTML cards using modern layouts with class "system-card-container" where relevant.' },
+                        { role: 'user', content: query }
+                    ],
+                    temperature: 0.2
+                })
+            });
+
+            const data = await response.json();
+            currentThread.messages.pop(); // Remove loader object instance
+
+            if (data.choices && data.choices[0]) {
+                const rawOutputText = data.choices[0].message.content;
+                currentThread.messages.push({ sender: 'ai', text: rawOutputText });
+            } else {
+                currentThread.messages.push({ sender: 'ai', text: '<p>System encountered an evaluation runtime parsing anomaly. Please check query structure variables.</p>' });
+            }
+        } catch (error) {
+            console.error("Pipeline failure: ", error);
+            currentThread.messages.pop();
+            currentThread.messages.push({ sender: 'ai', text: '<p>Communication timeout configuration vector failure. Verify gateway connection paths.</p>' });
+        }
+
+        persistThreadsToStorage();
+        renderActiveChatMessageStream();
+    }
+
+    /**
+     * Converts structured schema object rows into beautiful standardized HTML blocks.
+     */
+    function compileClinicalEntityTemplateHTML(entity) {
+        let titleBadge = entity.type.toUpperCase();
+        let htmlBlock = '<div class="system-card-container">' +
+            '<div class="system-card-header">' +
+                '<div class="system-card-title"><span class="material-symbols-rounded">clinical_notes</span> ' + entity.title + '</div>' +
+                '<div class="system-badge normal">' + titleBadge + '</div>' +
+            '</div>' +
+            '<div class="system-text-block">';
+
+        if (entity.subtitle) {
+            htmlBlock += '<p style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:12px;">' + entity.subtitle + '</p>';
+        }
+
+        // Iterate securely over details structure parameters maps
+        if (entity.details && Array.isArray(entity.details)) {
+            entity.details.forEach(function(detail) {
+                htmlBlock += '<p style="margin-bottom:8px;">' + detail + '</p>';
+            });
+        }
+
+        // Inject functional layout matrix calculations dynamically if attached to the object frame
+        if (entity.inputs && Array.isArray(entity.inputs)) {
+            htmlBlock += '<div class="integrated-calculator-form-block" style="margin-top:16px; padding:14px; background-color:var(--bg-main); border-radius:12px; border:1px solid var(--border-color);">';
+            htmlBlock += '<h6 style="font-size:0.85rem; font-weight:600; margin-bottom:10px; color:var(--accent-blue);">Interactive Assessment Form Matrix</h6>';
+            
+            entity.inputs.forEach(function(input, index) {
+                htmlBlock += '<div class="calc-input-row-entry" style="display:flex; flex-direction:column; gap:6px; margin-bottom:10px;">' +
+                    '<label style="font-size:0.78rem; font-weight:500; color:var(--text-secondary);">' + input.label + '</label>' +
+                    '<input type="number" class="calc-interactive-field-node" data-weight="' + (input.weight || 1) + '" value="0" aria-label="' + input.label + '" style="background-color:var(--bg-sidebar); border:1px solid var(--border-color); border-radius:8px; height:36px; padding:0 12px; color:var(--text-primary); outline:none; font-family:var(--font-stack); font-size:0.88rem;">' +
+                '</div>';
+            });
+
+            htmlBlock += '<button class="execute-calculation-trigger-btn" style="width:100%; height:38px; background-color:var(--text-primary); color:var(--bg-main); border:none; border-radius:8px; font-family:var(--font-stack); font-size:0.85rem; font-weight:600; cursor:pointer; margin-top:6px;">Process Parameters Matrix</button>';
+            htmlBlock += '<div class="calculation-output-display-layer hidden" style="margin-top:14px; padding-top:12px; border-top:1px dashed var(--border-color);"></div>';
+            htmlBlock += '</div>';
+        }
+
+        htmlBlock += '</div></div>';
+        return htmlBlock;
+    }
+
+    // ==========================================================================
+    // 6. DOM RENDER CONSOLE INTERFACES (SIDEBAR HISTORY & VIEWS)
+    // ==========================================================================
     function renderThreadSidebarHistory() {
         const container = document.getElementById('chatHistoryContainer');
         if (!container) return;
         container.innerHTML = '';
 
-        const activeList = Object.values(SystemState.threads);
-        if (activeList.length === 0) {
-            container.innerHTML = `<div class="sidebar-empty-state">No past sessions active.</div>`;
+        const threadsArray = Object.values(SystemState.threads);
+        if (threadsArray.length === 0) {
+            container.innerHTML = '<div style="font-size:0.8rem; color:var(--text-secondary); text-align:center; padding:16px 8px;">No current logs recorded</div>';
             return;
         }
 
-        // Sort: Pinned elements ascend to top index maps automatically
-        activeList.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+        // High-performance structural normalization sort: Pinned sessions bubble up
+        threadsArray.sort(function(a, b) {
+            if (a.pinned && !b.pinned) return -1;
+            if (!a.pinned && b.pinned) return 1;
+            return 0;
+        });
 
-        activeList.forEach(thread => {
-            const item = document.createElement('div');
-            item.className = `history-item${SystemState.activeThreadId === thread.id ? ' active' : ''}`;
-            item.setAttribute('data-id', thread.id);
+        threadsArray.forEach(function(thread) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'history-item-wrapper';
+            if (thread.id === SystemState.activeThreadId) {
+                wrapper.classList.add('active');
+            }
+
+            const itemBtn = document.createElement('button');
+            itemBtn.className = 'history-item';
             
-            // Standard click routing loop handler interface
-            item.addEventListener('click', (e) => {
-                if (e.target.closest('.history-context-trigger')) return;
-                loadThreadSessionIntoFeed(thread.id);
+            let prefixIconStr = thread.pinned ? 'push_pin' : 'chat_bubble';
+            itemBtn.innerHTML = '<span class="material-symbols-rounded" style="font-size:1.1rem; color:var(--text-secondary); flex-shrink:0;">' + prefixIconStr + '</span>' +
+                                '<span class="history-item-text">' + thread.label + '</span>';
+
+            itemBtn.addEventListener('click', function() {
+                SystemState.activeThreadId = thread.id;
+                renderThreadSidebarHistory();
+                routeWorkspaceView('chatStreamingScreen');
+                renderActiveChatMessageStream();
             });
 
-            // Trigger the context menu layer securely
-            item.addEventListener('contextmenu', (e) => {
+            // Anchor dedicated listener vectors targeting Right Click and Touch Long Press configurations
+            const handleContextMenuTrigger = function(e) {
                 e.preventDefault();
-                displayThreadContextMenu(e, thread.id);
-            });
-
-            const leadingIcon = thread.pinned ? 'keep' : 'chat_bubble';
-            
-            item.innerHTML = `
-                <span class="material-symbols-rounded item-prefix">${leadingIcon}</span>
-                <span class="item-label">${escapeHtml(thread.label)}</span>
-                <button class="history-context-trigger">
-                    <span class="material-symbols-rounded">more_vert</span>
-                </button>
-            `;
-
-            const menuTrigger = item.querySelector('.history-context-trigger');
-            menuTrigger.addEventListener('click', (e) => {
                 e.stopPropagation();
-                displayThreadContextMenu(e, thread.id);
+                SystemState.selectedContextMenuThreadId = thread.id;
+                revealFloatingContextSheet(e.clientX, e.clientY);
+            };
+
+            wrapper.addEventListener('contextmenu', handleContextMenuTrigger);
+
+            const optionsTriggerBtn = document.createElement('button');
+            optionsTriggerBtn.className = 'item-action-trigger-btn';
+            optionsTriggerBtn.innerHTML = '<span class="material-symbols-rounded">more_horiz</span>';
+            optionsTriggerBtn.setAttribute('aria-label', 'Open Session Command List');
+            
+            optionsTriggerBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                SystemState.selectedContextMenuThreadId = thread.id;
+                const rect = optionsTriggerBtn.getBoundingClientRect();
+                revealFloatingContextSheet(rect.left, rect.bottom + 6);
             });
 
-            container.appendChild(item);
+            wrapper.appendChild(itemBtn);
+            wrapper.appendChild(optionsTriggerBtn);
+            container.appendChild(wrapper);
         });
     }
 
-    function displayThreadContextMenu(event, threadId) {
-        SystemState.selectedContextMenuThreadId = threadId;
+    function revealFloatingContextSheet(clientX, clientY) {
         const menu = document.getElementById('chatContextMenu');
         if (!menu) return;
 
         menu.classList.remove('hidden');
         
-        // Context properties mapping toggle tracking variables safely
-        const isPinned = SystemState.threads[threadId]?.pinned || false;
-        const pinText = menu.querySelector('#contextPinOption span:not(.material-symbols-rounded)');
-        const pinIcon = menu.querySelector('#contextPinOption .material-symbols-rounded');
-        
-        if (pinText && pinIcon) {
-            pinText.textContent = isPinned ? 'Unpin' : 'Pin';
-            pinIcon.textContent = isPinned ? 'keep_off' : 'keep';
+        // Edge safe bounding configuration check logic rules adjustments
+        let adjustedX = clientX;
+        let adjustedY = clientY;
+        const width = 190;
+        const height = 90;
+
+        if (clientX + width > window.innerWidth) {
+            adjustedX = window.innerWidth - width - 12;
+        }
+        if (clientY + height > window.innerHeight) {
+            adjustedY = window.innerHeight - height - 12;
         }
 
-        // Compute coordinate anchor offsets relative to viewport metrics
-        let posX = event.clientX;
-        let posY = event.clientY;
-        const safetyMargin = 15;
-
-        menu.style.opacity = '0';
-        menu.style.left = '0px';
-        menu.style.top = '0px';
-
-        setTimeout(() => {
-            const menuWidth = menu.offsetWidth;
-            const menuHeight = menu.offsetHeight;
-
-            if (posX + menuWidth > window.innerWidth) {
-                posX = window.innerWidth - menuWidth - safetyMargin;
-            }
-            if (posY + menuHeight > window.innerHeight) {
-                posY = window.innerHeight - menuHeight - safetyMargin;
-            }
-
-            menu.style.left = `${posX}px`;
-            menu.style.top = `${posY}px`;
-            menu.style.opacity = '1';
-        }, 1);
-
-        // Bind contextual analytical manipulation updates exactly once
-        if (!menu.getAttribute('data-events-bound')) {
-            menu.setAttribute('data-events-bound', 'true');
-            
-            document.getElementById('contextPinOption').addEventListener('click', () => {
-                const tid = SystemState.selectedContextMenuThreadId;
-                if (tid && SystemState.threads[tid]) {
-                    SystemState.threads[tid].pinned = !SystemState.threads[tid].pinned;
-                    persistThreadsToStorage();
-                    renderThreadSidebarHistory();
-                }
-            });
-
-            document.getElementById('contextDeleteOption').addEventListener('click', () => {
-                const tid = SystemState.selectedContextMenuThreadId;
-                if (tid && SystemState.threads[tid]) {
-                    delete SystemState.threads[tid];
-                    if (SystemState.activeThreadId === tid) {
-                        SystemState.activeThreadId = null;
-                        routeWorkspaceView('zeroStateScreen');
-                    }
-                    persistThreadsToStorage();
-                    renderThreadSidebarHistory();
-                }
-            });
-        }
+        menu.style.left = adjustedX + 'px';
+        menu.style.top = adjustedY + 'px';
     }
 
-    // ==========================================
-    // 6. THREAD FEED POPULATION SEQUENCE
-    // ==========================================
-    function loadThreadSessionIntoFeed(threadId) {
-        SystemState.activeThreadId = threadId;
-        renderThreadSidebarHistory();
-        routeWorkspaceView('activeChatWorkspaceScreen');
+    function renderActiveChatMessageStream() {
+        const target = document.getElementById('chatScrollContainerTarget');
+        if (!target) return;
+        target.innerHTML = '';
 
-        const feed = document.getElementById('chatMessagesFeedContainer');
-        if (!feed) return;
-        feed.innerHTML = '';
+        if (!SystemState.activeThreadId || !SystemState.threads[SystemState.activeThreadId]) return;
 
-        const conversation = SystemState.threads[threadId];
-        if (!conversation || !conversation.messages) return;
-
-        conversation.messages.forEach(msg => {
-            const wrapper = document.createElement('div');
-            wrapper.className = `message-row ${msg.sender === 'user' ? 'user-alignment' : 'ai-alignment'}`;
+        const messages = SystemState.threads[SystemState.activeThreadId].messages;
+        messages.forEach(function(msg) {
+            const row = document.createElement('div');
+            const isUser = (msg.sender === 'user');
             
-            const isUser = msg.sender === 'user';
-            const nodeIcon = isUser ? 'person' : 'clinical_notes';
-            const nodeTitle = isUser ? 'You' : 'Cortexa AI';
+            row.className = isUser ? 'chat-message-bubble-wrapper user-alignment-node' : 'chat-message-bubble-wrapper ai-alignment-node';
             
-            wrapper.innerHTML = `
-                <div class="message-bubble-block">
-                    <div class="message-meta-header">
-                        <span class="material-symbols-rounded system-avatar-icon">${nodeIcon}</span>
-                        <div class="sender-identity-label">${nodeTitle}</div>
-                    </div>
-                    <div class="message-body-payload">${msg.text}</div>
-                </div>
-            `;
-            feed.appendChild(wrapper);
+            let labelIdentity = isUser ? 'Physician Entry' : 'Cortexa Clinical Engine';
+            let messageContentHTML = '<div class="chat-sender-identity-row">' + labelIdentity + '</div>' +
+                                     '<div class="chat-bubble-content-payload">' + msg.text + '</div>';
+            
+            row.innerHTML = messageContentHTML;
+            target.appendChild(row);
         });
 
-        // Auto attach interactive callbacks inside dynamically calculated layers instantly
-        initializeDynamicEmbeddedCalculators(feed);
-        scrollViewportToBottom();
+        // Safe continuous async rendering view alignment pipeline trigger
+        setTimeout(scrollViewportToBottom, 30);
     }
 
     function scrollViewportToBottom() {
-        const scroller = document.getElementById('activeChatWorkspaceScreen');
-        if (scroller) {
-            scroller.scrollTop = scroller.scrollHeight;
+        const viewport = document.getElementById('contentViewport');
+        if (viewport) {
+            viewport.scrollTop = viewport.scrollHeight;
         }
     }
 
-    // ==========================================
-    // 7. INFERENCE DISPATCH ENGINE (LOCAL KNOWLEDGE OR GROQ)
-    // ==========================================
-    function dispatchInferenceSequence() {
-        const area = document.getElementById('chatInputPayload');
-        if (!area || !area.value.trim()) return;
+    function processHistorySearchQuery(searchTerm) {
+        const container = document.getElementById('searchResultsContainer');
+        if (!container) return;
+        container.innerHTML = '';
 
-        const rawPrompt = area.value.trim();
-        area.value = '';
-        area.style.height = 'auto';
-        verifySendBufferCapacity();
+        const term = searchTerm || '';
+        let matchingCounter = 0;
 
-        // Initialize active thread container matrix securely if blank
-        if (!SystemState.activeThreadId) {
-            const generatedId = 'thread_live_' + Date.now();
-            SystemState.threads[generatedId] = {
-                id: generatedId,
-                label: rawPrompt.length > 26 ? rawPrompt.substring(0, 24) + '...' : rawPrompt,
-                pinned: false,
-                messages: []
-            };
-            SystemState.activeThreadId = generatedId;
-        }
+        Object.values(SystemState.threads).forEach(function(thread) {
+            let matchesThread = thread.label.toLowerCase().includes(term);
+            let textExtractFound = "";
 
-        // Push immediate User response query securely
-        SystemState.threads[SystemState.activeThreadId].messages.push({
-            sender: 'user',
-            text: escapeHtml(rawPrompt)
-        });
-
-        persistThreadsToStorage();
-        loadThreadSessionIntoFeed(SystemState.activeThreadId);
-
-        // Render transient procedural processing indicator layer
-        const feed = document.getElementById('chatMessagesFeedContainer');
-        const indicator = document.createElement('div');
-        indicator.id = 'transientProcessingIndicator';
-        indicator.className = 'message-row ai-alignment';
-        indicator.innerHTML = `
-            <div class="message-bubble-block">
-                <div class="message-meta-header">
-                    <span class="material-symbols-rounded system-avatar-icon animated-pulse">clinical_notes</span>
-                    <div class="sender-identity-label">Cortexa AI</div>
-                </div>
-                <div class="message-body-payload">
-                    <div class="procedural-loading-wrapper">
-                        <div class="loading-dot"></div>
-                        <div class="loading-dot"></div>
-                        <div class="loading-dot"></div>
-                    </div>
-                </div>
-            </div>
-        `;
-        if (feed) {
-            feed.appendChild(indicator);
-            scrollViewportToBottom();
-        }
-
-        // Parallel resolution logic path routing engine
-        setTimeout(() => {
-            executeAnalysisPipeline(rawPrompt);
-        }, 350);
-    }
-
-    function executeAnalysisPipeline(prompt) {
-        const cleanQuery = prompt.toLowerCase().trim();
-        
-        // Remove active rendering spinner element layer instantly
-        const indicator = document.getElementById('transientProcessingIndicator');
-        if (indicator) indicator.remove();
-
-        // Primary Local Integrated Knowledge Vector Search
-        let exactHit = null;
-        for (const record of SYSTEM_KNOWLEDGE_POOLS) {
-            if (record.title && cleanQuery.includes(record.title.toLowerCase())) {
-                exactHit = record;
-                break;
-            }
-            if (record.keywords && Array.isArray(record.keywords)) {
-                if (record.keywords.some(k => cleanQuery.includes(k.toLowerCase()))) {
-                    exactHit = record;
-                    break;
+            if (!matchesThread) {
+                for (let i = 0; i < thread.messages.length; i++) {
+                    if (thread.messages[i].text.toLowerCase().includes(term)) {
+                        matchesThread = true;
+                        textExtractFound = thread.messages[i].text.replace(/<[^>]*>/g, '').substring(0, 70) + '...';
+                        break;
+                    }
                 }
+            } else if (thread.messages.length > 0) {
+                textExtractFound = thread.messages[0].text.replace(/<[^>]*>/g, '').substring(0, 70) + '...';
             }
-        }
 
-        let finalResponseHTML = "";
-
-        if (exactHit) {
-            // High-probability precision asset routing strategy
-            if (exactHit.type === 'calc') {
-                finalResponseHTML = GroqRenderInterfaceBridge.renderIncomingCalculator(exactHit);
-            } else if (exactHit.type === 'condition' || exactHit.type === 'protocol' || exactHit.type === 'emergency' || exactHit.type === 'procedure') {
-                finalResponseHTML = GroqRenderInterfaceBridge.renderDynamicMedicalCard(exactHit);
-            }
-        } else {
-            // Secondary Strategy: Attempt fallback Groq Gateway if key matches parameter standards
-            if (SystemState.groqKey && SystemState.groqKey.startsWith('gsk_')) {
-                executeCloudInferenceRequest(prompt);
-                return;
-            } else {
-                // Generative Fallback Database Aggregator Interface
-                finalResponseHTML = compileAlgorithmicSearchFallbackCard(prompt);
-            }
-        }
-
-        // Commit generated message token array into current session memory matrix
-        if (SystemState.activeThreadId && SystemState.threads[SystemState.activeThreadId]) {
-            SystemState.threads[SystemState.activeThreadId].messages.push({
-                sender: 'ai',
-                text: finalResponseHTML
-            });
-            persistThreadsToStorage();
-            loadThreadSessionIntoFeed(SystemState.activeThreadId);
-        }
-    }
-
-    function compileAlgorithmicSearchFallbackCard(prompt) {
-        const queryTerms = prompt.toLowerCase().split(/\s+/).filter(t => t.length > 2);
-        const candidates = [];
-
-        SYSTEM_KNOWLEDGE_POOLS.forEach(record => {
-            let score = 0;
-            const titleStr = (record.title || "").toLowerCase();
-            const descStr = (record.description || "").toLowerCase();
-
-            queryTerms.forEach(term => {
-                if (titleStr.includes(term)) score += 10;
-                if (descStr.includes(term)) score += 3;
-                if (record.keywords && Array.isArray(record.keywords)) {
-                    record.keywords.forEach(kw => {
-                        if (kw.toLowerCase().includes(term)) score += 5;
-                    });
-                }
-            });
-
-            if (score > 0) {
-                candidates.push({ record, score });
+            if (matchesThread) {
+                matchingCounter++;
+                const card = document.createElement('div');
+                card.className = 'search-match-card-row';
+                card.innerHTML = '<div class="search-match-card-title">' + thread.label + '</div>' +
+                                 '<div class="search-match-card-extract">' + (textExtractFound || "Access conversation log entries configuration matrix.") + '</div>';
+                
+                card.addEventListener('click', function() {
+                    SystemState.activeThreadId = thread.id;
+                    renderThreadSidebarHistory();
+                    routeWorkspaceView('chatStreamingScreen');
+                    renderActiveChatMessageStream();
+                });
+                
+                container.appendChild(card);
             }
         });
 
-        // Sorting ranked score matrices descending
-        candidates.sort((a, b) => b.score - a.score);
-
-        if (candidates.length > 0) {
-            let matchesHTML = `<div class="fallback-aggregated-title">Database cross-reference returned historical insights matching query parameters:</div>`;
-            candidates.slice(0, 3).forEach(c => {
-                const originLabel = c.record.origin ? c.record.origin.replace('.js', '').toUpperCase() : 'DATABASE';
-                matchesHTML += `
-                    <div class="library-data-card searchable-asset" data-asset-title="${escapeHtml(c.record.title || '')}">
-                        <div class="card-meta-header-row">
-                            <div class="asset-identity-title">${escapeHtml(c.record.title || 'Untitled Asset')}</div>
-                            <div class="system-badge normal">${originLabel}</div>
-                        </div>
-                        <p class="asset-description-paragraph">${escapeHtml(c.record.description || 'No descriptive indexing matrix context saved.')}</p>
-                        <div class="card-action-footer-panel">
-                            <span class="action-link-label">Initialize Asset Reference Protocol</span>
-                            <span class="material-symbols-rounded action-arrow-icon">arrow_forward</span>
-                        </div>
-                    </div>
-                `;
-            });
-            return `<div class="system-card-container">${matchesHTML}</div>`;
+        if (matchingCounter === 0) {
+            container.innerHTML = '<div style="font-size:0.88rem; color:var(--text-secondary); padding:12px 4px;">No internal parameters matched your request filter lookup keys.</div>';
         }
-
-        // Hard baseline zero state card return matrix
-        return `
-            <div class="system-card-container">
-                <div class="system-card-header">
-                    <div class="system-card-title">
-                        <span class="material-symbols-rounded">gavel</span> Zero-State Matrix Query Alert
-                    </div>
-                    <div class="system-badge critical">Unresolved</div>
-                </div>
-                <div class="system-text-block">
-                    Cortexa was unable to resolve an integrated asset mapping formula for your query. Provide a Groq Cloud Gateway API token inside **Settings** to unlock unstructured natural language data synthesis.
-                </div>
-            </div>
-        `;
     }
 
-    async function executeCloudInferenceRequest(userPrompt) {
-        const targetThreadId = SystemState.activeThreadId;
-        
-        try {
-            // Build rich schema context from loaded reference catalogs
-            const contextExcerpt = SYSTEM_KNOWLEDGE_POOLS.slice(0, 25).map(x => {
-                return `- ASSET: ${x.title || 'Untitled'}. TYPE: ${x.type || 'Standard'}. DETAILS: ${x.description || ''}`;
-            }).join('\n');
+    function renderLibraryWorkspaceScreen(searchTerm) {
+        const deck = document.getElementById('libraryContentMatrixDeck');
+        if (!deck) return;
+        deck.innerHTML = '';
 
-            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${SystemState.groqKey}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    model: "llama-3.1-8b-instant",
-                    messages: [
-                        {
-                            role: "system",
-                            content: `You are Cortexa AI, a high-efficiency clinical processing interface. Synthesize data clearly and concisely. Format response with professional, beautiful clean HTML wrappers using existing UI tokens: use '<div class="system-card-container">' for layout wrappers, '<div class="system-card-header">' for sub-headers, and clean formatting tags. Avoid raw markdown headings. Contextual Database Maps Available:\n${contextExcerpt}`
-                        },
-                        {
-                            role: "user",
-                            content: userPrompt
+        const filter = searchTerm || '';
+        let matchCount = 0;
+
+        SYSTEM_KNOWLEDGE_POOLS.forEach(function(item, index) {
+            const matchesTitle = item.title.toLowerCase().includes(filter);
+            const matchesSubtitle = item.subtitle && item.subtitle.toLowerCase().includes(filter);
+            
+            if (filter === '' || matchesTitle || matchesSubtitle) {
+                matchCount++;
+                const node = document.createElement('div');
+                node.className = 'accordion-node-container';
+                node.id = 'library_accordion_node_' + index;
+
+                let iconType = 'menu_book';
+                if (item.type === 'calc') iconType = 'calculate';
+                if (item.type === 'emergency') iconType = 'clinical_alert';
+
+                node.innerHTML = '<button class="accordion-interactive-trigger-row">' +
+                    '<div class="accordion-trigger-meta-left">' +
+                        '<span class="material-symbols-rounded catalog-icon">' + iconType + '</span>' +
+                        '<h4>' + item.title + '</h4>' +
+                    '</div>' +
+                    '<span class="material-symbols-rounded accordion-node-chevron">expand_more</span>' +
+                '</button>' +
+                '<div class="accordion-body-expansion-layer">' +
+                    '<div class="accordion-internal-padded-content">' +
+                        compileClinicalEntityTemplateHTML(item) +
+                    '</div>' +
+                '</div>';
+
+                // Setup interactive structural tracking configuration handlers
+                const trigger = node.querySelector('.accordion-interactive-trigger-row');
+                trigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const bodyLayer = node.querySelector('.accordion-body-expansion-layer');
+                    const isExpanded = node.classList.contains('expanded');
+                    
+                    // Collapse all adjacent layers safely to keep focus maps tight
+                    document.querySelectorAll('.accordion-node-container').forEach(function(otherNode) {
+                        if (otherNode !== node) {
+                            otherNode.classList.remove('expanded');
+                            otherNode.querySelector('.accordion-body-expansion-layer').style.maxHeight = '0px';
                         }
-                    ],
-                    temperature: 0.2,
-                    max_tokens: 1024
-                })
-            });
+                    });
 
-            if (!response.ok) {
-                throw new Error(`Gateway Endpoint HTTP Status Fault: ${response.status}`);
-            }
-
-            const payload = await response.json();
-            const aiGeneratedText = payload.choices[0]?.message?.content || "No return parameters found inside streaming gateway layer array matrices.";
-
-            if (targetThreadId === SystemState.activeThreadId && SystemState.threads[targetThreadId]) {
-                SystemState.threads[targetThreadId].messages.push({
-                    sender: 'ai',
-                    text: aiGeneratedText
+                    if (isExpanded) {
+                        node.classList.remove('expanded');
+                        bodyLayer.style.maxHeight = '0px';
+                    } else {
+                        node.classList.add('expanded');
+                        bodyLayer.style.maxHeight = (bodyLayer.scrollHeight + 120) + 'px';
+                    }
                 });
-                persistThreadsToStorage();
-                loadThreadSessionIntoFeed(targetThreadId);
-            }
 
-        } catch (error) {
-            console.error("Cloud Inference Stream Error Failure:", error);
-            if (targetThreadId === SystemState.activeThreadId && SystemState.threads[targetThreadId]) {
-                SystemState.threads[targetThreadId].messages.push({
-                    sender: 'ai',
-                    text: `<div class="system-card-container">
-                        <div class="system-card-header">
-                            <div class="system-card-title">
-                                <span class="material-symbols-rounded">warning</span> Cloud Integration Failure
-                            </div>
-                            <div class="system-badge critical">Fault</div>
-                        </div>
-                        <div class="system-text-block">
-                            Failed to complete processing operations via Groq Cloud Bridge. Network response log: <b>${escapeHtml(error.message)}</b>.
-                        </div>
-                     </div>`
-                });
-                persistThreadsToStorage();
-                loadThreadSessionIntoFeed(targetThreadId);
-            }
-        }
-    }
-
-    // ==========================================
-    // 8. LIVE WORKSPACE INDEX SEARCH MATRIX FILTERING
-    // ==========================================
-    function processHistorySearchQuery(token = "") {
-        const targetContainer = document.getElementById('searchWorkspaceResultsGrid');
-        if (!targetContainer) return;
-        targetContainer.innerHTML = '';
-
-        if (!token) {
-            targetContainer.innerHTML = `<div class="library-empty-state-card">Enter terms above to sweep indexed clinical database assets instantly.</div>`;
-            return;
-        }
-
-        const hits = SYSTEM_KNOWLEDGE_POOLS.filter(item => {
-            return (item.title && item.title.toLowerCase().includes(token)) ||
-                   (item.description && item.description.toLowerCase().includes(token)) ||
-                   (item.keywords && item.keywords.some(kw => kw.toLowerCase().includes(token)));
-        });
-
-        if (hits.length === 0) {
-            targetContainer.innerHTML = `<div class="library-empty-state-card">No records found matching tracking constraints: "${escapeHtml(token)}"</div>`;
-            return;
-        }
-
-        hits.forEach(record => {
-            const originTag = record.origin ? record.origin.replace('.js', '').toUpperCase() : 'ASSET';
-            const card = document.createElement('div');
-            card.className = 'library-data-card clickable-asset';
-            card.innerHTML = `
-                <div class="card-meta-header-row">
-                    <div class="asset-identity-title">${escapeHtml(record.title || 'Untitled Asset')}</div>
-                    <div class="system-badge normal">${originTag}</div>
-                </div>
-                <p class="asset-description-paragraph">${escapeHtml(record.description || 'No descriptive index matrix values declared.')}</p>
-                <div class="card-action-footer-panel">
-                    <span class="action-link-label">Initialize Target Application UI</span>
-                    <span class="material-symbols-rounded action-arrow-icon">arrow_forward</span>
-                </div>
-            `;
-            
-            card.addEventListener('click', () => {
-                executeDirectAssetInjection(record);
-            });
-
-            targetContainer.appendChild(card);
-        });
-    }
-
-    function renderLibraryWorkspaceScreen(token = "") {
-        const targetContainer = document.getElementById('libraryWorkspaceGrid');
-        if (!targetContainer) return;
-        targetContainer.innerHTML = '';
-
-        const subset = SYSTEM_KNOWLEDGE_POOLS.filter(item => {
-            if (!token) return true;
-            return (item.title && item.title.toLowerCase().includes(token)) ||
-                   (item.description && item.description.toLowerCase().includes(token));
-        });
-
-        if (subset.length === 0) {
-            targetContainer.innerHTML = `<div class="library-empty-state-card">No workspace repository parameters found matching: "${escapeHtml(token)}"</div>`;
-            return;
-        }
-
-        subset.forEach(record => {
-            const originTag = record.origin ? record.origin.replace('.js', '').toUpperCase() : 'CATALOG';
-            const card = document.createElement('div');
-            card.className = 'library-data-card clickable-asset';
-            card.innerHTML = `
-                <div class="card-meta-header-row">
-                    <div class="asset-identity-title">${escapeHtml(record.title || 'Untitled Asset')}</div>
-                    <div class="system-badge normal">${originTag}</div>
-                </div>
-                <p class="asset-description-paragraph">${escapeHtml(record.description || 'No indexed descriptor values assigned.')}</p>
-                <div class="card-action-footer-panel">
-                    <span class="action-link-label">Launch Application Interface</span>
-                    <span class="material-symbols-rounded action-arrow-icon">arrow_forward</span>
-                </div>
-            `;
-
-            card.addEventListener('click', () => {
-                executeDirectAssetInjection(record);
-            });
-
-            targetContainer.appendChild(card);
-        });
-    }
-
-    function executeDirectAssetInjection(record) {
-        if (!SystemState.activeThreadId) {
-            const seedId = 'thread_live_' + Date.now();
-            SystemState.threads[seedId] = {
-                id: seedId,
-                label: record.title || "Asset Deployment",
-                pinned: false,
-                messages: []
-            };
-            SystemState.activeThreadId = seedId;
-        }
-
-        let dynamicHTML = "";
-        if (record.type === 'calc') {
-            dynamicHTML = GroqRenderInterfaceBridge.renderIncomingCalculator(record);
-        } else {
-            dynamicHTML = GroqRenderInterfaceBridge.renderDynamicMedicalCard(record);
-        }
-
-        SystemState.threads[SystemState.activeThreadId].messages.push({
-            sender: 'user',
-            text: `Manual deployment requested for asset system handle: "${escapeHtml(record.title)}"`
-        });
-
-        SystemState.threads[SystemState.activeThreadId].messages.push({
-            sender: 'ai',
-            text: dynamicHTML
-        });
-
-        persistThreadsToStorage();
-        loadThreadSessionIntoFeed(SystemState.activeThreadId);
-    }
-
-    // ==========================================
-    // 9. REUSABLE SYSTEM CARD COMPILER INTERFACE BRIDGE
-    // ==========================================
-    window.GroqRenderInterfaceBridge = {
-        renderDynamicMedicalCard: function(payload) {
-            const labelStr = payload.origin ? payload.origin.replace('.js', '').toUpperCase() : 'INSIGHT';
-            
-            let dataFieldsHTML = "";
-            if (payload.dosage) dataFieldsHTML += `<p class="clinical-attribute-sentence"><b>Standard Dosage Matrix:</b> ${escapeHtml(payload.dosage)}</p>`;
-            if (payload.indications) dataFieldsHTML += `<p class="clinical-attribute-sentence"><b>Primary Diagnostic Indications:</b> ${escapeHtml(payload.indications)}</p>`;
-            if (payload.contraindications) dataFieldsHTML += `<p class="clinical-attribute-sentence"><b>Absolute Contraindications:</b> ${escapeHtml(payload.contraindications)}</p>`;
-            if (payload.steps) {
-                dataFieldsHTML += `<div class="procedural-steps-header">Clinical Execution Sequence Mapping:</div><ol class="procedural-ordered-list">`;
-                payload.steps.forEach(s => { dataFieldsHTML += `<li>${escapeHtml(s)}</li>`; });
-                dataFieldsHTML += `</ol>`;
-            }
-
-            return `
-                <div class="system-card-container">
-                    <div class="system-card-header">
-                        <div class="system-card-title">
-                            <span class="material-symbols-rounded">medical_information</span> ${escapeHtml(payload.title || 'Integrated Asset Protocol')}
-                        </div>
-                        <div class="system-badge normal">${labelStr}</div>
-                    </div>
-                    <div class="system-text-block">
-                        <p class="asset-core-summary" style="margin-bottom:12px;">${escapeHtml(payload.description || '')}</p>
-                        ${dataFieldsHTML}
-                    </div>
-                </div>
-            `;
-        },
-
-        renderIncomingCalculator: function(parsedPayload) {
-            try {
-                if (!parsedPayload.id) parsedPayload.id = 'calc_ext_' + Date.now();
-
-                if (!window.fluidCalcStates) window.fluidCalcStates = {};
-                if (!window.fluidCalcStates[parsedPayload.id]) {
-                    window.fluidCalcStates[parsedPayload.id] = {
-                        history: [],
-                        inputs: {}
-                    };
-                }
-
-                if (typeof window.renderFluidCalculator === 'function') {
-                    return window.renderFluidCalculator(parsedPayload);
-                }
-                
-                // Native Standard Parametric Processing Card Layout Matrix Engine Fallback
-                let interactionFieldsHTML = "";
-                if (parsedPayload.params && Array.isArray(parsedPayload.params)) {
-                    parsedPayload.params.forEach((p, idx) => {
-                        interactionFieldsHTML += `
-                            <div class="calc-input-group-row">
-                                <label class="calc-input-label-element">${escapeHtml(p.name)} (${escapeHtml(p.unit)})</label>
-                                <input type="number" 
-                                       class="calc-parametric-input-field manual-calc-hook" 
-                                       data-param-index="${idx}"
-                                       data-param-name="${escapeHtml(p.name)}"
-                                       placeholder="${p.default || 0}" 
-                                       value="${p.default || ''}">
-                            </div>
-                        `;
+                // Attach contextual calculator form hooks if attached to active layer indices
+                const calcBtn = node.querySelector('.execute-calculation-trigger-btn');
+                if (calcBtn) {
+                    calcBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        executeEmbeddedCalculatorMatrix(node.querySelector('.integrated-calculator-form-block'));
                     });
                 }
 
-                return `
-                    <div class="system-card-container generic-calculator-asset" data-calc-id="${parsedPayload.id}">
-                        <div class="system-card-header">
-                            <div class="system-card-title">
-                                <span class="material-symbols-rounded">calculate</span> ${escapeHtml(parsedPayload.title || 'Parametric Calculator Evaluation')}
-                            </div>
-                            <div class="system-badge evaluation">Calculation</div>
-                        </div>
-                        <div class="system-text-block">
-                            <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">${escapeHtml(parsedPayload.description || '')}</p>
-                            <form class="parametric-calculation-form-container" onsubmit="return false;">
-                                ${interactionFieldsHTML}
-                                <button type="button" class="execute-calculation-submit-btn native-calc-trigger-action-btn" style="margin-top:4px; width:100%;">
-                                    Execute Evaluation Matrix Sequence
-                                </button>
-                            </form>
-                            <div class="calculation-runtime-output-displayhidden hidden" style="margin-top:14px; padding-top:12px; border-top:1px dashed var(--border-color);"></div>
-                        </div>
-                    </div>
-                `;
-            } catch (e) {
-                console.error("Groq Calculator Rendering Error Exception:", e);
-                return `<div class="error-card">Failed to initialize dynamic calculation engine.</div>`;
+                deck.appendChild(node);
+            }
+        });
+
+        if (matchCount === 0) {
+            deck.innerHTML = '<div style="font-size:0.88rem; color:var(--text-secondary); padding:12px 4px;">No static database indices matched your lookups.</div>';
+        }
+    }
+
+    /**
+     * Executes interactive dynamic math scoring matrices inside clinical database card layers.
+     */
+    function executeEmbeddedCalculatorMatrix(form) {
+        if (!form) return;
+        const outputNode = form.querySelector('.calculation-output-display-layer');
+        const fields = form.querySelectorAll('.calc-interactive-field-node');
+        
+        let accumulatedMatrixValue = 0;
+        let reportingHTML = '<div style="font-size:0.88rem; color:var(--text-primary); line-height:1.4;">' +
+            '<p style="font-weight:600; margin-bottom:8px; color:var(--text-primary);">Evaluated Parameter Tracking Map Matrix:</p>';
+
+        fields.forEach(function(input, idx) {
+            const scoreLabel = input.getAttribute('aria-label') || 'Parameter Index ' + (idx + 1);
+            const userEntryVal = parseFloat(input.value) || 0;
+            const scoringWeight = parseFloat(input.getAttribute('data-weight')) || 1;
+            const subtotal = userEntryVal * scoringWeight;
+            
+            accumulatedMatrixValue += subtotal;
+            reportingHTML += '<p style="font-size:0.82rem; margin-bottom:4px; padding-left:8px;">• <b>' + scoreLabel + ':</b> ' + userEntryVal + ' (Weight Vector: ' + scoringWeight + ')</p>';
+        });
+
+        reportingHTML += '<div style="margin-top:12px; color:var(--accent-blue); font-weight:600; font-size:1rem;">Processing Execution Complete</div>' +
+            '<p style="font-size:0.84rem; color:var(--text-secondary); margin-top:4px;">' +
+                'Dynamic aggregate evaluation parameters mapped matrix total: <b style="color:var(--text-primary); font-size:1.05rem;">' + accumulatedMatrixValue + '</b>.' +
+            '</p>' +
+        '</div>';
+
+        if (outputNode) {
+            outputNode.innerHTML = reportingHTML;
+            outputNode.classList.remove('hidden');
+            scrollViewportToBottom();
+
+            // Refresh parent expansion containers bounds measurements safely
+            const parentAccordion = form.closest('.accordion-body-expansion-layer');
+            if (parentAccordion) {
+                parentAccordion.style.maxHeight = (parentAccordion.scrollHeight + 300) + 'px';
             }
         }
-    };
-
-    // ==========================================
-    // 10. INTERACTIVE EMBEDDED EVALUATORS ROUTING
-    // ==========================================
-    function initializeDynamicEmbeddedCalculators(parentScopeContainer) {
-        parentScopeContainer.querySelectorAll('.generic-calculator-asset').forEach(calcContainer => {
-            const triggerButton = calcContainer.querySelector('.native-calc-trigger-action-btn');
-            const outputTerminal = calcContainer.querySelector('.calculation-runtime-output-displayhidden');
-            const calculationForm = calcContainer.querySelector('.parametric-calculation-form-container');
-
-            if (!triggerButton || !calculationForm) return;
-
-            triggerButton.addEventListener('click', () => {
-                let reportLinesHTML = `<div class="calculated-output-matrix-layer" style="background-color:var(--bg-main); padding:12px; border-radius:10px; border:1px solid var(--border-color);">
-                    <div style="font-weight:600; color:var(--text-primary); font-size:0.92rem; margin-bottom:8px;">Evaluation Matrix Aggregation Report:</div>`;
-                
-                let aggregateSumTotal = 0;
-                const activeInputs = calculationForm.querySelectorAll('.manual-calc-hook');
-
-                activeInputs.forEach(inputField => {
-                    const fieldLabel = inputField.getAttribute('data-param-name') || 'Variable Parameter';
-                    const numericValue = parseFloat(inputField.value) || 0;
-                    aggregateSumTotal += numericValue;
-
-                    reportLinesHTML += `<p style="font-size:0.86rem; margin-bottom:4px; color:var(--text-secondary);">• <b>${escapeHtml(fieldLabel)}:</b> ${numericValue}</p>`;
-                });
-
-                reportLinesHTML += `
-                    <div style="margin-top:10px; color:var(--accent-blue); font-weight:600; font-size:1.05rem;">Processing Execution Complete</div>
-                    <p style="font-size:0.86rem; color:var(--text-secondary); margin-top:2px;">
-                        Dynamic aggregate metric parameter evaluation matrix total value: <b>${aggregateSumTotal}</b>
-                    </p>
-                </div>`;
-
-                if (outputTerminal) {
-                    outputTerminal.innerHTML = reportLinesHTML;
-                    outputTerminal.classList.remove('hidden');
-                    scrollViewportToBottom();
-                }
-            });
-        });
-
-        // Loop execution hooks for fallback match handling links inside search arrays
-        parentScopeContainer.querySelectorAll('.fallback-aggregated-title + .library-data-card').forEach(searchCard => {
-            searchCard.addEventListener('click', () => {
-                const targetAssetTitle = searchCard.getAttribute('data-asset-title');
-                if (!targetAssetTitle) return;
-
-                const coreAssetRecord = SYSTEM_KNOWLEDGE_POOLS.find(x => x.title === targetAssetTitle);
-                if (coreAssetRecord) {
-                    executeDirectAssetInjection(coreAssetRecord);
-                }
-            });
-        });
     }
 
-    // Utility text encoder block prevents HTML manipulation attacks inside user strings
-    function escapeHtml(string) {
-        if (!string) return '';
-        return String(string)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
-
-    // Professional iOS PWA Keyboard Redraw Realignment Fix
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', () => {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            const isStandalone = window.navigator.standalone === true;
-
-            if (isIOS && isStandalone) {
-                if (window.visualViewport.height >= window.innerHeight) {
-                    setTimeout(() => {
-                        window.scrollTo(0, 0);
-                        document.body.style.display = 'none';
-                        document.body.offsetHeight; // Forces engine layout flush recalculation
-                        document.body.style.display = '';
-                    }, 30);
-                }
-            }
-        });
-    }
-
+    // Bind initialization processes to domestic structural load lifecycles
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
