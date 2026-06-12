@@ -64,13 +64,10 @@ function compileMasterKnowledgeBase() {
         renderLibraryWorkspaceScreen();
         verifySendBufferCapacity();
 
-        // Safely collapse the desktop view on load without touching mobile panels
-        const isMobileOrTablet = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
-        if (!isMobileOrTablet) {
-            const sidebarElement = document.getElementById('sidebar');
-            if (sidebarElement) {
-                sidebarElement.classList.add('collapsed');
-            }
+        // Allow the stylesheet layout matrix to govern viewport adjustments.
+        const desktopView = window.matchMedia('(min-width: 1025px)');
+        if (desktopView.matches) {
+            document.getElementById('sidebar')?.classList.add('collapsed');
         }
     }
 
@@ -419,8 +416,7 @@ function compileMasterKnowledgeBase() {
                 // If vertical scrolling is prominent, cancel sidebar actions
                 if (deltaY > SWIPE_CONSTRAINT_Y) return;
 
-                const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
-                if (!isTouchDevice) return;
+                if (!window.matchMedia('(max-width: 1024px)').matches) return;
 
                 const isOpen = sidebar.classList.contains('mobile-open');
 
@@ -456,81 +452,6 @@ function compileMasterKnowledgeBase() {
                 if (collapseBtn) collapseBtn.classList.remove('is-open');
                 if (menuBtn) menuBtn.classList.remove('is-open');
             }
-        })();
-
-        // ==========================================================================
-        // TOUCHSCREEN VIRTUAL KEYBOARD LAYOUT CLOSURE PATCH
-        // ==========================================================================
-        (function initTouchKeyboardResetMechanics() {
-            const isTouchTarget =
-                window.matchMedia('(pointer: coarse)').matches ||
-                window.innerWidth <= 1024;
-        
-            if (!isTouchTarget || !window.visualViewport) return;
-        
-            const restoreViewport = () => {
-                document.documentElement.style.height = '100dvh';
-                document.body.style.height = '100dvh';
-        
-                const app = document.querySelector('.app-container');
-                const workspace = document.querySelector('.main-workspace');
-                const viewport = document.getElementById('contentViewport');
-        
-                if (app) app.style.height = '100dvh';
-                if (workspace) workspace.style.height = '100dvh';
-        
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-        
-                        window.scrollTo(0, 0);
-        
-                        if (viewport) {
-        
-                            // Safari keyboard-close fix
-                            viewport.style.height = '0px';
-        
-                            viewport.offsetHeight; // force layout flush
-        
-                            requestAnimationFrame(() => {
-        
-                                viewport.style.height = '';
-        
-                                viewport.offsetHeight; // force recalculation
-        
-                            });
-                        }
-        
-                    });
-                });
-            };
-        
-            let lastViewportHeight = window.visualViewport.height;
-        
-            window.visualViewport.addEventListener('resize', () => {
-                const active = document.activeElement;
-        
-                const editing =
-                    active &&
-                    (
-                        active.tagName === 'TEXTAREA' ||
-                        active.tagName === 'INPUT'
-                    );
-        
-                const currentHeight = window.visualViewport.height;
-        
-                const keyboardClosed =
-                    currentHeight > lastViewportHeight + 80;
-        
-                lastViewportHeight = currentHeight;
-        
-                if (!editing || keyboardClosed) {
-                    setTimeout(restoreViewport, 150);
-                }
-            });
-        
-            document.addEventListener('focusout', () => {
-                setTimeout(restoreViewport, 150);
-            });
         })();
 
     }
@@ -1514,12 +1435,3 @@ toggleBtn.addEventListener('click', () => {
 
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
-
-
-
-
-
-
-
-
-
