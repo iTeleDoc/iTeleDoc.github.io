@@ -1293,3 +1293,20 @@ body {
 }
 
 .hidden { display: none !important; }
+
+
+
+
+
+
+html, body {
+    height: 100%;
+    height: -webkit-fill-available; /* Forces iOS Safari to respect the true available boundary */
+    overflow: hidden; /* Keeps the outer viewport locked */
+}
+
+.your-app-container-class {
+    /* Replace 100vh with this combination */
+    height: 100vh; 
+    height: 100dvh; /* Dynamic viewport updates when keyboard goes away */
+}
