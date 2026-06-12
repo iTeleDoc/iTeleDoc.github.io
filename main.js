@@ -1523,8 +1523,21 @@ toggleBtn.addEventListener('click', () => {
 
 
 
-const vp = document.getElementById('contentViewport');
+// Fix for iOS standalone PWA keyboard layout shift bug
+document.addEventListener('focusout', (e) => {
+    if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
+        // Check if running as iOS standalone standalone PWA
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isStandalone = window.navigator.standalone === true;
 
-console.log(
-    vp.lastElementChild?.getBoundingClientRect()
-);
+        if (isIOS && isStandalone) {
+            // Force WebKit to recalculate viewport layout
+            window.scrollTo(window.scrollX, window.scrollY);
+            
+            // Alternative backup fallback for deep container hierarchies:
+            setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, 50);
+        }
+    }
+});
