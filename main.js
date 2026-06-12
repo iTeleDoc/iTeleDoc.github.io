@@ -238,68 +238,10 @@ function compileMasterKnowledgeBase() {
             }
         });
         
-//
-// ==========================================================================
-// SWITCHER CONTROL REGISTRY (HAMBURGER OPEN/CLOSE & UPPER-RIGHT X CLOSE)
-// ==========================================================================
-
-// 1. Double action Open/Close functionality on the top bar Hamburger Menu Button
-document.getElementById('menuToggleBtn').addEventListener('click', (e) => {
-    e.stopPropagation();
-    const sidebar = document.getElementById('sidebar');
-    const menuBtn = document.getElementById('menuToggleBtn');
-    
-    // Check if open state class rule is active
-    const isOpen = sidebar.classList.contains('mobile-open');
-    
-    if (isOpen) {
-        sidebar.classList.remove('mobile-open');
-        if (menuBtn) menuBtn.classList.remove('is-open');
-    } else {
-        sidebar.classList.add('mobile-open');
-        if (menuBtn) menuBtn.classList.add('is-open');
-    }
-});
-
-// 2. Elegant Close Button Trigger action inside upper right margin
-document.getElementById('closeMobileSidebarTopBtn').addEventListener('click', (e) => {
-    e.stopPropagation();
-    const sidebar = document.getElementById('sidebar');
-    const menuBtn = document.getElementById('menuToggleBtn');
-    
-    sidebar.classList.remove('mobile-open');
-    if (menuBtn) menuBtn.classList.remove('is-open');
-});
-
-// Helper tool function rewrite to handle layout push recovery safely
-function closeMobileSidebarIfOpen() {
-    const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
-    if (isTouchTarget) {
-        const sidebar = document.getElementById('sidebar');
-        const menuBtn = document.getElementById('menuToggleBtn');
-        if (sidebar && sidebar.classList.contains('mobile-open')) {
-            sidebar.classList.remove('mobile-open');
-            if (menuBtn) menuBtn.classList.remove('is-open');
-        }
-    }
-}
-
-// 3. Make sure existing navigation links (like New Chat) call the update
-document.getElementById('brandHomeLink').addEventListener('click', () => {
-    SystemState.activeThreadId = null;
-    renderThreadSidebarHistory();
-    routeWorkspaceView('zeroStateScreen');
-    closeMobileSidebarIfOpen();
-});
-
-document.getElementById('newChatBtn').addEventListener('click', () => {
-    SystemState.activeThreadId = null;
-    renderThreadSidebarHistory();
-    routeWorkspaceView('zeroStateScreen');
-    if (area) { area.value = ''; area.style.height = 'auto'; }
-    verifySendBufferCapacity();
-    closeMobileSidebarIfOpen();
-});
+        document.getElementById('menuToggleBtn').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.add('mobile-open');
+            document.getElementById('sidebarOverlay').classList.add('active');
+        });
     
         document.getElementById('sidebarOverlay').addEventListener('click', () => {
             document.getElementById('sidebar').classList.remove('mobile-open');
