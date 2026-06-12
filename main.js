@@ -18,37 +18,37 @@
         threads: {}
     };
 
-// Safe Global Database Registry Access Layer
-function compileMasterKnowledgeBase() {
-    const pool = [];
-    
-    // Mapped to correct window global array handles
-    if (window.PROTOCOLS_DB && Array.isArray(window.PROTOCOLS_DB)) {
-        window.PROTOCOLS_DB.forEach(x => pool.push({ ...x, type: 'protocol', origin: 'protocols.js' }));
-    }
-    if (window.EMERGENCIES_DB && Array.isArray(window.EMERGENCIES_DB)) {
-        window.EMERGENCIES_DB.forEach(x => pool.push({ ...x, type: 'emergency', origin: 'emergencies.js' }));
-    }
-    if (window.PROCEDURES_DB && Array.isArray(window.PROCEDURES_DB)) {
-        window.PROCEDURES_DB.forEach(x => pool.push({ ...x, type: 'procedure', origin: 'procedures.js' }));
-    }
-    if (window.DRUGS_DB && Array.isArray(window.DRUGS_DB)) {
-        window.DRUGS_DB.forEach(x => pool.push({ ...x, type: 'condition', origin: 'drugs.js' }));
-    }
-    
-    // Map dynamic calculations from specialized files safely
-    if (window.CALCULATORS_DB && Array.isArray(window.CALCULATORS_DB)) {
-        window.CALCULATORS_DB.forEach(x => pool.push({ ...x, type: 'calc', origin: 'calculators.js' }));
-    }
-    if (window.FLUIDS_DB && Array.isArray(window.FLUIDS_DB)) {
-        window.FLUIDS_DB.forEach(x => pool.push({ ...x, type: 'calc', origin: 'fluids.js' }));
-    }
-    if (window.LABS_DB && Array.isArray(window.LABS_DB)) {
-        window.LABS_DB.forEach(x => pool.push({ ...x, type: 'calc', origin: 'labs.js' }));
-    }
+    // Safe Global Database Registry Access Layer
+    function compileMasterKnowledgeBase() {
+        const pool = [];
+        
+        // Mapped to correct window global array handles
+        if (window.PROTOCOLS_DB && Array.isArray(window.PROTOCOLS_DB)) {
+            window.PROTOCOLS_DB.forEach(x => pool.push({ ...x, type: 'protocol', origin: 'protocols.js' }));
+        }
+        if (window.EMERGENCIES_DB && Array.isArray(window.EMERGENCIES_DB)) {
+            window.EMERGENCIES_DB.forEach(x => pool.push({ ...x, type: 'emergency', origin: 'emergencies.js' }));
+        }
+        if (window.PROCEDURES_DB && Array.isArray(window.PROCEDURES_DB)) {
+            window.PROCEDURES_DB.forEach(x => pool.push({ ...x, type: 'procedure', origin: 'procedures.js' }));
+        }
+        if (window.DRUGS_DB && Array.isArray(window.DRUGS_DB)) {
+            window.DRUGS_DB.forEach(x => pool.push({ ...x, type: 'condition', origin: 'drugs.js' }));
+        }
+        
+        // Map dynamic calculations from specialized files safely
+        if (window.CALCULATORS_DB && Array.isArray(window.CALCULATORS_DB)) {
+            window.CALCULATORS_DB.forEach(x => pool.push({ ...x, type: 'calc', origin: 'calculators.js' }));
+        }
+        if (window.FLUIDS_DB && Array.isArray(window.FLUIDS_DB)) {
+            window.FLUIDS_DB.forEach(x => pool.push({ ...x, type: 'calc', origin: 'fluids.js' }));
+        }
+        if (window.LABS_DB && Array.isArray(window.LABS_DB)) {
+            window.LABS_DB.forEach(x => pool.push({ ...x, type: 'calc', origin: 'labs.js' }));
+        }
 
-    return pool;
-}
+        return pool;
+    }
 
     let SYSTEM_KNOWLEDGE_POOLS = [];
 
@@ -84,13 +84,10 @@ function compileMasterKnowledgeBase() {
         const cachedThreads = localStorage.getItem('ctx_saved_threads');
         if (cachedThreads) {
             SystemState.threads = JSON.parse(cachedThreads);
-            
-            // Extra Safety Check: If the parsed object has no active keys, build a seed
             if (Object.keys(SystemState.threads).length === 0) {
                 generateSeedConversation();
             }
         } else {
-            // If local cache is totally blank, run your explicit seed creator
             generateSeedConversation();
         }
     }
@@ -143,13 +140,12 @@ function compileMasterKnowledgeBase() {
         }
     }
 
-// ==========================================
+    // ==========================================
     // 3. UI VIEWPORT ROUTER MATRIX
     // ==========================================
     function routeWorkspaceView(panelId) {
         SystemState.activeViewPanelId = panelId;
         
-        // Hide all structural workspace screens instantly
         document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
         document.getElementById('sidebarSearchNavBtn').classList.remove('active');
         document.getElementById('libraryNavBtn').classList.remove('active');
@@ -158,7 +154,6 @@ function compileMasterKnowledgeBase() {
         const activePanel = document.getElementById(panelId);
         if (activePanel) activePanel.classList.remove('hidden');
 
-        // Manage standard global chat text input tray visibility matrix
         const deck = document.getElementById('globalInputDeck');
         if (panelId === 'searchWorkspaceScreen' || panelId === 'libraryWorkspaceScreen' || panelId === 'settingsWorkspaceScreen') {
             deck.classList.add('hidden');
@@ -166,7 +161,6 @@ function compileMasterKnowledgeBase() {
             deck.classList.remove('hidden');
         }
 
-        // Fire rendering triggers or update navigation layouts
         if (panelId === 'searchWorkspaceScreen') {
             document.getElementById('sidebarSearchNavBtn').classList.add('active');
             processHistorySearchQuery();
@@ -175,7 +169,6 @@ function compileMasterKnowledgeBase() {
             renderLibraryWorkspaceScreen();
         } else if (panelId === 'settingsWorkspaceScreen') {
             document.getElementById('settingsToggleBtn').classList.add('active');
-            // Seed current runtime key into target field element
             const keyField = document.getElementById('groqKeyField');
             if (keyField) keyField.value = SystemState.groqKey;
         }
@@ -188,7 +181,6 @@ function compileMasterKnowledgeBase() {
         const area = document.getElementById('chatInputPayload');
         const submit = document.getElementById('submitPromptBtn');
     
-        // Helper tool function to cleanly hide the mobile drawer
         function closeMobileSidebarIfOpen() {
             const isTouchTarget = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
             if (isTouchTarget) {
@@ -262,7 +254,6 @@ function compileMasterKnowledgeBase() {
             });
         }
     
-        // Safe execution wrapper prevents layout crashes if HTML changes
         const clearInputBtn = document.getElementById('clearInputBtn');
         if (clearInputBtn) {
             clearInputBtn.addEventListener('click', () => {
@@ -298,16 +289,20 @@ function compileMasterKnowledgeBase() {
             const container = document.getElementById('chatHistoryContainer');
             const icon = document.getElementById('collapseListIcon');
             if (SystemState.historyCollapsed) {
-                container.classList.add('list-collapsed'); icon.textContent = 'unfold_more';
+                container.classList.add('list-collapsed');
+                icon.textContent = 'unfold_more';
             } else {
-                container.classList.remove('list-collapsed'); icon.textContent = 'unfold_less';
+                container.classList.remove('list-collapsed');
+                icon.textContent = 'unfold_less';
             }
         });
     
         document.getElementById('deleteAllChatsBtn').addEventListener('click', () => {
             if (confirm('Are you sure you want to permanently wipe all sessions?')) {
-                SystemState.threads = {}; SystemState.activeThreadId = null;
-                persistThreadsToStorage(); renderThreadSidebarHistory();
+                SystemState.threads = {};
+                SystemState.activeThreadId = null;
+                persistThreadsToStorage();
+                renderThreadSidebarHistory();
                 routeWorkspaceView('zeroStateScreen');
                 closeMobileSidebarIfOpen();
             }
@@ -319,13 +314,11 @@ function compileMasterKnowledgeBase() {
             applyInterfaceThemeEngine();
         });
     
-        // Setup direct integrated page workspace router layout
         document.getElementById('settingsToggleBtn').addEventListener('click', () => {
             routeWorkspaceView('settingsWorkspaceScreen');
-            closeMobileSidebarIfOpen(); 
+            closeMobileSidebarIfOpen();
         });
     
-        // Auto-save gateway credential strings asynchronously on keyup/change input updates
         const keyField = document.getElementById('groqKeyField');
         if (keyField) {
             const saveCredentials = () => {
@@ -345,1203 +338,755 @@ function compileMasterKnowledgeBase() {
             }
         });
     
-        // Core DOM Triggers hoisted to top to prevent runtime reference errors
-        const collapseSidebarBtn = document.getElementById('collapseSidebarBtn');
-        const menuToggleBtn = document.getElementById('menuToggleBtn');
-
         document.addEventListener('click', () => {
             const contextMenu = document.getElementById('chatContextMenu');
             if (contextMenu) contextMenu.classList.add('hidden');
         });
-        
+    
         const historyContainer = document.getElementById('chatHistoryContainer');
         if (historyContainer) {
             historyContainer.addEventListener('click', (e) => {
                 if (e.target.closest('.history-item') || e.target.closest('.sidebar-action-pill-btn')) {
                     closeMobileSidebarIfOpen();
-                    
-                    // Sync up: if the sidebar closes via history clicks, remove .is-open to show 2 lines again
-                    if (collapseSidebarBtn) collapseSidebarBtn.classList.remove('is-open');
-                    if (menuToggleBtn) menuToggleBtn.classList.remove('is-open');
                 }
             });
         }
-        
-        // Sidebar toggle click logic
-        if (collapseSidebarBtn) {
-            collapseSidebarBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); 
-                collapseSidebarBtn.classList.toggle('is-open'); // Toggles open state (merges into 1 line)
-            });
-        }
-
-        // Drawer Menu toggle click logic (Synchronized feature match)
-        if (menuToggleBtn) {
-            menuToggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                menuToggleBtn.classList.toggle('is-open'); // Toggles open state (merges into 1 line)
-            });
-        }
-
-        // ==========================================================================
-        // NATIVE TOUCH GESTURE SLIDE DISPATCH ENGINE
-        // ==========================================================================
-        (function initSidebarSwipeMechanics() {
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let touchEndX = 0;
-            let touchEndY = 0;
-
-            const SWIPE_THRESHOLD_X = 50;  // Minimum swipe distance in pixels
-            const SWIPE_CONSTRAINT_Y = 40; // Max allowed vertical shift (prevents conflict with scrolling)
-            const EDGE_BOUNDARY_X = 50;    // Swipe right must start within 50px of left screen edge
-
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-
-            if (!sidebar || !overlay) return;
-
-            document.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].clientX;
-                touchStartY = e.changedTouches[0].clientY;
-            }, { passive: true });
-
-            document.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].clientX;
-                touchEndY = e.changedTouches[0].clientY;
-                handleSwipeResolution();
-            }, { passive: true });
-
-            function handleSwipeResolution() {
-                const deltaX = touchEndX - touchStartX;
-                const deltaY = Math.abs(touchEndY - touchStartY);
-
-                // If vertical scrolling is prominent, cancel sidebar actions
-                if (deltaY > SWIPE_CONSTRAINT_Y) return;
-
-                const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
-                if (!isTouchDevice) return;
-
-                const isOpen = sidebar.classList.contains('mobile-open');
-
-                // SWIPE RIGHT: Opens the sidebar if swipe initiated near the left margin
-                if (deltaX > SWIPE_THRESHOLD_X && !isOpen) {
-                    if (touchStartX <= EDGE_BOUNDARY_X) {
-                        openDrawer();
-                    }
-                } 
-                // SWIPE LEFT: Closes the sidebar if swiped anywhere on screen while open
-                else if (deltaX < -SWIPE_THRESHOLD_X && isOpen) {
-                    closeDrawer();
-                }
-            }
-
-            function openDrawer() {
-                sidebar.classList.add('mobile-open');
-                overlay.classList.add('active');
-                
-                // Keep the structural action buttons synchronized with open state geometries
-                const collapseBtn = document.getElementById('collapseSidebarBtn');
-                const menuBtn = document.getElementById('menuToggleBtn');
-                if (collapseBtn) collapseBtn.classList.add('is-open');
-                if (menuBtn) menuBtn.classList.add('is-open');
-            }
-
-            function closeDrawer() {
-                sidebar.classList.remove('mobile-open');
-                overlay.classList.remove('active');
-                
-                const collapseBtn = document.getElementById('collapseSidebarBtn');
-                const menuBtn = document.getElementById('menuToggleBtn');
-                if (collapseBtn) collapseBtn.classList.remove('is-open');
-                if (menuBtn) menuBtn.classList.remove('is-open');
-            }
-        })();
-
-        // ==========================================================================
-        // TOUCHSCREEN VIRTUAL KEYBOARD LAYOUT CLOSURE PATCH
-        // ==========================================================================
-        (function initTouchKeyboardResetMechanics() {
-            const isTouchTarget =
-                window.matchMedia('(pointer: coarse)').matches ||
-                window.innerWidth <= 1024;
-        
-            if (!isTouchTarget || !window.visualViewport) return;
-        
-            const restoreViewport = () => {
-                document.documentElement.style.height = '100dvh';
-                document.body.style.height = '100dvh';
-        
-                const app = document.querySelector('.app-container');
-                const workspace = document.querySelector('.main-workspace');
-                const viewport = document.getElementById('contentViewport');
-        
-                if (app) app.style.height = '100dvh';
-                if (workspace) workspace.style.height = '100dvh';
-        
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-        
-                        window.scrollTo(0, 0);
-        
-                        if (viewport) {
-        
-                            // Safari keyboard-close fix
-                            viewport.style.height = '0px';
-        
-                            viewport.offsetHeight; // force layout flush
-        
-                            requestAnimationFrame(() => {
-        
-                                viewport.style.height = '';
-        
-                                viewport.offsetHeight; // force recalculation
-        
-                            });
-                        }
-        
-                    });
-                });
-            };
-        
-            let lastViewportHeight = window.visualViewport.height;
-        
-            window.visualViewport.addEventListener('resize', () => {
-                const active = document.activeElement;
-        
-                const editing =
-                    active &&
-                    (
-                        active.tagName === 'TEXTAREA' ||
-                        active.tagName === 'INPUT'
-                    );
-        
-                const currentHeight = window.visualViewport.height;
-        
-                const keyboardClosed =
-                    currentHeight > lastViewportHeight + 80;
-        
-                lastViewportHeight = currentHeight;
-        
-                if (!editing || keyboardClosed) {
-                    setTimeout(restoreViewport, 150);
-                }
-            });
-        
-            document.addEventListener('focusout', () => {
-                setTimeout(restoreViewport, 150);
-            });
-        })();
-
     }
 
     function verifySendBufferCapacity() {
         const area = document.getElementById('chatInputPayload');
-        if (!area) return;
-        const val = area.value.trim();
-        const submitBtn = document.getElementById('submitPromptBtn');
-        if (submitBtn) submitBtn.disabled = (val.length === 0);
-    }
-
-    // ==========================================
-    // 5. INTUATIVE INFERENCE MATCHING ENGINE
-    // ==========================================
-    async function dispatchInferenceSequence() {
-        const area = document.getElementById('chatInputPayload');
-        if (!area) return;
-        const query = area.value.trim();
-        if (!query) return;
-
-        area.value = ''; area.style.height = 'auto'; verifySendBufferCapacity();
-
-        if (!SystemState.activeThreadId) {
-            const newId = 'case_log_' + Date.now();
-            SystemState.activeThreadId = newId;
-            SystemState.threads[newId] = {
-                id: newId,
-                label: query.substring(0, 26) + (query.length > 26 ? '...' : ''),
-                pinned: false,
-                messages: []
-            };
-        }
-
-        SystemState.threads[SystemState.activeThreadId].messages.push({ sender: 'user', text: query });
-        persistThreadsToStorage(); renderThreadSidebarHistory();
-        routeWorkspaceView('chatFeedScreen'); renderActiveChatMessageStreams();
-
-        const stream = document.getElementById('messageStreamTarget');
-        const loader = document.createElement('div');
-        loader.className = 'chat-row';
-        loader.innerHTML = `
-            <div class="avatar-container ai"><span class="material-symbols-rounded">network_intelligence</span></div>
-            <div class="bubble-content">
-                <div class="typing-pulse-container">
-                    <div class="pulse-dot"></div><div class="pulse-dot"></div><div class="pulse-dot"></div>
-                </div>
-            </div>
-        `;
-        stream.appendChild(loader); scrollViewportToBottom();
-
-        try {
-            const systemResolutionOutput = await processClinicalInferenceResolution(query);
-            if (stream.contains(loader)) stream.removeChild(loader);
-
-            SystemState.threads[SystemState.activeThreadId].messages.push({ sender: 'ai', text: systemResolutionOutput });
-            persistThreadsToStorage(); renderActiveChatMessageStreams();
-        } catch (err) {
-            if (stream.contains(loader)) stream.removeChild(loader);
-            SystemState.threads[SystemState.activeThreadId].messages.push({ 
-                sender: 'ai', 
-                text: `<div class="clinical-card-container"><h4 style="color:var(--clinical-alert)">Gateway Endpoint Failure</h4><p style="margin-top:8px;">${err.message}</p></div>` 
-            });
-            persistThreadsToStorage(); renderActiveChatMessageStreams();
-        }
-    }
-
-    async function processClinicalInferenceResolution(promptInput) {
-        const cleanQuery = promptInput.toLowerCase();
-
-        // Structural matching pass over comprehensive file objects
-        const match = SYSTEM_KNOWLEDGE_POOLS.find(item => {
-            const titleMatch = item.title && cleanQuery.includes(item.title.toLowerCase());
-            const idMatch = item.id && cleanQuery.includes(item.id.toLowerCase());
-            const catMatch = item.category && cleanQuery.includes(item.category.toLowerCase());
-            return titleMatch || idMatch || catMatch;
-        });
-
-        if (match) {
-            if (match.type === 'calc') {
-                return renderInteractiveCalculationFormCard(match, `chat_${match.id || 'gen'}`);
-            } else {
-                return renderFormattedStaticCard(match);
-            }
-        }
-
-        // Contextual Fallbacks for structural algorithms
-        if (cleanQuery.includes('apgar') || cleanQuery.includes('neonatal')) {
-            const apgarModel = SYSTEM_KNOWLEDGE_POOLS.find(x => x.id === 'calc_apgar') || window.CALCULATORS_DB?.[0];
-            if (apgarModel) return renderInteractiveCalculationFormCard(apgarModel, 'chat_apgar_fallback');
-        }
-        if (cleanQuery.includes('parkland') || cleanQuery.includes('burn')) {
-            const parklandModel = window.FLUIDS_DB?.[0] || { id: 'calc_parkland', title: 'Parkland Engine', category: 'Resuscitation', fields: [{id:'weight', label:'Weight', type:'number'}, {id:'tbsa', label:'% TBSA', type:'number'}] };
-            return renderInteractiveCalculationFormCard(parklandModel, 'chat_parkland_fallback');
-        }
-
-        if (!SystemState.groqKey) {
-            return `<div class="clinical-card-container">
-                <div class="clinical-card-header"><div class="clinical-card-title"><span class="material-symbols-rounded" style="color:var(--clinical-warning)">cloud_off</span><span>Groq API Not Integrated</span></div></div>
-                <p class="clinical-text-block">No entry exists in local database. Link your custom Groq API keys inside <a href="#" onclick="document.getElementById('settingsToggleBtn').click(); return false;" style="color: #5c6bc0; text-decoration: none;"><b>Settings</b></a> to initialize your search.</p>
-            </div>`;
-        }
-
-        return await dispatchGroqCloudQuery(promptInput);
-    }
-
-    async function dispatchGroqCloudQuery(prompt) {
-        const systemDirectives = `You are the core expert intelligence pipeline of Cortexa AI.
-You must analyze user inputs and output highly detailed clinical guidance formatted exclusively inside structured HTML blocks using our UI design tokens.
-
-If the prompt describes or requests a clinical calculation, score, index tracking metrics, or parameter calculation:
-You MUST construct a dynamic frontend card component using this exact inline structure blueprint directly:
-<div class="clinical-card-container">
-    <div class="clinical-card-header">
-        <div class="clinical-card-title"><span class="material-symbols-rounded">calculate</span> \${CALCULATOR_TITLE}</div>
-        <div class="clinical-badge warning">Dynamic Core Engine</div>
-    </div>
-    <p style="margin-bottom:12px; font-size:0.88rem; color:var(--text-secondary);">\${CALCULATOR_DESCRIPTION_OR_FORMULA}</p>
-    <div class="inline-calc-form">
-        <div class="inline-form-row">
-            <label>\${INPUT_LABEL}</label>
-            <input type="number" class="dynamic-custom-field" data-label="\${INPUT_LABEL}" placeholder="Enter values...">
-        </div>
-        <button class="inline-calc-submit-btn" onclick="evaluateDynamicCloudCalculator(this)">Execute Calculation Matrix</button>
-        <div class="dynamic-calc-result-target hidden" style="margin-top:14px; border-top:1px solid var(--border-color); padding-top:12px;"></div>
-    </div>
-</div>
-
-For clinical data lookups, return data utilizing our classic high-grade structured visual blueprint layout:
-<div class="clinical-card-container">
-    <div class="clinical-card-header">
-        <div class="clinical-card-title"><span class="material-symbols-rounded">clinical_notes</span> \${TOPIC_HEADING}</div>
-        <div class="clinical-badge normal">Cloud Response</div>
-    </div>
-    <div class="clinical-section-block">
-        <div class="clinical-section-label">Clinical Synthesis Response Matrix</div>
-        <div class="clinical-text-block">\${DETAILED_HTML_MARKUP_CONTENT}</div>
-    </div>
-</div>`;
-
-        const serverResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${SystemState.groqKey}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                messages: [
-                    { role: "system", content: systemDirectives },
-                    { role: "user", content: prompt }
-                ],
-                temperature: 0.15
-            })
-        });
-
-        if (!serverResponse.ok) {
-            const errorPayload = await serverResponse.json();
-            throw new Error(errorPayload.error?.message || "Server operational rejection.");
-        }
-
-        const completionResult = await serverResponse.json();
-        return completionResult.choices[0].message.content;
-    }
-
-    // ==========================================
-    // 6. ADAPTIVE DOM CARD RENDERING BLOCKS
-    // ==========================================
-    function renderFormattedStaticCard(node) {
-        let title = node.title || "Clinical Protocol Module";
-        let category = node.category || "Database Log";
-        let coreContent = '';
-
-        if (node.desc) coreContent += `<p style="font-weight:500; margin-bottom:12px;">${node.desc}</p>`;
+        const submit = document.getElementById('submitPromptBtn');
+        if (!area || !submit) return;
         
-        if (node.steps && Array.isArray(node.steps)) {
-            coreContent += `<div style="margin-bottom:10px; font-weight:600; font-size:0.8rem; text-transform:uppercase; color:var(--text-secondary);">Procedural Sequence Steps</div>`;
-            coreContent += `<ol style="padding-left:20px; margin-bottom:14px; display:flex; flex-direction:column; gap:6px;">`;
-            node.steps.forEach(st => { coreContent += `<li>${st}</li>`; });
-            coreContent += `</ol>`;
-        }
-
-        if (node.pearls) {
-            coreContent += `<div style="background:rgba(66,133,244,0.08); border-left:3px solid var(--accent-blue); padding:12px; border-radius:0 8px 8px 0; font-size:0.9rem;">
-                <b>Clinical Pearl Tracking Vector:</b> ${node.pearls}
-            </div>`;
-        }
-
-        if (node.data) {
-            if(node.data.indication) coreContent += `<p style="margin-bottom:8px;"><b>Indication Profile:</b> ${node.data.indication}</p>`;
-            if(node.data.dose) coreContent += `<p style="margin-bottom:8px;"><b>Dosing Guidelines Matrix:</b> ${node.data.dose}</p>`;
-            if(node.data.mechanism) coreContent += `<p style="margin-bottom:8px;"><b>Mechanism Of Action:</b> ${node.data.mechanism}</p>`;
-            if(node.data.clinicalTip) coreContent += `<p style="margin-top:10px; padding:10px; background:rgba(242,139,130,0.08); border-radius:6px;"><b>High-Alert Warning Rule:</b> ${node.data.clinicalTip}</p>`;
-        }
-
-        if (!coreContent && node.content) coreContent = node.content;
-
-        const isDrug = node.id?.startsWith('drug_') || node.origin === 'drugs.js';
-        const uniquePrefixId = `static_${node.id || 'gen'}_${Date.now()}`;
-
-        // Single implementation of the multi-factor calculator engine
-        window[`recalc_drug_${uniquePrefixId}`] = function() {
-            const w = parseFloat(document.getElementById(`${uniquePrefixId}_metric_weight`)?.value) || 0;
-            const liveResultBox = document.getElementById(`${uniquePrefixId}_live_calculation_target`);
-            const counterBadge = document.getElementById(`${uniquePrefixId}_counter_badge`);
-            if (!liveResultBox) return;
-
-            if (w <= 0) {
-                liveResultBox.innerHTML = '';
-                liveResultBox.classList.add('hidden');
-                return;
-            }
-
-            const checkedBoxes = document.querySelectorAll(`.${uniquePrefixId}_risk_cb:checked`);
-            const activeCount = checkedBoxes.length;
-            
-            if (counterBadge) {
-                counterBadge.textContent = `${activeCount} Active`;
-                if(activeCount === 0) { counterBadge.classList.add('zero'); } 
-                else { counterBadge.classList.remove('zero'); }
-            }
-
-            let doseMultiplier = 1.0;
-            let riskAlertsHTML = "";
-
-            checkedBoxes.forEach(cb => {
-                if (cb.value === 'renal') {
-                    doseMultiplier *= 0.50;
-                    riskAlertsHTML += `<div style="color:#ea4335; margin-top:4px;"><b>⚠ Severe Renal Impairment:</b> Clearances diminished. Reduce dose or prolong administration intervals.</div>`;
-                }
-                if (cb.value === 'hepatic') {
-                    doseMultiplier *= 0.75;
-                    riskAlertsHTML += `<div style="color:#ea4335; margin-top:4px;"><b>⚠ Hepatic Insufficiency:</b> High threat of structural compound accumulation. Monitor function panels.</div>`;
-                }
-                if (cb.value === 'shock') {
-                    riskAlertsHTML += `<div style="color:#ea4335; margin-top:4px;"><b>⚠ Decompensated Shock:</b> Restricted systemic perfusion. Central access line optimization recommended.</div>`;
-                }
-                if (cb.value === 'geriatric') {
-                    doseMultiplier *= 0.80;
-                    riskAlertsHTML += `<div style="color:#fbbc04; margin-top:4px;"><b>⚠ Geriatric Fragility:</b> High baseline neurological/organ sensitivity. Initiate low titration boundaries.</div>`;
-                }
-            });
-
-            let computedText = "";
-
-            if (node.id === 'drug_hrig') {
-                let adjustedDose = (20 * w) * doseMultiplier;
-                computedText = `• <b>Live HRIG Target Dose:</b> <b>${adjustedDose.toLocaleString(undefined, {maximumFractionDigits: 1})} IU</b> total volume calculated. ${(doseMultiplier < 1) ? `<span style="color:#ea4335;">(Mathematically downscaled for chosen metabolic risks by ${((1 - doseMultiplier) * 100).toFixed(0)}%)</span>` : ''}`;
-            } else if (node.id === 'drug_epinephrine') {
-                let lowBound = Array.from(checkedBoxes).some(c => c.value === 'shock') ? 0.15 * w * doseMultiplier : 0.05 * w * doseMultiplier;
-                let highBound = 2.0 * w * doseMultiplier;
-                computedText = `• <b>Live Epinephrine Infusion:</b> <b>${lowBound.toFixed(2)} to ${highBound.toFixed(2)} mcg/min</b> operational limits.`;
-            } else {
-                computedText = `• <b>Live Parameters Mapped:</b> Mass vector calculated at ${w} kg. Current systemic dose modification parameter: <b>x${doseMultiplier.toFixed(2)}</b>.`;
-            }
-
-            liveResultBox.innerHTML = `
-                <div style="background: rgba(52, 168, 83, 0.08); border-left: 3px solid var(--clinical-success); padding: 12px; border-radius: 6px; font-size: 0.88rem; color: var(--text-primary); line-height: 1.4;">
-                    <div style="font-weight:700; color:var(--clinical-success); margin-bottom:4px; text-transform:uppercase; font-size:0.75rem;">Risk-Adjusted Target Output</div>
-                    <div style="margin-bottom:4px;">${computedText}</div>
-                    ${riskAlertsHTML ? `<div style="margin-top:8px; padding-top:6px; border-top:1px dashed rgba(234,67,53,0.15); font-size:0.82rem;">${riskAlertsHTML}</div>` : ''}
-                </div>
-            `;
-            liveResultBox.classList.remove('hidden');
-
-            const parentAccordionLayer = liveResultBox.closest('.accordion-body-expansion-layer');
-            if (parentAccordionLayer) {
-                parentAccordionLayer.style.maxHeight = (parentAccordionLayer.scrollHeight + 100) + 'px';
-            }
-        };
-
-        return `
-            <div class="clinical-card-container">
-                <div class="clinical-card-header">
-                    <div class="clinical-card-title"><span class="material-symbols-rounded" style="color:var(--accent-blue)">verified_user</span> <span>${escapeHTMLString(title)}</span></div>
-                    <div class="clinical-badge normal">${escapeHTMLString(category)}</div>
-                </div>
-                ${isDrug ? `
-                <div class="patient-metrics-engine-block">
-                    <div class="inline-form-row">
-                        <label>Patient Gender</label>
-                        <select id="${uniquePrefixId}_metric_gender">
-                            <option value="unspecified">Unspecified</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-                    <div class="inline-form-row">
-                        <label>Patient Age (yrs)</label>
-                        <input type="number" id="${uniquePrefixId}_metric_age" placeholder="e.g., 45">
-                    </div>
-                    <div class="inline-form-row">
-                        <label>Patient Weight (kg)</label>
-                        <input type="number" id="${uniquePrefixId}_metric_weight" placeholder="e.g., 70" oninput="window['recalc_drug_${uniquePrefixId}']()">
-                    </div>
-                </div>
-                
-                <div class="risk-engine-dropdown-container">
-                    <div class="risk-engine-summary-header" onclick="const contentPanel = this.nextElementSibling; contentPanel.style.display = (contentPanel.style.display === 'none' || !contentPanel.style.display) ? 'grid' : 'none'; const ly = this.closest('.accordion-body-expansion-layer'); if(ly){ly.style.maxHeight = (ly.scrollHeight + 200)+'px';}">
-                        <div class="risk-engine-title-group">
-                            <span class="material-symbols-rounded" style="font-size:1.1rem;">shield_with_heart</span>
-                            <span>Physiological Risk Profile</span>
-                        </div>
-                        <div id="${uniquePrefixId}_counter_badge" class="risk-active-counter-badge zero">0 Active</div>
-                    </div>
-                    <div class="risk-engine-dropdown-content" style="display:none;">
-                        <label class="risk-matrix-option">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_cb" value="renal" onchange="window['recalc_drug_${uniquePrefixId}']()">
-                            <div>Severe Renal Impairment<span class="risk-factor-coefficient-tag">Modifies clearing kinetics (Dose x0.50)</span></div>
-                        </label>
-                        <label class="risk-matrix-option">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_cb" value="hepatic" onchange="window['recalc_drug_${uniquePrefixId}']()">
-                            <div>Hepatic Insufficiency<span class="risk-factor-coefficient-tag">Compromised liver paths (Dose x0.75)</span></div>
-                        </label>
-                        <label class="risk-checkbox-wrapper risk-matrix-option">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_cb" value="shock" onchange="window['recalc_drug_${uniquePrefixId}']()">
-                            <div>Decompensated Shock State<span class="risk-factor-coefficient-tag">Restructures alpha titration floor</span></div>
-                        </label>
-                        <label class="risk-matrix-option">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_cb" value="geriatric" onchange="window['recalc_drug_${uniquePrefixId}']()">
-                            <div>Geriatric Fragility Profile<span class="risk-factor-coefficient-tag">Tissue hyper-sensitivity (Dose x0.80)</span></div>
-                        </label>
-                    </div>
-                </div>
-                <div id="${uniquePrefixId}_live_calculation_target" class="hidden" style="margin-bottom:12px;"></div>
-                ` : ''}
-                <div class="clinical-text-block">${coreContent}</div>
-            </div>
-        `;
-    }
-
-    function renderInteractiveCalculationFormCard(model, uniquePrefixId) {
-        if (!model || !model.fields) return `<div class="error-card">Calculator configuration breakdown.</div>`;
-
-        let fieldsHTML = '';
-        
-        const isDrugOrFluid = model.id?.startsWith('drug_') || 
-                                model.id?.startsWith('calc_') ||
-                                model.origin === 'drugs.js' || 
-                                model.origin === 'fluids.js' ||
-                                model.type === 'calculator';
-
-        // Local live runtime updates to handle inner counter interactions safely
-        window[`update_interactive_counter_${uniquePrefixId}`] = function() {
-            const countBadge = document.getElementById(`${uniquePrefixId}_counter_badge`);
-            if(countBadge) {
-                const totalActive = document.querySelectorAll(`.${uniquePrefixId}_risk_cb:checked`).length;
-                countBadge.textContent = `${totalActive} Active`;
-                if(totalActive === 0) { countBadge.classList.add('zero'); }
-                else { countBadge.classList.remove('zero'); }
-            }
-        };
-
-        if (isDrugOrFluid) {
-            fieldsHTML += `
-                <div class="patient-metrics-engine-block">
-                    <div class="inline-form-row">
-                        <label>Patient Gender</label>
-                        <select id="${uniquePrefixId}_metric_gender">
-                            <option value="unspecified">Unspecified</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-                    <div class="inline-form-row">
-                        <label>Patient Age (yrs)</label>
-                        <input type="number" id="${uniquePrefixId}_metric_age" placeholder="e.g., 45" min="0" max="125">
-                    </div>
-                    <div class="inline-form-row">
-                        <label>Patient Weight (kg)</label>
-                        <input type="number" id="${uniquePrefixId}_metric_weight" placeholder="e.g., 70" min="0" max="400" 
-                        oninput="const targetFld = document.getElementById('${uniquePrefixId}_field_weight'); if(targetFld) { targetFld.value = this.value; }">
-                    </div>
-                </div>
-                
-                <div class="risk-engine-dropdown-container">
-                    <div class="risk-engine-summary-header" onclick="const contentPanel = this.nextElementSibling; contentPanel.style.display = (contentPanel.style.display === 'none' || !contentPanel.style.display) ? 'grid' : 'none'; const ly = this.closest('.accordion-body-expansion-layer'); if(ly){ly.style.maxHeight = (ly.scrollHeight + 200)+'px';}">
-                        <div class="risk-engine-title-group">
-                            <span class="material-symbols-rounded" style="font-size:1.1rem;">shield_with_heart</span>
-                            <span>Physiological Risk Profile</span>
-                        </div>
-                        <div id="${uniquePrefixId}_counter_badge" class="risk-active-counter-badge zero">0 Active</div>
-                    </div>
-                    <div class="risk-engine-dropdown-content" style="display:none;">
-                        <label class="risk-matrix-option">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_cb" value="renal" onchange="window['update_interactive_counter_${uniquePrefixId}']()">
-                            <div>Severe Renal Impairment<span class="risk-factor-coefficient-tag">Modifies clearing kinetics (Dose x0.50)</span></div>
-                        </label>
-                        <label class="risk-matrix-option">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_cb" value="hepatic" onchange="window['update_interactive_counter_${uniquePrefixId}']()">
-                            <div>Hepatic Insufficiency<span class="risk-factor-coefficient-tag">Compromised liver paths (Dose x0.75)</span></div>
-                        </label>
-                        <label class="risk-matrix-option">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_cb" value="shock" onchange="window['update_interactive_counter_${uniquePrefixId}']()">
-                            <div>Decompensated Shock State<span class="risk-factor-coefficient-tag">Modifies target fluid rates (Rate x1.25)</span></div>
-                        </label>
-                        <label class="risk-matrix-option">
-                            <input type="checkbox" class="${uniquePrefixId}_risk_cb" value="geriatric" onchange="window['update_interactive_counter_${uniquePrefixId}']()">
-                            <div>Geriatric Fragility Profile<span class="risk-factor-coefficient-tag">Tissue hyper-sensitivity (Dose x0.80)</span></div>
-                        </label>
-                    </div>
-                </div>
-            `;
-        }
-
-        model.fields.forEach((f, idx) => {
-            const inputId = `${uniquePrefixId}_field_${f.id || idx}`;
-            if (f.type === 'select') {
-                let opts = '';
-                const baseOptions = f.options || [];
-                baseOptions.forEach(o => {
-                    if (typeof o === 'object' && o.v !== undefined) {
-                        opts += `<option value="${o.v}">${o.l}</option>`;
-                    } else {
-                        opts += `<option value="${o}">${o}</option>`;
-                    }
-                });
-                fieldsHTML += `
-                    <div class="inline-form-row">
-                        <label>${f.label}</label>
-                        <select id="${inputId}" data-param="${f.id || idx}">${opts}</select>
-                    </div>
-                `;
-            } else {
-                const isWeightField = f.id === 'weight';
-                fieldsHTML += `
-                    <div class="inline-form-row">
-                        <label>${f.label}</label>
-                        <input type="number" id="${inputId}" data-param="${f.id || idx}" placeholder="${f.placeholder || 'Enter value...'}" 
-                        ${(isDrugOrFluid && isWeightField) ? `oninput="document.getElementById('${uniquePrefixId}_metric_weight').value = this.value"` : ''}>
-                    </div>
-                `;
-            }
-        });
-
-        const callbackStorageKey = `cb_${uniquePrefixId}`;
-        window[callbackStorageKey] = function(btnElement) {
-            const params = {};
-            const parentForm = btnElement.parentElement;
-            parentForm.querySelectorAll('input[data-param], select[data-param]').forEach(element => {
-                const paramKey = element.getAttribute('data-param');
-                if (paramKey) params[paramKey] = element.value;
-            });
-
-            if (isDrugOrFluid) {
-                const activeRisks = [];
-                document.querySelectorAll(`.${uniquePrefixId}_risk_cb:checked`).forEach(cb => {
-                    activeRisks.push(cb.value);
-                });
-
-                params.patientMetrics = {
-                    gender: document.getElementById(`${uniquePrefixId}_metric_gender`)?.value,
-                    age: parseFloat(document.getElementById(`${uniquePrefixId}_metric_age`)?.value) || null,
-                    weight: parseFloat(document.getElementById(`${uniquePrefixId}_metric_weight`)?.value) || null,
-                    riskFactors: activeRisks
-                };
-                
-                if (params.weight === undefined && params.patientMetrics.weight) {
-                    params.weight = params.patientMetrics.weight;
-                }
-            }
-
-            let finalReportMarkup = '';
-            
-            // Execute interactive calculation calculations with math modifiers baked in
-            if (typeof model.execute === 'function') {
-                // Intercept execution payload parameters and scale dynamically depending on risks
-                let calculationCoefficient = 1.0;
-                let fluidCoefficient = 1.0;
-                
-                if (params.patientMetrics?.riskFactors) {
-                    if (params.patientMetrics.riskFactors.includes('renal')) calculationCoefficient *= 0.50;
-                    if (params.patientMetrics.riskFactors.includes('hepatic')) calculationCoefficient *= 0.75;
-                    if (params.patientMetrics.riskFactors.includes('geriatric')) calculationCoefficient *= 0.80;
-                    if (params.patientMetrics.riskFactors.includes('shock')) fluidCoefficient *= 1.25; // Accelerate fluids in shock profiles
-                }
-
-                const res = model.execute(params);
-                
-                // If model returns a plain number string value, slice it and recalculate parameters dynamically
-                let valueStringToPrint = res.value;
-                if (isDrugOrFluid && calculationCoefficient !== 1.0 && !isNaN(parseFloat(valueStringToPrint))) {
-                    const alteredNumericValue = parseFloat(valueStringToPrint) * calculationCoefficient;
-                    valueStringToPrint = `${alteredNumericValue.toFixed(1)} <span style="font-size:0.85rem; color:#ea4335;">(Risk-Adjusted from ${parseFloat(res.value).toFixed(1)})</span>`;
-                } else if (model.id?.includes('parkland') && fluidCoefficient !== 1.0 && !isNaN(parseFloat(valueStringToPrint))) {
-                    const alteredFluidValue = parseFloat(valueStringToPrint) * fluidCoefficient;
-                    valueStringToPrint = `${alteredFluidValue.toFixed(0)} mL <span style="font-size:0.85rem; color:#ea4335;">(Shock Titration Adjusted)</span>`;
-                }
-
-                finalReportMarkup = `
-                    <div style="margin-top:12px; border-top:1px solid var(--border-color); padding-top:12px;">
-                        <div class="clinical-section-label">Computed Result Metric</div>
-                        <div class="clinical-section-value" style="color:var(--accent-blue); font-size:1.5rem; font-weight:600; margin-bottom:8px;">${valueStringToPrint}</div>
-                        <p style="font-size:0.9rem; margin-bottom:6px;"><b>Interpretation:</b> ${res.interpretation}</p>
-                        <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:4px;"><b>Management Tracking:</b> ${res.management}</p>
-                    </div>
-                `;
-            } else if (typeof model.evaluate === 'function') {
-                finalReportMarkup = `<div style="margin-top:12px; border-top:1px solid var(--border-color); padding-top:12px;">${model.evaluate(params)}</div>`;
-            } else {
-                finalReportMarkup = `<div style="color:var(--clinical-warning); font-size:0.88rem; margin-top:10px;">Calculator compilation logic error. Vector routine mapping failure.</div>`;
-            }
-
-            const outContainer = parentForm.parentElement.querySelector('.calc-results-render-output');
-            if (outContainer) {
-                outContainer.innerHTML = finalReportMarkup;
-                outContainer.classList.remove('hidden');
-                scrollViewportToBottom();
-
-                // Dynamic fix: Track Knowledge Base parent accordion layers and recalculate absolute container dimensions dynamically
-                const parentAccordionLayer = parentForm.closest('.accordion-body-expansion-layer');
-                if (parentAccordionLayer) {
-                    parentAccordionLayer.style.maxHeight = (parentAccordionLayer.scrollHeight + 350) + 'px';
-                }
-            }
-        };
-
-        return `
-            <div class="clinical-card-container">
-                <div class="clinical-card-header">
-                    <div class="clinical-card-title"><span class="material-symbols-rounded" style="color:var(--clinical-warning)">calculate</span> <span>${escapeHTMLString(model.title || 'Calculator Engine')}</span></div>
-                    <div class="clinical-badge warning">${escapeHTMLString(model.category || 'Metric Evaluation')}</div>
-                </div>
-                <div class="inline-calc-form">
-                    ${fieldsHTML}
-                    <button class="inline-calc-submit-btn" onclick="window['${callbackStorageKey}'](this)">Execute Calculation Matrix</button>
-                </div>
-                <div class="calc-results-render-output hidden"></div>
-            </div>
-        `;
-    }
-
-    function renderActiveChatMessageStreams() {
-        const stream = document.getElementById('messageStreamTarget');
-        if (!stream || !SystemState.activeThreadId || !SystemState.threads[SystemState.activeThreadId] || !SystemState.threads[SystemState.activeThreadId].messages.length) return;
-    
-        let trackingHTML = '';
-        const messages = SystemState.threads[SystemState.activeThreadId].messages;
-    
-        // Identify the last user message so we only enable 'Edit' for the final prompt
-        let lastUserIndex = -1;
-        for (let i = messages.length - 1; i >= 0; i--) {
-            if (messages[i].sender === 'user') {
-                lastUserIndex = i;
-                break;
-                }
-            }
-    
-        messages.forEach((msg, idx) => {
-            if (msg.sender === 'user') {
-                const isLastUserMsg = (idx === lastUserIndex);
-                const editedIndicator = msg.isEdited ? `<span class="edited-tag"></span>` : '';
-                
-                trackingHTML += `
-                    <div class="chat-row user-row" id="msg-row-${idx}" data-idx="${idx}">
-                        <div class="user-message-wrapper">
-                            <div class="bubble-content touch-target-bubble">${escapeHTMLString(msg.text)} ${editedIndicator}</div>
-                            <div class="message-actions">
-                              <button class="msg-action-btn copy-btn" onclick="window.copyMessageText(${idx}, this)" title="Copy"><span class="material-symbols-rounded">content_copy</span></button>
-                                ${isLastUserMsg ? `<button class="msg-action-btn" onclick="window.enableMessageEditMode(${idx})" title="Edit"><span class="material-symbols-rounded">edit</span></button>` : ''}
-                            </div>
-                        </div>
-                    </div>`;
-            } else {
-                // REMOVED: The avatar-container div wrapper entirely
-                // UPDATED: Added an inline style width property override to let the bubble-content span the full width
-                trackingHTML += `
-                    <div class="chat-row ai-row" id="msg-row-${idx}">
-                        <div class="bubble-content" style="width: 100%; max-width: 100%; margin-left: 0;">${msg.text}</div>
-                    </div>
-                `;
-            }
-        });
-    
-        // 1. Flush and render the HTML markup content straight to the DOM
-        stream.innerHTML = trackingHTML;
-        
-        // 2. Exact Pixel Viewport Scroll Engine
-        const view = document.getElementById('contentViewport');
-        const lastIndex = messages.length - 1;
-        
-        if (lastIndex >= 0 && view) {
-            const lastMsg = messages[lastIndex];
-            
-            if (lastMsg.sender === 'ai') {
-                const targetCard = document.getElementById(`msg-row-${lastIndex}`);
-                if (targetCard) {
-                    // Calculate exactly how far down the card is inside the stream wrapper container
-                    const targetTopPosition = targetCard.offsetTop;
-                    
-                    // Force the parent viewport container to scroll precisely to the card's start coordinate
-                    view.scrollTo({
-                        top: targetTopPosition,
-                        behavior: 'smooth'
-                    });
-                } else {
-                    view.scrollTop = view.scrollHeight;
-                }
-            } else {
-                // If it is a user text prompt entry, push scroll to the bottom normally
-                view.scrollTop = view.scrollHeight;
-            }
-        }
-    }
-
-    // ==========================================
-    // MESSAGE ACTION UTILITIES (EDIT / COPY)
-    // ==========================================
-
-    window.copyMessageText = function(idx, btnElement) {
-        if (!SystemState.activeThreadId || !SystemState.threads[SystemState.activeThreadId]) return;
-        const msg = SystemState.threads[SystemState.activeThreadId].messages[idx];
-        if (!msg) return;
-
-        navigator.clipboard.writeText(msg.text).then(() => {
-            const icon = btnElement.querySelector('span');
-            if (icon) icon.textContent = 'check';
-            btnElement.classList.add('action-success'); // Flashes white
-            
-            setTimeout(() => {
-                if (icon) icon.textContent = 'content_copy';
-                btnElement.classList.remove('action-success');
-            }, 2000);
-        });
-    };
-
-    window.enableMessageEditMode = function(idx) {
-        if (!SystemState.activeThreadId || !SystemState.threads[SystemState.activeThreadId]) return;
-        const msg = SystemState.threads[SystemState.activeThreadId].messages[idx];
-        if (!msg) return;
-
-        const row = document.getElementById(`msg-row-${idx}`);
-        if (!row) return;
-        const wrapper = row.querySelector('.user-message-wrapper');
-        if (!wrapper) return;
-
-        // Swap out the bubble for the transparent edit UI block
-        wrapper.innerHTML = `
-            <div class="edit-mode-container">
-                <textarea class="edit-textarea" id="edit-textarea-${idx}">${msg.text}</textarea>
-                <div class="edit-actions-row">
-                    <button class="edit-btn cancel" onclick="window.cancelMessageEditMode()">Cancel</button>
-                    <button class="edit-btn update" onclick="window.commitMessageEdit(${idx})">Update</button>
-                </div>
-            </div>
-        `;
-        
-        const textarea = document.getElementById(`edit-textarea-${idx}`);
-        if (textarea) {
-            textarea.focus();
-            textarea.selectionStart = textarea.selectionEnd = textarea.value.length; // Move cursor to end
-        }
-    };
-
-    window.cancelMessageEditMode = function() {
-        renderActiveChatMessageStreams(); // Flushes the edit UI and restores the original bubble
-    };
-
-    window.commitMessageEdit = async function(idx) {
-        const textarea = document.getElementById(`edit-textarea-${idx}`);
-        if (!textarea) return window.cancelMessageEditMode();
-        const newText = textarea.value.trim();
-        if (!newText) return window.cancelMessageEditMode();
-
-        const activeThread = SystemState.threads[SystemState.activeThreadId];
-        if (!activeThread) return;
-        
-        // 1. Array Truncation: Delete the old AI response (and anything after this prompt)
-        activeThread.messages.length = idx + 1;
-        
-        // 2. Update prompt data
-        activeThread.messages[idx].text = newText;
-        activeThread.messages[idx].isEdited = true;
-
-        persistThreadsToStorage();
-        renderActiveChatMessageStreams(); // Re-renders showing the updated user prompt
-
-        // 3. Trigger new inference based on the updated text
-        const stream = document.getElementById('messageStreamTarget');
-        const loader = document.createElement('div');
-        loader.className = 'chat-row';
-        loader.innerHTML = `
-            <div class="avatar-container ai"><span class="material-symbols-rounded">clinical_notes</span></div>
-            <div class="bubble-content">
-                <div class="typing-pulse-container">
-                    <div class="pulse-dot"></div><div class="pulse-dot"></div><div class="pulse-dot"></div>
-                </div>
-            </div>
-        `;
-        if (stream) {
-            stream.appendChild(loader);
-            scrollViewportToBottom();
-        }
-
-        try {
-            const systemResolutionOutput = await processClinicalInferenceResolution(newText);
-            if (stream && stream.contains(loader)) stream.removeChild(loader);
-
-            activeThread.messages.push({ sender: 'ai', text: systemResolutionOutput });
-            persistThreadsToStorage(); 
-            renderActiveChatMessageStreams();
-        } catch (err) {
-            if (stream && stream.contains(loader)) stream.removeChild(loader);
-            activeThread.messages.push({ 
-                sender: 'ai', 
-                text: `<div class="clinical-card-container"><h4 style="color:var(--clinical-alert)">Gateway Endpoint Failure</h4><p style="margin-top:8px;">${err.message}</p></div>` 
-            });
-            persistThreadsToStorage(); 
-            renderActiveChatMessageStreams();
-        }
-    };
-
-    function renderThreadSidebarHistory() {
-        const box = document.getElementById('chatHistoryContainer');
-        if (!box) return;
-
-        let records = Object.keys(SystemState.threads).map(k => SystemState.threads[k]);
-        records.sort((a, b) => (b.pinned === a.pinned) ? 0 : (a.pinned ? -1 : 1));
-
-        let html = '';
-        records.forEach(t => {
-            const isActive = (t.id === SystemState.activeThreadId && SystemState.activeViewPanelId === 'chatFeedScreen') ? 'active' : '';
-            html += `
-<div class="history-item-wrapper ${isActive}" data-id="${t.id}" data-pinned="${t.pinned}">
-    <button class="history-item">
-        <svg class="history-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
-        <span class="history-item-text">${escapeHTMLString(t.label)}</span>
-    </button>
-    <button class="item-action-trigger-btn" title="Options">
-        <span class="material-symbols-rounded pin-icon">keep</span>
-        <span class="material-symbols-rounded dots-icon">more_vert</span>
-    </button>
-</div>
-            `;
-        });
-        box.innerHTML = html;
-
-        box.querySelectorAll('.history-item-wrapper').forEach(row => {
-            const id = row.getAttribute('data-id');
-            const historyItem = row.querySelector('.history-item');
-            if (historyItem) {
-                historyItem.addEventListener('click', () => {
-                    SystemState.activeThreadId = id;
-                    renderThreadSidebarHistory();
-                    routeWorkspaceView('chatFeedScreen');
-                    renderActiveChatMessageStreams();
-                });
-            }
-            const actionTrigger = row.querySelector('.item-action-trigger-btn');
-            if (actionTrigger) {
-                actionTrigger.addEventListener('click', (e) => {
-                    e.stopPropagation(); e.preventDefault();
-                    SystemState.selectedContextMenuThreadId = id;
-                    triggerFloatingActionContextMenu(e);
-                });
-            }
-        });
-    }
-
-    function processHistorySearchQuery(filterString = '') {
-        const grid = document.getElementById('searchResultsTargetGrid');
-        if (!grid) return;
-
-        let matchedItems = Object.keys(SystemState.threads).map(k => SystemState.threads[k]);
-        if (filterString) {
-            matchedItems = matchedItems.filter(x => x.label.toLowerCase().includes(filterString));
-        }
-
-        if (!matchedItems.length) {
-            grid.innerHTML = `<div style="padding:40px; text-align:center; color:var(--text-secondary); font-size:0.9rem;">No record coordinates found.</div>`;
-            return;
-        }
-
-        let html = '';
-        matchedItems.forEach(item => {
-            html += `
-                <div class="search-result-row-card" data-id="${item.id}">
-                    <div class="src-meta-block">
-                        <span class="material-symbols-rounded">chat_bubble_outline</span>
-                        <div class="src-title">${escapeHTMLString(item.label)}</div>
-                    </div>
-                    <span class="material-symbols-rounded" style="color:var(--text-secondary); font-size:1.1rem;">arrow_forward_ios</span>
-                </div>
-            `;
-        });
-        grid.innerHTML = html;
-
-        grid.querySelectorAll('.search-result-row-card').forEach(card => {
-            card.addEventListener('click', () => {
-                SystemState.activeThreadId = card.getAttribute('data-id');
-                renderThreadSidebarHistory();
-                routeWorkspaceView('chatFeedScreen');
-                renderActiveChatMessageStreams();
-            });
-        });
-    }
-
-    function renderLibraryWorkspaceScreen(filterString = '') {
-        const stack = document.getElementById('libraryWorkspaceAccordionContainer');
-        if (!stack) return;
-
-        let arrayData = SYSTEM_KNOWLEDGE_POOLS;
-        if (filterString) {
-            arrayData = arrayData.filter(x => 
-                (x.title && x.title.toLowerCase().includes(filterString)) || 
-                (x.category && x.category.toLowerCase().includes(filterString))
-            );
-        }
-
-        if (!arrayData.length) {
-            stack.innerHTML = `<div style="padding:40px; text-align:center; color:var(--text-secondary); font-size:0.9rem;">No database entries match current query bounds.</div>`;
-            return;
-        }
-
-        let html = '';
-        arrayData.forEach((node, index) => {
-            html += `
-                <div class="accordion-element-node" id="library_node_${index}">
-                    <button class="accordion-header-trigger" data-index="${index}">
-                        <div class="accordion-header-text-group">
-                            <div class="node-cat">${escapeHTMLString(node.category || node.origin || "General Protocol Module")}</div>
-                            <div class="node-title">${escapeHTMLString(node.title || "Untitled Matrix Record")}</div>
-                        </div>
-                        <span class="material-symbols-rounded chevron-icon">expand_more</span>
-                    </button>
-                    <div class="accordion-body-expansion-layer">
-                        <div class="accordion-expansion-content">
-                            </div>
-                    </div>
-                </div>
-            `;
-        });
-        stack.innerHTML = html;
-
-        stack.querySelectorAll('.accordion-header-trigger').forEach(triggerBtn => {
-            triggerBtn.addEventListener('click', () => {
-                const itemIdx = parseInt(triggerBtn.getAttribute('data-index'));
-                const targetNodeModel = arrayData[itemIdx];
-                const parentElementNode = triggerBtn.parentElement;
-                if (!parentElementNode) return;
-                const bodyLayer = parentElementNode.querySelector('.accordion-body-expansion-layer');
-                const contentContainer = parentElementNode.querySelector('.accordion-expansion-content');
-                
-                const standsExpanded = parentElementNode.classList.contains('expanded');
-                
-                // Collapse all open alternative elements to conserve performance allocations
-                stack.querySelectorAll('.accordion-element-node').forEach(el => {
-                    el.classList.remove('expanded');
-                    const expansionLayer = el.querySelector('.accordion-body-expansion-layer');
-                    if (expansionLayer) expansionLayer.style.maxHeight = null;
-                });
-
-                if (!standsExpanded && bodyLayer && contentContainer) {
-                    // Inject and compile content directly when requested by user intent layout actions
-                    if (targetNodeModel.type === 'calc') {
-                        contentContainer.innerHTML = renderInteractiveCalculationFormCard(targetNodeModel, `lib_matrix_${itemIdx}`);
-                    } else {
-                        contentContainer.innerHTML = renderFormattedStaticCard(targetNodeModel);
-                    }
-                    
-                    parentElementNode.classList.add('expanded');
-                    bodyLayer.style.maxHeight = (bodyLayer.scrollHeight + 150) + "px";
-                }
-            });
-        });
-    }
-
-    // ==========================================
-    // 7. SYSTEM UTILITIES AND CLOUD RUNTIMES
-    // ==========================================
-    function triggerFloatingActionContextMenu(event) {
-        const el = document.getElementById('chatContextMenu');
-        if (!el) return;
-
-        const dataRef = SystemState.threads[SystemState.selectedContextMenuThreadId];
-        const labelNode = el.querySelector('[data-action="pin"] span:last-child');
-        if (dataRef && dataRef.pinned) {
-            if (labelNode) labelNode.textContent = "Unpin";
+        if (area.value.trim().length > 0) {
+            submit.disabled = false;
         } else {
-            if (labelNode) labelNode.textContent = "Pin";
+            submit.disabled = true;
+        }
+    }
+
+    // ==========================================
+    // 5. SIDEBAR HISTORICAL THREAD LAYOUT RENDERING
+    // ==========================================
+    function renderThreadSidebarHistory() {
+        const container = document.getElementById('chatHistoryContainer');
+        if (!container) return;
+        container.innerHTML = '';
+
+        const activeList = Object.values(SystemState.threads);
+        if (activeList.length === 0) {
+            container.innerHTML = `<div class="sidebar-empty-state">No past sessions active.</div>`;
+            return;
         }
 
-        el.classList.remove('hidden');
-        let lx = event.clientX; let ty = event.clientY;
-        if (lx + 180 > window.innerWidth) lx = window.innerWidth - 190;
-        if (ty + 160 > window.innerHeight) ty = window.innerHeight - 170;
+        // Sort: Pinned elements ascend to top index maps automatically
+        activeList.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
 
-        el.style.left = lx + 'px'; el.style.top = ty + 'px';
+        activeList.forEach(thread => {
+            const item = document.createElement('div');
+            item.className = `history-item${SystemState.activeThreadId === thread.id ? ' active' : ''}`;
+            item.setAttribute('data-id', thread.id);
+            
+            // Standard click routing loop handler interface
+            item.addEventListener('click', (e) => {
+                if (e.target.closest('.history-context-trigger')) return;
+                loadThreadSessionIntoFeed(thread.id);
+            });
 
-        el.querySelectorAll('.context-action-item').forEach(button => {
-            const clone = button.cloneNode(true);
-            if (button.parentNode) {
-                button.parentNode.replaceChild(clone, button);
-                clone.addEventListener('click', (ev) => {
-                    ev.stopPropagation(); el.classList.add('hidden');
-                    executeContextActionSequence(clone.getAttribute('data-action'));
-                });
-            }
+            // Trigger the context menu layer securely
+            item.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                displayThreadContextMenu(e, thread.id);
+            });
+
+            const leadingIcon = thread.pinned ? 'keep' : 'chat_bubble';
+            
+            item.innerHTML = `
+                <span class="material-symbols-rounded item-prefix">${leadingIcon}</span>
+                <span class="item-label">${escapeHtml(thread.label)}</span>
+                <button class="history-context-trigger">
+                    <span class="material-symbols-rounded">more_vert</span>
+                </button>
+            `;
+
+            const menuTrigger = item.querySelector('.history-context-trigger');
+            menuTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                displayThreadContextMenu(e, thread.id);
+            });
+
+            container.appendChild(item);
         });
     }
 
-    function executeContextActionSequence(actionType) {
-        const id = SystemState.selectedContextMenuThreadId;
-        if (!id || !SystemState.threads[id]) return;
+    function displayThreadContextMenu(event, threadId) {
+        SystemState.selectedContextMenuThreadId = threadId;
+        const menu = document.getElementById('chatContextMenu');
+        if (!menu) return;
 
-        if (actionType === 'pin') {
-            SystemState.threads[id].pinned = !SystemState.threads[id].pinned;
-            persistThreadsToStorage(); renderThreadSidebarHistory();
-        } else if (actionType === 'rename') {
-            const val = prompt("Rename this thread:", SystemState.threads[id].label);
-            if (val && val.trim().length > 0) {
-                SystemState.threads[id].label = val.trim();
-                persistThreadsToStorage(); renderThreadSidebarHistory();
-            }
-        } else if (actionType === 'delete') {
-            if (confirm("Are you sure you want to drop this clinical thread?")) {
-                delete SystemState.threads[id];
-                if (SystemState.activeThreadId === id) SystemState.activeThreadId = null;
-                persistThreadsToStorage(); renderThreadSidebarHistory();
-                if (!SystemState.activeThreadId) routeWorkspaceView('zeroStateScreen');
-                else renderActiveChatMessageStreams();
-            }
+        menu.classList.remove('hidden');
+        
+        // Context properties mapping toggle tracking variables safely
+        const isPinned = SystemState.threads[threadId]?.pinned || false;
+        const pinText = menu.querySelector('#contextPinOption span:not(.material-symbols-rounded)');
+        const pinIcon = menu.querySelector('#contextPinOption .material-symbols-rounded');
+        
+        if (pinText && pinIcon) {
+            pinText.textContent = isPinned ? 'Unpin' : 'Pin';
+            pinIcon.textContent = isPinned ? 'keep_off' : 'keep';
         }
+
+        // Compute coordinate anchor offsets relative to viewport metrics
+        let posX = event.clientX;
+        let posY = event.clientY;
+        const safetyMargin = 15;
+
+        menu.style.opacity = '0';
+        menu.style.left = '0px';
+        menu.style.top = '0px';
+
+        setTimeout(() => {
+            const menuWidth = menu.offsetWidth;
+            const menuHeight = menu.offsetHeight;
+
+            if (posX + menuWidth > window.innerWidth) {
+                posX = window.innerWidth - menuWidth - safetyMargin;
+            }
+            if (posY + menuHeight > window.innerHeight) {
+                posY = window.innerHeight - menuHeight - safetyMargin;
+            }
+
+            menu.style.left = `${posX}px`;
+            menu.style.top = `${posY}px`;
+            menu.style.opacity = '1';
+        }, 1);
+
+        // Bind contextual analytical manipulation updates exactly once
+        if (!menu.getAttribute('data-events-bound')) {
+            menu.setAttribute('data-events-bound', 'true');
+            
+            document.getElementById('contextPinOption').addEventListener('click', () => {
+                const tid = SystemState.selectedContextMenuThreadId;
+                if (tid && SystemState.threads[tid]) {
+                    SystemState.threads[tid].pinned = !SystemState.threads[tid].pinned;
+                    persistThreadsToStorage();
+                    renderThreadSidebarHistory();
+                }
+            });
+
+            document.getElementById('contextDeleteOption').addEventListener('click', () => {
+                const tid = SystemState.selectedContextMenuThreadId;
+                if (tid && SystemState.threads[tid]) {
+                    delete SystemState.threads[tid];
+                    if (SystemState.activeThreadId === tid) {
+                        SystemState.activeThreadId = null;
+                        routeWorkspaceView('zeroStateScreen');
+                    }
+                    persistThreadsToStorage();
+                    renderThreadSidebarHistory();
+                }
+            });
+        }
+    }
+
+    // ==========================================
+    // 6. THREAD FEED POPULATION SEQUENCE
+    // ==========================================
+    function loadThreadSessionIntoFeed(threadId) {
+        SystemState.activeThreadId = threadId;
+        renderThreadSidebarHistory();
+        routeWorkspaceView('activeChatWorkspaceScreen');
+
+        const feed = document.getElementById('chatMessagesFeedContainer');
+        if (!feed) return;
+        feed.innerHTML = '';
+
+        const conversation = SystemState.threads[threadId];
+        if (!conversation || !conversation.messages) return;
+
+        conversation.messages.forEach(msg => {
+            const wrapper = document.createElement('div');
+            wrapper.className = `message-row ${msg.sender === 'user' ? 'user-alignment' : 'ai-alignment'}`;
+            
+            const isUser = msg.sender === 'user';
+            const nodeIcon = isUser ? 'person' : 'clinical_notes';
+            const nodeTitle = isUser ? 'You' : 'Cortexa AI';
+            
+            wrapper.innerHTML = `
+                <div class="message-bubble-block">
+                    <div class="message-meta-header">
+                        <span class="material-symbols-rounded system-avatar-icon">${nodeIcon}</span>
+                        <div class="sender-identity-label">${nodeTitle}</div>
+                    </div>
+                    <div class="message-body-payload">${msg.text}</div>
+                </div>
+            `;
+            feed.appendChild(wrapper);
+        });
+
+        // Auto attach interactive callbacks inside dynamically calculated layers instantly
+        initializeDynamicEmbeddedCalculators(feed);
+        scrollViewportToBottom();
     }
 
     function scrollViewportToBottom() {
-        const view = document.getElementById('contentViewport');
-        if (view) view.scrollTop = view.scrollHeight;
+        const scroller = document.getElementById('activeChatWorkspaceScreen');
+        if (scroller) {
+            scroller.scrollTop = scroller.scrollHeight;
+        }
     }
 
-    function escapeHTMLString(str) {
-        if (!str) return '';
-        return str.replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char] || char));
-    }
+    // ==========================================
+    // 7. INFERENCE DISPATCH ENGINE (LOCAL KNOWLEDGE OR GROQ)
+    // ==========================================
+    function dispatchInferenceSequence() {
+        const area = document.getElementById('chatInputPayload');
+        if (!area || !area.value.trim()) return;
 
-    // Dynamic execution parser route for streaming responses compiled on-the-fly by Groq
-    window.evaluateDynamicCloudCalculator = function(button) {
-        const form = button.parentElement;
-        if (!form) return;
-        const out = form.querySelector('.dynamic-calc-result-target');
-        const fields = form.querySelectorAll('.dynamic-custom-field');
-        
-        let reportHTML = `<div>`;
-        let computedSum = 0;
-        
-        fields.forEach((input, index) => {
-            const fieldLabel = input.getAttribute('data-label') || `Parameter ${index+1}`;
-            const inputVal = parseFloat(input.value) || 0;
-            computedSum += inputVal;
-            reportHTML += `<p style="font-size:0.88rem; margin-bottom:4px;">• <b>${fieldLabel}:</b> ${inputVal}</p>`;
+        const rawPrompt = area.value.trim();
+        area.value = '';
+        area.style.height = 'auto';
+        verifySendBufferCapacity();
+
+        // Initialize active thread container matrix securely if blank
+        if (!SystemState.activeThreadId) {
+            const generatedId = 'thread_live_' + Date.now();
+            SystemState.threads[generatedId] = {
+                id: generatedId,
+                label: rawPrompt.length > 26 ? rawPrompt.substring(0, 24) + '...' : rawPrompt,
+                pinned: false,
+                messages: []
+            };
+            SystemState.activeThreadId = generatedId;
+        }
+
+        // Push immediate User response query securely
+        SystemState.threads[SystemState.activeThreadId].messages.push({
+            sender: 'user',
+            text: escapeHtml(rawPrompt)
         });
-        
-        reportHTML += `
-            <div style="margin-top:10px; color:var(--accent-blue); font-weight:600; font-size:1.15rem;">Processing Execution Complete</div>
-            <p style="font-size:0.86rem; color:var(--text-secondary); margin-top:2px;">
-                Dynamic aggregate evaluation parameters mapped matrix total: <b>${computedSum}</b>.
-            </p>
-        </div>`;
-        
-        if (out) {
-            out.innerHTML = reportHTML;
-            out.classList.remove('hidden');
+
+        persistThreadsToStorage();
+        loadThreadSessionIntoFeed(SystemState.activeThreadId);
+
+        // Render transient procedural processing indicator layer
+        const feed = document.getElementById('chatMessagesFeedContainer');
+        const indicator = document.createElement('div');
+        indicator.id = 'transientProcessingIndicator';
+        indicator.className = 'message-row ai-alignment';
+        indicator.innerHTML = `
+            <div class="message-bubble-block">
+                <div class="message-meta-header">
+                    <span class="material-symbols-rounded system-avatar-icon animated-pulse">clinical_notes</span>
+                    <div class="sender-identity-label">Cortexa AI</div>
+                </div>
+                <div class="message-body-payload">
+                    <div class="procedural-loading-wrapper">
+                        <div class="loading-dot"></div>
+                        <div class="loading-dot"></div>
+                        <div class="loading-dot"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        if (feed) {
+            feed.appendChild(indicator);
             scrollViewportToBottom();
+        }
+
+        // Parallel resolution logic path routing engine
+        setTimeout(() => {
+            executeAnalysisPipeline(rawPrompt);
+        }, 350);
+    }
+
+    function executeAnalysisPipeline(prompt) {
+        const cleanQuery = prompt.toLowerCase().trim();
+        
+        // Remove active rendering spinner element layer instantly
+        const indicator = document.getElementById('transientProcessingIndicator');
+        if (indicator) indicator.remove();
+
+        // Primary Local Integrated Knowledge Vector Search
+        let exactHit = null;
+        for (const record of SYSTEM_KNOWLEDGE_POOLS) {
+            if (record.title && cleanQuery.includes(record.title.toLowerCase())) {
+                exactHit = record;
+                break;
+            }
+            if (record.keywords && Array.isArray(record.keywords)) {
+                if (record.keywords.some(k => cleanQuery.includes(k.toLowerCase()))) {
+                    exactHit = record;
+                    break;
+                }
+            }
+        }
+
+        let finalResponseHTML = "";
+
+        if (exactHit) {
+            // High-probability precision asset routing strategy
+            if (exactHit.type === 'calc') {
+                finalResponseHTML = GroqRenderInterfaceBridge.renderIncomingCalculator(exactHit);
+            } else if (exactHit.type === 'condition' || exactHit.type === 'protocol' || exactHit.type === 'emergency' || exactHit.type === 'procedure') {
+                finalResponseHTML = GroqRenderInterfaceBridge.renderDynamicMedicalCard(exactHit);
+            }
+        } else {
+            // Secondary Strategy: Attempt fallback Groq Gateway if key matches parameter standards
+            if (SystemState.groqKey && SystemState.groqKey.startsWith('gsk_')) {
+                executeCloudInferenceRequest(prompt);
+                return;
+            } else {
+                // Generative Fallback Database Aggregator Interface
+                finalResponseHTML = compileAlgorithmicSearchFallbackCard(prompt);
+            }
+        }
+
+        // Commit generated message token array into current session memory matrix
+        if (SystemState.activeThreadId && SystemState.threads[SystemState.activeThreadId]) {
+            SystemState.threads[SystemState.activeThreadId].messages.push({
+                sender: 'ai',
+                text: finalResponseHTML
+            });
+            persistThreadsToStorage();
+            loadThreadSessionIntoFeed(SystemState.activeThreadId);
+        }
+    }
+
+    function compileAlgorithmicSearchFallbackCard(prompt) {
+        const queryTerms = prompt.toLowerCase().split(/\s+/).filter(t => t.length > 2);
+        const candidates = [];
+
+        SYSTEM_KNOWLEDGE_POOLS.forEach(record => {
+            let score = 0;
+            const titleStr = (record.title || "").toLowerCase();
+            const descStr = (record.description || "").toLowerCase();
+
+            queryTerms.forEach(term => {
+                if (titleStr.includes(term)) score += 10;
+                if (descStr.includes(term)) score += 3;
+                if (record.keywords && Array.isArray(record.keywords)) {
+                    record.keywords.forEach(kw => {
+                        if (kw.toLowerCase().includes(term)) score += 5;
+                    });
+                }
+            });
+
+            if (score > 0) {
+                candidates.push({ record, score });
+            }
+        });
+
+        // Sorting ranked score matrices descending
+        candidates.sort((a, b) => b.score - a.score);
+
+        if (candidates.length > 0) {
+            let matchesHTML = `<div class="fallback-aggregated-title">Database cross-reference returned historical insights matching query parameters:</div>`;
+            candidates.slice(0, 3).forEach(c => {
+                const originLabel = c.record.origin ? c.record.origin.replace('.js', '').toUpperCase() : 'DATABASE';
+                matchesHTML += `
+                    <div class="library-data-card searchable-asset" data-asset-title="${escapeHtml(c.record.title || '')}">
+                        <div class="card-meta-header-row">
+                            <div class="asset-identity-title">${escapeHtml(c.record.title || 'Untitled Asset')}</div>
+                            <div class="system-badge normal">${originLabel}</div>
+                        </div>
+                        <p class="asset-description-paragraph">${escapeHtml(c.record.description || 'No descriptive indexing matrix context saved.')}</p>
+                        <div class="card-action-footer-panel">
+                            <span class="action-link-label">Initialize Asset Reference Protocol</span>
+                            <span class="material-symbols-rounded action-arrow-icon">arrow_forward</span>
+                        </div>
+                    </div>
+                `;
+            });
+            return `<div class="system-card-container">${matchesHTML}</div>`;
+        }
+
+        // Hard baseline zero state card return matrix
+        return `
+            <div class="system-card-container">
+                <div class="system-card-header">
+                    <div class="system-card-title">
+                        <span class="material-symbols-rounded">gavel</span> Zero-State Matrix Query Alert
+                    </div>
+                    <div class="system-badge critical">Unresolved</div>
+                </div>
+                <div class="system-text-block">
+                    Cortexa was unable to resolve an integrated asset mapping formula for your query. Provide a Groq Cloud Gateway API token inside **Settings** to unlock unstructured natural language data synthesis.
+                </div>
+            </div>
+        `;
+    }
+
+    async function executeCloudInferenceRequest(userPrompt) {
+        const targetThreadId = SystemState.activeThreadId;
+        
+        try {
+            // Build rich schema context from loaded reference catalogs
+            const contextExcerpt = SYSTEM_KNOWLEDGE_POOLS.slice(0, 25).map(x => {
+                return `- ASSET: ${x.title || 'Untitled'}. TYPE: ${x.type || 'Standard'}. DETAILS: ${x.description || ''}`;
+            }).join('\n');
+
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${SystemState.groqKey}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: "llama-3.1-8b-instant",
+                    messages: [
+                        {
+                            role: "system",
+                            content: `You are Cortexa AI, a high-efficiency clinical processing interface. Synthesize data clearly and concisely. Format response with professional, beautiful clean HTML wrappers using existing UI tokens: use '<div class="system-card-container">' for layout wrappers, '<div class="system-card-header">' for sub-headers, and clean formatting tags. Avoid raw markdown headings. Contextual Database Maps Available:\n${contextExcerpt}`
+                        },
+                        {
+                            role: "user",
+                            content: userPrompt
+                        }
+                    ],
+                    temperature: 0.2,
+                    max_tokens: 1024
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Gateway Endpoint HTTP Status Fault: ${response.status}`);
+            }
+
+            const payload = await response.json();
+            const aiGeneratedText = payload.choices[0]?.message?.content || "No return parameters found inside streaming gateway layer array matrices.";
+
+            if (targetThreadId === SystemState.activeThreadId && SystemState.threads[targetThreadId]) {
+                SystemState.threads[targetThreadId].messages.push({
+                    sender: 'ai',
+                    text: aiGeneratedText
+                });
+                persistThreadsToStorage();
+                loadThreadSessionIntoFeed(targetThreadId);
+            }
+
+        } catch (error) {
+            console.error("Cloud Inference Stream Error Failure:", error);
+            if (targetThreadId === SystemState.activeThreadId && SystemState.threads[targetThreadId]) {
+                SystemState.threads[targetThreadId].messages.push({
+                    sender: 'ai',
+                    text: `<div class="system-card-container">
+                        <div class="system-card-header">
+                            <div class="system-card-title">
+                                <span class="material-symbols-rounded">warning</span> Cloud Integration Failure
+                            </div>
+                            <div class="system-badge critical">Fault</div>
+                        </div>
+                        <div class="system-text-block">
+                            Failed to complete processing operations via Groq Cloud Bridge. Network response log: <b>${escapeHtml(error.message)}</b>.
+                        </div>
+                     </div>`
+                });
+                persistThreadsToStorage();
+                loadThreadSessionIntoFeed(targetThreadId);
+            }
+        }
+    }
+
+    // ==========================================
+    // 8. LIVE WORKSPACE INDEX SEARCH MATRIX FILTERING
+    // ==========================================
+    function processHistorySearchQuery(token = "") {
+        const targetContainer = document.getElementById('searchWorkspaceResultsGrid');
+        if (!targetContainer) return;
+        targetContainer.innerHTML = '';
+
+        if (!token) {
+            targetContainer.innerHTML = `<div class="library-empty-state-card">Enter terms above to sweep indexed clinical database assets instantly.</div>`;
+            return;
+        }
+
+        const hits = SYSTEM_KNOWLEDGE_POOLS.filter(item => {
+            return (item.title && item.title.toLowerCase().includes(token)) ||
+                   (item.description && item.description.toLowerCase().includes(token)) ||
+                   (item.keywords && item.keywords.some(kw => kw.toLowerCase().includes(token)));
+        });
+
+        if (hits.length === 0) {
+            targetContainer.innerHTML = `<div class="library-empty-state-card">No records found matching tracking constraints: "${escapeHtml(token)}"</div>`;
+            return;
+        }
+
+        hits.forEach(record => {
+            const originTag = record.origin ? record.origin.replace('.js', '').toUpperCase() : 'ASSET';
+            const card = document.createElement('div');
+            card.className = 'library-data-card clickable-asset';
+            card.innerHTML = `
+                <div class="card-meta-header-row">
+                    <div class="asset-identity-title">${escapeHtml(record.title || 'Untitled Asset')}</div>
+                    <div class="system-badge normal">${originTag}</div>
+                </div>
+                <p class="asset-description-paragraph">${escapeHtml(record.description || 'No descriptive index matrix values declared.')}</p>
+                <div class="card-action-footer-panel">
+                    <span class="action-link-label">Initialize Target Application UI</span>
+                    <span class="material-symbols-rounded action-arrow-icon">arrow_forward</span>
+                </div>
+            `;
             
-            // Adjust accordion container wrapper parameters to accommodate the calculated content safely
-            const parentAccordionLayer = form.closest('.accordion-body-expansion-layer');
-            if (parentAccordionLayer) {
-                parentAccordionLayer.style.maxHeight = (parentAccordionLayer.scrollHeight + 300) + 'px';
+            card.addEventListener('click', () => {
+                executeDirectAssetInjection(record);
+            });
+
+            targetContainer.appendChild(card);
+        });
+    }
+
+    function renderLibraryWorkspaceScreen(token = "") {
+        const targetContainer = document.getElementById('libraryWorkspaceGrid');
+        if (!targetContainer) return;
+        targetContainer.innerHTML = '';
+
+        const subset = SYSTEM_KNOWLEDGE_POOLS.filter(item => {
+            if (!token) return true;
+            return (item.title && item.title.toLowerCase().includes(token)) ||
+                   (item.description && item.description.toLowerCase().includes(token));
+        });
+
+        if (subset.length === 0) {
+            targetContainer.innerHTML = `<div class="library-empty-state-card">No workspace repository parameters found matching: "${escapeHtml(token)}"</div>`;
+            return;
+        }
+
+        subset.forEach(record => {
+            const originTag = record.origin ? record.origin.replace('.js', '').toUpperCase() : 'CATALOG';
+            const card = document.createElement('div');
+            card.className = 'library-data-card clickable-asset';
+            card.innerHTML = `
+                <div class="card-meta-header-row">
+                    <div class="asset-identity-title">${escapeHtml(record.title || 'Untitled Asset')}</div>
+                    <div class="system-badge normal">${originTag}</div>
+                </div>
+                <p class="asset-description-paragraph">${escapeHtml(record.description || 'No indexed descriptor values assigned.')}</p>
+                <div class="card-action-footer-panel">
+                    <span class="action-link-label">Launch Application Interface</span>
+                    <span class="material-symbols-rounded action-arrow-icon">arrow_forward</span>
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                executeDirectAssetInjection(record);
+            });
+
+            targetContainer.appendChild(card);
+        });
+    }
+
+    function executeDirectAssetInjection(record) {
+        if (!SystemState.activeThreadId) {
+            const seedId = 'thread_live_' + Date.now();
+            SystemState.threads[seedId] = {
+                id: seedId,
+                label: record.title || "Asset Deployment",
+                pinned: false,
+                messages: []
+            };
+            SystemState.activeThreadId = seedId;
+        }
+
+        let dynamicHTML = "";
+        if (record.type === 'calc') {
+            dynamicHTML = GroqRenderInterfaceBridge.renderIncomingCalculator(record);
+        } else {
+            dynamicHTML = GroqRenderInterfaceBridge.renderDynamicMedicalCard(record);
+        }
+
+        SystemState.threads[SystemState.activeThreadId].messages.push({
+            sender: 'user',
+            text: `Manual deployment requested for asset system handle: "${escapeHtml(record.title)}"`
+        });
+
+        SystemState.threads[SystemState.activeThreadId].messages.push({
+            sender: 'ai',
+            text: dynamicHTML
+        });
+
+        persistThreadsToStorage();
+        loadThreadSessionIntoFeed(SystemState.activeThreadId);
+    }
+
+    // ==========================================
+    // 9. REUSABLE SYSTEM CARD COMPILER INTERFACE BRIDGE
+    // ==========================================
+    window.GroqRenderInterfaceBridge = {
+        renderDynamicMedicalCard: function(payload) {
+            const labelStr = payload.origin ? payload.origin.replace('.js', '').toUpperCase() : 'INSIGHT';
+            
+            let dataFieldsHTML = "";
+            if (payload.dosage) dataFieldsHTML += `<p class="clinical-attribute-sentence"><b>Standard Dosage Matrix:</b> ${escapeHtml(payload.dosage)}</p>`;
+            if (payload.indications) dataFieldsHTML += `<p class="clinical-attribute-sentence"><b>Primary Diagnostic Indications:</b> ${escapeHtml(payload.indications)}</p>`;
+            if (payload.contraindications) dataFieldsHTML += `<p class="clinical-attribute-sentence"><b>Absolute Contraindications:</b> ${escapeHtml(payload.contraindications)}</p>`;
+            if (payload.steps) {
+                dataFieldsHTML += `<div class="procedural-steps-header">Clinical Execution Sequence Mapping:</div><ol class="procedural-ordered-list">`;
+                payload.steps.forEach(s => { dataFieldsHTML += `<li>${escapeHtml(s)}</li>`; });
+                dataFieldsHTML += `</ol>`;
+            }
+
+            return `
+                <div class="system-card-container">
+                    <div class="system-card-header">
+                        <div class="system-card-title">
+                            <span class="material-symbols-rounded">medical_information</span> ${escapeHtml(payload.title || 'Integrated Asset Protocol')}
+                        </div>
+                        <div class="system-badge normal">${labelStr}</div>
+                    </div>
+                    <div class="system-text-block">
+                        <p class="asset-core-summary" style="margin-bottom:12px;">${escapeHtml(payload.description || '')}</p>
+                        ${dataFieldsHTML}
+                    </div>
+                </div>
+            `;
+        },
+
+        renderIncomingCalculator: function(parsedPayload) {
+            try {
+                if (!parsedPayload.id) parsedPayload.id = 'calc_ext_' + Date.now();
+
+                if (!window.fluidCalcStates) window.fluidCalcStates = {};
+                if (!window.fluidCalcStates[parsedPayload.id]) {
+                    window.fluidCalcStates[parsedPayload.id] = {
+                        history: [],
+                        inputs: {}
+                    };
+                }
+
+                if (typeof window.renderFluidCalculator === 'function') {
+                    return window.renderFluidCalculator(parsedPayload);
+                }
+                
+                // Native Standard Parametric Processing Card Layout Matrix Engine Fallback
+                let interactionFieldsHTML = "";
+                if (parsedPayload.params && Array.isArray(parsedPayload.params)) {
+                    parsedPayload.params.forEach((p, idx) => {
+                        interactionFieldsHTML += `
+                            <div class="calc-input-group-row">
+                                <label class="calc-input-label-element">${escapeHtml(p.name)} (${escapeHtml(p.unit)})</label>
+                                <input type="number" 
+                                       class="calc-parametric-input-field manual-calc-hook" 
+                                       data-param-index="${idx}"
+                                       data-param-name="${escapeHtml(p.name)}"
+                                       placeholder="${p.default || 0}" 
+                                       value="${p.default || ''}">
+                            </div>
+                        `;
+                    });
+                }
+
+                return `
+                    <div class="system-card-container generic-calculator-asset" data-calc-id="${parsedPayload.id}">
+                        <div class="system-card-header">
+                            <div class="system-card-title">
+                                <span class="material-symbols-rounded">calculate</span> ${escapeHtml(parsedPayload.title || 'Parametric Calculator Evaluation')}
+                            </div>
+                            <div class="system-badge evaluation">Calculation</div>
+                        </div>
+                        <div class="system-text-block">
+                            <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:14px;">${escapeHtml(parsedPayload.description || '')}</p>
+                            <form class="parametric-calculation-form-container" onsubmit="return false;">
+                                ${interactionFieldsHTML}
+                                <button type="button" class="execute-calculation-submit-btn native-calc-trigger-action-btn" style="margin-top:4px; width:100%;">
+                                    Execute Evaluation Matrix Sequence
+                                </button>
+                            </form>
+                            <div class="calculation-runtime-output-displayhidden hidden" style="margin-top:14px; padding-top:12px; border-top:1px dashed var(--border-color);"></div>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                console.error("Groq Calculator Rendering Error Exception:", e);
+                return `<div class="error-card">Failed to initialize dynamic calculation engine.</div>`;
             }
         }
     };
 
-    const toggleBtn = document.getElementById('themeQuickToggleBtn');
+    // ==========================================
+    // 10. INTERACTIVE EMBEDDED EVALUATORS ROUTING
+    // ==========================================
+    function initializeDynamicEmbeddedCalculators(parentScopeContainer) {
+        parentScopeContainer.querySelectorAll('.generic-calculator-asset').forEach(calcContainer => {
+            const triggerButton = calcContainer.querySelector('.native-calc-trigger-action-btn');
+            const outputTerminal = calcContainer.querySelector('.calculation-runtime-output-displayhidden');
+            const calculationForm = calcContainer.querySelector('.parametric-calculation-form-container');
 
-toggleBtn.addEventListener('click', () => {
-    // This flips between the sun and moon instantly via CSS
-    toggleBtn.classList.toggle('dark-mode'); 
-});
+            if (!triggerButton || !calculationForm) return;
+
+            triggerButton.addEventListener('click', () => {
+                let reportLinesHTML = `<div class="calculated-output-matrix-layer" style="background-color:var(--bg-main); padding:12px; border-radius:10px; border:1px solid var(--border-color);">
+                    <div style="font-weight:600; color:var(--text-primary); font-size:0.92rem; margin-bottom:8px;">Evaluation Matrix Aggregation Report:</div>`;
+                
+                let aggregateSumTotal = 0;
+                const activeInputs = calculationForm.querySelectorAll('.manual-calc-hook');
+
+                activeInputs.forEach(inputField => {
+                    const fieldLabel = inputField.getAttribute('data-param-name') || 'Variable Parameter';
+                    const numericValue = parseFloat(inputField.value) || 0;
+                    aggregateSumTotal += numericValue;
+
+                    reportLinesHTML += `<p style="font-size:0.86rem; margin-bottom:4px; color:var(--text-secondary);">• <b>${escapeHtml(fieldLabel)}:</b> ${numericValue}</p>`;
+                });
+
+                reportLinesHTML += `
+                    <div style="margin-top:10px; color:var(--accent-blue); font-weight:600; font-size:1.05rem;">Processing Execution Complete</div>
+                    <p style="font-size:0.86rem; color:var(--text-secondary); margin-top:2px;">
+                        Dynamic aggregate metric parameter evaluation matrix total value: <b>${aggregateSumTotal}</b>
+                    </p>
+                </div>`;
+
+                if (outputTerminal) {
+                    outputTerminal.innerHTML = reportLinesHTML;
+                    outputTerminal.classList.remove('hidden');
+                    scrollViewportToBottom();
+                }
+            });
+        });
+
+        // Loop execution hooks for fallback match handling links inside search arrays
+        parentScopeContainer.querySelectorAll('.fallback-aggregated-title + .library-data-card').forEach(searchCard => {
+            searchCard.addEventListener('click', () => {
+                const targetAssetTitle = searchCard.getAttribute('data-asset-title');
+                if (!targetAssetTitle) return;
+
+                const coreAssetRecord = SYSTEM_KNOWLEDGE_POOLS.find(x => x.title === targetAssetTitle);
+                if (coreAssetRecord) {
+                    executeDirectAssetInjection(coreAssetRecord);
+                }
+            });
+        });
+    }
+
+    // Utility text encoder block prevents HTML manipulation attacks inside user strings
+    function escapeHtml(string) {
+        if (!string) return '';
+        return String(string)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    // Professional iOS PWA Keyboard Redraw Realignment Fix
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isStandalone = window.navigator.standalone === true;
+
+            if (isIOS && isStandalone) {
+                if (window.visualViewport.height >= window.innerHeight) {
+                    setTimeout(() => {
+                        window.scrollTo(0, 0);
+                        document.body.style.display = 'none';
+                        document.body.offsetHeight; // Forces engine layout flush recalculation
+                        document.body.style.display = '';
+                    }, 30);
+                }
+            }
+        });
+    }
 
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
-
-
-
-
-
-
-
-
-
-
-
-// Professional iOS PWA Keyboard Redraw Realignment Fix
-if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', () => {
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        const isStandalone = window.navigator.standalone === true;
-
-        if (isIOS && isStandalone) {
-            // Check if keyboard closed (Visual viewport expands back to equal full screen height)
-            if (window.visualViewport.height >= window.innerHeight) {
-                setTimeout(() => {
-                    // Force the window coordinate container matrix to snap down to the base layout
-                    window.scrollTo(0, 0);
-                    document.body.style.display = 'none';
-                    document.body.offsetHeight; // Forces engine layout flush recalculation
-                    document.body.style.display = '';
-                }, 30);
-            }
-        }
-    });
-}
