@@ -1536,3 +1536,13 @@ console.log({
     body: document.body.offsetHeight,
     html: document.documentElement.offsetHeight
 });
+
+
+
+
+
+const vp = document.getElementById('contentViewport');
+
+console.log(
+    vp.lastElementChild?.getBoundingClientRect()
+);
