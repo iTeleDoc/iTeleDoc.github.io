@@ -1514,36 +1514,3 @@ toggleBtn.addEventListener('click', () => {
 
     window.addEventListener('DOMContentLoaded', initializeCortexaSystem);
 })();
-
-
-
-
-
-
-
-
-
-// Target all text inputs and textareas
-const inputFields = document.querySelectorAll('input, textarea, [contenteditable="true"]');
-
-inputFields.forEach(input => {
-    input.addEventListener('blur', () => {
-        // Only run if on an iOS device
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        
-        if (isIOS) {
-            setTimeout(() => {
-                // 1. Force the document body scroll position to snap back to top
-                window.scrollTo(0, 0);
-                
-                // 2. Force a document-level visual redraw 
-                document.body.style.height = '100%';
-                
-                // 3. Clean up by removing the inline style right after layout snaps
-                setTimeout(() => {
-                    document.body.style.removeProperty('height');
-                }, 10);
-            }, 60); // 60ms delay gives the keyboard slide-down animation time to finish
-        }
-    });
-});
